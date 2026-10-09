@@ -1,0 +1,195 @@
+GOLDEN APP BOOTSTRAP — FLUTTER
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor/process evidence:
+- App Factory multi-project workflow;
+- FrameLab bootstrap/profile/theme/localization;
+- Anna's Diary auth/release/CI patterns;
+- CamperBoss modular Flutter bootstrap;
+- Golden Library v7.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Trasformare l'avvio di una nuova app da "crea progetto e poi aggiungi cose" a
+un assemblaggio deterministico di Golden, identità, config e decisioni minime.
+
+Questo Golden è un PROCESS CONTRACT. Non impone un unico state-management,
+database o backend.
+
+======================================================================
+2. OUTPUT DEL BOOTSTRAP
+======================================================================
+
+Ogni nuova app deve produrre almeno un App Bootstrap Manifest con:
+
+```yaml
+app_name: "{{APP_NAME}}"
+package_name: "{{PACKAGE_NAME}}"
+bundle_id: "{{BUNDLE_ID}}"
+version: "0.1.0+1"
+platforms: [android, ios, web]
+default_locale: en
+supported_locales: [en, it, es, fr, pt]
+brand:
+  icon: required
+  theme_seed: "{{THEME_SEED}}"
+auth:
+  required_at_startup: false
+  google_sign_in: optional
+persistence:
+  engine: "{{DRIFT|SEMBAST|SQLITE|OTHER}}"
+backup:
+  enabled: true
+notifications:
+  enabled: false
+premium:
+  enabled: false
+ads:
+  enabled: false
+web_preview:
+  enabled: true
+native_capabilities: []
+goldens: []
+```
+
+Il manifest è dichiarativo: non deve contenere secret.
+
+======================================================================
+3. GOLDEN SELECTION
+======================================================================
+
+Prima di scrivere feature selezionare solo i Golden pertinenti.
+
+Core tipico:
+- Localization;
+- Theme;
+- Profile;
+- App Icon/Branding;
+- CI/Release/Web;
+- Release Reality.
+
+Condizionali:
+- Auth;
+- Secure Storage;
+- Notification Reliability;
+- Backup/Lifecycle/Media;
+- AdMob;
+- Ecosystem Bridge;
+- Entitlement;
+- Native Reliability;
+- Offline Content Packs.
+
+NON montare tutto "per sicurezza".
+
+======================================================================
+4. BOOTSTRAP SEQUENCE
+======================================================================
+
+1. Product Bible minima.
+2. App/package identity.
+3. Brand seed + icon.
+4. Flutter project/config.
+5. Localization/theme/app shell.
+6. Persistence decision.
+7. Selezione Golden.
+8. Platform boundary/stub Web.
+9. CI baseline.
+10. Signing/release plan.
+11. Smoke tests.
+12. README/ROADMAP.
+13. Solo dopo: domain features.
+
+======================================================================
+5. IDEMPOTENZA / RE-RUN
+======================================================================
+
+Un futuro bootstrap tool deve essere:
+- idempotente;
+- dry-run capable;
+- diff-aware;
+- non distruttivo;
+- capace di distinguere file CORE da file PER-APP.
+
+Non sovrascrivere file già modificati senza un merge/delta esplicito.
+
+======================================================================
+6. ARCHITECTURE CHOICE
+======================================================================
+
+Il bootstrap NON impone:
+- Riverpod;
+- BLoC;
+- GetX;
+- Drift;
+- Sembast;
+- Supabase.
+
+Scegliere il minimo coerente con Product Bible e crescita prevista.
+
+======================================================================
+7. ICON FIRST
+======================================================================
+
+Il bootstrap fallisce la checklist se resta l'icona Flutter/default.
+Applicare GOLDEN_APP_ICON_BRANDING_FLUTTER_v1_DRAFT.
+
+======================================================================
+8. WEB BOUNDARY
+======================================================================
+
+Per capability native:
+- definire subito adapter/platform boundary;
+- Web Preview deve compilare;
+- Web non deve simulare falsamente un servizio nativo reale.
+
+======================================================================
+9. SECRETS
+======================================================================
+
+Nel manifest possono esistere placeholder:
+- Supabase URL/public key;
+- OAuth redirect;
+- AdMob IDs;
+ma non secret privati.
+
+Keystore/password/service-account secret restano fuori dal repo.
+
+======================================================================
+10. ACCEPTANCE MATRIX
+======================================================================
+
+[ ] manifest presente
+[ ] Product Bible minima presente
+[ ] package/bundle ID validi
+[ ] version baseline
+[ ] icon production-intent installata
+[ ] localization baseline
+[ ] theme baseline
+[ ] shell loading/error/empty
+[ ] persistence decision
+[ ] auth decision
+[ ] permission plan
+[ ] premium/ads decision
+[ ] backup/export decision
+[ ] selected Golden registrati
+[ ] Web boundary definito
+[ ] CI baseline
+[ ] release/signing plan
+[ ] smoke test
+[ ] README/ROADMAP
+
+======================================================================
+11. PROMOZIONE
+======================================================================
+
+COPY-READY quando il processo viene usato per creare una nuova app completa
+senza interventi manuali ambigui e con diff riproducibile.
+
+CERTIFIED quando riusato con successo in almeno due nuove app e il manifest
+riduce realmente duplicazione/errori.
+
+END GOLDEN APP BOOTSTRAP v0.1 DRAFT
