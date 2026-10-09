@@ -1,0 +1,211 @@
+GOLDEN RELEASE REALITY & PHYSICAL VALIDATION
+Versione draft: 0.2 — 04/10/2026
+Stato: DRAFT / PROCESS CANDIDATE
+Master Prompt: v21 SLIM
+
+Donor/process evidence:
+- AppLab trusted evidence / production certification patterns;
+- Anna's Diary release/runtime gates;
+- TrailPath release-mode AppLab + native-device acceptance needs;
+- CamperBoss native/file/offline validation patterns.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Evitare false dichiarazioni di completezza e rendere riusabile la validazione
+finale di ogni nuova app.
+
+Questo Golden è un PROCESS CONTRACT, non una libreria Dart.
+
+======================================================================
+2. EVIDENCE LADDER
+======================================================================
+
+Usare sempre:
+
+IMPLEMENTED
+-> STATICALLY CHECKED
+-> TESTED
+-> CI GREEN
+-> ARTIFACT BUILT
+-> TRUSTED RUNTIME VERIFIED
+-> PHYSICAL DEVICE VERIFIED
+-> DISTRIBUTION VERIFIED
+-> STORE READY
+-> PRODUCTION RELEASED
+
+Un livello superiore non è implicato da quello precedente.
+
+======================================================================
+3. RELEASE EVIDENCE RECORD
+======================================================================
+
+Record minimo candidato:
+
+```text
+project:
+version:
+buildNumber:
+sourceRef:
+sourceSha:
+variant:
+packageId:
+artifactName:
+artifactSha256:
+signingFingerprint:
+workflowRun:
+distributionChannel:
+validationLevel:
+validatedAt:
+```
+
+======================================================================
+4. PHYSICAL VALIDATION RECORD
+======================================================================
+
+```text
+artifactSha256:
+deviceModel:
+osVersion:
+scenarioId:
+preconditions:
+steps:
+expected:
+observed:
+result: PASS | FAIL | BLOCKED
+logs:
+screenshots:
+notes:
+```
+
+======================================================================
+5. QUANDO È OBBLIGATORIA
+======================================================================
+
+Physical/device validation è obbligatoria prima di CERTIFIED per capability il
+cui comportamento reale dipende materialmente da:
+- sensori;
+- camera/scanner;
+- biometria/Keystore;
+- GPS/background;
+- foreground service;
+- OEM battery behavior;
+- deep link/OAuth release callback;
+- notification delivery;
+- file provider/storage picker;
+- restore con file fisici;
+- Play asset/model delivery;
+- billing/store purchase.
+
+======================================================================
+6. WEB PREVIEW
+======================================================================
+
+Web Preview può verificare:
+- UI;
+- navigation;
+- responsive behavior;
+- localization;
+- shared pure logic;
+- state flows simulabili.
+
+Web Preview NON certifica:
+- Android service;
+- sensor behavior;
+- native file persistence;
+- Play delivery;
+- real push delivery;
+- biometric hardware;
+- native background restrictions.
+
+======================================================================
+7. SAME-ARTIFACT RULE
+======================================================================
+
+Se un APK viene verificato fisicamente e poi si ricostruisce un nuovo APK,
+quest'ultimo è un nuovo artifact.
+
+Per trasferire la validazione serve:
+- stessa provenienza verificabile;
+- oppure nuova validation.
+
+Preferire:
+build once -> verify exact bytes -> distribute exact bytes.
+
+======================================================================
+8. ACCEPTANCE MATRIX
+======================================================================
+
+Ogni feature critica deve dichiarare:
+- static tests required? sì/no;
+- emulator runtime required? sì/no;
+- physical device required? sì/no;
+- distribution channel required? sì/no;
+- store configuration required? sì/no.
+
+Non rendere tutti i test obbligatori per tutte le app: applicare risk-based
+validation.
+
+======================================================================
+9. FAILURE CLASSIFICATION
+======================================================================
+
+FAIL
+- evidenza mostra comportamento errato.
+
+BLOCKED
+- test non eseguibile per dipendenza esterna/device/config.
+
+NOT VERIFIED
+- non testato.
+
+PASS
+- scenario realmente eseguito e conforme.
+
+Mai convertire NOT VERIFIED/BLOCKED in PASS.
+
+======================================================================
+10. PROMOZIONE
+======================================================================
+
+DRAFT -> COPY-READY PROCESS dopo:
+- applicazione completa ad almeno una release candidate reale;
+- evidence record completo;
+- almeno un physical-device scenario;
+- artifact identity verificata;
+- nessuna ambiguità fra CI/artifact/device/distribution.
+
+COPY-READY -> CERTIFIED PROCESS dopo uso stabile su almeno due progetti.
+
+
+======================================================================
+11. CROSS-APP ECOSYSTEM PHYSICAL VALIDATION — REFERENCE
+======================================================================
+
+Per protocolli cross-app come Shared Ecosystem Core v1, questo processo deve
+validare la COPPIA di artifact, non soltanto ciascuna app separatamente.
+
+Record addizionale minimo:
+
+```text
+protocolContract: Shared Ecosystem Core v1
+producerProject:
+producerSourceSha:
+producerArtifactSha256:
+consumerProject:
+consumerSourceSha:
+consumerArtifactSha256:
+transport: deep-link | clipboard-fallback | other-approved
+scenarioId:
+```
+
+La validation fisica deve usare gli stessi byte identificati nell'evidence
+record. Un consumer AppLab PASS da solo NON prova il round-trip cross-app.
+
+Per Ecosystem Bridge v1 la promotion matrix canonica vive in:
+`GOLDEN_ECOSYSTEM_BRIDGE_FLUTTER_v1_DRAFT.txt`.
+
+Non duplicare qui bridgeId/COPY/LINK/media rules.
+
+END DRAFT
