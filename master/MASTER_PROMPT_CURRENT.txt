@@ -853,7 +853,6 @@ Trusted evidence deve legare:
 - artifact SHA-256;
 - workflow/run;
 - runtime evidence.
-
 Il target non deve poter falsificare il verifier trusted.
 Un AppLab PASS su una singola app non certifica automaticamente round-trip
 cross-app o store distribution.
@@ -1053,3 +1052,188 @@ P2:
 P3:
 - polish;
 - microcopy;
+- microanimazioni;
+- refactor non urgente.
+
+Non classificare ogni mancanza come P0.
+
+======================================================================
+43. QA / TEST DISCIPLINE
+======================================================================
+
+Distinguere:
+- unit;
+- integration;
+- migration;
+- failure-path;
+- widget/UI;
+- instrumentation/device;
+- E2E/Maestro;
+- visual regression;
+- physical acceptance.
+
+Self-test nell'implementazione è utile ma non sostituisce una oracle indipendente.
+
+Ogni bug fix importante deve avere test anti-regressione quando tecnicamente
+ragionevole.
+
+======================================================================
+44. DOCUMENTATION / PROJECT HYGIENE
+======================================================================
+
+Mantenere coerenti quando presenti:
+- README;
+- Product Bible;
+- ROADMAP;
+- AGENTS;
+- PROJECT_RULES;
+- architecture docs;
+- changelog/release notes;
+- version metadata.
+
+Documentazione stale è un finding.
+Non aggiornare documenti irrilevanti solo per generare diff.
+
+======================================================================
+45. APP BOOTSTRAP DEFINITION OF DONE
+======================================================================
+
+Una nuova app non ha concluso il bootstrap finché non ha almeno:
+
+[ ] Product Bible minima
+[ ] package/bundle ID
+[ ] version baseline
+[ ] App Bootstrap Manifest
+[ ] Golden selection
+[ ] architecture skeleton
+[ ] local persistence decision
+[ ] localization baseline
+[ ] theme baseline
+[ ] production-intent app icon
+[ ] error/loading/empty shell
+[ ] permissions plan
+[ ] auth decision
+[ ] premium/ads decision
+[ ] backup/export decision
+[ ] Web Preview boundary
+[ ] CI baseline
+[ ] release/signing plan
+[ ] initial tests
+[ ] README/roadmap
+
+======================================================================
+45A. FACTORY CONFIGURATION REPOSITORY — STABLE RESOLUTION CONTRACT
+======================================================================
+
+Il repository `App-Factory-Core` deve mantenere sempre:
+
+- un solo `CURRENT.yaml` canonico;
+- un alias stabile `MASTER_PROMPT_CURRENT.txt`;
+- un alias stabile `GOLDEN_INDEX_CURRENT.txt`;
+- un `GOLDEN_REGISTRY.yaml` con path/stato/freshness;
+- validator CI che fallisce su path mancanti o riferimenti incoerenti;
+- changelog delle modifiche di governance;
+- nessun secret o credenziale.
+
+Ogni modifica di versione deve aggiornare nello stesso change set:
+1. file versionato;
+2. alias CURRENT;
+3. CURRENT.yaml;
+4. indice/registry se cambia la libreria Golden;
+5. CHANGELOG.
+
+Il validator centrale verifica coerenza documentale, NON certifica runtime delle
+app e NON promuove automaticamente un Golden.
+
+======================================================================
+46. NEW GOLDEN TRIGGERS v25
+======================================================================
+
+Per nuova app:
+- GOLDEN_APP_BOOTSTRAP_FLUTTER_v1_DRAFT
+
+Per capability native/permessi:
+- GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1_DRAFT
+
+Per Android background/system integration:
+- GOLDEN_ANDROID_NATIVE_RELIABILITY_v1_DRAFT
+
+Per release Android:
+- GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT
+
+Per import/export:
+- GOLDEN_IMPORT_EXPORT_PORTABILITY_FLUTTER_v1_DRAFT
+
+Per Premium:
+- GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1_DRAFT
+
+Per onboarding:
+- GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT
+
+Per responsive/app shell/visual QA:
+- GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT
+
+Per downloadable/offline content:
+- GOLDEN_OFFLINE_CONTENT_PACKS_FLUTTER_v1_DRAFT
+
+======================================================================
+47. EXISTING GOLDEN HARDENING QUEUE
+======================================================================
+
+Non promuovere automaticamente; audit dedicato prima della v2:
+
+- Notification Reliability:
+  aggiungere Diagnostic Truth / false-green prevention.
+
+- Localization:
+  estendere target parity a native/widget/notification text.
+
+- CI + Release + Web Deploy:
+  pin Actions a SHA, signing completeness, artifact provenance.
+
+- Secure Storage:
+  esplicitare Auto Backup/restore exclusions e platform boundaries.
+
+Questa coda NON blocca i progetti che usano la v1 quando la v1 è già adeguata;
+indica soltanto il prossimo hardening centrale.
+
+======================================================================
+48. GOLDEN PROMOTION RULE
+======================================================================
+
+DRAFT/CANDIDATE -> COPY-READY:
+- contratto stabile;
+- implementazione generalizzata;
+- test harness;
+- almeno una integrazione reale;
+- failure-path adeguati;
+- documentazione chiara;
+- nessuna dipendenza app-specifica accidentale.
+
+COPY-READY -> CERTIFIED GOLDEN:
+- riuso riuscito in almeno due progetti o harness equivalente forte;
+- evidence registrata;
+- physical validation quando pertinente;
+- nessuna regressione nota critica.
+
+CERTIFIED DONOR != CERTIFIED GOLDEN.
+
+======================================================================
+49. PRINCIPI FINALI
+======================================================================
+
+ASSEMBLY FIRST.
+GOLDEN FIRST.
+EXTEND BEFORE DUPLICATE.
+COPY FIRST, ANALYZE THE DELTA.
+PRODUCT TRUTH BEFORE UI CLAIMS.
+DIAGNOSTIC TRUTH BEFORE GREEN BADGES.
+BUILD GREEN != FEATURE VERIFIED.
+ARTIFACT BUILT != PHYSICALLY VERIFIED.
+WEB PREVIEW != NATIVE CERTIFICATION.
+VALUE BEFORE PREMIUM.
+OFFLINE TRUST.
+ICON FIRST.
+RELEASE IS A DISCIPLINE.
+
+END MASTER PROMPT v25 FULL CONSOLIDATED
