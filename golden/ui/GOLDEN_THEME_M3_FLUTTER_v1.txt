@@ -1,0 +1,447 @@
+GOLDEN THEME MATERIAL 3 — FLUTTER
+Versione: 1.0 — 01/10/2026
+Stato: COPY-READY GOLDEN
+
+Donor primario:
+- FrameLab
+- repo: riccardopinato/FrameLab-Google-AI-Studio
+- commit: 239995759e2b56f5315a061a169404c591d77f39
+
+Donor secondario:
+- Anna's Diary
+- repo: riccardopinato/Agenda-per-Anna
+- baseline donor: v0.90.0+100
+- commit: 240aa9e7d3587118a848313acf4c513cd19f2038
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Tema Material 3 standard per nuove utility.
+
+Obiettivi:
+- light;
+- dark;
+- system;
+- design tokens centralizzati;
+- touch target >= 48 dp;
+- componenti coerenti;
+- responsive;
+- niente styling sparso;
+- branding per-app tramite seed color.
+
+Pattern donor FrameLab:
+- ThemeData Material 3;
+- ColorScheme light/dark;
+- typography;
+- spacing;
+- radii;
+- elevation;
+- layout tokens;
+- motion;
+- AppBar/Card/Input/Chip/Button/Nav/BottomSheet themes.
+
+======================================================================
+2. FILE — lib/core/theme/app_design_tokens.dart
+======================================================================
+
+```dart
+import 'package:flutter/material.dart';
+
+abstract final class AppSpacing {
+  static const xSmall = 4.0;
+  static const small = 8.0;
+  static const medium = 16.0;
+  static const large = 24.0;
+  static const xLarge = 32.0;
+  static const xxLarge = 48.0;
+}
+
+abstract final class AppRadii {
+  static const small = 8.0;
+  static const card = 12.0;
+  static const container = 16.0;
+  static const hero = 24.0;
+}
+
+abstract final class AppElevation {
+  static const none = 0.0;
+  static const card = 1.0;
+}
+
+abstract final class AppLayout {
+  static const minInteractiveSize = 48.0;
+  static const navigationBarHeight = 80.0;
+  static const railBreakpoint = 840.0;
+  static const contentMaxWidth = 640.0;
+}
+
+abstract final class AppMotion {
+  static const feedback = Duration(milliseconds: 160);
+  static const standard = Duration(milliseconds: 220);
+  static const standardCurve = Curves.easeInOut;
+}
+```
+
+======================================================================
+3. FILE — lib/core/theme/app_theme.dart
+======================================================================
+
+```dart
+import 'package:flutter/material.dart';
+
+import 'app_design_tokens.dart';
+
+abstract final class AppTheme {
+  static ThemeData light(Color seedColor) =>
+      _build(Brightness.light, seedColor);
+
+  static ThemeData dark(Color seedColor) =>
+      _build(Brightness.dark, seedColor);
+
+  static ThemeData _build(
+    Brightness brightness,
+    Color seedColor,
+  ) {
+    final colors = ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: brightness,
+    );
+
+    final baseText = ThemeData(
+      useMaterial3: true,
+      brightness: brightness,
+      colorScheme: colors,
+    ).textTheme;
+
+    final typography = baseText.copyWith(
+      headlineMedium: baseText.headlineMedium?.copyWith(
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.5,
+      ),
+      titleLarge: baseText.titleLarge?.copyWith(
+        fontWeight: FontWeight.w700,
+      ),
+      titleMedium: baseText.titleMedium?.copyWith(
+        fontWeight: FontWeight.w600,
+      ),
+      bodyLarge: baseText.bodyLarge?.copyWith(height: 1.5),
+      bodyMedium: baseText.bodyMedium?.copyWith(height: 1.45),
+      labelMedium: baseText.labelMedium?.copyWith(
+        fontWeight: FontWeight.w600,
+      ),
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: brightness,
+      colorScheme: colors,
+      textTheme: typography,
+      scaffoldBackgroundColor: colors.surface,
+      visualDensity: VisualDensity.standard,
+
+      appBarTheme: AppBarTheme(
+        centerTitle: false,
+        backgroundColor: colors.surface,
+        foregroundColor: colors.onSurface,
+        surfaceTintColor: colors.surface,
+        elevation: AppElevation.none,
+        scrolledUnderElevation: AppElevation.none,
+        titleTextStyle: typography.titleLarge?.copyWith(
+          color: colors.onSurface,
+        ),
+      ),
+
+      cardTheme: CardThemeData(
+        color: colors.surfaceContainerLow,
+        elevation: AppElevation.card,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadii.container),
+          side: BorderSide(color: colors.outlineVariant),
+        ),
+      ),
+
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: colors.surfaceContainerLow,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.medium,
+          vertical: 14,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadii.card),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          borderSide: BorderSide(color: colors.outlineVariant),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          borderSide: BorderSide(
+            color: colors.primary,
+            width: 2,
+          ),
+        ),
+      ),
+
+      chipTheme: ChipThemeData(
+        backgroundColor: colors.surfaceContainerLow,
+        selectedColor: colors.secondaryContainer,
+        side: BorderSide(color: colors.outlineVariant),
+        shape: const StadiumBorder(),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xSmall,
+        ),
+      ),
+
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size(
+            AppLayout.minInteractiveSize,
+            AppLayout.minInteractiveSize,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadii.card),
+          ),
+        ),
+      ),
+
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(
+            AppLayout.minInteractiveSize,
+            AppLayout.minInteractiveSize,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadii.card),
+          ),
+        ),
+      ),
+
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          minimumSize: const Size(
+            AppLayout.minInteractiveSize,
+            AppLayout.minInteractiveSize,
+          ),
+        ),
+      ),
+
+      iconButtonTheme: IconButtonThemeData(
+        style: IconButton.styleFrom(
+          minimumSize: const Size(
+            AppLayout.minInteractiveSize,
+            AppLayout.minInteractiveSize,
+          ),
+        ),
+      ),
+
+      navigationBarTheme: NavigationBarThemeData(
+        height: AppLayout.navigationBarHeight,
+        backgroundColor: colors.surface,
+        indicatorColor: colors.secondaryContainer,
+        elevation: AppElevation.none,
+        surfaceTintColor: colors.surface,
+        indicatorShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadii.card),
+        ),
+      ),
+
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: colors.surface,
+        indicatorColor: colors.secondaryContainer,
+        labelType: NavigationRailLabelType.all,
+        useIndicator: true,
+      ),
+
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: colors.surface,
+        surfaceTintColor: colors.surface,
+        showDragHandle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadii.container),
+          ),
+        ),
+      ),
+
+      dialogTheme: DialogThemeData(
+        backgroundColor: colors.surface,
+        surfaceTintColor: colors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadii.container),
+        ),
+      ),
+
+      dividerTheme: DividerThemeData(
+        color: colors.outlineVariant,
+      ),
+
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: colors.primary,
+      ),
+    );
+  }
+}
+```
+
+======================================================================
+4. MATERIALAPP STANDARD
+======================================================================
+
+```dart
+const appSeed = Color(0xFF386A5A); // SOSTITUIRE PER BRANDING
+
+MaterialApp(
+  debugShowCheckedModeBanner: false,
+  theme: AppTheme.light(appSeed),
+  darkTheme: AppTheme.dark(appSeed),
+  themeMode: ThemeMode.system,
+)
+```
+
+Con Profilo standard:
+
+```dart
+final themeMode = switch (profile.themeMode) {
+  AppThemeMode.system => ThemeMode.system,
+  AppThemeMode.light => ThemeMode.light,
+  AppThemeMode.dark => ThemeMode.dark,
+};
+```
+
+======================================================================
+5. RESPONSIVE SHELL
+======================================================================
+
+Per app con 3+ destinazioni:
+
+```dart
+class ResponsiveDestinationShell extends StatelessWidget {
+  const ResponsiveDestinationShell({
+    super.key,
+    required this.selectedIndex,
+    required this.onDestinationSelected,
+    required this.destinations,
+    required this.body,
+  });
+
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
+  final List<NavigationDestination> destinations;
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final useRail =
+            constraints.maxWidth >= AppLayout.railBreakpoint;
+
+        if (!useRail) {
+          return Scaffold(
+            body: body,
+            bottomNavigationBar: NavigationBar(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: onDestinationSelected,
+              destinations: destinations,
+            ),
+          );
+        }
+
+        return Scaffold(
+          body: Row(
+            children: [
+              NavigationRail(
+                selectedIndex: selectedIndex,
+                onDestinationSelected: onDestinationSelected,
+                destinations: destinations
+                    .map(
+                      (item) => NavigationRailDestination(
+                        icon: item.icon,
+                        selectedIcon: item.selectedIcon,
+                        label: Text(item.label),
+                      ),
+                    )
+                    .toList(growable: false),
+              ),
+              const VerticalDivider(width: 1),
+              Expanded(child: body),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+======================================================================
+6. REGOLE VISIVE
+======================================================================
+
+Default:
+- Material 3;
+- superficie pulita;
+- card solo quando separano davvero contenuti;
+- massimo una primary CTA dominante per superficie;
+- niente gradienti decorativi gratuiti;
+- niente shadow elevate inutili;
+- niente dimensioni testo hardcoded se Theme può gestirle;
+- touch target >= 48;
+- safe area rispettata;
+- dark mode testata, non solo generata.
+
+Per consumer app:
+è consentito aggiungere stile più colorato/premium senza rompere:
+- contrasto;
+- gerarchia;
+- accessibilità;
+- platform fit.
+
+======================================================================
+7. TEST CANONICI
+======================================================================
+
+[ ] Material 3 attivo.
+[ ] Light mode leggibile.
+[ ] Dark mode leggibile.
+[ ] System mode segue OS.
+[ ] Tema manuale persiste tramite Profilo.
+[ ] Touch target >= 48 dp.
+[ ] Text scale 1.3–1.5 non rompe layout principali.
+[ ] Nessun overflow con DE/FR.
+[ ] NavigationBar mobile.
+[ ] NavigationRail desktop/tablet se pertinente.
+[ ] Dialog/BottomSheet leggibili in dark.
+[ ] Focus keyboard visibile su Web.
+[ ] Contrasto sufficiente per primary/error/disabled.
+[ ] Nessuna informazione dipende solo dal colore.
+
+======================================================================
+8. EVIDENCE DONOR
+======================================================================
+
+FrameLab:
+- FrameLabTheme;
+- FrameLabColors;
+- FrameLabTypography;
+- FrameLabSpacing;
+- FrameLabRadii;
+- FrameLabElevation;
+- FrameLabLayout;
+- FrameLabMotion;
+- Material3 light/dark;
+- component themes.
+
+Anna's Diary:
+- ThemeMode system/light/dark;
+- runtime theme preference;
+- Material 3.
+
+Stato donor:
+CERTIFIED DONOR.
+
+Stato template:
+COPY-READY GOLDEN.
