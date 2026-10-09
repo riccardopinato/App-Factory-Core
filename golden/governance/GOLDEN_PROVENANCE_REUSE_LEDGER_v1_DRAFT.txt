@@ -1,0 +1,173 @@
+GOLDEN PROVENANCE & REUSE LEDGER
+Versione draft: 0.2 — 04/10/2026
+Stato: DRAFT / PROCESS CANDIDATE
+Master Prompt: v21 SLIM
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Tracciare in modo deterministico da dove proviene codice/pattern riusato,
+perché è stato scelto, cosa è cambiato e con quali prove è stato validato.
+
+Complementare a:
+- Golden Library;
+- OSS Reconnaissance;
+- license gate;
+- AppLab evidence.
+
+======================================================================
+2. ORIGIN TYPES
+======================================================================
+
+INTERNAL_GOLDEN
+- proviene da Golden interno.
+
+INTERNAL_DONOR
+- proviene da una nostra app ma non ancora da Golden.
+
+OSS_COPIED
+- codice esterno copiato/adattato con licenza compatibile.
+
+OSS_REFERENCE_REWRITE
+- repo esterno usato solo come riferimento concettuale; codice riscritto.
+
+NEW_IMPLEMENTATION
+- implementazione nuova senza donor diretto.
+
+======================================================================
+3. RECORD MINIMO
+======================================================================
+
+```text
+componentId:
+componentVersion:
+originType:
+sourceProjectOrRepo:
+sourceRefOrCommit:
+sourcePath:
+sourceLicense:
+retrievedAt:
+reuseScope:
+adaptationSummary:
+localFiles:
+dependenciesAdded:
+securityNotes:
+licenseNotes:
+testsExecuted:
+evidenceRefs:
+status: CANDIDATE | ADAPTED | VERIFIED | GOLDEN | DEPRECATED
+verifiedAt:
+replacement:
+```
+
+======================================================================
+4. LICENSE RULE
+======================================================================
+
+Per OSS:
+- verificare licenza del singolo repository/file;
+- registrare SPDX/nome licenza se disponibile;
+- se licenza assente/ambigua/incompatibile: NON copiare;
+- usare il repo solo come reference;
+- registrare OSS_REFERENCE_REWRITE.
+
+Il ledger non sostituisce una valutazione legale quando necessaria.
+
+======================================================================
+5. ADAPTATION RULE
+======================================================================
+
+Descrivere il delta, non solo “copiato da X”.
+
+Esempi:
+- rimosso BLoC, adattato a Riverpod;
+- mantenuto repository contract, sostituito backend;
+- rimossa telemetria;
+- aggiunti test failure-path;
+- localizzato UI;
+- ridotte dipendenze.
+
+======================================================================
+6. GOLDEN PROMOTION
+======================================================================
+
+Un candidato esterno può diventare Golden soltanto se il ledger contiene:
+- origine;
+- ref/commit;
+- licenza;
+- scope;
+- adattamenti;
+- test;
+- evidence;
+- limiti noti.
+
+La popolarità del repo NON è evidence di compatibilità.
+
+======================================================================
+7. UPDATE / DEPRECATION
+======================================================================
+
+Quando un Golden cambia versione:
+- non riscrivere la storia del record precedente;
+- aggiungere nuova versione;
+- indicare supersedes/replacement;
+- mantenere le app esistenti sulla versione già integrata salvo necessità di
+  upgrade.
+
+======================================================================
+8. FORMATO FILE CONSIGLIATO
+======================================================================
+
+Per progetto:
+`docs/REUSE_PROVENANCE.txt`
+oppure formato equivalente già esistente.
+
+Per Golden Library:
+provenance incorporata nel documento Golden + indice centrale.
+
+======================================================================
+9. PROMOZIONE
+======================================================================
+
+DRAFT -> COPY-READY PROCESS dopo applicazione reale ad almeno un riuso OSS e un
+riuso donor interno.
+
+CERTIFIED PROCESS dopo uso stabile su almeno due progetti.
+
+
+======================================================================
+10. CROSS-APP CONTRACT LINEAGE — SHARED ECOSYSTEM CORE v1
+======================================================================
+
+Quando un Golden nasce da implementazioni coordinate in più app, il ledger
+deve registrare producer e consumer separatamente.
+
+Campi addizionali consigliati:
+
+```text
+contractId:
+contractVersion:
+producerProject:
+producerSourceSha:
+consumerProject:
+consumerSourceSha:
+compatibilityProjection:
+contractVectorRefs:
+physicalRoundTripEvidence:
+```
+
+Baseline corrente Shared Ecosystem Core v1:
+- producer: Wonderlog
+- producer SHA: 98d00900f2d14b801f380adb168ea8e69a1a0b89
+- consumer: Anna's Diary 0.96.0+106
+- consumer SHA: 75b607ea28979a22e7dd15d797320ad888940f1d
+- compatibilityProjection: Life Bridge v1
+- Golden status: CANDIDATE
+- cross-app physical round trip: NOT VERIFIED
+
+Regola:
+una compatibility/product projection non deve essere registrata come secondo
+protocollo canonico se deriva dallo stesso Shared Ecosystem Core.
+
+END DRAFT
