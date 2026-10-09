@@ -1,0 +1,35 @@
+APP FACTORY BOOTSTRAP — CANONICAL RESOLUTION FLOW
+Versione 1 — 09/10/2026
+
+SOURCE OF TRUTH
+https://github.com/riccardopinato/App-Factory-Core
+
+QUANDO USARLO
+- nuova app;
+- nuovo audit/roadmap che dipende dalle regole Factory;
+- richiesta di allineamento alle ultime Golden;
+- dubbio concreto sulla versione del Master;
+- aggiornamento del framework centrale.
+
+FLOW
+1. Leggi CURRENT.yaml.
+2. Leggi il file indicato da master.path.
+3. Leggi il file indicato da golden_index.path.
+4. Leggi golden_registry.path.
+5. Seleziona solo i Golden pertinenti al task.
+6. Registra repo/branch/commit SHA come FACTORY BASELINE.
+7. Non rileggere il repo Factory tra step consecutivi.
+8. Rileggi soltanto su refresh esplicito o dopo un update centrale appena eseguito.
+
+ANTI-DRIFT
+- una versione del Master ricordata dalla chat non prevale su CURRENT.yaml;
+- un allegato storico non prevale su CURRENT.yaml;
+- un vecchio Golden Index non prevale su GOLDEN_INDEX_CURRENT risolto;
+- in assenza di accesso al repo non inventare la versione: usa l'ultima baseline nota e segnala FACTORY BASELINE NOT REFRESHED.
+
+PROMPT CORTO RIUTILIZZABILE
+
+"Allineati alla App Factory: leggi una sola volta CURRENT.yaml nel repo
+riccardopinato/App-Factory-Core, poi MASTER_PROMPT_CURRENT, GOLDEN_INDEX_CURRENT
+e solo i Golden pertinenti. Fissa il commit come baseline e non rileggere il
+repo tra gli step salvo mia richiesta o modifica centrale."
