@@ -1,0 +1,902 @@
+GOLDEN NOTIFICATION RELIABILITY — FLUTTER
+Versione: 1.0 — 01/10/2026
+Stato: COPY-READY GOLDEN
+
+Donor:
+- Anna's Diary
+- repo: riccardopinato/Agenda-per-Anna
+- baseline donor: v0.90.0+100
+- commit: 240aa9e7d3587118a848313acf4c513cd19f2038
+
+Lineage donor:
+- v0.43 Notification Reliability
+- v0.63 Creative & Reminder Upgrade
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standard notifiche locali affidabili per utility Flutter.
+
+Problemi risolti:
+- permesso app;
+- canale Android bloccato;
+- exact alarm disponibile/non disponibile;
+- timezone locale;
+- stable notification IDs;
+- cancel deterministico;
+- fallback exact -> inexact;
+- tap payload;
+- diagnostic immediato + schedulato;
+- impostazioni sistema;
+- quick actions opzionali;
+- nessun failure di notifica deve corrompere/spezzare il salvataggio core.
+
+REGOLA:
+“token registrato” NON significa “push consegnata”.
+Per push remoti usare receipt/telemetry reale.
+
+======================================================================
+2. DIPENDENZE
+======================================================================
+
+pubspec.yaml:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_local_notifications: ^22.3.1
+  flutter_timezone: ^5.1.0
+  timezone: ^0.11.1
+```
+
+Versioni validate nel donor al momento dell'estrazione.
+
+======================================================================
+3. FILE — lib/core/notifications/notification_health.dart
+======================================================================
+
+```dart
+class NotificationHealth {
+  const NotificationHealth({
+    required this.available,
+    required this.notificationsEnabled,
+    required this.exactAlarmsEnabled,
+    required this.reminderChannelEnabled,
+    required this.pendingCount,
+    this.lastError,
+  });
+
+  final bool available;
+  final bool notificationsEnabled;
+  final bool exactAlarmsEnabled;
+  final bool reminderChannelEnabled;
+  final int pendingCount;
+  final String? lastError;
+
+  bool get deliveryReady =>
+      available &&
+      notificationsEnabled &&
+      reminderChannelEnabled;
+}
+
+class LocalNotificationDiagnostic {
+  const LocalNotificationDiagnostic({
+    required this.permissionGranted,
+    required this.immediateShown,
+    required this.scheduledCreated,
+    required this.scheduledDelaySeconds,
+    required this.health,
+    this.error,
+  });
+
+  final bool permissionGranted;
+  final bool immediateShown;
+  final bool scheduledCreated;
+  final int scheduledDelaySeconds;
+  final NotificationHealth health;
+  final String? error;
+
+  bool get ok =>
+      permissionGranted &&
+      immediateShown &&
+      scheduledCreated &&
+      health.deliveryReady;
+}
+```
+
+======================================================================
+4. FILE — lib/core/notifications/notification_service.dart
+======================================================================
+
+```dart
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:timezone/data/latest.dart' as tz_data;
+import 'package:timezone/timezone.dart' as tz;
+
+import 'notification_health.dart';
+
+@pragma('vm:entry-point')
+void notificationTapBackground(
+  NotificationResponse response,
+) async {
+  await NotificationService.instance
+      .handleNotificationResponse(
+    response,
+    background: true,
+  );
+}
+
+class NotificationService {
+  NotificationService._();
+
+  static final NotificationService instance =
+      NotificationService._();
+
+  static const String reminderChannelId =
+      'standard_reminders_v1';
+
+  static const String reminderChannelName =
+      'Promemoria';
+
+  static const String reminderChannelDescription =
+      'Promemoria e notifiche programmate';
+
+  final FlutterLocalNotificationsPlugin _plugin =
+      FlutterLocalNotificationsPlugin();
+
+  final StreamController<String> _tapController =
+      StreamController<String>.broadcast();
+
+  bool _initialized = false;
+  bool _available = true;
+  String? _lastError;
+  String? _initialPayload;
+
+  bool get available => _available;
+  String? get lastError => _lastError;
+
+  Stream<String> get notificationTapStream =>
+      _tapController.stream;
+
+  String? takeInitialPayload() {
+    final payload = _initialPayload;
+    _initialPayload = null;
+    return payload;
+  }
+
+  Future<void> initialize({
+    bool force = false,
+  }) async {
+    if (_initialized && !force) return;
+
+    _available = true;
+    _lastError = null;
+
+    tz_data.initializeTimeZones();
+
+    try {
+      final info =
+          await FlutterTimezone.getLocalTimezone();
+
+      tz.setLocalLocation(
+        tz.getLocation(info.identifier),
+      );
+    } catch (_) {
+      // Scheduling still works with runtime/default timezone.
+    }
+
+    const android =
+        AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
+
+    const darwin = DarwinInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+    );
+
+    try {
+      final launch =
+          await _plugin.getNotificationAppLaunchDetails();
+
+      if (launch?.didNotificationLaunchApp == true) {
+        _initialPayload =
+            launch?.notificationResponse?.payload;
+      }
+    } catch (_) {}
+
+    try {
+      final ok = await _plugin.initialize(
+        settings: const InitializationSettings(
+          android: android,
+          iOS: darwin,
+          macOS: darwin,
+        ),
+        onDidReceiveNotificationResponse: (response) {
+          unawaited(
+            handleNotificationResponse(response),
+          );
+        },
+        onDidReceiveBackgroundNotificationResponse:
+            notificationTapBackground,
+      );
+
+      if (ok == false) {
+        throw StateError(
+          'notification_plugin_initialize_failed',
+        );
+      }
+
+      final androidPlugin =
+          _plugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      await androidPlugin?.createNotificationChannel(
+        const AndroidNotificationChannel(
+          reminderChannelId,
+          reminderChannelName,
+          description: reminderChannelDescription,
+          importance: Importance.high,
+          playSound: true,
+          enableVibration: true,
+          showBadge: true,
+        ),
+      );
+
+      _initialized = true;
+      _available = true;
+      _lastError = null;
+    } catch (error) {
+      _initialized = false;
+      _available = false;
+      _lastError =
+          'notification_initialize: $error';
+    }
+  }
+
+  Future<bool> requestPermissions({
+    bool requestExactAlarm = false,
+  }) async {
+    await initialize(
+      force: !_initialized || !_available,
+    );
+
+    if (!_available) return false;
+
+    var granted = true;
+
+    try {
+      final android =
+          _plugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      final result =
+          await android?.requestNotificationsPermission();
+
+      if (result != null) {
+        granted = result;
+      }
+
+      if (requestExactAlarm) {
+        final exact =
+            await android?.canScheduleExactNotifications();
+
+        if (exact == false) {
+          await android?.requestExactAlarmsPermission();
+        }
+      }
+    } catch (error) {
+      _lastError =
+          'notification_permission_android: $error';
+      granted = false;
+    }
+
+    try {
+      final result = await _plugin
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+
+      if (result != null) {
+        granted = granted && result;
+      }
+    } catch (error) {
+      _lastError =
+          'notification_permission_ios: $error';
+      granted = false;
+    }
+
+    return granted;
+  }
+
+  Future<NotificationHealth> health() async {
+    await initialize(
+      force: !_initialized || !_available,
+    );
+
+    if (!_available) {
+      return NotificationHealth(
+        available: false,
+        notificationsEnabled: false,
+        exactAlarmsEnabled: false,
+        reminderChannelEnabled: false,
+        pendingCount: 0,
+        lastError: _lastError,
+      );
+    }
+
+    var enabled = true;
+    var exact = false;
+
+    final isAndroid =
+        !kIsWeb &&
+        defaultTargetPlatform ==
+            TargetPlatform.android;
+
+    var reminderChannelEnabled = !isAndroid;
+    var pending = 0;
+
+    try {
+      final android =
+          _plugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      final appEnabled =
+          await android?.areNotificationsEnabled();
+
+      if (appEnabled != null) {
+        enabled = appEnabled;
+      }
+
+      final exactEnabled =
+          await android?.canScheduleExactNotifications();
+
+      if (exactEnabled != null) {
+        exact = exactEnabled;
+      }
+
+      final channels =
+          await android?.getNotificationChannels();
+
+      if (channels != null) {
+        for (final channel in channels) {
+          if (channel.id == reminderChannelId) {
+            reminderChannelEnabled =
+                channel.importance != Importance.none;
+          }
+        }
+      }
+    } catch (error) {
+      _lastError =
+          'notification_health_android: $error';
+    }
+
+    try {
+      pending =
+          (await _plugin.pendingNotificationRequests())
+              .length;
+    } catch (error) {
+      _lastError =
+          'notification_pending: $error';
+    }
+
+    return NotificationHealth(
+      available: true,
+      notificationsEnabled: enabled,
+      exactAlarmsEnabled: exact,
+      reminderChannelEnabled:
+          reminderChannelEnabled,
+      pendingCount: pending,
+      lastError: _lastError,
+    );
+  }
+
+  Future<void> openSystemSettings() async {
+    await initialize(
+      force: !_initialized || !_available,
+    );
+
+    try {
+      await _plugin.openAppNotificationSettings();
+    } catch (_) {}
+  }
+
+  Future<void> showNow({
+    required String stableId,
+    required String title,
+    required String body,
+    String? payload,
+  }) async {
+    await initialize();
+
+    if (!_available) return;
+
+    final status = await health();
+
+    if (!status.deliveryReady) {
+      _lastError =
+          'notification_delivery_not_ready';
+      return;
+    }
+
+    try {
+      await _plugin.show(
+        id: _notificationId(stableId),
+        title: title,
+        body: body,
+        notificationDetails:
+            _standardDetails,
+        payload: payload ?? stableId,
+      );
+
+      _lastError = null;
+    } catch (error) {
+      _lastError =
+          'notification_show:$stableId:$error';
+    }
+  }
+
+  Future<void> schedule({
+    required String stableId,
+    required String title,
+    required String body,
+    required DateTime when,
+    String? payload,
+    bool requestPermission = true,
+  }) async {
+    await initialize();
+
+    if (!_available) return;
+
+    if (!when.isAfter(DateTime.now())) {
+      await cancel(stableId);
+      return;
+    }
+
+    final enabled = requestPermission
+        ? await requestPermissions()
+        : (await health())
+            .notificationsEnabled;
+
+    if (!enabled) {
+      _lastError =
+          'notification_permission_denied';
+      return;
+    }
+
+    final status = await health();
+
+    if (!status.reminderChannelEnabled) {
+      _lastError =
+          'reminder_channel_disabled';
+      return;
+    }
+
+    final scheduled =
+        tz.TZDateTime.from(when, tz.local);
+
+    var mode =
+        AndroidScheduleMode.inexactAllowWhileIdle;
+
+    try {
+      final android =
+          _plugin.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+
+      final exact =
+          await android?.canScheduleExactNotifications();
+
+      if (exact == true) {
+        mode =
+            AndroidScheduleMode.exactAllowWhileIdle;
+      }
+    } catch (_) {}
+
+    try {
+      await _plugin.zonedSchedule(
+        id: _notificationId(stableId),
+        title: title,
+        body: body,
+        scheduledDate: scheduled,
+        notificationDetails:
+            _standardDetails,
+        androidScheduleMode: mode,
+        payload: payload ?? stableId,
+      );
+
+      _lastError = null;
+    } catch (error) {
+      _lastError =
+          'notification_schedule:$stableId:$error';
+
+      // NON propagare se l'evento/core data
+      // è già stato salvato correttamente.
+    }
+  }
+
+  Future<void> cancel(String stableId) async {
+    await initialize();
+
+    if (!_available) return;
+
+    try {
+      await _plugin.cancel(
+        id: _notificationId(stableId),
+      );
+    } catch (_) {}
+  }
+
+  Future<void> cancelAll() async {
+    await initialize();
+
+    if (!_available) return;
+
+    try {
+      await _plugin.cancelAll();
+    } catch (_) {}
+  }
+
+  Future<LocalNotificationDiagnostic>
+      runLocalDiagnostic({
+    Duration scheduledDelay =
+        const Duration(seconds: 12),
+  }) async {
+    await initialize(force: true);
+
+    final delaySeconds =
+        scheduledDelay.inSeconds
+            .clamp(5, 60)
+            .toInt();
+
+    if (!_available) {
+      return LocalNotificationDiagnostic(
+        permissionGranted: false,
+        immediateShown: false,
+        scheduledCreated: false,
+        scheduledDelaySeconds:
+            delaySeconds,
+        health: await health(),
+        error: _lastError,
+      );
+    }
+
+    final permissionGranted =
+        await requestPermissions();
+
+    var immediateShown = false;
+    var scheduledCreated = false;
+    String? diagnosticError;
+
+    final before = await health();
+
+    if (permissionGranted &&
+        before.deliveryReady) {
+      try {
+        await showNow(
+          stableId:
+              'diagnostic:immediate',
+          title: 'Test notifiche',
+          body:
+              'La notifica immediata funziona.',
+          payload:
+              'diagnostic:immediate',
+        );
+
+        immediateShown = true;
+      } catch (error) {
+        diagnosticError =
+            'immediate:$error';
+      }
+
+      try {
+        final when = DateTime.now().add(
+          Duration(seconds: delaySeconds),
+        );
+
+        await schedule(
+          stableId:
+              'diagnostic:scheduled',
+          title:
+              'Test promemoria programmato',
+          body:
+              'La notifica programmata funziona.',
+          when: when,
+          payload:
+              'diagnostic:scheduled',
+          requestPermission: false,
+        );
+
+        scheduledCreated = true;
+      } catch (error) {
+        diagnosticError =
+            'scheduled:$error';
+      }
+    }
+
+    final after = await health();
+
+    return LocalNotificationDiagnostic(
+      permissionGranted:
+          permissionGranted,
+      immediateShown: immediateShown,
+      scheduledCreated:
+          scheduledCreated,
+      scheduledDelaySeconds:
+          delaySeconds,
+      health: after,
+      error: diagnosticError ??
+          _lastError,
+    );
+  }
+
+  Future<void> handleNotificationResponse(
+    NotificationResponse response, {
+    bool background = false,
+  }) async {
+    if (background) return;
+
+    final payload = response.payload?.trim();
+
+    if (payload != null &&
+        payload.isNotEmpty) {
+      _tapController.add(payload);
+    }
+  }
+
+  static const NotificationDetails
+      _standardDetails =
+      NotificationDetails(
+    android: AndroidNotificationDetails(
+      reminderChannelId,
+      reminderChannelName,
+      channelDescription:
+          reminderChannelDescription,
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: true,
+      enableVibration: true,
+      category:
+          AndroidNotificationCategory.reminder,
+    ),
+    iOS: DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    ),
+    macOS: DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    ),
+  );
+
+  int _notificationId(String value) {
+    var hash = 0;
+
+    for (final code in value.codeUnits) {
+      hash =
+          0x1fffffff &
+          (hash * 31 + code);
+    }
+
+    return hash;
+  }
+
+  void dispose() {
+    _tapController.close();
+  }
+}
+```
+
+======================================================================
+5. ANDROID MANIFEST
+======================================================================
+
+Aggiungere quando necessari:
+
+```xml
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+```
+
+Receiver richiesti da flutter_local_notifications
+per scheduling/reboot:
+
+```xml
+<receiver
+    android:exported="false"
+    android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
+
+<receiver
+    android:exported="false"
+    android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+    <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+        <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+        <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+    </intent-filter>
+</receiver>
+```
+
+Se si usano quick actions:
+
+```xml
+<receiver
+    android:exported="false"
+    android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
+```
+
+======================================================================
+6. BOOTSTRAP
+======================================================================
+
+```dart
+try {
+  await NotificationService.instance.initialize();
+} catch (_) {
+  // Le notifiche non devono impedire l'avvio core.
+}
+```
+
+Poi ascoltare i tap:
+
+```dart
+NotificationService.instance.notificationTapStream.listen(
+  (payload) {
+    // route deterministica
+  },
+);
+```
+
+Gestire anche:
+
+```dart
+final initial =
+    NotificationService.instance.takeInitialPayload();
+
+if (initial != null) {
+  // route iniziale
+}
+```
+
+======================================================================
+7. RECONCILIATION RULE
+======================================================================
+
+Il DB/app state è source of truth.
+Le notifiche sono una proiezione.
+
+Dopo:
+- create;
+- edit;
+- delete;
+- restore;
+- reboot/app update;
+- login/account switch;
+- timezone change rilevante;
+
+riconciliare i reminder dal dato persistente.
+
+NON usare la lista pending del plugin come unico database di reminder.
+
+======================================================================
+8. QUICK ACTIONS — OPTIONAL
+======================================================================
+
+Il donor Anna's Diary implementa:
+- Fatto;
+- 10 min;
+- 1 ora;
+- Apri.
+
+Regola:
+le quick actions devono richiamare il motore/core esistente.
+NON creare un secondo task/reminder subsystem.
+
+Per snooze:
+riusare LO STESSO stableId.
+
+======================================================================
+9. PUSH REMOTO — RELIABILITY CONTRACT
+======================================================================
+
+Se il progetto usa FCM/Web Push:
+
+NON assumere:
+token presente = push consegnata.
+
+Mantenere almeno:
+- ultimo push realmente ricevuto;
+- delivery event backend;
+- delivered_count;
+- failed_count;
+- invalid token handling;
+- fallback solo dopo mancata ricezione reale.
+
+Pattern donor v0.43:
+Realtime fallback aspetta una vera push receipt,
+non solo una registrazione token.
+
+======================================================================
+10. DIAGNOSTICS UI
+======================================================================
+
+Esporre in Impostazioni/Diagnostica:
+
+- Notifiche app: ON/OFF
+- Canale reminder: ON/BLOCCATO
+- Exact alarm: disponibile/non disponibile
+- Pending: N
+- Ultimo errore
+- Test immediato
+- Test programmato
+- Apri impostazioni sistema
+
+Non nascondere un canale disabilitato dietro un generico “permesso concesso”.
+
+======================================================================
+11. TEST CANONICI
+======================================================================
+
+[ ] Permission denied.
+[ ] Permission granted.
+[ ] Reminder channel enabled.
+[ ] Reminder channel blocked.
+[ ] Exact alarm enabled.
+[ ] Exact alarm unavailable -> inexact fallback.
+[ ] Test immediato visibile.
+[ ] Test programmato creato.
+[ ] StableId produce stesso notification ID.
+[ ] Edit reminder sostituisce reminder precedente.
+[ ] Delete cancella reminder.
+[ ] Data nel passato cancella/non schedula.
+[ ] Timezone locale impostato.
+[ ] Riavvio/reboot reconciliation.
+[ ] Tap da app chiusa apre destinazione corretta.
+[ ] Core data salva anche se scheduling fallisce.
+[ ] Quick snooze usa stesso stableId se presente.
+[ ] Android release reale.
+[ ] Test almeno su un device fisico per feature critica.
+
+======================================================================
+12. EVIDENCE DONOR
+======================================================================
+
+Anna's Diary v0.43:
+- health checks permission/canali/exact alarms;
+- full local diagnostic;
+- immediate + scheduled verification;
+- delivery telemetry push;
+- receipt-aware fallback.
+
+Anna's Diary v0.63:
+- quick actions;
+- snooze 10 min / 1 ora;
+- stable reminder identity;
+- action receiver.
+
+File donor:
+- lib/notification_service.dart
+- lib/push_notification_service.dart
+- test/v043_notification_reliability_test.dart
+- tool/prepare_android_platform.py
+- README v0.43 / v0.63
+
+Stato donor:
+CERTIFIED DONOR.
+
+Stato template:
+COPY-READY GOLDEN.
