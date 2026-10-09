@@ -1,0 +1,40 @@
+app_factory_manifest_version: 1
+app:
+  name: Example App
+  package_name: com.example.app
+  version: 0.1.0
+  build_number: 1
+platforms:
+  android: true
+  ios: true
+  web_preview: true
+product:
+  product_bible: REQUIRED
+  offline_first: true
+branding:
+  icon_first: true
+  theme: material3
+localization:
+  device_locale: true
+  fallback: en
+  locales: [en, it, es, fr, pt]
+identity:
+  google_sign_in_optional: true
+data:
+  backup_required: true
+  media_store_required: false
+notifications:
+  required: false
+monetization:
+  ads: false
+  premium: false
+selected_goldens:
+  - app_bootstrap
+  - app_icon_branding
+  - theme_m3
+  - localization
+  - ci_release_web_deploy
+validation:
+  fast: true
+  full: true
+  certified_when_applicable: true
