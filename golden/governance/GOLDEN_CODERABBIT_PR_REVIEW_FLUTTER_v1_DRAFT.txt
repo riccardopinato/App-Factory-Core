@@ -1,0 +1,205 @@
+GOLDEN CODERABBIT PR REVIEW — FLUTTER / GITHUB
+Versione draft: 0.2 — 03/10/2026
+Stato: DRAFT / CANDIDATE — NON CERTIFIED
+Master Prompt: v21 SLIM
+
+Fonti:
+- https://github.com/marketplace/coderabbitai
+- https://docs.coderabbit.ai/
+- https://github.com/coderabbitai/awesome-coderabbit
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare CodeRabbit come layer di review automatica sulle Pull Request.
+
+CodeRabbit deve ridurre il lavoro manuale ripetitivo, NON sostituire:
+- analyze;
+- test;
+- build;
+- AppLab;
+- real-device QA;
+- Product Bible;
+- Golden constraints.
+
+======================================================================
+2. POSIZIONE NELLA PIPELINE
+======================================================================
+
+feature branch
+-> PR
+-> CI deterministica
+-> CodeRabbit advisory se disponibile
+-> triage delta senza attesa obbligatoria
+-> AppLab secondo rischio
+-> merge
+
+CodeRabbit è evidence aggiuntiva, non certificazione runtime.
+
+======================================================================
+3. TRIAGE STANDARD
+======================================================================
+
+CRITICAL / MAJOR realmente confermati:
+- trasformarli in finding di triage;
+- verificarli contro codice, test e Product Bible;
+- se confermati, correggerli prima del merge per ragioni TECNICHE, non perché
+  CodeRabbit possiede autorità di gate.
+
+MINOR:
+- correggere se basso rischio e coerente;
+- non fare refactor gratuiti solo per soddisfare preferenze stilistiche.
+
+FALSE POSITIVE / NON APPLICABILE:
+- documentare brevemente il motivo quando utile;
+- non cambiare codice corretto per silenziare un reviewer.
+
+SERVICE UNAVAILABLE / REVIEW IN RITARDO:
+- non attendere obbligatoriamente;
+- non creare retry loop manuali;
+- continuare con CI/AppLab/evidence deterministica.
+
+======================================================================
+4. .coderabbit.yaml — TEMPLATE CANDIDATO
+======================================================================
+
+File repo root:
+.coderabbit.yaml
+
+```yaml
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+reviews:
+  enabled: true
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+
+  path_filters:
+    - '!build/**'
+    - '!.dart_tool/**'
+    - '!**/*.g.dart'
+    - '!**/*.freezed.dart'
+    - '!**/*.mocks.dart'
+    - '!**/*.gen.dart'
+
+  path_instructions:
+    - path: '**/*.dart'
+      instructions: >-
+        Review for Flutter/Dart correctness, null safety, async lifecycle,
+        mounted/context misuse, state ownership, resource leaks, unnecessary
+        rebuilds, blocking work on the UI isolate, local-first regressions,
+        accessibility, localization, privacy, and avoidable dependency bloat.
+        Preserve the existing architecture unless a concrete defect requires a
+        change. Prefer the project's documented Golden Components.
+
+    - path: 'test/**'
+      instructions: >-
+        Verify that behavioral changes have proportionate regression coverage,
+        failure-path coverage where relevant, deterministic assertions, and no
+        tests that only prove implementation details.
+
+    - path: '.github/**'
+      instructions: >-
+        Review workflow permissions, secret handling, reproducibility,
+        duplicate builds, immutable/pinned dependencies where practical,
+        artifact provenance, release signing and accidental production deploys.
+
+    - path: 'android/**'
+      instructions: >-
+        Review Android permission minimization, lifecycle, background execution,
+        foreground service requirements, exported components, deep links,
+        notification behavior and Play policy risk.
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    drafts: false
+    base_branches:
+      - main
+```
+
+Prima di promuovere questo template:
+- validare contro lo schema CodeRabbit corrente;
+- provarlo su almeno una PR reale;
+- calibrare falsi positivi;
+- aggiungere/escludere path specifici del progetto.
+
+======================================================================
+5. ISTRUZIONI DI REVIEW DEL PROJECT
+======================================================================
+
+CodeRabbit deve essere guidato a verificare anche:
+- Product Bible drift;
+- duplicazione di subsystem già Golden;
+- nuove dipendenze non necessarie;
+- perdita di local-first/offline behavior;
+- failure path ignorati;
+- file generati modificati manualmente;
+- secret/chiavi nei client;
+- regressioni release signing;
+- mancato aggiornamento README/ROADMAP quando richiesto;
+- hardcoded user-facing strings;
+- accessibilità e touch targets;
+- media/storage leak;
+- async race / stale state / mounted errors.
+
+======================================================================
+6. NON FARE
+======================================================================
+
+- non applicare automaticamente tutte le suggestion;
+- non trattare una review verde come CERTIFIED;
+- non trattare assenza/ritardo della review come FAIL;
+- non usare CodeRabbit come authority PASS/FAIL;
+- non attendere o rilanciare in loop il servizio;
+- non aggiungere un secondo reviewer AI ridondante senza beneficio misurabile;
+- non far revisionare build output/generator output inutile;
+- non accettare rewrite architetturali non motivati;
+- non usare CodeRabbit come sostituto dei test.
+
+======================================================================
+7. TEST PER PROMOZIONE
+======================================================================
+
+[ ] PR Flutter reale recensita automaticamente
+[ ] incremental review su secondo commit
+[ ] generated files esclusi
+[ ] almeno un finding valido confermato oppure review 0 issue coerente
+[ ] false positive gestito senza churn
+[ ] CI continua a essere gate indipendente
+[ ] AppLab continua a essere authority per runtime/certification
+[ ] nessun secret esposto
+[ ] request_changes_workflow resta false salvo decisione esplicita per-repo
+[ ] review assente/lenta non blocca CI/AppLab
+[ ] nessun retry loop manuale
+[ ] finding confermati verificati con evidence deterministica
+
+======================================================================
+8. AUTHORITY / NON-BLOCKING CONTRACT
+======================================================================
+
+CodeRabbit è ADVISORY.
+
+Non può da solo:
+- assegnare PASS/FAIL/CERTIFIED;
+- sostituire CI;
+- sostituire AppLab;
+- sostituire physical-device QA;
+- bloccare un merge solo perché non ha risposto.
+
+Pre-merge custom checks AI:
+- iniziare in warning;
+- passare a error solo con decisione esplicita del progetto e falsi positivi
+  sufficientemente bassi;
+- anche in quel caso la certificazione resta indipendente.
+
+======================================================================
+9. PROMOZIONE
+======================================================================
+
+DRAFT -> COPY-READY dopo validazione su PR reali in almeno un nostro repo.
+CERTIFIED GOLDEN dopo uso stabile su almeno due repo/progetti.
+
+END DRAFT
