@@ -1,7 +1,8 @@
 GOLDEN OSS REUSE & RECONNAISSANCE — FLUTTER
 Versione draft: 0.1 — 02/10/2026
 Stato: DRAFT / PROCESS CANDIDATE — NON CERTIFIED
-Master Prompt: v20 SLIM
+Created under Master: v20 SLIM
+Current Master: resolve via CURRENT.yaml
 
 Fonte esterna approvata principale:
 https://github.com/topics/flutter-clean-architecture-example

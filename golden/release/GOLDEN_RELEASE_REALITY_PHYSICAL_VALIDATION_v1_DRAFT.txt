@@ -1,7 +1,8 @@
 GOLDEN RELEASE REALITY & PHYSICAL VALIDATION
 Versione draft: 0.2 — 04/10/2026
 Stato: DRAFT / PROCESS CANDIDATE
-Master Prompt: v21 SLIM
+Created under Master: v21 SLIM
+Current Master: resolve via CURRENT.yaml
 
 Donor/process evidence:
 - AppLab trusted evidence / production certification patterns;

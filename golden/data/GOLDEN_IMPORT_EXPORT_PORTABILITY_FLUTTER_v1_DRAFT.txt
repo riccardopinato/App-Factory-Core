@@ -1,7 +1,8 @@
 GOLDEN IMPORT / EXPORT / PORTABILITY — FLUTTER
 Versione draft: 0.1 — 07/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
-Master Prompt: v24 FULL
+Created under Master: v24 FULL
+Current Master: resolve via CURRENT.yaml
 
 Donor candidates:
 - Notes-Ecosistema import provenance / media bundle / open export;
