@@ -1,0 +1,140 @@
+GOLDEN ANDROID SIGNING & RELEASE IDENTITY
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor/process evidence:
+- Battery Guard persistent internal signing workflow;
+- App Factory CI/release practice;
+- Release Reality exact-artifact rules.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Trattare signing identity, package identity e artifact provenance come identità
+persistente del prodotto, non come dettaglio finale di Gradle.
+
+======================================================================
+2. IDENTITÀ MINIMA
+======================================================================
+
+Registrare:
+
+```text
+appName:
+applicationId/packageId:
+versionName:
+versionCode:
+signingLane: INTERNAL | PRODUCTION
+certificateSha256:
+sourceSha:
+artifactSha256:
+buildWorkflowRun:
+```
+
+======================================================================
+3. KEY MATERIAL
+======================================================================
+
+Mai committare:
+- .jks/.keystore;
+- password;
+- key alias secret;
+- service account JSON;
+- base64 della key.
+
+Conservare:
+- copia locale protetta;
+- almeno un backup sicuro separato;
+- credenziali in password manager/secret store.
+
+Perdita della key può impedire aggiornamenti coerenti: trattarla come rischio P0/P1
+in base alla lane/distribuzione.
+
+======================================================================
+4. CI SECRETS
+======================================================================
+
+Naming candidato:
+
+```text
+ANDROID_KEYSTORE_BASE64
+ANDROID_KEYSTORE_PASSWORD
+ANDROID_KEY_ALIAS
+ANDROID_KEY_PASSWORD
+```
+
+Non è obbligatorio usare esattamente questi nomi se il progetto ha naming
+esistente stabile.
+
+CI deve:
+- ricreare key solo runtime;
+- non stamparla;
+- non archiviarla come artifact;
+- distruggere file temporaneo a fine job quando possibile.
+
+======================================================================
+5. INTERNAL VS PRODUCTION
+======================================================================
+
+Definire chiaramente:
+- debug signing;
+- internal persistent signing;
+- production signing;
+- Play App Signing boundary.
+
+Non distribuire un APK "release" con firma casuale/temporanea e poi aspettarsi
+upgrade in-place garantito.
+
+======================================================================
+6. VERSIONING
+======================================================================
+
+- versionCode sempre crescente per update Android;
+- versionName coerente con release notes;
+- migration expectations legate alla versione;
+- hotfix tracciabile.
+
+======================================================================
+7. SAME-ARTIFACT RULE
+======================================================================
+
+Se l'APK testato viene ricostruito, è un nuovo artifact.
+Registrare SHA-256 dell'esatto file verificato/distribuito.
+
+Preferire:
+build once -> hash -> test -> distribute same bytes.
+
+======================================================================
+8. KEY ROTATION
+======================================================================
+
+Non ruotare signing identity senza piano esplicito.
+Se si usa Play App Signing, distinguere upload key da app signing key.
+Documentare recovery path.
+
+======================================================================
+9. ACCEPTANCE MATRIX
+======================================================================
+
+[ ] applicationId stabile
+[ ] versionCode crescente
+[ ] lane dichiarata
+[ ] certificate fingerprint registrato
+[ ] key fuori repo
+[ ] key backup presente
+[ ] CI secret-safe
+[ ] release artifact hash
+[ ] source SHA
+[ ] install/update test con stessa signing identity
+[ ] Play signing boundary documentata se pertinente
+
+======================================================================
+10. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS dopo due progetti con update-in-place riuscito e CI secret-safe.
+CERTIFIED richiede artifact identity verificata su release/internal reali.
+
+END GOLDEN ANDROID SIGNING & RELEASE IDENTITY v0.1 DRAFT
