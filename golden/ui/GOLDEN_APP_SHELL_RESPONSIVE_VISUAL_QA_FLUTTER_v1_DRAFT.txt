@@ -1,0 +1,140 @@
+GOLDEN APP SHELL / RESPONSIVE / VISUAL QA — FLUTTER
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor candidates:
+- CamperBoss shared UI primitives;
+- FrameLab M3 shell/theme;
+- TrailPath overlay/semantics lessons;
+- AppLab visual QA patterns;
+- AdMob safe-layout constraints.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare lo scheletro UX e i failure state comuni senza uniformare
+l'identità visiva delle app.
+
+======================================================================
+2. PRIMITIVE CANDIDATE
+======================================================================
+
+- AppScreenScaffold;
+- AppLoadingState;
+- AppEmptyState;
+- AppErrorState;
+- RetryPanel;
+- SectionHeader;
+- ActionTile;
+- ResponsiveContent;
+- adaptive navigation shell;
+- dedicated monetization slot boundary.
+
+======================================================================
+3. RESPONSIVE RULE
+======================================================================
+
+Non assumere una sola larghezza telefono.
+Verificare:
+- small phone;
+- large phone;
+- tablet quando target;
+- landscape quando target;
+- fold/large display se pertinente.
+
+Usare constraints/layout semantics, non coordinate magiche.
+
+======================================================================
+4. SAFE AREA / INSETS / EDGE-TO-EDGE
+======================================================================
+
+Controlli interattivi e overlay devono rispettare:
+- status bar;
+- navigation bar;
+- gesture area;
+- display cutout;
+- keyboard/IME;
+- bottom sheets;
+- ad slots.
+
+I pulsanti flottanti non devono uscire dallo schermo o sovrapporsi.
+
+======================================================================
+5. FONT SCALE / ACCESSIBILITY
+======================================================================
+
+Testare almeno normal + large font scale.
+Evitare:
+- fixed-height text containers;
+- truncated CTA senza fallback;
+- touch target piccoli;
+- icon-only controls senza semantics/tooltip quando necessario.
+
+======================================================================
+6. UI STATES
+======================================================================
+
+Ogni screen data-driven deve definire:
+- initial/loading;
+- content;
+- empty;
+- recoverable error;
+- blocking error quando reale;
+- offline/degraded se pertinente.
+
+No spinner infinito.
+
+======================================================================
+7. OVERLAY ZONES
+======================================================================
+
+Definire zone per:
+- map controls;
+- FAB;
+- bottom nav;
+- snackbars;
+- banners ads;
+- system insets.
+
+Overlay multipli devono avere collision policy.
+
+======================================================================
+8. VISUAL QA MATRIX
+======================================================================
+
+[ ] 360dp-ish small phone
+[ ] large phone
+[ ] tablet target
+[ ] portrait
+[ ] landscape target
+[ ] dark mode
+[ ] font scale large
+[ ] keyboard visible
+[ ] gesture navigation
+[ ] 3-button navigation quando Android
+[ ] cutout/insets
+[ ] loading
+[ ] empty
+[ ] long localization strings
+[ ] offline/error
+[ ] ad loaded/no-fill se AdMob
+[ ] screenshot diff/manual review
+
+======================================================================
+9. RELAZIONE CON THEME
+======================================================================
+
+Theme M3 definisce token/component style.
+Questo Golden definisce layout/shell/responsive/visual acceptance.
+Non duplicare Theme M3.
+
+======================================================================
+10. PROMOZIONE
+======================================================================
+
+COPY-READY dopo integrazione in almeno una app e visual matrix senza overflow.
+CERTIFIED dopo riuso + AppLab/physical visual evidence su più form factor.
+
+END GOLDEN APP SHELL / RESPONSIVE / VISUAL QA v0.1 DRAFT
