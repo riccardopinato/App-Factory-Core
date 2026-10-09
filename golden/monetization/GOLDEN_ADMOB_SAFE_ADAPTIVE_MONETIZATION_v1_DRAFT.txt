@@ -1,0 +1,1000 @@
+# GOLDEN — ADMOB SAFE & ADAPTIVE MONETIZATION
+
+GOLDEN STATUS
+-------------
+Versione draft: 0.1 — 06/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Ambito: App Factory — app Flutter/Android native che utilizzano Google AdMob
+Master Prompt compatibile: v22 SLIM (overlay v21)
+
+Origine:
+- specifica App Factory fornita dall'utente il 06/10/2026;
+- hardening tecnico verificato contro documentazione Google AdMob / google_mobile_ads corrente.
+
+Evidence boundary attuale:
+- policy e reference architecture: DEFINITE;
+- API principali verificate contro google_mobile_ads 9.1.0 / documentazione Google corrente;
+- donor App Factory reale con integrazione completa e physical validation: NON ANCORA REGISTRATO;
+- stato quindi: CANDIDATE, non COPY-READY e non CERTIFIED.
+
+HARDENING 06/10/2026
+--------------------
+1. Per Flutter il default anchored diventa LARGE ANCHORED ADAPTIVE, coerente con
+   google_mobile_ads 8+ / SDK mobile recenti; le API anchored precedenti sono
+   deprecate.
+2. google_mobile_ads supporta Android/iOS, NON Flutter Web/Desktop: il Web
+   Preview deve usare adapter/stub no-op e non deve bloccare la build Web.
+3. UMP: requestConsentInfoUpdate() ad ogni avvio; prima di QUALSIASI ad request
+   verificare canRequestAds(); Privacy Options resta accessibile quando richiesta.
+4. Test traffic: debug/QA/automation/manual non devono generare traffico live.
+   Default = sample test IDs. Eccezione controllata = propri Ad Unit ID solo su
+   device registrato come TEST DEVICE, per Ad Inspector/mediation verification.
+5. app-ads.txt + AdMob app readiness entrano nel release gate per nuove app
+   monetizzate con AdMob quando richiesto dal canale/store.
+6. Age/target-audience treatment è configurazione per-app e non va ereditata
+   implicitamente da un template.
+7. AdMob rimane dipendenza di monetizzazione, mai dipendenza funzionale/core.
+
+
+Regola obbligatoria per tutte le app App Factory che utilizzano Google AdMob.
+
+Obiettivi:
+
+- massimizzare fill rate e rendimento;
+- evitare layout obsoleti a dimensione fissa;
+- ridurre il rischio di clic accidentali;
+- mantenere UX e navigazione separate dalla pubblicità;
+- supportare automaticamente schermi e orientamenti differenti;
+- centralizzare consenso, Premium/Remove Ads e telemetria;
+- usare una reference implementation comune e riutilizzabile.
+
+---
+
+## 1. Banner — regola standard
+
+Non utilizzare normalmente:
+
+```text
+320x50
+468x60
+AdSize.banner
+dimensioni hardcoded
+```
+
+Il default App Factory è:
+
+```text
+Anchored Adaptive Banner
+→ larghezza disponibile reale
+→ altezza calcolata da Google
+→ slot dedicato nel layout
+```
+
+Per contenuti scorrevoli:
+
+```text
+Inline Adaptive Banner
+```
+
+Gli Inline Adaptive devono essere inseriti nel flusso della pagina e non sovrapposti al contenuto.
+
+---
+
+## 2. Posizionamento
+
+L'annuncio deve sempre avere uno spazio proprio nel layout.
+
+Vietati:
+
+- overlay sopra contenuti;
+- sovrapposizione con pulsanti;
+- banner sopra CTA;
+- banner attaccati a controlli frequentemente premuti;
+- spostamenti improvvisi della UI quando arriva l'annuncio;
+- posizionamenti progettati per aumentare clic accidentali;
+- pubblicità indistinguibili dai controlli dell'app.
+
+Principio:
+
+```text
+APP CONTENT
+
+[ ADVERTISING SLOT ]
+
+APP NAVIGATION
+```
+
+Il banner non deve diventare parte della Bottom Navigation.
+
+Quando possibile evitare:
+
+```text
+contenuto
+banner
+bottom navigation
+```
+
+se banner e navigazione risultano visivamente o fisicamente troppo vicini.
+
+---
+
+# 3. FLUTTER — IMPLEMENTAZIONE CANONICA
+
+## AdMob IDs
+
+Usare una sola configurazione centralizzata.
+
+```dart
+import 'package:flutter/foundation.dart';
+
+class AdMobIds {
+  AdMobIds._();
+
+  static const androidTestBanner =
+      'ca-app-pub-3940256099942544/9214589741';
+
+  static const iosTestBanner =
+      'ca-app-pub-3940256099942544/2435281174';
+
+  static const androidProductionBanner =
+      'REPLACE_WITH_ANDROID_AD_UNIT_ID';
+
+  static const iosProductionBanner =
+      'REPLACE_WITH_IOS_AD_UNIT_ID';
+
+  /// Returns null on unsupported platforms/Web Preview.
+  static String? banner({required bool production}) {
+    if (kIsWeb) return null;
+
+    return switch (defaultTargetPlatform) {
+      TargetPlatform.android => production
+          ? androidProductionBanner
+          : androidTestBanner,
+      TargetPlatform.iOS => production
+          ? iosProductionBanner
+          : iosTestBanner,
+      _ => null,
+    };
+  }
+}
+```
+
+Le build debug/test devono usare sempre Test Ads.
+
+Gli ID reali devono essere forniti tramite configurazione production e mai usati nei test manuali.
+
+---
+
+## AdaptiveBannerSlot
+
+Widget standard riutilizzabile.
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+class AdaptiveBannerSlot extends StatefulWidget {
+  const AdaptiveBannerSlot({
+    super.key,
+    required this.adUnitId,
+    required this.adsEnabled,
+  });
+
+  final String adUnitId;
+  final bool adsEnabled;
+
+  @override
+  State<AdaptiveBannerSlot> createState() =>
+      _AdaptiveBannerSlotState();
+}
+
+class _AdaptiveBannerSlotState
+    extends State<AdaptiveBannerSlot> {
+  BannerAd? _bannerAd;
+  AdSize? _bannerSize;
+  int? _lastWidth;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!widget.adsEnabled) {
+      _disposeBanner();
+      return;
+    }
+
+    final width =
+        MediaQuery.sizeOf(context).width.floor();
+
+    if (width <= 0 || width == _lastWidth) {
+      return;
+    }
+
+    _lastWidth = width;
+    _loadBanner(width);
+  }
+
+  Future<void> _loadBanner(int width) async {
+    await _bannerAd?.dispose();
+
+    final size =
+        await AdSize.getLargeAnchoredAdaptiveBannerAdSize(
+      width,
+    );
+
+    if (!mounted || size == null) {
+      return;
+    }
+
+    final banner = BannerAd(
+      adUnitId: widget.adUnitId,
+      size: size,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          if (!mounted) {
+            ad.dispose();
+            return;
+          }
+
+          setState(() {
+            _bannerAd = ad as BannerAd;
+            _bannerSize = size;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugPrint(
+            'AdMob banner load failed: $error',
+          );
+          ad.dispose();
+
+          if (mounted) {
+            setState(() {
+              _bannerAd = null;
+              _bannerSize = null;
+            });
+          }
+        },
+        onAdImpression: (ad) {
+          debugPrint('AdMob banner impression');
+        },
+        onAdClicked: (ad) {
+          debugPrint('AdMob banner click');
+        },
+      ),
+    );
+
+    banner.load();
+  }
+
+  Future<void> _disposeBanner() async {
+    await _bannerAd?.dispose();
+    _bannerAd = null;
+    _bannerSize = null;
+  }
+
+  @override
+  void didUpdateWidget(
+    covariant AdaptiveBannerSlot oldWidget,
+  ) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.adsEnabled &&
+        !widget.adsEnabled) {
+      _disposeBanner();
+
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ad = _bannerAd;
+    final size = _bannerSize;
+
+    if (!widget.adsEnabled ||
+        ad == null ||
+        size == null) {
+      return const SizedBox.shrink();
+    }
+
+    return SafeArea(
+      top: false,
+      child: SizedBox(
+        width: double.infinity,
+        height: size.height.toDouble(),
+        child: Center(
+          child: SizedBox(
+            width: size.width.toDouble(),
+            height: size.height.toDouble(),
+            child: AdWidget(ad: ad),
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+---
+
+# 4. FLUTTER — USO NEL LAYOUT
+
+Esempio:
+
+```dart
+Scaffold(
+  body: Column(
+    children: [
+      Expanded(
+        child: BatteryGuardContent(),
+      ),
+
+      AdaptiveBannerSlot(
+        adUnitId: AdMobIds.banner(
+          production: isProduction,
+        ),
+        adsEnabled: !premiumUser,
+      ),
+
+      const AppBottomNavigation(),
+    ],
+  ),
+);
+```
+
+IMPORTANTE:
+
+Questo esempio rappresenta la struttura tecnica.
+
+Prima della pubblicazione bisogna comunque verificare visivamente che pubblicità e navigazione siano sufficientemente distinte.
+
+Se lo slot risulta troppo vicino alla Bottom Navigation, usare invece una posizione superiore o uno slot Inline Adaptive nel contenuto.
+
+---
+
+# 5. FLUTTER — INLINE ADAPTIVE
+
+Per schermate lunghe/scorrevoli:
+
+```dart
+final width =
+    MediaQuery.sizeOf(context).width.floor();
+
+final size =
+    AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(
+  width,
+);
+
+final banner = BannerAd(
+  adUnitId: adUnitId,
+  size: size,
+  request: const AdRequest(),
+  listener: BannerAdListener(
+    onAdLoaded: (ad) async {
+      final realSize =
+          await (ad as BannerAd).getPlatformAdSize();
+
+      // Usare realSize per dimensionare
+      // correttamente il container.
+    },
+    onAdFailedToLoad: (ad, error) {
+      ad.dispose();
+    },
+  ),
+);
+
+banner.load();
+```
+
+Usare Inline Adaptive principalmente:
+
+```text
+grafico
+card
+card
+AD
+card
+analisi
+grafico
+```
+
+e non:
+
+```text
+pulsante
+AD
+pulsante
+```
+
+---
+
+# 6. PREMIUM / REMOVE ADS
+
+Il controllo deve essere centralizzato.
+
+Esempio:
+
+```dart
+class MonetizationState {
+  final bool premium;
+  final bool adsAllowedByConsent;
+
+  const MonetizationState({
+    required this.premium,
+    required this.adsAllowedByConsent,
+  });
+
+  bool get shouldRequestAds =>
+      !premium && adsAllowedByConsent;
+}
+```
+
+Poi:
+
+```dart
+AdaptiveBannerSlot(
+  adUnitId: bannerId,
+  adsEnabled:
+      monetizationState.shouldRequestAds,
+);
+```
+
+Regola:
+
+```text
+PREMIUM
+→ non richiedere l'annuncio
+
+NON:
+
+PREMIUM
+→ richiedi annuncio
+→ nascondilo
+```
+
+---
+
+# 7. UMP / CONSENSO
+
+Il consenso deve essere verificato a ogni avvio.
+
+Struttura:
+
+```text
+APP START
+↓
+requestConsentInfoUpdate
+↓
+loadAndShowConsentFormIfRequired
+↓
+canRequestAds?
+↓
+inizializzazione/advertising
+```
+
+La voce:
+
+```text
+Privacy / Scelte privacy
+```
+
+deve essere nuovamente accessibile quando UMP indica che il Privacy Options Entry Point è necessario.
+
+Mai considerare il consenso una procedura eseguita una sola volta per sempre.
+
+---
+
+# 8. KOTLIN / JETPACK COMPOSE — IMPLEMENTAZIONE CANONICA
+
+Per i progetti Android nativi già esistenti.
+
+```kotlin
+@Composable
+fun AdaptiveBanner(
+    adUnitId: String,
+    adsEnabled: Boolean,
+    modifier: Modifier = Modifier
+) {
+    if (!adsEnabled) return
+
+    val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+
+    val widthDp = configuration.screenWidthDp
+
+    val adSize = remember(widthDp) {
+        AdSize.getLargeAnchoredAdaptiveBannerAdSize(
+            context,
+            widthDp
+        )
+    }
+
+    val adView = remember(adUnitId, adSize) {
+        AdView(context).apply {
+            this.adUnitId = adUnitId
+            setAdSize(adSize)
+
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    Log.d("AdMob", "Banner loaded")
+                }
+
+                override fun onAdImpression() {
+                    Log.d("AdMob", "Banner impression")
+                }
+
+                override fun onAdClicked() {
+                    Log.d("AdMob", "Banner clicked")
+                }
+
+                override fun onAdFailedToLoad(
+                    error: LoadAdError
+                ) {
+                    Log.w(
+                        "AdMob",
+                        "Banner failed: $error"
+                    )
+                }
+            }
+
+            loadAd(
+                AdRequest.Builder().build()
+            )
+        }
+    }
+
+    DisposableEffect(adView) {
+        onDispose {
+            adView.destroy()
+        }
+    }
+
+    AndroidView(
+        factory = { adView },
+        modifier = modifier
+            .fillMaxWidth()
+            .height(adSize.height.dp)
+    )
+}
+```
+
+Test Banner Android ufficiale:
+
+```kotlin
+const val TEST_BANNER_ID =
+    "ca-app-pub-3940256099942544/9214589741"
+```
+
+---
+
+# 9. INTERSTITIAL
+
+Non sono il formato di default.
+
+Consentiti soltanto in pause naturali:
+
+```text
+azione
+↓
+elaborazione
+↓
+azione terminata
+↓
+eventuale interstitial
+↓
+destinazione successiva
+```
+
+Non usarli:
+
+```text
+apertura app
+cambio tab
+apertura impostazioni
+Back
+pressione di normali pulsanti
+lettura di risultati
+azioni frequenti
+```
+
+Applicare inoltre un frequency cap interno.
+
+Esempio concettuale:
+
+```dart
+bool canShowInterstitial({
+  required bool premium,
+  required bool naturalBreak,
+  required Duration sinceLastAd,
+}) {
+  if (premium) return false;
+  if (!naturalBreak) return false;
+
+  return sinceLastAd >=
+      const Duration(minutes: 3);
+}
+```
+
+Il valore temporale è una scelta UX del prodotto, non una regola AdMob universale.
+
+---
+
+# 10. NATIVE ADS
+
+Devono essere riconoscibili come pubblicità.
+
+Mai far sembrare un Native Ad:
+
+- risultato della batteria;
+- avviso di sicurezza;
+- suggerimento del sistema;
+- pulsante;
+- impostazione;
+- risultato AI;
+- card generata dall'app.
+
+---
+
+# 11. REWARDED
+
+Solo scelta volontaria:
+
+```text
+Guarda un annuncio
+↓
+utente accetta
+↓
+annuncio completato
+↓
+beneficio
+```
+
+Il beneficio deve essere dichiarato prima.
+
+---
+
+# 12. TELEMETRIA
+
+Registrare tramite callback ufficiali:
+
+```text
+ad_request
+ad_loaded
+ad_failed
+ad_impression
+ad_clicked
+ad_dismissed
+```
+
+Con:
+
+```text
+placement
+screen
+format
+app_version
+```
+
+Mai implementare tecniche per:
+
+- simulare clic;
+- sollecitare clic;
+- far sembrare l'annuncio un pulsante;
+- aumentare artificialmente CTR.
+
+---
+
+# 13. TEST MODE
+
+Regola assoluta App Factory:
+
+```text
+DEBUG = TEST TRAFFIC
+QA = TEST TRAFFIC
+AUTOMATED TEST = TEST TRAFFIC
+MANUAL TEST = TEST TRAFFIC
+```
+
+Default:
+- usare i sample Test Ad Unit ID ufficiali.
+
+Eccezione controllata per Ad Inspector / mediation / verifica di un Ad Unit reale:
+- è consentito usare il proprio Ad Unit ID SOLO su un dispositivo registrato
+  esplicitamente come test device;
+- il traffico deve restare test traffic;
+- mai cliccare/live-testare annunci reali non marcati come test.
+
+Solo una normale:
+
+```text
+PRODUCTION SIGNED RELEASE
+```
+
+può usare gli Ad Unit ID reali fuori dal test-device mode.
+
+---
+
+# 14. LAYOUT FAILURE SAFE
+
+Se l'annuncio non viene caricato:
+
+```text
+NO FILL
+NETWORK ERROR
+CONSENT DENIED
+SDK ERROR
+```
+
+l'app deve continuare a funzionare normalmente.
+
+Non lasciare:
+
+- grandi spazi bianchi;
+- loader infiniti;
+- placeholder pubblicitari;
+- UI bloccata;
+- navigazione spostata.
+
+---
+
+# 15. PERFORMANCE
+
+L'assenza di pubblicità non deve influire sulle funzionalità core.
+
+Non bloccare:
+
+```text
+startup
+database
+routing
+analisi
+navigazione
+salvataggio
+```
+
+aspettando AdMob.
+
+AdMob è una dipendenza di monetizzazione, non una dipendenza funzionale.
+
+---
+
+# 16. GOLDEN MONETIZATION ARCHITECTURE
+
+Ogni app deve tendere verso:
+
+```text
+ConsentManager
+      │
+      ▼
+MonetizationController
+      │
+      ├── PremiumState
+      │
+      ├── AdMobConfiguration
+      │
+      ├── BannerController
+      │
+      ├── InterstitialController
+      │
+      └── Analytics
+```
+
+La UI non deve conoscere direttamente tutta la logica AdMob.
+
+---
+
+
+# 16A. FLUTTER WEB / DESKTOP BOUNDARY
+
+`google_mobile_ads` è un plugin Android/iOS. Il Web Preview standard dell'App
+Factory NON deve tentare di inizializzarlo o caricare AdMob.
+
+Pattern obbligatorio:
+
+```text
+monetization/
+├── ad_slot.dart              -> API comune
+├── ad_slot_mobile.dart       -> google_mobile_ads
+└── ad_slot_stub.dart         -> Web/unsupported: SizedBox.shrink()
+```
+
+Il Web Preview deve continuare a verificare:
+- layout;
+- navigazione;
+- Premium/No Ads state;
+- spazio pubblicitario quando utile come mock visuale;
+
+ma NON è prova funzionale AdMob.
+
+Regola:
+
+```text
+WEB PREVIEW GREEN
+!=
+ADMOB VERIFIED
+```
+
+---
+
+# 16B. SDK / DEPENDENCY BASELINE
+
+Per nuove integrazioni Flutter, usare una versione `google_mobile_ads` compatibile
+con la baseline Flutter corrente e PINNARLA/LOCKARLA tramite pubspec.lock.
+
+Baseline verificata al 06/10/2026:
+
+```text
+google_mobile_ads 9.1.0
+platforms: Android + iOS
+```
+
+Non aggiornare automaticamente major/minor del plugin in una release importante
+senza rieseguire:
+- build Android/iOS pertinente;
+- UMP;
+- banner adaptive;
+- full-screen callback se usati;
+- physical validation.
+
+---
+
+# 16C. APP-ADS.TXT / ADMOB APP READINESS
+
+Per nuove app configurate in AdMob e distribuite negli store supportati, il
+release gate deve includere:
+
+```text
+[ ] app configurata in AdMob
+[ ] developer website presente nella store listing
+[ ] /app-ads.txt pubblicato sul dominio corretto
+[ ] publisher entry corretta
+[ ] AdMob app-ads.txt VERIFIED
+[ ] app readiness / eligibility review completata o stato noto
+```
+
+`app-ads.txt` è configurazione di distribuzione, non codice runtime.
+Non inserire publisher ID inventati nei template Golden.
+
+---
+
+# 16D. AGE / AUDIENCE TREATMENT
+
+Ogni app deve dichiarare esplicitamente il proprio audience model prima di
+configurare advertising.
+
+Non ereditare automaticamente da un donor:
+- child-directed treatment;
+- under-age-of-consent treatment;
+- max ad content rating;
+- ATT/IDFA behavior.
+
+Per UMP e Mobile Ads, i tag relativi all'età devono essere configurati secondo
+la Product Bible e le dichiarazioni store dell'app.
+
+---
+
+# 17. VALIDATION GATE
+
+Prima di `CERTIFIED` verificare almeno:
+
+```text
+[ ] smartphone piccolo
+[ ] smartphone grande
+[ ] tablet
+[ ] portrait
+[ ] landscape se supportato
+[ ] gesture navigation
+[ ] three-button navigation
+[ ] edge-to-edge
+[ ] display cutout/insets
+[ ] dark mode
+[ ] font scaling
+[ ] banner loaded
+[ ] no fill
+[ ] offline
+[ ] errore caricamento
+[ ] Premium
+[ ] UMP
+[ ] Privacy Options
+[ ] Test Ads / registered test-device path
+[ ] Web Preview no-op/stub senza crash
+[ ] app-ads.txt VERIFIED quando richiesto
+[ ] AdMob app readiness status verificato
+[ ] audience/age treatment coerente con Product Bible/store
+[ ] nessun overlap
+[ ] nessun accidental-click risk
+[ ] nessun layout shift pericoloso
+```
+
+Una release che fallisce questi controlli:
+
+```text
+NOT CERTIFIED
+```
+
+---
+
+
+# 17A. GOLDEN PROMOTION GATE
+
+Questo documento resta `DRAFT / CANDIDATE` finché non esiste evidence reale.
+
+Per DRAFT -> COPY-READY GOLDEN:
+
+```text
+[ ] integrazione Flutter reale in almeno una app App Factory
+[ ] build Android release verde
+[ ] Web Preview verde con adapter/stub
+[ ] UMP reale verificata
+[ ] sample/test-device ads verificati
+[ ] anchored adaptive verificato su device fisico
+[ ] Premium/No Ads = nessuna ad request
+[ ] no-fill/network-error failure safe
+[ ] portrait + almeno un secondo form factor
+[ ] nessun overlap / accidental-click risk
+[ ] app-ads.txt/readiness documentati se l'app è già store-configured
+[ ] artifact identity registrata
+```
+
+Per COPY-READY -> CERTIFIED GOLDEN:
+- secondo riuso reale o harness indipendente;
+- FULL/AppLab pertinente;
+- physical validation della monetizzazione;
+- nessuna divergenza non documentata dal core Golden.
+
+---
+
+# 18. REGOLA FINALE APP FACTORY
+
+Default:
+
+```text
+FREE
+├── Adaptive Banner
+├── UMP
+└── monetizzazione non invasiva
+
+PREMIUM
+└── No Ads
+```
+
+Interstitial / Native / Rewarded:
+
+```text
+OFF BY DEFAULT
+```
+
+Vengono introdotti solo quando hanno un caso d'uso naturale e dopo una valutazione UX/policy.
+
+Principio finale:
+
+> La pubblicità deve adattarsi all'app.  
+> L'app non deve essere costruita intorno alla pubblicità.
+
+---
+
+# 19. REFERENCES / EVIDENCE BASELINE
+
+Documentazione verificata al 06/10/2026:
+- Google AdMob Flutter — Quick start;
+- Google AdMob Flutter — Banner ads;
+- Google AdMob Flutter — UMP / Privacy;
+- Google AdMob Flutter — Test ads / Ad Inspector;
+- google_mobile_ads package / API docs;
+- Google AdMob Help — app-ads.txt / app readiness.
+
+Nota:
+le policy pubblicitarie e gli SDK cambiano. Prima di una nuova release importante,
+verificare la documentazione ufficiale corrente se la baseline SDK/policy è stata
+aggiornata rispetto a questa versione del Golden.
+
+END GOLDEN ADMOB SAFE & ADAPTIVE MONETIZATION v1 DRAFT
