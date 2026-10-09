@@ -1,0 +1,367 @@
+GOLDEN ENTITY LIFECYCLE & TRASH — FLUTTER
+Versione draft: 0.2 — 03/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v21 SLIM
+Audit source: GOLDEN_COMPONENTS_CROSS_APP_AUDIT_v1
+
+Donor:
+- Anna's Diary: lifecycle_domain.dart, trash_screen.dart, lifecycle audit/tests
+- Notes-Ecosistema: lifecycle, reference_lifecycle, attachment lifecycle
+- Backlog idee app: Universal Delete & Lifecycle Audit
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standard candidato per evitare delete/restore/purge diversi in ogni feature.
+
+Modello base:
+ACTIVE
+-> ARCHIVED (opzionale)
+-> TRASHED
+-> RESTORED -> ACTIVE
+-> PURGED -> terminale
+
+ARCHIVE != TRASH.
+
+======================================================================
+2. POLICY PROJECT
+======================================================================
+
+Contenuto normale:
+soft delete/cestino
+-> restore
+-> purge definitivo
+
+Operazioni piccole e reversibili:
+no conferme inutili.
+
+Operazioni distruttive:
+conferma esplicita.
+
+Collaborazione:
+- delete for me;
+- remove from workspace;
+- delete for everyone;
+- leave workspace.
+
+======================================================================
+3. MODELLO DATI CANDIDATO
+======================================================================
+
+```dart
+enum LifecycleState {
+  active,
+  archived,
+  trashed,
+}
+
+enum DeleteScope {
+  localOnly,
+  forMe,
+  fromWorkspace,
+  forEveryone,
+}
+
+class TrashRecord {
+  const TrashRecord({
+    required this.trashId,
+    required this.entityType,
+    required this.entityId,
+    required this.title,
+    required this.deletedAt,
+    required this.payload,
+    this.parentId,
+    this.deletedBy,
+    this.scope = DeleteScope.localOnly,
+  });
+
+  final String trashId;
+  final String entityType;
+  final String entityId;
+  final String? parentId;
+  final String title;
+  final DateTime deletedAt;
+  final String? deletedBy;
+  final DeleteScope scope;
+  final Map<String, Object?> payload;
+}
+```
+
+`trashId` identifica la specifica cancellazione.
+Non collassare automaticamente più versioni storiche della stessa entity.
+
+======================================================================
+4. ADAPTER CANDIDATO
+======================================================================
+
+```dart
+abstract interface class LifecycleAdapter {
+  String get entityType;
+
+  Future<TrashRecord> moveToTrash(
+    String entityId, {
+    DeleteScope scope = DeleteScope.localOnly,
+  });
+
+  Future<void> restore(String trashId);
+
+  Future<void> purge(String trashId);
+
+  Future<void> archive(String entityId);
+
+  Future<void> unarchive(String entityId);
+}
+```
+
+======================================================================
+5. CLEANUP HOOKS
+======================================================================
+
+Categorie standard candidate:
+
+- MediaCleanupHook
+- SchedulerCleanupHook
+- ReferenceCleanupHook
+- SyncCleanupHook
+- DerivedIndexCleanupHook
+- FilesystemCleanupHook
+- CollaborationCleanupHook
+
+Regola:
+TRASH fa soltanto il cleanup compatibile con il restore.
+PURGE fa il cleanup definitivo.
+
+======================================================================
+6. SEMANTICA PER RISORSE COLLEGATE
+======================================================================
+
+Reminder:
+- cancel su trash;
+- re-schedule su restore se ancora valido;
+- assente dopo purge.
+
+Media:
+- mantenere in trash;
+- rimuovere solo dopo purge e solo se nessun'altra reference esiste.
+
+Search/FTS:
+- rimuovere/filtrare su trash;
+- ricostruire su restore.
+
+Sync:
+- tombstone se previsto;
+- niente hard delete remoto prematuro.
+
+======================================================================
+7. REFERENCE INTEGRITY
+======================================================================
+
+Prima del purge controllare:
+- figli;
+- allegati;
+- media;
+- reminder;
+- cache;
+- reference logiche;
+- join;
+- ownership;
+- sync state;
+- derived indexes.
+
+Purge non deve lasciare:
+- media orfani;
+- reminder fantasma;
+- FTS stale;
+- join record senza parent;
+- file senza reference;
+- cloud object senza ownership coerente.
+
+======================================================================
+8. CASCADE POLICY
+======================================================================
+
+Ogni relazione deve dichiarare una semantica:
+
+```text
+CASCADE
+DETACH
+RETAIN
+BLOCK_DELETE
+TRANSFER_OWNERSHIP
+```
+
+Vietato:
+delete parent -> delete everything implicitamente.
+
+======================================================================
+9. RESTORE
+======================================================================
+
+Restore standard:
+1. validate payload;
+2. check collision;
+3. recover parent/reference;
+4. restore entity;
+5. rebuild derived state;
+6. reschedule future reminder;
+7. reindex;
+8. remove specific TrashRecord.
+
+Collision:
+- same ID se libero;
+- altrimenti conflict resolver;
+- mai overwrite silenzioso.
+
+======================================================================
+10. RETENTION
+======================================================================
+
+```dart
+class TrashRetentionPolicy {
+  const TrashRetentionPolicy({
+    required this.retention,
+    this.autoPurgeEnabled = false,
+  });
+
+  final Duration retention;
+  final bool autoPurgeEnabled;
+}
+```
+
+Retention default da definire nell'audit dedicato.
+
+Auto-purge non va attivato automaticamente per dati importanti/sensibili senza
+Product Bible, disclosure e backup/export coerenti.
+
+======================================================================
+11. UI CANDIDATA
+======================================================================
+
+Delete normale:
+- soft delete;
+- Undo snackbar quando sicuro.
+
+Trash screen:
+- tipo;
+- titolo;
+- deletedAt;
+- restore;
+- purge;
+- empty trash.
+
+Purge:
+- conferma esplicita;
+- copy chiara “eliminazione definitiva”.
+
+======================================================================
+12. BRIDGE MEDIA
+======================================================================
+
+Set referenze per GC:
+
+```text
+ACTIVE
++ ARCHIVED
++ TRASHED
+= referencedAssetIds
+```
+
+Solo dopo PURGE:
+la reference sparisce e il Media Store può considerare l'asset candidato orfano.
+
+======================================================================
+13. BRIDGE BACKUP
+======================================================================
+
+Backup deve includere:
+- TrashRecord;
+- payload necessario al restore;
+- deletedAt;
+- scope;
+- media referenziati.
+
+Restore deve ricreare il Trash come user-owned state.
+
+======================================================================
+14. TEST PER PROMOZIONE
+======================================================================
+
+[ ] soft delete rimuove da UI normale
+[ ] trash record creato
+[ ] Undo
+[ ] restore
+[ ] purge
+[ ] archive != trash
+[ ] reminder cancel su trash
+[ ] reminder restore se futuro
+[ ] no reminder dopo purge
+[ ] media disponibile nel trash
+[ ] shared media resta se altra entity lo usa
+[ ] orphan media eliminabile dopo purge
+[ ] explicit parent policy
+[ ] reference integrity
+[ ] same entity deleted twice -> distinct trashId
+[ ] collision restore no overwrite
+[ ] forMe semantics
+[ ] forEveryone permission gate
+[ ] crash mid-operation recoverable
+[ ] backup/restore preserves trash
+
+======================================================================
+15. DA RISOLVERE NELL'AUDIT DEDICATO
+======================================================================
+
+- transaction boundary;
+- retention default;
+- Undo contract;
+- restore conflict resolver;
+- collaboration scopes finali;
+- adapters Drift/Sembast/SQLite;
+- schedule restore hook;
+- auto-purge policy;
+- entity lifecycle registry;
+- automated entity coverage audit.
+
+======================================================================
+16. PROMOZIONE
+======================================================================
+
+DRAFT -> COPY-READY GOLDEN dopo:
+- audit Anna + Notes;
+- harness generico;
+- adapter su almeno due persistence engine;
+- purge senza orphan;
+- restore senza data loss.
+
+======================================================================
+17. REFERENCE-SAFE PURGE HARDENING — v0.2
+======================================================================
+
+Purge deve operare su una fotografia coerente delle reference.
+
+Ordine candidato:
+1. carica TrashRecord;
+2. calcola reference graph;
+3. verifica ownership/shared references;
+4. cancella scheduler/derived state;
+5. rimuove entity/trash record atomicamente o crash-safe;
+6. solo dopo il commit chiede al Media Store di valutare GC;
+7. GC elimina soltanto asset diventati realmente orfani.
+
+Regole:
+- purge di una entity non elimina asset usato da un'altra entity;
+- purge non elimina asset ancora presente in un altro TrashRecord;
+- failure del cleanup media non deve far riapparire entity purgata;
+- cleanup fallito deve essere riparabile/idempotente;
+- restore durante cleanup concorrente deve essere serializzato o protetto.
+
+Test aggiunti:
+[ ] purge mentre asset è shared
+[ ] purge due entity concorrenti con stesso asset
+[ ] cleanup scheduler FAIL -> retry safe
+[ ] cleanup media FAIL -> orphan repair queue
+[ ] restore vs purge race gestita
+[ ] Trash reference protegge asset dal GC
+
+END DRAFT
