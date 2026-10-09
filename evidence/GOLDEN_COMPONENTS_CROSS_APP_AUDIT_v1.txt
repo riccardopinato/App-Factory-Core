@@ -1,0 +1,588 @@
+GOLDEN COMPONENTS — CROSS-APP REUSE AUDIT
+Versione 1.0 — 01/10/2026
+Tipo audit: cross-project reuse / redundancy audit
+Master Prompt di riferimento: v19 SLIM
+Golden Index di riferimento: v2
+
+======================================================================
+0. SCOPO
+======================================================================
+
+Obiettivo:
+individuare infrastruttura ripetuta tra le app del Project e selezionare ciò che
+conviene trasformare in Golden Component copy-ready, evitando sia duplicazione
+sia standardizzazioni premature.
+
+Questo NON è un release audit completo di ogni singola app.
+È un audit trasversale orientato a:
+- REUSE-FIRST;
+- COPY-FIRST;
+- riduzione errori;
+- riduzione contesto/token;
+- bootstrap più rapido delle nuove app;
+- standardizzazione solo dove esiste evidenza reale.
+
+Baseline esaminate:
+- Anna's Diary;
+- Notes-Ecosistema;
+- CamperBoss;
+- TrailPath;
+- FrameLab;
+- Notification-Control;
+- Battery Guard;
+- AppLab;
+- Send-to-PC come riferimento secondario;
+- Backlog idee app del Project.
+
+======================================================================
+1. STATO ATTUALE
+======================================================================
+
+Golden già presenti:
+1. Google Auth / Universal Identity
+2. Localization
+3. CI + Android Release + Web Deploy
+4. Profile Standard
+5. Theme Material 3
+6. Secure Storage / Android Keystore
+7. Notification Reliability
+
+Conclusione:
+la base infrastrutturale è già buona, ma esistono ancora diverse ridondanze
+forti che oggi vengono risolte app-per-app.
+
+======================================================================
+2. RIDONDANZE FORTI — DA TRASFORMARE IN GOLDEN
+======================================================================
+
+----------------------------------------------------------------------
+A. GOLDEN_BACKUP_RECOVERY_FLUTTER_v1
+Priorità: P0
+Stato candidato: READY FOR EXTRACTION
+----------------------------------------------------------------------
+
+Evidenza verificata:
+- Anna's Diary:
+  ZIP versionato, manifest, data.json, media separati, SHA-256, limiti dimensione,
+  validazione, backward compatibility, restore safety.
+- Notes-Ecosistema:
+  BackupSnapshot, MediaBundle, limiti anti-zip-bomb, validazione asset,
+  disaster recovery, export portabile.
+- CamperBoss:
+  BackupService astratto, BackupManifest, SHA-256, inspection,
+  restore replace/merge, backup automatico pre-restore.
+- Notification-Control:
+  BackupRepository + EncryptedBackupCodec lato Android nativo.
+
+Standard da estrarre:
+- BackupManifest;
+- schemaVersion;
+- appVersion;
+- exportedAt;
+- file manifest + SHA-256;
+- limiti compressi/espansi/singolo file;
+- inspect-before-restore;
+- restore atomico o rollback-safe;
+- strategia replace / merge;
+- automatic safety snapshot prima del restore;
+- adapter app-specifico per serializzare il dominio;
+- media/file separati dal JSON principale;
+- backward compatibility dichiarata.
+
+Donor principale consigliato:
+Anna's Diary + CamperBoss.
+
+Perché:
+Anna ha hardening media/integrità molto maturo;
+CamperBoss ha un contratto BackupService più generalizzabile.
+
+----------------------------------------------------------------------
+B. GOLDEN_ENTITY_LIFECYCLE_TRASH_FLUTTER_v1
+Priorità: P0
+Stato candidato: READY FOR EXTRACTION
+----------------------------------------------------------------------
+
+Evidenza verificata:
+- Anna's Diary:
+  lifecycle_domain, TrashEntry, restore, purge, entity kinds, cascade cleanup,
+  reference integrity, reminder/media cleanup, numerosi regression test.
+- Notes-Ecosistema:
+  lifecycle, reference_lifecycle, attachment lifecycle, disaster recovery.
+- Backlog Project:
+  policy già definita:
+  contenuto -> soft delete/cestino -> restore -> purge definitivo;
+  cancellazioni a cascata;
+  differenza tra elimina per me / workspace / tutti / abbandona.
+
+Standard da estrarre:
+- LifecyclePolicy;
+- TrashEntry generico;
+- softDelete();
+- restore();
+- purge();
+- CascadeCleanupHook;
+- ReferenceCleanupHook;
+- SchedulerCleanupHook;
+- MediaCleanupHook;
+- SyncCleanupHook;
+- ownership scope;
+- retention/purge policy;
+- confirmation policy per operazioni distruttive.
+
+Donor principale:
+Anna's Diary.
+Donor di verifica:
+Notes-Ecosistema.
+
+----------------------------------------------------------------------
+C. GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1
+Priorità: P0
+Stato candidato: READY FOR EXTRACTION
+----------------------------------------------------------------------
+
+Evidenza verificata:
+- CamperBoss:
+  OnboardingService astratto, progress persistente, complete/skip,
+  permission request, draft domain data, finalize.
+- TrailPath:
+  OnboardingGate persistente, loading state, privacy messaging,
+  accessibilità/semantics, one-action finish.
+- Battery Guard:
+  PageView, permission step, reliability step, skip, first-value setup.
+- FrameLab:
+  onboarding agganciato al profilo.
+
+Standard da estrarre:
+- OnboardingProgress;
+- FirstRunGate;
+- resumable steps;
+- skip/complete;
+- no re-show dopo completion;
+- contextual permission steps;
+- optional profile/bootstrap data;
+- finalization hook;
+- privacy disclosure;
+- first-value-oriented flow;
+- accessibility;
+- no permission wall non necessario al primo frame.
+
+Donor principale:
+CamperBoss per l'architettura service.
+TrailPath/Battery Guard per UX e permission timing.
+
+----------------------------------------------------------------------
+D. GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1
+Priorità: P0
+Stato candidato: READY FOR EXTRACTION
+----------------------------------------------------------------------
+
+Evidenza verificata:
+- TrailPath:
+  RuntimePermissionService con denied/permanentlyDenied/openSettings.
+- Battery Guard:
+  reliability state, notification permission, battery optimization,
+  OEM hint, repair flow, test alert.
+- Anna's Diary:
+  NotificationHealth, channel health, exact alarm state, diagnostics.
+- Notification-Control:
+  ListenerHealthStore e health timestamps.
+
+Standard da estrarre:
+- Capability enum;
+- CapabilityStatus:
+  available / granted / denied / permanentlyDenied / degraded / unsupported;
+- request();
+- refresh();
+- openSystemSettings();
+- lastVerifiedAt;
+- repair action;
+- platform/OEM note;
+- health summary;
+- diagnostics surface;
+- just-in-time permission rule.
+
+Separare:
+PERMISSION != CAPABILITY != SERVICE HEALTH.
+
+Questo riduce molti bug UX:
+“permesso concesso” non significa “feature realmente operativa”.
+
+----------------------------------------------------------------------
+E. GOLDEN_MEDIA_ASSET_STORE_FLUTTER_v1
+Priorità: P1
+Stato candidato: READY FOR EXTRACTION
+----------------------------------------------------------------------
+
+Evidenza verificata:
+- Anna's Diary:
+  content-addressed SHA-256 asset store, bounded memory cache,
+  corruption detection, orphan pruning, remote cache limits.
+- Notes-Ecosistema:
+  attachment verification, file limits, media bundle integrity,
+  asset/reference validation.
+- CamperBoss:
+  copy in private storage, import/export, safe local file deletion.
+
+Standard da estrarre:
+- MediaAssetId content-addressed;
+- put/read/delete;
+- private storage backend;
+- Web/native adapter;
+- hash verification;
+- file size limits;
+- bounded cache;
+- original preservation;
+- thumbnail/derivative separation;
+- referencedAssetIds();
+- orphan prune;
+- import copy rather than retaining external path;
+- safe filename/path rules.
+
+Donor principale:
+Anna's Diary.
+Donor validation:
+Notes-Ecosistema.
+Donor file import:
+CamperBoss.
+
+----------------------------------------------------------------------
+F. GOLDEN_APPLAB_QA_CERTIFICATION_v1
+Priorità: P1
+Stato candidato: READY FOR EXTRACTION
+----------------------------------------------------------------------
+
+Evidenza verificata:
+AppLab v4.x contiene:
+- reusable/external project runners;
+- trusted APK verifier;
+- production certification gate;
+- FAST analysis engine;
+- Maestro smoke;
+- multi-screen journeys;
+- visual regression;
+- evidence manifest;
+- SHA-256 chain;
+- contradiction/evidence engine;
+- autonomous audit tooling.
+
+Anna's Diary e TrailPath usano già AppLab come gate reale.
+
+Standard da estrarre:
+- minima integrazione progetto -> AppLab;
+- required workflow inputs;
+- immutable target SHA;
+- trusted APK artifact;
+- package id;
+- evidence manifest;
+- FAST / FULL / CERTIFICATION contract;
+- Maestro smoke template;
+- runtime/logcat/crash scan;
+- output verdict;
+- evidence bundle.
+
+Questo Golden NON deve duplicare AppLab.
+Deve essere il “client adapter” standard che collega ogni nuova app ad AppLab.
+
+----------------------------------------------------------------------
+G. GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1
+Priorità: P1
+Stato candidato: READY FOR CONTRACT, NON ANCORA BILLING GOLDEN
+----------------------------------------------------------------------
+
+Evidenza verificata:
+- Anna's Diary:
+  PremiumEntitlementService centralizzato per capability.
+- Notes-Ecosistema:
+  PlusEntitlementService con Free/Plus source esplicita.
+- Notification-Control:
+  EntitlementTier, EntitlementStore, offline grace, ProductLimits centralizzati.
+
+Problema:
+il billing reale Flutter non è ancora sufficientemente uniforme/certificato
+tra i donor analizzati.
+
+Standard da estrarre ORA:
+- Plan/Tier;
+- Capability;
+- EntitlementSnapshot;
+- source;
+- lastVerifiedAt;
+- offline grace;
+- allows(capability);
+- ProductLimits centralizzati;
+- debug/QA override separato;
+- UI senza hardcoded premium checks.
+
+NON includere ancora come Golden:
+- RevenueCat setup definitivo;
+- Play Billing Flutter adapter definitivo.
+
+Questi diventano adapter successivi.
+
+----------------------------------------------------------------------
+H. GOLDEN_APP_SHELL_UI_STATES_FLUTTER_v1
+Priorità: P1
+Stato candidato: READY FOR EXTRACTION
+----------------------------------------------------------------------
+
+Evidenza verificata:
+- CamperBoss:
+  ScreenScaffold, EmptyState, LoadingOverlay, SectionHeader,
+  ActionTile, PrimaryButton, PremiumCard, ProBadge.
+- FrameLab:
+  app shell/router, responsive patterns, design tokens.
+- TrailPath:
+  semantic loading states e navigation foundations.
+
+Standard da estrarre:
+- ScreenScaffold;
+- AppEmptyState;
+- AppErrorState;
+- AppLoadingState;
+- RetryPanel;
+- SectionHeader;
+- ActionTile;
+- adaptive content width;
+- mobile/rail navigation shell;
+- loading/error/empty semantics;
+- standard spacing from Golden Theme.
+
+Questo riduce una grande quantità di UI boilerplate.
+
+======================================================================
+3. CANDIDATI IMPORTANTI — NON STANDARDIZZARE ANCORA COME CODICE UNICO
+======================================================================
+
+----------------------------------------------------------------------
+I. LOCAL-FIRST DATABASE / REPOSITORY
+Stato: DEFER — SERVONO VARIANTI
+----------------------------------------------------------------------
+
+Evidenza:
+- Anna: Sembast + deltas;
+- FrameLab: Drift;
+- TrailPath: Drift;
+- CamperBoss: sqflite / repository locali;
+- Notification-Control: Room.
+
+Conclusione:
+non esiste un unico backend corretto per tutte le app.
+
+Standardizzare invece:
+- repository interfaces;
+- migration contract;
+- transaction/atomicity contract;
+- schema versioning;
+- corruption behavior;
+- test contract.
+
+In futuro creare varianti:
+- GOLDEN_DRIFT_LOCAL_DB_FLUTTER;
+- GOLDEN_SEMBAST_LOCAL_STORE_FLUTTER;
+- eventuale GOLDEN_SQLITE_REPOSITORY_FLUTTER.
+
+----------------------------------------------------------------------
+J. SEARCH / FTS / RETRIEVAL
+Stato: DEFER — TROPPO DOMAIN-SPECIFIC
+----------------------------------------------------------------------
+
+Evidenza:
+- Notes: lexical + semantic + RRF;
+- Anna: deterministic global search + derived connections;
+- CamperBoss: local search service;
+- Notification-Control: Room FTS.
+
+Conclusione:
+standardizzare ora solo:
+- SearchQuery contract;
+- debounce;
+- incremental UI;
+- filter model;
+- empty/error state;
+- ranking tests.
+
+NON imporre un unico motore.
+
+----------------------------------------------------------------------
+K. OFFLINE SYNC / OUTBOX / CONFLICTS
+Stato: DEFER — ALTA UTILITÀ MA PROVIDER-SPECIFIC
+----------------------------------------------------------------------
+
+Evidenza:
+- Anna: Supabase incremental sync, tombstones, cursors, queues;
+- Notes: GitHub/shared live sync e background;
+- altri progetti: local-only.
+
+Possibile futuro Golden:
+- mutation envelope;
+- pending queue;
+- retry policy;
+- tombstone;
+- idempotency;
+- conflict result;
+- sync cursor;
+- health state.
+
+Ma provider/backend adapter devono restare separati.
+
+----------------------------------------------------------------------
+L. BACKGROUND / FOREGROUND SERVICE
+Stato: DEFER — CREARE GOLDEN ANDROID SPECIFICO PIÙ AVANTI
+----------------------------------------------------------------------
+
+Evidenza:
+- Battery Guard;
+- TrailPath;
+- Notification-Control;
+- Pocket Guard/Tabletop nel Project.
+
+È molto riusabile ma dipende da:
+- FGS type;
+- permission;
+- sensor/location use case;
+- boot receiver;
+- OEM restrictions;
+- battery policy;
+- Play policy.
+
+Serve audit dedicato prima di congelare una base comune.
+
+----------------------------------------------------------------------
+M. MAP / ROUTING
+Stato: KEEP SPECIALIZED
+----------------------------------------------------------------------
+
+TrailPath e CamperBoss hanno overlap, ma:
+- outdoor routing;
+- camper dimensions/restrictions;
+- offline map scope;
+- navigation behavior
+sono semanticamente diversi.
+
+Condividere primitive/adapters solo quando davvero compatibili.
+Non creare un “mega routing Golden” prematuro.
+
+======================================================================
+4. RIDONDANZE PIÙ COSTOSE OGGI
+======================================================================
+
+Ordine di spreco evitabile osservato:
+
+1. Backup / restore / integrity
+2. Lifecycle / trash / cleanup
+3. Onboarding / permission timing
+4. Capability / system health
+5. Media/attachment storage
+6. QA/AppLab integration
+7. Premium entitlement checks
+8. Standard UI states/shell
+
+Queste aree vengono oggi risolte più volte con pattern molto simili.
+
+======================================================================
+5. SEQUENZA RACCOMANDATA DI ESTRAZIONE
+======================================================================
+
+MAXI BATCH A — DATA SAFETY
+1. GOLDEN_BACKUP_RECOVERY_FLUTTER_v1
+2. GOLDEN_ENTITY_LIFECYCLE_TRASH_FLUTTER_v1
+3. GOLDEN_MEDIA_ASSET_STORE_FLUTTER_v1
+
+Motivo:
+sono interdipendenti.
+Backup deve conoscere media e lifecycle; purge deve conoscere media e reminder.
+
+MAXI BATCH B — FIRST RUN & RELIABILITY
+4. GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1
+5. GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1
+
+Motivo:
+onboarding e permission UX devono condividere lo stesso capability model.
+
+MAXI BATCH C — PRODUCT/QA
+6. GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1
+7. GOLDEN_APP_SHELL_UI_STATES_FLUTTER_v1
+8. GOLDEN_APPLAB_QA_CERTIFICATION_v1
+
+======================================================================
+6. IMPATTO SULLE NUOVE APP
+======================================================================
+
+Con gli attuali 7 Golden + gli 8 candidati sopra,
+una nuova utility potrebbe partire con quasi tutta l'infrastruttura comune già
+definita:
+
+- auth;
+- profilo;
+- localizzazione;
+- theme;
+- secure storage;
+- notifications;
+- CI/release/deploy;
+- onboarding;
+- permissions/capability health;
+- backup/recovery;
+- lifecycle/trash;
+- media;
+- premium contract;
+- UI shell/states;
+- QA/certification.
+
+Resterebbero principalmente:
+- dominio specifico;
+- data model specifico;
+- feature distintiva;
+- eventuali native API specialistiche;
+- monetizzazione provider-specific;
+- sync provider-specific.
+
+Questo è il punto in cui la creazione delle nuove app diventa realmente
+“assembly-first” invece di “reinvent-first”.
+
+======================================================================
+7. EFFETTO SU CONTESTO / MEMORIA
+======================================================================
+
+Nuova regola operativa consigliata:
+
+Per una nuova app NON leggere interamente i donor project se esiste già un
+Golden Component certificato.
+
+Leggere:
+1. Master Prompt;
+2. Golden Index;
+3. solo i Golden richiesti dalla nuova app;
+4. donor originale soltanto se:
+   - il Golden non copre il caso;
+   - serve verificare una regressione;
+   - si sta creando la versione successiva del Golden.
+
+Questo riduce:
+- contesto;
+- token;
+- riletture GitHub;
+- contraddizioni tra versioni;
+- dipendenza dalla memoria delle vecchie chat.
+
+======================================================================
+8. VERDETTO
+======================================================================
+
+PASS — GOLDEN LIBRARY DA ESPANDERE.
+
+8 nuovi moduli selezionati:
+- 6 pronti per estrazione completa;
+- 1 pronto come entitlement contract ma non come billing provider;
+- 1 pronto come UI shell/states.
+
+Da NON standardizzare ancora:
+- unico database;
+- unico search engine;
+- unico sync provider;
+- unico background engine;
+- mega routing layer.
+
+Principio:
+standardizzare ciò che è realmente uguale;
+astrarre ciò che varia per provider;
+lasciare specifico ciò che appartiene al dominio dell'app.
