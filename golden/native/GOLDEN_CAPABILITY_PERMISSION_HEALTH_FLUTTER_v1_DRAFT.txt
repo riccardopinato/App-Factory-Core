@@ -1,0 +1,181 @@
+GOLDEN CAPABILITY / PERMISSION / HEALTH — FLUTTER
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor candidates:
+- TrailPath runtime permission service;
+- Battery Guard reliability/health UX;
+- Notification Control listener health/reconciliation;
+- Easy Debloat + Shizuku capability state;
+- Pocket Guard / native sensor availability patterns.
+
+======================================================================
+1. REGOLA FONDAMENTALE
+======================================================================
+
+PERMISSION GRANTED
+!= CAPABILITY AVAILABLE
+!= SERVICE RUNNING
+!= SERVICE HEALTHY
+!= FEATURE VERIFIED
+
+Una UI non deve mostrare "OK" solo perché il permesso è concesso.
+
+======================================================================
+2. MODELLO CANDIDATO
+======================================================================
+
+```dart
+enum CapabilityStatus {
+  unsupported,
+  unavailable,
+  permissionRequired,
+  denied,
+  permanentlyDenied,
+  available,
+  degraded,
+  healthy,
+  unknown,
+}
+
+class CapabilityHealth {
+  const CapabilityHealth({
+    required this.key,
+    required this.status,
+    required this.checkedAt,
+    this.reason,
+    this.repairAvailable = false,
+  });
+
+  final String key;
+  final CapabilityStatus status;
+  final DateTime checkedAt;
+  final String? reason;
+  final bool repairAvailable;
+}
+```
+
+======================================================================
+3. INTERFACCIA
+======================================================================
+
+```dart
+abstract interface class CapabilityHealthService {
+  Future<CapabilityHealth> inspect(String capabilityKey);
+  Future<CapabilityHealth> request(String capabilityKey);
+  Future<CapabilityHealth> repair(String capabilityKey);
+  Future<void> openRelevantSettings(String capabilityKey);
+}
+```
+
+`request()` e `repair()` devono poter restituire stato reale, non solo
+"operazione inviata".
+
+======================================================================
+4. JUST-IN-TIME PERMISSIONS
+======================================================================
+
+Chiedere permessi nel momento in cui il valore è comprensibile.
+Evitare permission wall iniziale salvo app la cui funzione principale non può
+esistere senza quella capability.
+
+Permanently denied:
+- spiegazione breve;
+- open settings;
+- nessun loop di richiesta.
+
+======================================================================
+5. HEALTH SOURCES
+======================================================================
+
+A seconda della capability verificare realmente:
+- platform support;
+- permission;
+- system setting;
+- service binding;
+- listener connected;
+- last event/heartbeat;
+- channel enabled;
+- provider/API availability;
+- backend registration;
+- storage/readability;
+- sensor presence.
+
+======================================================================
+6. DIAGNOSTIC TRUTH
+======================================================================
+
+Vietato:
+
+```text
+try { await doSomething(); }
+catch { ... }
+=> HEALTHY
+```
+
+se `doSomething()` può swalloware internamente errori o non prova il risultato.
+
+Preferire Result/typed state o un secondo read-back/inspection step.
+
+======================================================================
+7. REPAIR
+======================================================================
+
+Repair può includere:
+- rebind service;
+- reschedule work;
+- recreate channel se lecito;
+- refresh token;
+- reinitialize provider;
+- open OS settings;
+- clear stale internal state.
+
+Repair deve essere idempotente e non perdere user data.
+
+======================================================================
+8. UI
+======================================================================
+
+Mostrare stati comprensibili:
+- Pronto;
+- Serve autorizzazione;
+- Disattivato nel sistema;
+- Servizio non attivo;
+- Funzione non supportata;
+- Da verificare.
+
+Evitare badge verdi se la verifica è vecchia o incompleta.
+
+======================================================================
+9. WEB / UNSUPPORTED
+======================================================================
+
+Su Web/iOS/Android dichiarare `unsupported` quando appropriato.
+Non simulare una capability inesistente per far passare la demo.
+
+======================================================================
+10. TEST
+======================================================================
+
+[ ] unsupported
+[ ] denied
+[ ] permanently denied
+[ ] granted + capability unavailable
+[ ] service running but heartbeat stale
+[ ] healthy
+[ ] repair success
+[ ] repair failure
+[ ] open settings
+[ ] app restart persistence
+[ ] stale diagnostic not shown as current PASS
+[ ] Web/native boundary
+
+======================================================================
+11. PHYSICAL VALIDATION
+======================================================================
+
+Per capability OS/hardware la promozione CERTIFIED richiede device reale e
+artifact identity secondo Release Reality.
+
+END GOLDEN CAPABILITY / PERMISSION / HEALTH v0.1 DRAFT
