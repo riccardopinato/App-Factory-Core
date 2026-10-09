@@ -1,0 +1,124 @@
+GOLDEN ONBOARDING / FIRST RUN — FLUTTER
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor candidates:
+- CamperBoss LocalOnboardingService;
+- TrailPath onboarding gate;
+- Battery Guard permission/reliability onboarding;
+- FrameLab profile onboarding.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Portare l'utente al primo valore con il minimo attrito, senza usare onboarding
+come presentazione marketing obbligatoria o permission wall.
+
+======================================================================
+2. PROGRESS MODEL
+======================================================================
+
+```dart
+class OnboardingProgress {
+  const OnboardingProgress({
+    required this.completedSteps,
+    required this.skippedSteps,
+    required this.completed,
+  });
+
+  final Set<String> completedSteps;
+  final Set<String> skippedSteps;
+  final bool completed;
+}
+```
+
+Persistenza locale e resumable quando il flusso ha più step materiali.
+
+======================================================================
+3. FIRST VALUE
+======================================================================
+
+Ogni step deve rispondere a una domanda:
+"serve prima che l'utente possa ottenere valore?"
+
+Se no:
+- rimandare;
+- spostare nelle impostazioni;
+- usare contextual education.
+
+======================================================================
+4. PERMISSIONS
+======================================================================
+
+- spiegazione prima del system dialog se necessaria;
+- request just-in-time;
+- skip quando la feature può degradare;
+- permanently denied -> settings path;
+- niente richieste duplicate.
+
+======================================================================
+5. ACCOUNT
+======================================================================
+
+Google Sign-In/account è opzionale al primo avvio quando l'app può funzionare
+localmente.
+
+Login può essere proposto per:
+- backup;
+- sync;
+- collaboration;
+- acquisti/account features;
+ma non come blocco artificiale.
+
+======================================================================
+6. COMPLETE / SKIP
+======================================================================
+
+Una volta completed:
+- non mostrare automaticamente di nuovo;
+- aggiornamenti futuri possono mostrare solo nuovo onboarding realmente
+  necessario e versionato.
+
+Skip deve avere semantica chiara: non fingere che capability necessaria sia
+configurata.
+
+======================================================================
+7. DEEP LINK / RESTORE
+======================================================================
+
+Se l'app si apre da deep link/import/share durante first run:
+- preservare l'intent;
+- completare solo i pre-requisiti necessari;
+- riprendere l'azione senza perdere payload.
+
+======================================================================
+8. ACCESSIBILITY / LOCALIZATION
+======================================================================
+
+- semantics;
+- font scaling;
+- portrait/landscape se supportati;
+- tutte le stringhe localizzate;
+- CTA chiare;
+- no caroselli eccessivi.
+
+======================================================================
+9. TEST
+======================================================================
+
+[ ] first install
+[ ] resume after kill
+[ ] skip optional step
+[ ] permission denied
+[ ] permanently denied
+[ ] completion persistence
+[ ] no reshow
+[ ] account optional path
+[ ] deep link during onboarding
+[ ] localization
+[ ] font scaling
+[ ] screen rotation if supported
+
+END GOLDEN ONBOARDING / FIRST RUN v0.1 DRAFT
