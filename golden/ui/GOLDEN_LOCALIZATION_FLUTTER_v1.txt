@@ -1,0 +1,360 @@
+GOLDEN LOCALIZATION — FLUTTER / ARB / DEVICE + MANUAL
+Versione: 1.0 — 01/10/2026
+Stato: COPY-READY GOLDEN
+Donor primario: FrameLab
+Repo donor: riccardopinato/FrameLab-Google-AI-Studio
+Commit donor: 239995759e2b56f5315a061a169404c591d77f39
+Donor secondario: Anna's Diary v0.89.0+99
+
+======================================================================
+1. OBIETTIVO
+======================================================================
+
+Standard unico per tutte le nuove app:
+- lingua dispositivo come default;
+- override manuale in Profilo/Impostazioni;
+- fallback inglese;
+- stringhe centralizzate;
+- Flutter gen_l10n / ARB;
+- Material / Widgets / Cupertino localization;
+- base lingue:
+  en, it, es, fr, de, pt;
+- struttura estendibile.
+
+FrameLab usa già:
+- ARB;
+- gen_l10n;
+- EN / IT / ES / FR / DE / PT;
+- lingua device/manuale salvata nel profilo.
+
+Anna's Diary valida anche:
+- language = system/manual;
+- persistenza preference;
+- cambio runtime del MaterialApp.
+
+======================================================================
+2. PUBSPEC
+======================================================================
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+flutter:
+  uses-material-design: true
+  generate: true
+```
+
+======================================================================
+3. FILE — l10n.yaml
+======================================================================
+
+```yaml
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+```
+
+======================================================================
+4. FILE ARB MINIMI
+======================================================================
+
+Creare:
+
+lib/l10n/app_en.arb
+lib/l10n/app_it.arb
+lib/l10n/app_es.arb
+lib/l10n/app_fr.arb
+lib/l10n/app_de.arb
+lib/l10n/app_pt.arb
+
+app_en.arb:
+
+```json
+{
+  "@@locale": "en",
+  "appName": "{{APP_NAME}}",
+  "settingsTitle": "Settings",
+  "languageTitle": "Language",
+  "languageDevice": "Device",
+  "languageManual": "Manual",
+  "languageEnglish": "English",
+  "languageItalian": "Italian",
+  "languageSpanish": "Spanish",
+  "languageFrench": "French",
+  "languageGerman": "German",
+  "languagePortuguese": "Portuguese"
+}
+```
+
+Le altre ARB devono avere ESATTAMENTE le stesse chiavi.
+
+======================================================================
+5. FILE — lib/core/localization/app_language.dart
+======================================================================
+
+```dart
+import 'package:flutter/widgets.dart';
+
+enum LanguageMode {
+  device,
+  manual,
+}
+
+enum AppLanguage {
+  english('en', 'English'),
+  italian('it', 'Italiano'),
+  spanish('es', 'Español'),
+  french('fr', 'Français'),
+  german('de', 'Deutsch'),
+  portuguese('pt', 'Português');
+
+  const AppLanguage(this.code, this.nativeLabel);
+
+  final String code;
+  final String nativeLabel;
+
+  Locale get locale => Locale(code);
+
+  static AppLanguage? fromCode(String? code) {
+    if (code == null) return null;
+    for (final value in values) {
+      if (value.code == code.toLowerCase()) return value;
+    }
+    return null;
+  }
+}
+```
+
+======================================================================
+6. FILE — lib/core/localization/locale_preference.dart
+======================================================================
+
+```dart
+import 'package:flutter/widgets.dart';
+
+import 'app_language.dart';
+
+class LocalePreference {
+  const LocalePreference({
+    this.mode = LanguageMode.device,
+    this.language,
+  });
+
+  final LanguageMode mode;
+  final AppLanguage? language;
+
+  Locale? get locale {
+    if (mode == LanguageMode.device) return null;
+    return language?.locale ?? const Locale('en');
+  }
+
+  Map<String, dynamic> toJson() => {
+        'mode': mode.name,
+        'language': language?.code,
+      };
+
+  factory LocalePreference.fromJson(Map<String, dynamic> json) {
+    final mode = LanguageMode.values.firstWhere(
+      (value) => value.name == json['mode'],
+      orElse: () => LanguageMode.device,
+    );
+
+    return LocalePreference(
+      mode: mode,
+      language: AppLanguage.fromCode(json['language']?.toString()),
+    );
+  }
+}
+```
+
+======================================================================
+7. MATERIALAPP
+======================================================================
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import '../l10n/app_localizations.dart';
+
+MaterialApp(
+  locale: localePreference.locale,
+  localizationsDelegates: const [
+    AppLocalizations.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: AppLocalizations.supportedLocales,
+  // theme / darkTheme / themeMode...
+);
+```
+
+Regola:
+locale == null => Flutter segue automaticamente la lingua del dispositivo.
+
+Per lingua non supportata:
+Flutter usa la risoluzione delle supportedLocales; mantenere inglese come
+template/default applicativo.
+
+======================================================================
+8. SELECTOR NEL PROFILO / IMPOSTAZIONI
+======================================================================
+
+```dart
+Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    SegmentedButton<LanguageMode>(
+      segments: const [
+        ButtonSegment(
+          value: LanguageMode.device,
+          label: Text('Sistema'),
+          icon: Icon(Icons.phone_android),
+        ),
+        ButtonSegment(
+          value: LanguageMode.manual,
+          label: Text('Manuale'),
+          icon: Icon(Icons.language),
+        ),
+      ],
+      selected: {localePreference.mode},
+      onSelectionChanged: (values) {
+        final mode = values.single;
+        onChanged(
+          LocalePreference(
+            mode: mode,
+            language: localePreference.language ??
+                AppLanguage.english,
+          ),
+        );
+      },
+    ),
+    if (localePreference.mode == LanguageMode.manual)
+      DropdownButtonFormField<AppLanguage>(
+        initialValue:
+            localePreference.language ?? AppLanguage.english,
+        items: AppLanguage.values
+            .map(
+              (language) => DropdownMenuItem(
+                value: language,
+                child: Text(language.nativeLabel),
+              ),
+            )
+            .toList(growable: false),
+        onChanged: (language) {
+          if (language == null) return;
+          onChanged(
+            LocalePreference(
+              mode: LanguageMode.manual,
+              language: language,
+            ),
+          );
+        },
+      ),
+  ],
+)
+```
+
+Le label "Sistema", "Manuale" ecc. nella versione finale devono essere
+anch'esse prese da AppLocalizations.
+
+======================================================================
+9. USO STRINGHE
+======================================================================
+
+NO:
+
+```dart
+const Text('Impostazioni')
+```
+
+SÌ:
+
+```dart
+final l10n = AppLocalizations.of(context)!;
+Text(l10n.settingsTitle)
+```
+
+======================================================================
+10. DATE / NUMERI / VALUTE
+======================================================================
+
+Usare il locale risolto.
+
+Esempio:
+
+```dart
+import 'package:intl/intl.dart';
+
+final localeName = Localizations.localeOf(context).toLanguageTag();
+
+final date = DateFormat.yMMMMd(localeName).format(DateTime.now());
+final number = NumberFormat.decimalPattern(localeName).format(12345.67);
+```
+
+======================================================================
+11. TEST CANONICI
+======================================================================
+
+[ ] Primo avvio con device IT -> UI italiana.
+[ ] Primo avvio con device EN -> UI inglese.
+[ ] Device locale non supportato -> fallback coerente.
+[ ] Manuale EN sovrascrive device IT.
+[ ] Manuale DE sovrascrive device IT.
+[ ] Ritorno a Sistema riprende il locale device.
+[ ] Preferenza manuale sopravvive al riavvio.
+[ ] Tutte le ARB hanno le stesse chiavi.
+[ ] Nessuna stringa user-facing hardcoded nelle nuove schermate.
+[ ] Material/Cupertino system strings localizzate.
+[ ] Date seguono il locale app.
+[ ] Numeri/valute seguono il locale app.
+[ ] Layout regge stringhe tedesche/francesi più lunghe.
+[ ] Web e Android mostrano la stessa lingua selezionata.
+
+======================================================================
+12. GOLDEN RULES
+======================================================================
+
+- device language come default;
+- manual override persistente;
+- fallback inglese;
+- ARB come source of truth;
+- no translation service runtime;
+- no database parallelo solo per la lingua;
+- niente stringhe sparse hardcoded;
+- nuova lingua = nuovo ARB + test.
+
+======================================================================
+13. EVIDENCE
+======================================================================
+
+FrameLab donor:
+- l10n.yaml;
+- lib/l10n/app_en.arb;
+- app_it.arb;
+- app_es.arb;
+- app_fr.arb;
+- app_de.arb;
+- app_pt.arb;
+- FrameLabApp usa AppLocalizations.delegate;
+- supportedLocales;
+- lingua device/manuale nel profilo.
+
+Anna's Diary donor:
+- language = system/manual;
+- preference persistente;
+- MaterialApp locale runtime;
+- localizzazione EN/IT/ES/FR/PT;
+- README documenta foundation e fallback.
+
+Certificazione:
+CERTIFIED DONOR.
+Template:
+COPY-READY GOLDEN.
