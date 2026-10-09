@@ -1,0 +1,171 @@
+GOLDEN OSS REUSE & RECONNAISSANCE — FLUTTER
+Versione draft: 0.1 — 02/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — NON CERTIFIED
+Master Prompt: v20 SLIM
+
+Fonte esterna approvata principale:
+https://github.com/topics/flutter-clean-architecture-example
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare come cerchiamo e riusiamo codice/pattern Flutter esterni senza
+trasformare ogni nuova app in un miscuglio di architetture e dipendenze.
+
+Questo Golden è un PROCESSO, non una libreria runtime.
+
+======================================================================
+2. ORDINE DI RICERCA
+======================================================================
+
+1. Golden interno già compatibile.
+2. Donor interno CERTIFIED.
+3. Topic/repository OSS approvati.
+4. Documentazione ufficiale Flutter/plugin/provider.
+5. Nuova implementazione da zero.
+
+Non saltare direttamente al codice esterno se abbiamo già una soluzione interna
+più stabile.
+
+======================================================================
+3. WORKFLOW STANDARD
+======================================================================
+
+FASE A — DEFINIRE IL BISOGNO
+- problema concreto;
+- feature/module boundary;
+- target Android/iOS/Web;
+- vincoli offline/local-first;
+- dipendenze già presenti;
+- Golden già applicabili.
+
+FASE B — SHORTLIST
+Quando serve vera reconnaissance:
+- cercare 3-5 repository pertinenti;
+- preferire progetti recenti/manutenuti;
+- verificare README, struttura, test, CI e dipendenze;
+- verificare compatibilità con la versione Flutter/Dart corrente.
+
+FASE C — LICENZA
+Prima di copiare codice:
+- identificare LICENSE / SPDX / copyright;
+- verificare compatibilità con il progetto;
+- mantenere attribuzioni richieste;
+- se licenza assente/ambigua/incompatibile: NON copiare codice; usare solo il
+  concetto e riscrivere.
+
+FASE D — CLASSIFICAZIONE DONOR
+Classificare ogni fonte come:
+- CODE DONOR;
+- PATTERN DONOR;
+- UI/UX REFERENCE;
+- REJECTED.
+
+FASE E — ESTRAZIONE MINIMA
+- copiare soltanto il modulo necessario;
+- non importare l'intera architettura;
+- rimuovere boilerplate e dipendenze inutili;
+- adattare naming, DI, routing, storage e state management allo stack corrente;
+- non introdurre BLoC/GetX/GetIt/Riverpod solo perché il donor li usa.
+
+FASE F — VALIDAZIONE
+- flutter analyze;
+- test;
+- build;
+- runtime flow;
+- size/dependency impact;
+- security/privacy;
+- accessibility/localization;
+- AppLab se richiesto dal livello di rischio.
+
+======================================================================
+4. REGOLA ARCHITETTURALE
+======================================================================
+
+L'architettura OSS è un riferimento, non un ordine di migrazione.
+
+Se l'app ha già:
+- Riverpod;
+- Drift;
+- GoRouter;
+- repository interfaces;
+- Golden shell;
+
+non sostituirli con BLoC/GetX/GetIt/AutoRoute soltanto per aderire al donor.
+
+Adattare il pattern al progetto, non il progetto al pattern.
+
+======================================================================
+5. IDEE ESTETICHE / UI
+======================================================================
+
+È consentito studiare:
+- layout;
+- spacing;
+- component composition;
+- onboarding;
+- navigation;
+- cards;
+- empty/loading/error states;
+- motion;
+- responsive design;
+- gerarchia informativa.
+
+NON copiare:
+- loghi;
+- marchi;
+- illustrazioni proprietarie;
+- immagini/asset non licenziati;
+- identità visiva riconoscibile di un prodotto.
+
+Il risultato finale deve essere ricondotto al Golden Theme e al Product Bible.
+
+======================================================================
+6. PROVENANCE RECORD
+======================================================================
+
+Per ogni reuse significativo registrare:
+
+SOURCE_REPO:
+SOURCE_URL:
+SOURCE_COMMIT_OR_TAG:
+LICENSE:
+FILES_REFERENCED:
+CLASSIFICATION: CODE_DONOR | PATTERN_DONOR | UI_REFERENCE
+WHAT_WAS_REUSED:
+WHAT_WAS_REWRITTEN:
+DEPENDENCIES_ADDED:
+TESTS_RUN:
+
+======================================================================
+7. REJECTION RULES
+======================================================================
+
+Scartare o usare solo come idea se:
+- licenza incompatibile/assente;
+- repository abbandonato con dipendenze obsolete critiche;
+- secret embedded;
+- telemetria non desiderata;
+- architettura enormemente sproporzionata;
+- codice non testabile;
+- dipendenze eccessive;
+- incompatibilità con Android/iOS/Web richiesti;
+- pattern che viola local-first/privacy/product scope.
+
+======================================================================
+8. PROMOZIONE A GOLDEN
+======================================================================
+
+External source
+-> candidate
+-> adattamento interno
+-> test
+-> DRAFT GOLDEN
+-> COPY-READY GOLDEN
+-> seconda integrazione/harness
+-> CERTIFIED GOLDEN
+
+Un repository esterno NON è mai automaticamente Golden.
+
+END DRAFT
