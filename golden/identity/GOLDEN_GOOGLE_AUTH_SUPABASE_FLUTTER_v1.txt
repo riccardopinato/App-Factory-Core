@@ -1,0 +1,564 @@
+GOLDEN GOOGLE AUTH — SUPABASE / FLUTTER
+Versione: 1.0 — 01/10/2026
+Stato: COPY-READY GOLDEN
+Golden donor: Anna's Diary
+Repo donor: riccardopinato/Agenda-per-Anna
+Baseline donor: v0.89.0+99
+Commit donor: a3aba024f64dba721a25647e3a47be069e48386d
+
+======================================================================
+1. COSA RISOLVE
+======================================================================
+
+Modulo standard per:
+- Google Sign-In reale;
+- Supabase Auth come identità unica;
+- Android via browser OAuth + deep-link callback;
+- Web OAuth;
+- sessione persistente gestita da Supabase;
+- name / email / avatar;
+- logout;
+- auth state listener;
+- stato loading / signedOut / signedIn / error;
+- fallback offline/local-first dell'app;
+- un solo account app-wide.
+
+DONOR EVIDENCE
+Anna's Diary usa questo pattern in produzione:
+- Google-first universal identity da v0.41;
+- callback Android production-gated;
+- Web redirect;
+- test automatico v041_identity_invite_test.dart;
+- account erasure regression test;
+- release pipeline Android/Web.
+
+IMPORTANTE
+Questo documento generalizza SOLO configurazioni e naming.
+Il pattern donor è certificato.
+La nuova app deve comunque eseguire la checklist per-app prima di dichiarare
+l'integrazione CERTIFIED.
+
+======================================================================
+2. DIPENDENZE
+======================================================================
+
+pubspec.yaml:
+
+dependencies:
+  flutter:
+    sdk: flutter
+  supabase_flutter: ^2.17.2
+
+Nota:
+^2.17.2 è la versione validata nel donor al momento dell'estrazione.
+Prima di cambiare major/minor provider-sensitive, rieseguire i test canonici.
+
+======================================================================
+3. PLACEHOLDER OBBLIGATORI
+======================================================================
+
+{{APP_NAME}}
+{{PACKAGE_NAME}}
+{{SUPABASE_URL}}
+{{SUPABASE_PUBLISHABLE_KEY}}
+{{WEB_AUTH_REDIRECT}}
+{{MOBILE_AUTH_SCHEME}}
+{{MOBILE_AUTH_HOST}}
+
+Esempio struttura callback:
+{{MOBILE_AUTH_SCHEME}}://{{MOBILE_AUTH_HOST}}/
+
+NON inserire nel client:
+- Google client secret;
+- Supabase service-role key;
+- secret backend.
+
+======================================================================
+4. FILE — lib/core/auth/auth_config.dart
+======================================================================
+
+```dart
+import 'package:flutter/foundation.dart';
+
+abstract final class AuthConfig {
+  static const supabaseUrl = String.fromEnvironment(
+    'SUPABASE_URL',
+    defaultValue: '{{SUPABASE_URL}}',
+  );
+
+  static const supabasePublishableKey = String.fromEnvironment(
+    'SUPABASE_PUBLISHABLE_KEY',
+    defaultValue: '{{SUPABASE_PUBLISHABLE_KEY}}',
+  );
+
+  static const webRedirect = '{{WEB_AUTH_REDIRECT}}';
+
+  static const mobileRedirect =
+      '{{MOBILE_AUTH_SCHEME}}://{{MOBILE_AUTH_HOST}}/';
+
+  static String get oauthRedirect => kIsWeb ? webRedirect : mobileRedirect;
+
+  static bool get configured =>
+      supabaseUrl.trim().isNotEmpty &&
+      supabasePublishableKey.trim().isNotEmpty;
+}
+```
+
+======================================================================
+5. FILE — lib/core/auth/auth_service.dart
+======================================================================
+
+```dart
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'auth_config.dart';
+
+enum AppAuthState {
+  disabled,
+  initializing,
+  signedOut,
+  signedIn,
+  error,
+}
+
+class AppAuthService extends ChangeNotifier {
+  AppAuthService._();
+
+  static final AppAuthService instance = AppAuthService._();
+
+  SupabaseClient? _client;
+  StreamSubscription<AuthState>? _subscription;
+
+  AppAuthState _state = AppAuthState.disabled;
+  String? _lastError;
+  bool _initialized = false;
+  bool _initializing = false;
+
+  AppAuthState get state => _state;
+  String? get lastError => _lastError;
+  bool get initialized => _initialized;
+  bool get configured => AuthConfig.configured;
+
+  User? get user => _client?.auth.currentUser;
+  bool get signedIn => user != null;
+
+  String? get userId => user?.id;
+  String? get email => user?.email;
+
+  String? get displayName =>
+      user?.userMetadata?['full_name']?.toString() ??
+      user?.userMetadata?['name']?.toString();
+
+  String? get avatarUrl =>
+      user?.userMetadata?['avatar_url']?.toString() ??
+      user?.userMetadata?['picture']?.toString();
+
+  String get userFacingError {
+    final raw = (_lastError ?? '').toLowerCase();
+
+    if (raw.contains('network') ||
+        raw.contains('socket') ||
+        raw.contains('clientexception') ||
+        raw.contains('fetch')) {
+      return 'Connessione non disponibile. Riprova quando torni online.';
+    }
+
+    if (raw.contains('rate limit') ||
+        raw.contains('too many requests')) {
+      return 'Troppi tentativi ravvicinati. Riprova tra poco.';
+    }
+
+    return 'Accesso non riuscito. Riprova.';
+  }
+
+  Future<void> initialize() async {
+    if (_initialized || _initializing) return;
+
+    if (!configured) {
+      _state = AppAuthState.disabled;
+      _initialized = true;
+      notifyListeners();
+      return;
+    }
+
+    _initializing = true;
+    _state = AppAuthState.initializing;
+    _lastError = null;
+    notifyListeners();
+
+    try {
+      await Supabase.initialize(
+        url: AuthConfig.supabaseUrl,
+        publishableKey: AuthConfig.supabasePublishableKey,
+      );
+
+      _client = Supabase.instance.client;
+
+      await _completeWebAuthCallbackIfNeeded();
+
+      _initialized = true;
+      _state = signedIn
+          ? AppAuthState.signedIn
+          : AppAuthState.signedOut;
+
+      _subscription = _client!.auth.onAuthStateChange.listen((_) {
+        _state = signedIn
+            ? AppAuthState.signedIn
+            : AppAuthState.signedOut;
+        _lastError = null;
+        notifyListeners();
+      });
+    } catch (error) {
+      _client = null;
+      _initialized = false;
+      _state = AppAuthState.error;
+      _lastError = error.toString();
+    } finally {
+      _initializing = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> signInWithGoogle() async {
+    final client = _requireClient();
+
+    _state = AppAuthState.initializing;
+    _lastError = null;
+    notifyListeners();
+
+    try {
+      final started = await client.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: AuthConfig.oauthRedirect,
+        scopes: 'openid email profile',
+        authScreenLaunchMode: kIsWeb
+            ? LaunchMode.platformDefault
+            : LaunchMode.externalApplication,
+      );
+
+      if (!started) {
+        throw const AuthException(
+          'Google sign-in could not be started.',
+        );
+      }
+    } catch (error) {
+      _state = AppAuthState.error;
+      _lastError = error.toString();
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+  Future<void> signOut() async {
+    final client = _requireClient();
+    await client.auth.signOut();
+
+    _state = AppAuthState.signedOut;
+    _lastError = null;
+    notifyListeners();
+  }
+
+  Future<void> _completeWebAuthCallbackIfNeeded() async {
+    if (!kIsWeb) return;
+
+    final client = _client;
+    if (client == null || client.auth.currentSession != null) return;
+
+    final code = Uri.base.queryParameters['code'];
+    if (code == null || code.trim().isEmpty) return;
+
+    try {
+      await client.auth.exchangeCodeForSession(code);
+    } on AuthException {
+      // Non bloccare l'app: l'utente può ripetere il login.
+    }
+  }
+
+  SupabaseClient _requireClient() {
+    final client = _client;
+    if (client == null) {
+      throw StateError(
+        configured
+            ? 'Auth non ancora inizializzata.'
+            : 'Auth non configurata.',
+      );
+    }
+    return client;
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
+}
+```
+
+======================================================================
+6. FILE — lib/features/profile/google_auth_card.dart
+======================================================================
+
+```dart
+import 'package:flutter/material.dart';
+
+import '../../core/auth/auth_service.dart';
+
+class GoogleAuthCard extends StatefulWidget {
+  const GoogleAuthCard({super.key});
+
+  @override
+  State<GoogleAuthCard> createState() => _GoogleAuthCardState();
+}
+
+class _GoogleAuthCardState extends State<GoogleAuthCard> {
+  bool busy = false;
+
+  Future<void> _google() async {
+    setState(() => busy = true);
+    try {
+      await AppAuthService.instance.signInWithGoogle();
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppAuthService.instance.userFacingError),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
+  Future<void> _logout() async {
+    setState(() => busy = true);
+    try {
+      await AppAuthService.instance.signOut();
+    } finally {
+      if (mounted) setState(() => busy = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = AppAuthService.instance;
+
+    return AnimatedBuilder(
+      animation: auth,
+      builder: (context, _) {
+        if (!auth.configured) {
+          return const ListTile(
+            leading: Icon(Icons.cloud_off_outlined),
+            title: Text('Account non configurato'),
+          );
+        }
+
+        if (!auth.signedIn) {
+          return SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: busy ? null : _google,
+              icon: busy
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.login),
+              label: const Text('Continua con Google'),
+            ),
+          );
+        }
+
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage: auth.avatarUrl == null
+                ? null
+                : NetworkImage(auth.avatarUrl!),
+            child: auth.avatarUrl == null
+                ? const Icon(Icons.person_outline)
+                : null,
+          ),
+          title: Text(
+            auth.displayName?.trim().isNotEmpty == true
+                ? auth.displayName!
+                : (auth.email ?? 'Account'),
+          ),
+          subtitle: auth.displayName?.trim().isNotEmpty == true
+              ? Text(auth.email ?? '')
+              : null,
+          trailing: TextButton(
+            onPressed: busy ? null : _logout,
+            child: const Text('Esci'),
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+======================================================================
+7. BOOTSTRAP APP
+======================================================================
+
+Prima di runApp o all'avvio asincrono dell'app:
+
+```dart
+await AppAuthService.instance.initialize();
+```
+
+Per app local-first:
+un errore Auth NON deve impedire l'avvio del core locale.
+
+Pattern:
+
+```dart
+try {
+  await AppAuthService.instance.initialize();
+} catch (_) {
+  // Il core locale continua.
+}
+```
+
+======================================================================
+8. ANDROID MANIFEST — DEEP LINK CALLBACK
+======================================================================
+
+Dentro la MainActivity:
+
+```xml
+<intent-filter android:autoVerify="false">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data
+        android:scheme="{{MOBILE_AUTH_SCHEME}}"
+        android:host="{{MOBILE_AUTH_HOST}}" />
+</intent-filter>
+```
+
+Il redirect Dart deve combaciare ESATTAMENTE:
+
+{{MOBILE_AUTH_SCHEME}}://{{MOBILE_AUTH_HOST}}/
+
+======================================================================
+9. GOOGLE CLOUD / SUPABASE SETUP
+======================================================================
+
+Configurare Google OAuth come WEB APPLICATION.
+
+Google Authorized Redirect URI:
+{{SUPABASE_URL}}/auth/v1/callback
+
+Scopes:
+- openid
+- email
+- profile
+
+Nel provider Google di Supabase:
+- Google client ID;
+- Google client secret.
+
+Nel client Flutter:
+NON mettere il client secret.
+
+Supabase Auth Redirect Allow List:
+- {{WEB_AUTH_REDIRECT}}
+- {{MOBILE_AUTH_SCHEME}}://{{MOBILE_AUTH_HOST}}/
+
+======================================================================
+10. WEB
+======================================================================
+
+Il redirect Web deve essere l'URL canonico del deploy:
+
+{{WEB_AUTH_REDIRECT}}
+
+Esempio:
+https://OWNER.github.io/REPO/
+
+Verificare:
+- callback;
+- refresh dopo login;
+- session restore;
+- logout;
+- URL consentito in Supabase.
+
+======================================================================
+11. TEST CANONICI PER-APP
+======================================================================
+
+[ ] App avvia anche senza rete.
+[ ] Auth.initialize non blocca il core locale.
+[ ] Bottone “Continua con Google” avvia OAuth reale.
+[ ] Annullamento OAuth non corrompe lo stato.
+[ ] Login Android torna all'app tramite deep link.
+[ ] Login Web torna al deploy corretto.
+[ ] userId non è null dopo login.
+[ ] email reale visibile.
+[ ] displayName reale visibile quando disponibile.
+[ ] avatar reale visibile quando disponibile.
+[ ] chiusura/riapertura conserva la sessione.
+[ ] offline dopo login non forza logout.
+[ ] logout rimuove la sessione ma NON cancella dati locali.
+[ ] nuovo login riattiva correttamente l'account.
+[ ] account Google diverso non eredita dati dell'altro account.
+[ ] release APK usa la stessa callback configurata.
+[ ] deploy Web release usa redirect consentito.
+[ ] nessun client secret/service-role key nel bundle.
+
+======================================================================
+12. FAILURE MODES
+======================================================================
+
+OAuth non torna all'app:
+- scheme/host diversi tra Dart, Manifest e Supabase.
+
+Web loop / callback fallita:
+- redirect non allow-listed;
+- base URL errata;
+- PKCE callback aperta in contesto incompatibile.
+
+Login parte ma profilo vuoto:
+- scope mancanti;
+- metadata provider non disponibili;
+- usare fallback email.
+
+Sessione persa:
+- inizializzazione duplicata;
+- Supabase client ricreato;
+- storage browser/device cancellato.
+
+======================================================================
+13. COSA NON MODIFICARE SENZA MOTIVO
+======================================================================
+
+- un solo AuthService app-wide;
+- una sola identità per Profilo/sync/backup/collaborazione;
+- OAuth scopes openid email profile;
+- local-first fallback;
+- logout separato da delete-account;
+- secret solo server-side.
+
+======================================================================
+14. EVIDENCE DONOR
+======================================================================
+
+Anna's Diary:
+- docs/GOOGLE_AUTH_V041.md;
+- lib/cloud_sync_service.dart;
+- lib/src/screens/universal_identity.dart;
+- lib/src/screens/cloud_account.dart;
+- test/v041_identity_invite_test.dart;
+- test/v049_account_erasure_test.dart;
+- tool/prepare_android_platform.py;
+- README v0.41 Universal Identity;
+- CI Android/Web release.
+
+Certificazione:
+CERTIFIED DONOR.
+Template:
+COPY-READY GOLDEN.
