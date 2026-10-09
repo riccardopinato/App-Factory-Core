@@ -1,7 +1,8 @@
 GOLDEN ANDROID SIGNING & RELEASE IDENTITY
 Versione draft: 0.1 — 07/10/2026
 Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
-Master Prompt: v24 FULL
+Created under Master: v24 FULL
+Current Master: resolve via CURRENT.yaml
 
 Donor/process evidence:
 - Battery Guard persistent internal signing workflow;

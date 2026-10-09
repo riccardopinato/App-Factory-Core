@@ -1,25 +1,30 @@
-factory_version: 1
+factory_version: 2
 repository: riccardopinato/App-Factory-Core
 updated_at: 2026-10-09
 
 master:
-  version: 25
+  version: "25.1"
   status: CURRENT
   path: master/MASTER_PROMPT_CURRENT.txt
-  versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v25_FULL.txt
+  versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v25_1_FULL.txt
 
 golden_index:
-  version: 9
+  version: 10
   status: CURRENT
   path: golden/GOLDEN_INDEX_CURRENT.txt
-  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v9.txt
+  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v10.txt
 
 golden_registry:
-  version: 1
+  version: 2
   path: golden/GOLDEN_REGISTRY.yaml
 
 bootstrap:
   path: bootstrap/APP_FACTORY_BOOTSTRAP.txt
+
+validation:
+  version: 2
+  script: scripts/validate_factory.py
+  requirements: scripts/requirements.txt
 
 policy:
   master_is_authoritative: true
@@ -28,3 +33,5 @@ policy:
   one_factory_baseline_per_session: true
   chat_memory_never_overrides_current: true
   no_automatic_app_repo_refresh: true
+  factory_changes_require_green_validation: true
+  prefer_pr_for_factory_changes: true

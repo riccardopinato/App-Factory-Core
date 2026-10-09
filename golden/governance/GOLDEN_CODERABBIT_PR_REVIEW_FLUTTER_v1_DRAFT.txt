@@ -1,7 +1,8 @@
 GOLDEN CODERABBIT PR REVIEW — FLUTTER / GITHUB
 Versione draft: 0.2 — 03/10/2026
 Stato: DRAFT / CANDIDATE — NON CERTIFIED
-Master Prompt: v21 SLIM
+Created under Master: v21 SLIM
+Current Master: resolve via CURRENT.yaml
 
 Fonti:
 - https://github.com/marketplace/coderabbitai

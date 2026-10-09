@@ -1,7 +1,8 @@
 GOLDEN FASTLANE ANDROID DELIVERY — FLUTTER
 Versione draft: 0.1 — 02/10/2026
 Stato: DRAFT / CANDIDATE — NON CERTIFIED
-Master Prompt: v20 SLIM
+Created under Master: v20 SLIM
+Current Master: resolve via CURRENT.yaml
 
 Fonte ufficiale:
 https://docs.fastlane.tools/
