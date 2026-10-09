@@ -1,0 +1,220 @@
+GOLDEN FASTLANE ANDROID DELIVERY — FLUTTER
+Versione draft: 0.1 — 02/10/2026
+Stato: DRAFT / CANDIDATE — NON CERTIFIED
+Master Prompt: v20 SLIM
+
+Fonte ufficiale:
+https://docs.fastlane.tools/
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Usare fastlane come layer di delivery/store automation DOPO la pipeline Flutter
+certificata.
+
+Responsabilità candidate:
+- Google Play Internal Testing;
+- Internal App Sharing;
+- upload AAB/APK;
+- metadata store;
+- screenshot localizzati con screengrab quando predisposto;
+- promozione track controllata.
+
+NON sostituisce:
+- flutter analyze/test;
+- build Golden;
+- signing contract;
+- AppLab;
+- real-device acceptance.
+
+======================================================================
+2. PRINCIPIO BUILD-ONCE
+======================================================================
+
+Preferire:
+
+CI Golden
+-> produce AAB/APK firmato
+-> verifica hash/evidence
+-> Fastlane consuma lo stesso artifact
+-> upload store
+
+Evitare:
+CI build
++ Fastlane rebuild identico
+
+salvo motivo tecnico documentato.
+
+======================================================================
+3. RUBY / BUNDLER
+======================================================================
+
+Gemfile candidato:
+
+```ruby
+source "https://rubygems.org"
+
+gem "fastlane"
+```
+
+Committare:
+- Gemfile
+- Gemfile.lock
+
+Eseguire sempre:
+
+```bash
+bundle install
+bundle exec fastlane <lane>
+```
+
+======================================================================
+4. CREDENZIALI
+======================================================================
+
+NON committare:
+- Google service account JSON;
+- token;
+- password;
+- signing secret.
+
+Secret candidate:
+
+```text
+PLAY_STORE_JSON_KEY_DATA
+ANDROID_PACKAGE_NAME
+```
+
+Policy Project:
+- usare secret store / GitHub Secrets;
+- privilegio minimo sufficiente;
+- ruotare credenziali compromesse;
+- separare accesso build da accesso production release quando possibile.
+
+======================================================================
+5. Appfile CANDIDATO
+======================================================================
+
+```ruby
+package_name(ENV.fetch("ANDROID_PACKAGE_NAME"))
+```
+
+======================================================================
+6. Fastfile CANDIDATO — UPLOAD DI ARTIFACT ESISTENTE
+======================================================================
+
+```ruby
+default_platform(:android)
+
+platform :android do
+  desc "Upload the already-built release AAB to Google Play Internal Testing"
+  lane :internal do |options|
+    aab = options[:aab] || "../build/app/outputs/bundle/release/app-release.aab"
+
+    UI.user_error!("AAB not found: #{aab}") unless File.exist?(aab)
+
+    upload_to_play_store(
+      package_name: ENV.fetch("ANDROID_PACKAGE_NAME"),
+      json_key_data: ENV.fetch("PLAY_STORE_JSON_KEY_DATA"),
+      track: "internal",
+      release_status: "completed",
+      aab: aab,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
+```
+
+Prima della promozione:
+- verificare i parametri contro la versione fastlane bloccata nel Gemfile.lock;
+- testare su Play Internal Testing reale;
+- confermare package/versionCode/artifact corretti.
+
+======================================================================
+7. INTERNAL APP SHARING — OPZIONALE
+======================================================================
+
+fastlane supporta anche upload a Google Play Internal App Sharing.
+Usarlo quando serve un link installabile rapido per QA senza promuovere una
+release track completa.
+
+Integrare solo dopo test del service account e del package reale.
+
+======================================================================
+8. SCREENSHOT AUTOMATION — OPZIONALE
+======================================================================
+
+fastlane screengrab può automatizzare screenshot Android localizzati.
+
+Usarlo solo quando:
+- instrumentation test APK predisposto;
+- emulator/device matrix definita;
+- locale definiti;
+- dataset screenshot deterministico;
+- UI stabile.
+
+Non sostituire AppLab visual regression con screengrab.
+Sono scopi diversi:
+- AppLab = QA/evidence;
+- screengrab = store screenshot generation.
+
+======================================================================
+9. METADATA STORE
+======================================================================
+
+Quando il progetto entra in fase store-ready, valutare:
+
+```text
+fastlane/metadata/android/
+```
+
+come source versionata di:
+- title;
+- short description;
+- full description;
+- localized metadata;
+- screenshots quando gestiti da supply/screengrab.
+
+Non introdurlo nelle app che non sono ancora vicine alla pubblicazione se crea
+solo manutenzione inutile.
+
+======================================================================
+10. DEFAULT SAFETY
+======================================================================
+
+Nuova app:
+- default target automatico = INTERNAL;
+- production lane NON automatica di default;
+- production richiede release gate esplicito.
+
+Non configurare una lane che pubblica su production come side effect di ogni
+push su main.
+
+======================================================================
+11. TEST PER PROMOZIONE
+======================================================================
+
+[ ] Bundler install reproducibile
+[ ] Gemfile.lock committato
+[ ] AAB Golden preesistente consumato senza rebuild
+[ ] service account secret non loggato
+[ ] package name corretto
+[ ] versionCode corretto
+[ ] upload Internal Testing riuscito
+[ ] artifact Play corrisponde all'hash/evidence atteso
+[ ] fallimento upload non invalida local artifact
+[ ] production non parte automaticamente
+[ ] metadata lane testata se adottata
+[ ] screengrab testato se adottato
+
+======================================================================
+12. PROMOZIONE
+======================================================================
+
+DRAFT -> COPY-READY dopo upload reale su Internal Testing di un nostro progetto.
+CERTIFIED GOLDEN dopo riuso stabile su almeno due app.
+
+END DRAFT
