@@ -1,0 +1,180 @@
+GOLDEN OFFLINE CONTENT PACKS — FLUTTER
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor candidates:
+- CamperBoss offline content/download infrastructure;
+- Notes on-demand local model pack;
+- FrameLab offline editorial/catalog assets;
+- TrailPath offline map/package use cases.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare lifecycle di contenuti scaricabili/versionati senza imporre il
+formato del contenuto.
+
+Esempi:
+- map pack;
+- local AI/model pack;
+- guide;
+- catalog;
+- offline dataset;
+- language/resource pack.
+
+======================================================================
+2. MANIFEST
+======================================================================
+
+```dart
+class OfflinePackManifest {
+  const OfflinePackManifest({
+    required this.packId,
+    required this.version,
+    required this.sizeBytes,
+    required this.sha256,
+    required this.kind,
+  });
+
+  final String packId;
+  final String version;
+  final int sizeBytes;
+  final String sha256;
+  final String kind;
+}
+```
+
+Manifest reale può aggiungere:
+- minAppVersion;
+- locale/region;
+- dependencies;
+- decompressedSize;
+- compatibility metadata.
+
+======================================================================
+3. STATE MACHINE
+======================================================================
+
+```text
+NOT_INSTALLED
+-> DOWNLOADING
+-> PARTIAL/PAUSED
+-> DOWNLOADED_UNVERIFIED
+-> VERIFYING
+-> READY
+-> UPDATE_AVAILABLE
+-> REMOVING
+-> NOT_INSTALLED
+
+failure -> FAILED with recoverable reason
+```
+
+Non usare un singolo boolean `downloaded`.
+
+======================================================================
+4. DOWNLOAD
+======================================================================
+
+- temp/staging path;
+- bounded concurrency;
+- progress reale;
+- resume solo se provider/range semantics sono sicure;
+- network constraints quando utili;
+- cancellazione pulita;
+- no UI freeze.
+
+======================================================================
+5. VERIFY BEFORE ACTIVATE
+======================================================================
+
+READY solo dopo:
+- expected size sanity;
+- checksum/hash;
+- manifest compatibility;
+- decompress/parse validation quando pertinente.
+
+Downloaded bytes != usable pack.
+
+======================================================================
+6. ATOMIC ACTIVATION / UPDATE
+======================================================================
+
+Per update:
+- scaricare nuova versione separatamente;
+- verificare;
+- atomic pointer/swap;
+- mantenere old pack finché il nuovo non è READY quando spazio lo consente;
+- rollback se activation fallisce.
+
+======================================================================
+7. STORAGE PROJECTION
+======================================================================
+
+Prima del download mostrare quando utile:
+- pack size;
+- decompressed size stimata;
+- spazio app usato;
+- projected remaining;
+- warning/critical.
+
+Non promettere bytes filesystem disponibili se si sta usando solo un budget
+logico interno.
+
+======================================================================
+8. PURGE
+======================================================================
+
+- delete pack-specific files;
+- clear derived indexes/cache;
+- preserve user-owned data separatamente;
+- update state solo dopo cleanup riuscito o dichiarare partial cleanup.
+
+======================================================================
+9. CONTENT VS USER DATA
+======================================================================
+
+Pack scaricabile NON deve diventare source of truth per user-owned state.
+Update/rimozione pack non deve eliminare:
+- note;
+- preferiti;
+- annotazioni;
+- progress;
+- user edits;
+se Product Bible non lo definisce esplicitamente.
+
+======================================================================
+10. WEB / PLATFORM
+======================================================================
+
+Web può avere backend diverso o feature ridotta.
+Non dichiarare equivalenza se quota/browser storage rende il pack non affidabile.
+
+======================================================================
+11. TEST
+======================================================================
+
+[ ] fresh download
+[ ] cancel
+[ ] resume
+[ ] network loss
+[ ] checksum mismatch
+[ ] incompatible manifest
+[ ] insufficient logical storage
+[ ] update atomic swap
+[ ] rollback
+[ ] purge
+[ ] user data preserved
+[ ] app restart mid-download
+[ ] Web boundary
+[ ] large-pack memory behavior
+
+======================================================================
+12. CERTIFICATION
+======================================================================
+
+Model/map/large file pack richiede physical/distribution validation quando il
+meccanismo reale dipende da Play delivery, filesystem, device RAM o background.
+
+END GOLDEN OFFLINE CONTENT PACKS v0.1 DRAFT
