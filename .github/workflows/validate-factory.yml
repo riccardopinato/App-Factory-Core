@@ -12,8 +12,13 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Validate Factory resolver and Golden registry
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install validator dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-cache-dir -r scripts/requirements.txt
+
+      - name: Validate Factory resolver, registry and supply chain
         run: python3 scripts/validate_factory.py

@@ -1,7 +1,7 @@
-registry_version: 1
+registry_version: 2
 updated_at: 2026-10-09
-master_version: 25
-index_version: 9
+master_version: "25.1"
+index_version: 10
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -9,34 +9,44 @@ goldens:
     status: "COPY-READY GOLDEN"
     category: identity
     path: golden/identity/GOLDEN_GOOGLE_AUTH_SUPABASE_FLUTTER_v1.txt
-    last_reviewed: 2026-10-09
-    provider_sensitive: false
-    freshness_status: CURRENT
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-01
+    last_provider_verified_at: null
+    provider_sensitive: true
+    freshness_status: NEEDS_REVIEW
   - id: localization
     title: "Localization"
     version: "1"
     status: "COPY-READY GOLDEN"
     category: ui
     path: golden/ui/GOLDEN_LOCALIZATION_FLUTTER_v1.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-01
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: ci_release_web_deploy
     title: "CI + Android Release + Web Deploy"
-    version: "1"
+    version: "2"
     status: "COPY-READY GOLDEN"
     category: release
-    path: golden/release/GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v1.txt
-    last_reviewed: 2026-10-09
+    path: golden/release/GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v2.txt
+    supersedes: golden/archive/GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v1.txt
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-09
+    last_provider_verified_at: 2026-10-09
     provider_sensitive: true
     freshness_status: CURRENT
+    tested_package_version: "checkout 7.0.1; flutter-action 2.23.0; upload-artifact 7.0.2; upload-pages-artifact 5.0.0; configure-pages 6.0.0; deploy-pages 5.0.1"
   - id: profile_standard
     title: "Profile Standard"
     version: "1"
     status: "COPY-READY GOLDEN"
     category: identity
     path: golden/identity/GOLDEN_PROFILE_STANDARD_FLUTTER_v1.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-01
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: theme_m3
@@ -45,34 +55,42 @@ goldens:
     status: "COPY-READY GOLDEN"
     category: ui
     path: golden/ui/GOLDEN_THEME_M3_FLUTTER_v1.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-01
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: secure_storage_android_keystore
     title: "Secure Storage Envelope"
     version: "1"
     status: "COPY-READY GOLDEN"
     category: security
     path: golden/security/GOLDEN_SECURE_STORAGE_ANDROID_KEYSTORE_FLUTTER_v1.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-01
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: notification_reliability
     title: "Notification Reliability"
     version: "1"
     status: "COPY-READY GOLDEN"
     category: notifications
     path: golden/notifications/GOLDEN_NOTIFICATION_RELIABILITY_FLUTTER_v1.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-01
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: backup_recovery
     title: "Backup / Recovery"
     version: "1"
     status: "DRAFT / CANDIDATE"
     category: data
     path: golden/data/GOLDEN_BACKUP_RECOVERY_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-03
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: entity_lifecycle_trash
@@ -81,7 +99,9 @@ goldens:
     status: "DRAFT / CANDIDATE"
     category: data
     path: golden/data/GOLDEN_ENTITY_LIFECYCLE_TRASH_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-03
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: media_asset_store
@@ -90,8 +110,10 @@ goldens:
     status: "DRAFT / CANDIDATE"
     category: data
     path: golden/data/GOLDEN_MEDIA_ASSET_STORE_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
-    provider_sensitive: true
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-03
+    last_provider_verified_at: null
+    provider_sensitive: false
     freshness_status: CURRENT
   - id: oss_reuse_reconnaissance
     title: "OSS Reuse / Reconnaissance"
@@ -99,34 +121,42 @@ goldens:
     status: "DRAFT / PROCESS CANDIDATE"
     category: governance
     path: golden/governance/GOLDEN_OSS_REUSE_RECONNAISSANCE_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-03
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: coderabbit_pr_review
     title: "CodeRabbit PR Review"
     version: "1"
     status: "DRAFT / CANDIDATE"
     category: governance
     path: golden/governance/GOLDEN_CODERABBIT_PR_REVIEW_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-03
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: fastlane_android_delivery
     title: "Fastlane Android Delivery"
     version: "1"
     status: "DRAFT / CANDIDATE"
     category: release
     path: golden/release/GOLDEN_FASTLANE_ANDROID_DELIVERY_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-03
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: release_reality_physical_validation
     title: "Release Reality / Physical Validation"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE"
     category: release
     path: golden/release/GOLDEN_RELEASE_REALITY_PHYSICAL_VALIDATION_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-04
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: provenance_reuse_ledger
@@ -135,7 +165,9 @@ goldens:
     status: "DRAFT / PROCESS CANDIDATE"
     category: governance
     path: golden/governance/GOLDEN_PROVENANCE_REUSE_LEDGER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-04
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: ecosystem_bridge
@@ -144,7 +176,9 @@ goldens:
     status: "CANDIDATE — NON COPY-READY"
     category: ecosystem
     path: golden/ecosystem/GOLDEN_ECOSYSTEM_BRIDGE_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-04
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: applab_qa_certification
@@ -153,8 +187,10 @@ goldens:
     status: "DRAFT / PROCESS CANDIDATE"
     category: release
     path: golden/release/GOLDEN_APPLAB_QA_CERTIFICATION_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
-    provider_sensitive: true
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-04
+    last_provider_verified_at: null
+    provider_sensitive: false
     freshness_status: CURRENT
   - id: admob_safe_adaptive
     title: "AdMob Safe & Adaptive Monetization"
@@ -162,25 +198,31 @@ goldens:
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: monetization
     path: golden/monetization/GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-06
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: app_icon_branding
     title: "App Icon / Branding"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: ui
     path: golden/ui/GOLDEN_APP_ICON_BRANDING_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: app_bootstrap
     title: "App Bootstrap / Assembly First"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — NON COPY-READY"
     category: governance
     path: golden/governance/GOLDEN_APP_BOOTSTRAP_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: capability_permission_health
@@ -189,34 +231,42 @@ goldens:
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: native
     path: golden/native/GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: android_native_reliability
     title: "Android Native Reliability"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: native
     path: golden/native/GOLDEN_ANDROID_NATIVE_RELIABILITY_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: android_signing_release_identity
     title: "Android Signing / Release Identity"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — NON COPY-READY"
     category: release
     path: golden/release/GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: import_export_portability
     title: "Import / Export / Portability"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: data
     path: golden/data/GOLDEN_IMPORT_EXPORT_PORTABILITY_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
   - id: entitlement_contract
@@ -225,17 +275,21 @@ goldens:
     status: "DRAFT / CANDIDATE — PROVIDER-AGNOSTIC"
     category: monetization
     path: golden/monetization/GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
     provider_sensitive: true
-    freshness_status: CURRENT
+    freshness_status: NEEDS_REVIEW
   - id: onboarding_first_run
     title: "Onboarding / First Run"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: ui
     path: golden/ui/GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
-    provider_sensitive: true
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
+    provider_sensitive: false
     freshness_status: CURRENT
   - id: app_shell_responsive_visual_qa
     title: "App Shell / Responsive / Visual QA"
@@ -243,8 +297,10 @@ goldens:
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: ui
     path: golden/ui/GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
-    provider_sensitive: true
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
+    provider_sensitive: false
     freshness_status: CURRENT
   - id: offline_content_packs
     title: "Offline Content Packs"
@@ -252,6 +308,8 @@ goldens:
     status: "DRAFT / CANDIDATE — NON COPY-READY"
     category: data
     path: golden/data/GOLDEN_OFFLINE_CONTENT_PACKS_FLUTTER_v1_DRAFT.txt
-    last_reviewed: 2026-10-09
-    provider_sensitive: true
+    migrated_at: 2026-10-09
+    last_content_reviewed_at: 2026-10-07
+    last_provider_verified_at: null
+    provider_sensitive: false
     freshness_status: CURRENT
