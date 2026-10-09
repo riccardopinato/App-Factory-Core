@@ -67,3 +67,7 @@ A Master/Golden framework update should update, in one coherent change:
 5. `CHANGELOG.md`.
 
 See `bootstrap/APP_FACTORY_BOOTSTRAP.txt` for the short reusable bootstrap instruction.
+
+## ChatGPT Project pointer
+
+To prevent old chats from selecting a stale Master Prompt, copy the instruction in `bootstrap/PROJECT_CUSTOM_INSTRUCTION.txt` into the ChatGPT Project instructions. The repository remains the canonical source of truth.
