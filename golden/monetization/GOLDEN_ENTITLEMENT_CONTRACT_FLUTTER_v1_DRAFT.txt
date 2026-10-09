@@ -1,0 +1,144 @@
+GOLDEN ENTITLEMENT CONTRACT — FLUTTER
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — PROVIDER-AGNOSTIC
+Master Prompt: v24 FULL
+
+Donor candidates:
+- Anna's Diary centralized premium capability boundary;
+- Notes Plus entitlement boundary;
+- Notification Control tier/offline-grace/ProductLimits pattern;
+- TrailPath Pro / BeerClass Premium product needs.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Separare access rights dal provider di pagamento.
+Questo Golden NON certifica RevenueCat/Play Billing integration.
+
+======================================================================
+2. MODELLO CANDIDATO
+======================================================================
+
+```dart
+enum AppPlan { free, premium, lifetime }
+
+enum EntitlementSource {
+  localDefault,
+  providerVerified,
+  offlineCache,
+  qaOverride,
+  unknown,
+}
+
+class EntitlementSnapshot {
+  const EntitlementSnapshot({
+    required this.plan,
+    required this.source,
+    required this.verifiedAt,
+    this.expiresAt,
+    this.graceUntil,
+  });
+
+  final AppPlan plan;
+  final EntitlementSource source;
+  final DateTime? verifiedAt;
+  final DateTime? expiresAt;
+  final DateTime? graceUntil;
+}
+```
+
+Capability specifiche restano enum/domain del progetto.
+
+======================================================================
+3. UI BOUNDARY
+======================================================================
+
+UI -> Access State -> Entitlement Service -> Billing Adapter -> Provider SDK.
+
+Vietato:
+- RevenueCat/Play Billing calls sparsi nei widget;
+- product ID hardcoded nelle feature;
+- `if (isPremium)` duplicati con semantica differente.
+
+======================================================================
+4. PRODUCT LIMITS
+======================================================================
+
+Centralizzare limiti:
+- item count;
+- storage;
+- photo count;
+- AI quota;
+- export quota;
+- ads visibility;
+- capability gates.
+
+I limiti non devono vivere solo nel paywall/UI.
+
+======================================================================
+5. OFFLINE / UNKNOWN
+======================================================================
+
+Definire per-app:
+- cache duration;
+- grace period;
+- refresh policy;
+- unknown state behavior.
+
+Unknown non deve provocare data loss.
+Se Premium scade, i dati creati restano user-owned; si limita eventualmente la
+creazione/uso futuro secondo Product Bible.
+
+======================================================================
+6. QA OVERRIDE
+======================================================================
+
+QA/debug override:
+- separato dal provider reale;
+- impossibile da attivare accidentalmente in production;
+- chiaramente identificato negli evidence report.
+
+======================================================================
+7. PURCHASE STATES
+======================================================================
+
+Adapter futuri devono distinguere:
+- purchasing;
+- purchased;
+- pending;
+- cancelled;
+- failed;
+- restored;
+- expired;
+- billing unavailable.
+
+Callback di acquisto != entitlement verificato finché mapping/provider state non
+è stato validato.
+
+======================================================================
+8. TEST
+======================================================================
+
+[ ] Free default
+[ ] verified Premium
+[ ] lifetime
+[ ] expired subscription
+[ ] offline grace
+[ ] grace expired
+[ ] unknown provider
+[ ] restore
+[ ] QA override isolation
+[ ] ProductLimits centralized
+[ ] Premium expiration preserves data
+[ ] ads disabled without ad request when entitled
+
+======================================================================
+9. PROMOZIONE
+======================================================================
+
+COPY-READY per il CONTRATTO quando integrato in almeno una app senza provider
+coupling.
+Billing adapter/RevenueCat restano Golden separati finché non verificati.
+
+END GOLDEN ENTITLEMENT CONTRACT v0.1 DRAFT
