@@ -1,0 +1,166 @@
+GOLDEN IMPORT / EXPORT / PORTABILITY — FLUTTER
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor candidates:
+- Notes-Ecosistema import provenance / media bundle / open export;
+- CamperBoss backup/import/file storage;
+- Anna's Diary backup/export patterns;
+- Shared Ecosystem provenance/idempotency principles.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare import/export senza trasformare ogni formato esterno in una
+scorciatoia dentro il Core.
+
+======================================================================
+2. CANONICAL PIPELINE
+======================================================================
+
+```text
+SOURCE
+-> FORMAT ADAPTER
+-> CANONICAL STAGING MODEL
+-> VALIDATION
+-> MAPPING / REVIEW quando necessario
+-> ATOMIC COMMIT
+-> IMPORT REPORT
+```
+
+Adapter esterni NON scrivono direttamente il domain database.
+
+======================================================================
+3. IDENTITY / PROVENANCE
+======================================================================
+
+CORE OBJECT ID != EXTERNAL SOURCE ID.
+
+Conservare quando utile:
+- provider/source system;
+- source instance;
+- external ID/path;
+- fingerprint/hash;
+- import batch/session;
+- importedAt;
+- adapter version.
+
+L'ID esterno non sostituisce l'ID canonico locale.
+
+======================================================================
+4. RE-IMPORT / IDEMPOTENZA
+======================================================================
+
+Gestire esplicitamente:
+A. stessa sorgente + stesso contenuto;
+B. stessa sorgente modificata;
+C. oggetto locale modificato;
+D. entrambi modificati;
+E. stesso contenuto da source instance diverse.
+
+Azioni possibili:
+- skip;
+- update;
+- merge;
+- conflict copy;
+- user review.
+
+Mai overwrite silenzioso di user-owned data.
+
+======================================================================
+5. REFERENCE RESOLUTION
+======================================================================
+
+Per link/relazioni/allegati preferire concettualmente:
+PASS 1 -> crea/mappa oggetti
+PASS 2 -> risolve riferimenti
+
+Unresolved/missing/ambiguous devono essere:
+- preservati;
+- riportati;
+- non risolti arbitrariamente.
+
+======================================================================
+6. FILE / ARCHIVE SAFETY
+======================================================================
+
+Riutilizzare Data Safety:
+- path traversal reject;
+- bounded compressed/expanded size;
+- duplicate entry reject;
+- MIME/type sanity;
+- checksum quando disponibile;
+- staging privato;
+- rollback su failure.
+
+======================================================================
+7. LOSSINESS REPORT
+======================================================================
+
+Report fattuale:
+
+```text
+PRESERVED
+APPROXIMATED
+UNSUPPORTED
+UNRESOLVED LINKS
+MISSING/CORRUPT ATTACHMENTS
+SKIPPED
+CONFLICTS
+```
+
+Evitare score sintetico che nasconde cosa è andato perso.
+
+======================================================================
+8. DRY RUN
+======================================================================
+
+Dry-run/preview è raccomandato per import complessi o distruttivi.
+Non obbligare una schermata extra per import banali e reversibili se Rule Zero
+suggerisce un flusso più semplice.
+
+======================================================================
+9. IMPORT != SYNC
+======================================================================
+
+Un import non deve diventare accidentalmente continuous sync.
+Se serve sync, progettare un motore di sync separato con ownership/conflict rules.
+
+======================================================================
+10. EXPORT
+======================================================================
+
+Preferire:
+- formati documentati;
+- UTF-8;
+- versioning;
+- media referenziati;
+- nomi/path portabili;
+- manifest quando bundle complesso;
+- checksum quando utile.
+
+Export deve essere leggibile fuori dall'app quando il formato dichiarato lo
+promette.
+
+======================================================================
+11. TEST
+======================================================================
+
+[ ] empty import
+[ ] same-source idempotency
+[ ] external modified
+[ ] local modified
+[ ] dual conflict
+[ ] missing reference
+[ ] ambiguous reference
+[ ] corrupt attachment
+[ ] path traversal
+[ ] oversized archive
+[ ] crash mid-import rollback
+[ ] lossiness report
+[ ] export/import round-trip quando promesso
+[ ] legacy adapter version
+
+END GOLDEN IMPORT / EXPORT / PORTABILITY v0.1 DRAFT
