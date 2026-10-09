@@ -4,7 +4,7 @@ from datetime import date, datetime
 from pathlib import Path
 import json, re, sys
 import yaml
-from jsonschema import Draft202012Validator, FormatChecker, RefResolver
+from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT=Path(__file__).resolve().parents[1]
 errors=[]
@@ -31,8 +31,7 @@ def load_json(path):
 def schema_validate(instance,schema_path,label,store=None):
     schema=load_json(schema_path)
     if not schema: return
-    resolver=RefResolver.from_schema(schema,store=store or {})
-    v=Draft202012Validator(schema,resolver=resolver,format_checker=FormatChecker())
+    v=Draft202012Validator(schema,format_checker=FormatChecker())
     for e in sorted(v.iter_errors(instance),key=lambda x:list(x.path)):
         loc=".".join(str(x) for x in e.path) or "<root>"
         fail(f"{label} schema violation at {loc}: {e.message}")
@@ -43,10 +42,9 @@ registry=load_yaml("golden/GOLDEN_REGISTRY.yaml")
 schema_validate(current,"schemas/current.schema.json","CURRENT.yaml")
 registry_schema=load_json("schemas/golden_registry.schema.json")
 if registry_schema:
-    store={"golden_manifest.schema.json":manifest,
-           "https://github.com/riccardopinato/App-Factory-Core/schemas/golden_manifest.schema.json":manifest}
-    resolver=RefResolver.from_schema(registry_schema,store=store)
-    v=Draft202012Validator(registry_schema,resolver=resolver,format_checker=FormatChecker())
+    # Inline the entry schema for deterministic local validation without remote/ref resolution.
+    registry_schema["properties"]["goldens"]["items"] = manifest
+    v=Draft202012Validator(registry_schema,format_checker=FormatChecker())
     for e in sorted(v.iter_errors(registry),key=lambda x:list(x.path)):
         loc=".".join(str(x) for x in e.path) or "<root>"
         fail(f"GOLDEN_REGISTRY.yaml schema violation at {loc}: {e.message}")
