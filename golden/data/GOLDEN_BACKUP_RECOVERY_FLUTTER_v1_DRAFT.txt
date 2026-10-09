@@ -1,0 +1,348 @@
+GOLDEN BACKUP & RECOVERY — FLUTTER
+Versione draft: 0.2 — 03/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v21 SLIM
+Audit source: GOLDEN_COMPONENTS_CROSS_APP_AUDIT_v1
+
+Donor:
+- Anna's Diary: backup_service.dart, src/store/backup_domain.dart, backup_test.dart
+- CamperBoss: data_backup_service.dart, data_backup_service_test.dart
+- Notes-Ecosistema: backup.dart, media_bundle.dart, disaster_recovery.dart
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Congelare il contratto candidato di un motore Backup/Recovery comune senza
+legarlo al dominio specifico dell'app.
+
+NON è ancora un componente da copiare in produzione senza audit dedicato.
+
+======================================================================
+2. PRINCIPI
+======================================================================
+
+- backup versionato;
+- manifest esplicito;
+- schemaVersion + appVersion + createdAt;
+- data strutturati separati dai media;
+- SHA-256 per data e file;
+- limiti anti zip-bomb / expansion / entry count / single-file size;
+- inspect-before-restore;
+- restore staged;
+- safety snapshot prima del replace;
+- commit atomico o rollback-safe;
+- media mancanti/corrotti = errore, non backup apparentemente valido;
+- dati derivati ricostruibili esclusi di default;
+- secret/token/sessioni provider esclusi.
+
+Restore standard:
+
+READ
+-> DECODE
+-> VALIDATE
+-> INSPECT
+-> STAGE
+-> SAFETY SNAPSHOT
+-> COMMIT
+-> RECONCILE
+-> CLEANUP
+
+======================================================================
+3. BUNDLE CANDIDATO
+======================================================================
+
+backup.zip
+├─ manifest.json
+├─ data.json
+├─ media/
+│  └─ <assetId>.bin
+└─ optional/
+   └─ <registered-sidecar>.json
+
+Manifest:
+
+```json
+{
+  "format": "{{APP_BACKUP_FORMAT}}",
+  "bundleVersion": 1,
+  "schemaVersion": 1,
+  "appVersion": "{{APP_VERSION}}",
+  "createdAt": "2026-10-01T12:00:00.000Z",
+  "dataFile": "data.json",
+  "dataSha256": "<sha256>",
+  "media": [
+    {
+      "assetId": "sha256_...",
+      "path": "media/sha256_....bin",
+      "size": 12345,
+      "sha256": "<sha256>"
+    }
+  ]
+}
+```
+
+======================================================================
+4. CONTRATTO CANDIDATO
+======================================================================
+
+```dart
+enum RestoreStrategy {
+  replaceAll,
+  merge,
+}
+
+class BackupInspection {
+  const BackupInspection({
+    required this.valid,
+    required this.recordCounts,
+    required this.mediaCount,
+    required this.totalBytes,
+    required this.errors,
+    required this.warnings,
+  });
+
+  final bool valid;
+  final Map<String, int> recordCounts;
+  final int mediaCount;
+  final int totalBytes;
+  final List<String> errors;
+  final List<String> warnings;
+}
+
+class RestoreResult {
+  const RestoreResult({
+    required this.strategy,
+    required this.restoredRecords,
+    required this.skippedRecords,
+    required this.conflicts,
+    required this.safetySnapshotCreated,
+  });
+
+  final RestoreStrategy strategy;
+  final int restoredRecords;
+  final int skippedRecords;
+  final int conflicts;
+  final bool safetySnapshotCreated;
+}
+
+abstract interface class BackupDomainAdapter<TSnapshot> {
+  String get backupFormat;
+  int get schemaVersion;
+
+  Future<TSnapshot> captureSnapshot();
+  Map<String, Object?> encodeData(TSnapshot snapshot);
+  TSnapshot decodeData(Map<String, Object?> data);
+
+  Future<Map<String, List<int>>> collectMedia(
+    TSnapshot snapshot,
+  );
+
+  Future<void> validateSnapshot(TSnapshot snapshot);
+
+  Future<void> commitRestore(
+    TSnapshot snapshot, {
+    required RestoreStrategy strategy,
+  });
+
+  Future<void> reconcileAfterRestore();
+}
+
+abstract interface class BackupRecoveryService {
+  Future<List<int>> createBackup();
+
+  Future<BackupInspection> inspectBackup(
+    List<int> bytes,
+  );
+
+  Future<RestoreResult> restoreBackup(
+    List<int> bytes, {
+    RestoreStrategy strategy = RestoreStrategy.replaceAll,
+  });
+}
+```
+
+======================================================================
+5. CREATE BACKUP
+======================================================================
+
+capture snapshot
+-> validate snapshot
+-> collect referenced media
+-> verify media
+-> encode data.json
+-> hash data.json
+-> hash media
+-> create manifest
+-> build bounded archive
+-> final size check
+
+Se un original media necessario manca:
+FAIL.
+
+======================================================================
+6. RESTORE
+======================================================================
+
+- compressed-size guard;
+- decode bounded archive;
+- reject duplicate/unknown/unsafe paths;
+- parse manifest;
+- verify format/version;
+- verify data hash;
+- verify media size/hash;
+- decode snapshot;
+- validate references;
+- safety snapshot;
+- stage imported media;
+- commit domain;
+- commit staged media;
+- reconcile derived indexes/reminders/sync;
+- rollback staging on failure.
+
+======================================================================
+7. PATH SAFETY
+======================================================================
+
+Rifiutare:
+- ../
+- path assoluti
+- duplicate entry
+- file non dichiarati
+- asset ID invalidi
+- entry sopra limite
+- manifest incoerente
+
+Allowlist:
+- manifest.json
+- data.json
+- media/<assetId>.bin
+- sidecar esplicitamente registrati
+
+======================================================================
+8. BRIDGE MEDIA
+======================================================================
+
+```dart
+abstract interface class BackupMediaBridge {
+  Future<List<int>?> readAsset(String assetId);
+  Future<void> stageAsset(String assetId, List<int> bytes);
+  Future<void> commitStagedAssets(Set<String> assetIds);
+  Future<void> rollbackStagedAssets(Set<String> assetIds);
+}
+```
+
+Il futuro GOLDEN_MEDIA_ASSET_STORE deve implementare questo bridge.
+
+======================================================================
+9. BRIDGE LIFECYCLE/TRASH
+======================================================================
+
+- il Trash è user-owned state;
+- il Trash va incluso nel backup;
+- gli asset referenziati dal Trash NON sono orfani;
+- deletedAt / trashId / scope vanno preservati;
+- purge definitivo rimuove i dati dal backup futuro.
+
+======================================================================
+10. DATI ESCLUSI DI DEFAULT
+======================================================================
+
+- cache;
+- thumbnail ricostruibili;
+- FTS/index ricostruibile;
+- embeddings ricostruibili;
+- temp files;
+- transient queue non user-owned;
+- OAuth/session token;
+- service key;
+- debug state.
+
+======================================================================
+11. TEST PER PROMOZIONE
+======================================================================
+
+[ ] empty backup
+[ ] data only
+[ ] data + media
+[ ] data hash
+[ ] media hash
+[ ] missing media -> FAIL
+[ ] corrupt data -> FAIL
+[ ] corrupt media -> FAIL
+[ ] duplicate entry -> FAIL
+[ ] path traversal -> FAIL
+[ ] oversized archive -> FAIL
+[ ] expanded archive ceiling -> FAIL
+[ ] unsupported future schema -> FAIL sicuro
+[ ] supported legacy schema
+[ ] replace restore
+[ ] merge restore
+[ ] restore failure leaves active state unchanged
+[ ] safety snapshot before replace
+[ ] trash preserved
+[ ] referenced media preserved
+[ ] undeclared files rejected
+[ ] reconciliation executed
+[ ] Web/native behavior defined
+
+======================================================================
+12. DA RISOLVERE NELL'AUDIT DEDICATO
+======================================================================
+
+- limiti finali e configurabili;
+- atomic restore transaction boundary;
+- staging file standard;
+- merge conflict contract;
+- Web memory behavior;
+- optional encrypted backup;
+- backup vs open-export separation;
+- schema migration policy;
+- large-bundle device test.
+
+======================================================================
+13. PROMOZIONE
+======================================================================
+
+DRAFT -> COPY-READY GOLDEN solo dopo:
+- audit Anna + Notes + CamperBoss;
+- harness generico;
+- failure injection;
+- almeno una integrazione non-donor;
+- nessuna perdita dati su restore fallito.
+
+======================================================================
+14. PHYSICAL FILE ROLLBACK HARDENING — v0.2
+======================================================================
+
+Commit contract candidato:
+
+1. creare transactionId;
+2. validare manifest/data/media;
+3. copiare media in staging fisico isolato;
+4. verificare hash dei file realmente scritti;
+5. validare tutte le reference obbligatorie contro staging + asset esistenti;
+6. creare safety snapshot;
+7. eseguire commit dominio;
+8. promuovere staging media a canonical;
+9. reconciliation;
+10. eliminare marker/staging.
+
+Failure contract:
+- errore durante copia file -> dominio invariato + staging cleanup;
+- errore commit dominio -> staging rollback;
+- errore promozione media dopo commit -> recovery marker obbligatorio e
+  riparazione deterministica, mai stato apparentemente completo con file mancanti;
+- crash mid-restore -> startup recovery deve sapere se rollback o resume.
+
+Test fisici aggiunti:
+[ ] restore reale con file su device
+[ ] copia file interrotta
+[ ] DB/reference valida ma file mancante
+[ ] file staged presente ma reference assente
+[ ] hash file cambia dopo staging
+[ ] cleanup staging dopo FAIL
+[ ] safety snapshot realmente ripristinabile
+[ ] exact restored artifact/reference parity
+
+END DRAFT
