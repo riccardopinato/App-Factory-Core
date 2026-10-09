@@ -1,7 +1,8 @@
 GOLDEN ECOSYSTEM BRIDGE — FLUTTER
 Versione draft: 0.2 — 04/10/2026
 Stato: CANDIDATE — NON COPY-READY
-Master Prompt: v21 SLIM
+Created under Master: v21 SLIM
+Current Master: resolve via CURRENT.yaml
 Canonical contract: Shared Ecosystem Core v1
 
 IMPLEMENTATION BASELINE REALE

@@ -1,7 +1,8 @@
 GOLDEN MEDIA ASSET STORE — FLUTTER
 Versione draft: 0.2 — 03/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
-Master Prompt: v21 SLIM
+Created under Master: v21 SLIM
+Current Master: resolve via CURRENT.yaml
 Audit source: GOLDEN_COMPONENTS_CROSS_APP_AUDIT_v1
 
 Donor:
