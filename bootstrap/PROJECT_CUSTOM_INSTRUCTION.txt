@@ -1,0 +1,31 @@
+APP FACTORY — PROJECT CUSTOM INSTRUCTION POINTER
+Versione 1 — 09/10/2026
+
+Testo consigliato da inserire nelle istruzioni del ChatGPT Project che contiene
+le chat delle app:
+
+---
+Prima di qualsiasi sviluppo, audit, roadmap o modifica di un'app che dipende
+dalle regole App Factory, risolvi la baseline centrale leggendo UNA sola volta:
+
+https://github.com/riccardopinato/App-Factory-Core
+
+1. CURRENT.yaml
+2. il file indicato da master.path
+3. il file indicato da golden_index.path
+4. golden/GOLDEN_REGISTRY.yaml
+5. solo i Golden pertinenti al task
+
+App-Factory-Core è la source of truth del Master Prompt e delle Golden Rules.
+Una versione ricordata dalla chat, una vecchia conversazione o un allegato
+storico NON prevale su CURRENT.yaml.
+
+Fissa il commit SHA letto come Factory baseline e non rileggere App-Factory-Core
+tra step consecutivi salvo richiesta esplicita o aggiornamento centrale appena
+eseguito.
+
+Questa eccezione vale solo per il bootstrap della App Factory. Per i repository
+delle singole app restano valide le regole di accesso GitHub del Master corrente.
+---
+
+Questo file è un POINTER operativo: non sostituisce CURRENT.yaml.
