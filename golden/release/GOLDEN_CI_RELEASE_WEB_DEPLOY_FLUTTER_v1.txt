@@ -1,0 +1,403 @@
+GOLDEN CI + ANDROID RELEASE + WEB DEPLOY — FLUTTER / GITHUB
+Versione: 1.0 — 01/10/2026
+Stato: COPY-READY GOLDEN
+Donor: Anna's Diary
+Repo donor: riccardopinato/Agenda-per-Anna
+Baseline donor: v0.89.0+99
+Commit donor: a3aba024f64dba721a25647e3a47be069e48386d
+
+======================================================================
+1. OBIETTIVO
+======================================================================
+
+Standard minimo per ogni progetto:
+- analyze;
+- test;
+- build Web release;
+- APK ARM64 release;
+- APK universal quando utile;
+- AAB Play;
+- signing persistente;
+- SHA-256;
+- artifact GitHub;
+- deploy Web stabile su GitHub Pages.
+
+Il donor Anna's Diary usa workflow reali per:
+- development checks;
+- Android release;
+- GitHub Pages deploy;
+- size audit;
+- AppLab.
+
+======================================================================
+2. SECRET ANDROID RICHIESTI
+======================================================================
+
+GitHub Secrets:
+
+ANDROID_KEYSTORE_BASE64
+ANDROID_KEYSTORE_PASSWORD
+ANDROID_KEY_ALIAS
+ANDROID_KEY_PASSWORD
+
+NON committare:
+- .jks;
+- password;
+- key password.
+
+======================================================================
+3. WORKFLOW — .github/workflows/dev-checks.yml
+======================================================================
+
+```yaml
+name: Development checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dev-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "{{FLUTTER_VERSION}}"
+          channel: stable
+          cache: true
+
+      - name: Install locked dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
+
+      - name: Build Web release
+        run: flutter build web --release
+
+      - name: Build Android ARM64 gate
+        if: github.event_name != 'pull_request'
+        run: |
+          flutter build apk \
+            --release \
+            --split-per-abi \
+            --tree-shake-icons
+
+          test -s build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+```
+
+Nota:
+Se il progetto genera android/web deterministicamente, inserire prima i relativi
+prepare scripts come nel donor.
+
+======================================================================
+4. WORKFLOW — .github/workflows/build-release.yml
+======================================================================
+
+```yaml
+name: Build Android Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Require stable signing
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          missing=()
+          for name in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+          if [ "${#missing[@]}" -ne 0 ]; then
+            echo "::error::Missing signing secrets: ${missing[*]}"
+            exit 1
+          fi
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "{{FLUTTER_VERSION}}"
+          channel: stable
+          cache: true
+
+      - name: Install locked dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
+
+      - name: Restore keystore
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          mkdir -p .signing
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 -d > .signing/release.jks
+
+      - name: Build release artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          COMMON_ARGS=(
+            --release
+            --obfuscate
+            --tree-shake-icons
+            --split-debug-info=build/symbols
+          )
+
+          flutter build apk "${COMMON_ARGS[@]}"
+          cp build/app/outputs/flutter-apk/app-release.apk \
+             build/app/outputs/flutter-apk/app-universal-release.apk
+
+          flutter build apk "${COMMON_ARGS[@]}" --split-per-abi
+          flutter build appbundle "${COMMON_ARGS[@]}"
+
+      - name: Collect release outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT=build/release-artifacts
+          mkdir -p "$OUT"
+
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
+             "$OUT/{{ARTIFACT_PREFIX}}-arm64-v8a.apk"
+
+          cp build/app/outputs/flutter-apk/app-universal-release.apk \
+             "$OUT/{{ARTIFACT_PREFIX}}-universal.apk"
+
+          cp build/app/outputs/bundle/release/app-release.aab \
+             "$OUT/{{ARTIFACT_PREFIX}}.aab"
+
+          sha256sum "$OUT"/*.apk "$OUT"/*.aab > "$OUT/SHA256SUMS.txt"
+
+      - name: Upload ARM64 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: {{ARTIFACT_PREFIX}}-arm64
+          path: build/release-artifacts/*-arm64-v8a.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Play AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: {{ARTIFACT_PREFIX}}-aab
+          path: build/release-artifacts/*.aab
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload release report
+        uses: actions/upload-artifact@v4
+        with:
+          name: {{ARTIFACT_PREFIX}}-release-report
+          path: build/release-artifacts/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 30
+```
+
+IMPORTANTE
+La parte Gradle che legge il keystore e le password deve essere già predisposta
+nel progetto. Il donor usa un prepare script deterministico.
+Non usare debug signing per una release stabile.
+
+======================================================================
+5. WORKFLOW — .github/workflows/deploy-pages.yml
+======================================================================
+
+```yaml
+name: Deploy Flutter Web
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "lib/**"
+      - "assets/**"
+      - "web/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - ".github/workflows/deploy-pages.yml"
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "{{FLUTTER_VERSION}}"
+          channel: stable
+          cache: true
+
+      - name: Install locked dependencies
+        run: flutter pub get --enforce-lockfile
+
+      - name: Build Web release
+        run: flutter build web --release --base-href "/{{REPO_NAME}}/"
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/web
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build-web
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+```
+
+======================================================================
+6. PLACEHOLDER
+======================================================================
+
+{{FLUTTER_VERSION}}
+{{ARTIFACT_PREFIX}}
+{{REPO_NAME}}
+
+Aggiungere eventuali:
+{{DART_DEFINES}}
+{{FIREBASE_ENABLED}}
+{{SUPABASE_URL}}
+{{WEB_BASE_HREF}}
+
+solo se realmente richiesti dal progetto.
+
+======================================================================
+7. TEST CANONICI
+======================================================================
+
+[ ] pubspec.lock committato.
+[ ] flutter pub get --enforce-lockfile PASS.
+[ ] flutter analyze PASS.
+[ ] flutter test PASS.
+[ ] flutter build web --release PASS.
+[ ] deploy Pages raggiungibile da PC.
+[ ] viewport desktop verificato.
+[ ] viewport stretto verificato.
+[ ] APK ARM64 generato.
+[ ] APK ARM64 installabile.
+[ ] APK è release, non debug.
+[ ] firma persistente verificata.
+[ ] AAB generato.
+[ ] SHA256SUMS generato.
+[ ] artifact scaricabili.
+[ ] secret assenti dai log.
+[ ] rebuild con stesso signing key può aggiornare l'app installata.
+
+======================================================================
+8. FAILURE MODES
+======================================================================
+
+APK non aggiorna versione installata:
+- signing key diversa.
+
+Pages 404 sugli asset:
+- base-href errato.
+
+Workflow verde ma app non funziona:
+- build != acceptance test.
+- eseguire runtime/AppLab/device gate.
+
+AAB ok ma APK debug:
+- pipeline separata o signing non applicato.
+
+======================================================================
+9. DONOR EVIDENCE
+======================================================================
+
+Anna's Diary current donor:
+- .github/workflows/dev-checks.yml
+- .github/workflows/build.yml
+- .github/workflows/deploy-pages.yml
+- .github/workflows/android-size-audit.yml
+- .github/workflows/applab.yml
+- README Quality gates
+- GitHub Pages canonical deployment
+- persistent Android signing contract
+- ARM64 / universal / AAB / SHA-256 artifact flow
+
+Certificazione:
+CERTIFIED DONOR.
+Template:
+COPY-READY GOLDEN.
