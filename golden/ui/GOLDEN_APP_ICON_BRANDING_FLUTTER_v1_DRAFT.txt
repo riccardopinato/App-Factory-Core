@@ -1,0 +1,454 @@
+GOLDEN APP ICON & BRANDING — APP FACTORY
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+
+SCOPO
+Definire uno standard App Factory per creare l'icona dell'app fin dal bootstrap
+iniziale del progetto, evitando placeholder generici e identità visive rimandate
+alla fine dello sviluppo.
+
+Questa Golden NON impone che la prima icona non possa mai essere raffinata.
+Impone invece che dal primo momento esista una ICONA DI PRODOTTO intenzionale,
+coerente con il problema risolto, già installata nell'app e utilizzabile come
+baseline reale.
+
+======================================================================
+1. REGOLA APP FACTORY — ICON FIRST
+======================================================================
+
+Ogni nuova app deve avere, nel bootstrap iniziale:
+
+- nome prodotto provvisorio/stabile;
+- package/bundle identity;
+- theme seed / identità cromatica minima;
+- app icon di prodotto;
+- launcher assets Android;
+- app icon iOS quando il progetto prevede iOS;
+- favicon/PWA icon per Web Preview quando pertinente.
+
+VIETATO mantenere durante lo sviluppo normale:
+- icona Flutter default;
+- icona Android default;
+- placeholder generica;
+- semplice iniziale dell'app scelta senza design;
+- asset temporaneo chiaramente non rappresentativo del prodotto.
+
+Principio:
+
+ICON BEFORE POLISH
+
+L'identità visiva minima fa parte del bootstrap, non della fase finale di store
+listing.
+
+======================================================================
+2. OBIETTIVO DELL'ICONA
+======================================================================
+
+L'icona deve ottenere contemporaneamente:
+
+1. COMPRENSIONE RAPIDA
+   Deve suggerire il dominio/funzione dell'app in circa un secondo.
+
+2. RICONOSCIBILITÀ
+   Deve avere una silhouette o un simbolo distintivo anche a dimensioni piccole.
+
+3. ATTRATTIVITÀ COMMERCIALE
+   Deve risultare desiderabile nello store e sul launcher, non soltanto bella
+   ingrandita.
+
+4. MODERNITÀ
+   Deve sembrare coerente con un prodotto mobile contemporaneo.
+
+5. IDENTITÀ
+   Deve distinguersi dai principali concorrenti senza sembrare estranea alla
+   categoria.
+
+6. LONGEVITÀ
+   Deve evitare mode grafiche troppo aggressive che la rendano rapidamente
+   datata.
+
+======================================================================
+3. "NON DEVE SEMBRARE FATTA CON LA AI"
+======================================================================
+
+L'uso di strumenti generativi per ideazione NON è vietato.
+
+È vietato accettare come output finale un'icona che mostri segnali tipici di
+generazione non rifinita, tra cui:
+
+- dettagli incoerenti o inutili;
+- micro-elementi illeggibili;
+- finti riflessi casuali;
+- pseudo-3D senza logica;
+- gradienti eccessivi;
+- glow artificiale;
+- ombre incoerenti;
+- geometrie quasi-simmetriche ma errate;
+- simboli semanticamente confusi;
+- troppe idee fuse nello stesso pittogramma;
+- testo deformato;
+- bordi sporchi;
+- effetto "clipart AI";
+- estetica generica da prompt non art-directed.
+
+Regola:
+
+AI MAY ASSIST THE CONCEPT.
+THE FINAL ICON MUST LOOK DESIGNED.
+
+Prima di accettare l'icona, semplificare/ridisegnare/rifinire se necessario.
+
+======================================================================
+4. VISUAL LANGUAGE STANDARD
+======================================================================
+
+Preferire:
+
+- 1 concetto principale;
+- 1 simbolo dominante;
+- 1 silhouette riconoscibile;
+- geometria semplice;
+- forte contrasto figura/sfondo;
+- pochi colori coordinati;
+- dettagli abbastanza grandi da sopravvivere al downscale;
+- composizione centrata e bilanciata;
+- elementi coerenti con il theme seed dell'app.
+
+Evitare normalmente:
+
+- testo piccolo;
+- intere parole dentro l'icona;
+- troppi oggetti;
+- fotografie non necessarie;
+- scene complesse;
+- UI miniature;
+- screenshot mascherati da icona;
+- simboli abusati senza reinterpretazione;
+- sfondi visivamente rumorosi.
+
+======================================================================
+5. SEMANTICA — L'ICONA DEVE DIRE COS'È L'APP
+======================================================================
+
+Prima di disegnare definire:
+
+```text
+APP
+├── problema principale
+├── azione principale
+├── oggetto/metafora visiva
+├── emozione/tono
+└── elemento distintivo
+```
+
+Esempio concettuale:
+
+Battery utility
+-> batteria / protezione / controllo
+-> NON "fulmine generico + gradient"
+
+Trail app
+-> percorso / orientamento / terreno
+-> NON "montagna generica indistinguibile da 100 app"
+
+Diary
+-> memoria / momento / diario personale
+-> NON "libro generico stock"
+
+L'icona deve rappresentare il PRODOTTO, non soltanto la categoria.
+
+======================================================================
+6. COMPETITOR SHELF TEST
+======================================================================
+
+Prima dell'approvazione:
+
+1. raccogliere una piccola griglia di icone concorrenti pertinenti;
+2. inserire il candidato nella stessa griglia;
+3. osservare a dimensione realistica;
+4. verificare:
+   - si distingue?
+   - sembra della stessa fascia qualitativa?
+   - comunica la categoria?
+   - è troppo simile a un concorrente?
+   - attira senza sembrare aggressiva o cheap?
+
+Non copiare:
+- composizione;
+- marchio;
+- simbolo distintivo;
+- palette proprietaria;
+- trade dress riconoscibile.
+
+L'ispirazione estetica non deve diventare imitazione.
+
+======================================================================
+7. SCALE TEST
+======================================================================
+
+L'icona deve essere verificata almeno come:
+
+- 16 px;
+- 24 px;
+- 32 px;
+- 48 px;
+- 64 px;
+- launcher reale;
+- store thumbnail;
+- immagine grande/master.
+
+Se il concetto funziona solo a 512/1024 px ma perde significato a 48 px:
+FAIL.
+
+======================================================================
+8. PLATFORM ASSETS
+======================================================================
+
+MASTER SOURCE
+- conservare un master ad alta risoluzione o vettoriale;
+- evitare di generare manualmente ogni dimensione come sorgente indipendente.
+
+ANDROID
+- adaptive icon;
+- foreground separabile;
+- background controllato;
+- supporto themed/monochrome quando previsto dal progetto;
+- verifica safe zone / crop reali;
+- nessun contenuto importante ai margini.
+
+iOS
+- asset App Icon coerente con lo stesso brand;
+- niente elementi che dipendano da trasparenze non supportate;
+- verificare resa reale su Home Screen.
+
+WEB / PWA
+- favicon;
+- PWA icons quando Web Preview/PWA è prevista;
+- il Web non può restare con favicon Flutter/default.
+
+======================================================================
+9. BRAND SYSTEM MINIMO
+======================================================================
+
+L'icona deve generare o rispettare almeno:
+
+```text
+BrandSeed
+├── primary visual idea
+├── primary color
+├── supporting color(s)
+├── icon foreground
+├── icon background
+└── optional monochrome mark
+```
+
+Questo seed può alimentare:
+- theme;
+- splash;
+- onboarding;
+- store assets;
+- social preview;
+- future logo treatment.
+
+Non obbligare però tutta la UI a copiare letteralmente i colori dell'icona.
+
+======================================================================
+10. WORKFLOW STANDARD DI CREAZIONE
+======================================================================
+
+FASE A — PRODUCT BRIEF
+Definire in poche righe:
+- cosa fa l'app;
+- target;
+- tono;
+- funzione da comunicare;
+- concetti da evitare.
+
+FASE B — CONCEPT
+Produrre 2-3 direzioni massimo:
+- Concept A: più letterale;
+- Concept B: più distintivo;
+- Concept C: eventuale alternativa.
+
+FASE C — SELECT
+Scegliere UNA direzione.
+
+FASE D — REDUCTION
+Ridurre dettagli, rumore e ambiguità.
+
+FASE E — PLATFORMIZE
+Creare Android/iOS/Web assets.
+
+FASE F — INSTALL
+Inserire realmente l'icona nel progetto.
+
+FASE G — PHYSICAL / SHELF REVIEW
+Controllare launcher e store-size preview.
+
+======================================================================
+11. CODING / PROJECT INTEGRATION
+======================================================================
+
+Per Flutter:
+
+- centralizzare gli asset sorgente;
+- usare un generatore affidabile di launcher assets quando opportuno;
+- evitare modifiche manuali incoerenti tra densità;
+- mantenere config riproducibile;
+- non includere file sorgente enormi inutilmente nel bundle;
+- documentare dove si trova il master.
+
+Struttura candidata:
+
+```text
+assets/branding/
+├── app_icon_master.*
+├── app_icon_foreground.*
+├── app_icon_background.*
+├── app_icon_monochrome.*
+└── BRANDING_NOTES.txt
+```
+
+L'esatta estensione/formato può cambiare per progetto.
+
+======================================================================
+12. BRANDING_NOTES MINIMO
+======================================================================
+
+Ogni progetto dovrebbe registrare:
+
+```text
+APP NAME:
+ICON VERSION:
+DATE:
+CORE SYMBOL:
+PRIMARY MEANING:
+COLOR RATIONALE:
+COMPETITOR DIFFERENTIATION:
+MASTER ASSET:
+ANDROID STATUS:
+IOS STATUS:
+WEB STATUS:
+PHYSICAL REVIEW:
+KNOWN LIMITATIONS:
+```
+
+======================================================================
+13. ACCEPTANCE MATRIX
+======================================================================
+
+Prima di considerare l'icona pronta per il normale sviluppo:
+
+[ ] non è default/placeholder
+[ ] comunica il dominio/funzione in < ~1 secondo
+[ ] ha una silhouette riconoscibile
+[ ] resta leggibile a 48 px
+[ ] resta riconoscibile a 32 px
+[ ] non dipende da testo piccolo
+[ ] non presenta artefatti/estetica AI evidente
+[ ] non sembra clipart generica
+[ ] non copia un concorrente
+[ ] palette coerente con il prodotto
+[ ] Android adaptive icon installata
+[ ] Android crop/safe area verificati
+[ ] monochrome/themed asset previsto o decisione documentata
+[ ] iOS asset presente se iOS è target
+[ ] Web favicon/PWA asset presente se Web è target
+[ ] master source conservato
+[ ] branding notes presenti
+[ ] launcher reale verificato quando disponibile
+[ ] store-size/shelf preview verificata
+
+======================================================================
+14. RELEASE GATE
+======================================================================
+
+Una release candidate NON è visualmente pronta se:
+
+- usa icona default;
+- usa placeholder;
+- icona appare corrotta/croppata;
+- icona non è installata nella release build;
+- Android adaptive icon fallisce su launcher;
+- favicon/Web resta default;
+- store asset e app installata mostrano identità incoerenti.
+
+Questi finding sono almeno P1 di release/polish per app consumer.
+
+======================================================================
+15. RELAZIONE CON GOLDEN THEME M3
+======================================================================
+
+GOLDEN_APP_ICON_BRANDING definisce IDENTITÀ VISIVA MINIMA.
+
+GOLDEN_THEME_M3 definisce IL SISTEMA UI.
+
+Devono essere coerenti ma non accoppiati rigidamente.
+
+Icon -> brand seed
+Theme -> UI tokens / components
+
+Non duplicare le regole Theme M3 in questo Golden.
+
+======================================================================
+16. RELAZIONE CON RELEASE REALITY
+======================================================================
+
+La presenza dei file asset NON equivale a icona verificata.
+
+Evidence ladder:
+
+```text
+ASSET CREATED
+!=
+ASSET WIRED
+!=
+BUILD CONTAINS ICON
+!=
+INSTALLER SHOWS ICON
+!=
+LAUNCHER VERIFIED
+!=
+STORE ASSET VERIFIED
+```
+
+Per dichiarare PHYSICAL VERIFIED:
+- installare l'artifact identificato;
+- verificare launcher reale;
+- registrare artifact/version/source SHA secondo Golden Release Reality.
+
+======================================================================
+17. PROMOZIONE GOLDEN
+======================================================================
+
+Stato iniziale:
+DRAFT / CANDIDATE — NON COPY-READY.
+
+Per COPY-READY:
+- applicazione completa in almeno una nuova app App Factory;
+- config Flutter riproducibile;
+- Android adaptive icon verificata;
+- Web/PWA boundary verificato;
+- checklist utilizzabile senza interpretazioni ambigue.
+
+Per CERTIFIED GOLDEN:
+- riuso riuscito in almeno due progetti;
+- physical launcher validation;
+- artifact identity registrata;
+- nessuna regressione su build/release;
+- workflow ripetibile.
+
+======================================================================
+18. PRINCIPIO FINALE
+======================================================================
+
+L'ICONA È IL PRIMO PIXEL DEL PRODOTTO CHE L'UTENTE COMPRA CON GLI OCCHI.
+
+Deve:
+- spiegare;
+- distinguere;
+- attrarre;
+- restare semplice;
+- sembrare progettata.
+
+END GOLDEN APP ICON & BRANDING v0.1 DRAFT
