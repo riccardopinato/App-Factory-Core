@@ -1,0 +1,678 @@
+GOLDEN ECOSYSTEM BRIDGE — FLUTTER
+Versione draft: 0.2 — 04/10/2026
+Stato: CANDIDATE — NON COPY-READY
+Master Prompt: v21 SLIM
+Canonical contract: Shared Ecosystem Core v1
+
+IMPLEMENTATION BASELINE REALE
+- Wonderlog main @ 98d00900f2d14b801f380adb168ea8e69a1a0b89
+  Evidence state: IMPLEMENTED + CI GREEN
+- Anna's Diary v0.96 RC — 0.96.0+106
+  Source SHA: 75b607ea28979a22e7dd15d797320ad888940f1d
+  Evidence state: IMPLEMENTED + TESTED + CI GREEN + APPLAB TRUSTED RUNTIME + SIGNED APK BUILT
+- Cross-app physical round trip: NOT VERIFIED
+
+Verdetto Golden:
+CANDIDATE / NOT COPY-READY.
+
+======================================================================
+1. SCOPO E SOURCE OF TRUTH
+======================================================================
+
+Shared Ecosystem Core v1 è il contratto cross-app canonico dell'App Factory.
+
+Serve per trasferimenti ESPLICITI fra app autonome senza creare:
+- shared database;
+- account comune obbligatorio;
+- continuous sync implicito;
+- dipendenza da un provider cloud specifico;
+- secondo dominio parallelo.
+
+Il protocollo definisce:
+- identità cross-app;
+- ownership;
+- envelope;
+- provenance;
+- revision;
+- idempotenza;
+- COPY/LINK;
+- privacy boundary;
+- media handoff descriptor;
+- compatibility/versioning.
+
+Il transport è separato dal protocollo.
+
+======================================================================
+2. SHARED ECOSYSTEM CORE v1 VS Life Bridge v1
+======================================================================
+
+SHARED ECOSYSTEM CORE v1
+- è il protocollo canonico cross-app;
+- possiede EcosystemEnvelope;
+- possiede canonical app IDs;
+- possiede bridgeId/idempotency semantics;
+- possiede privacy/media/version contract;
+- è transport-independent.
+
+Life Bridge v1
+- è una compatibility/product projection;
+- adatta concetti di Journey/Memory/Moment/Diary alle entità del Core;
+- può preservare compatibility con payload/identità storiche dove necessario;
+- NON è un protocollo concorrente;
+- NON deve ridefinire per i nuovi trasferimenti:
+  - bridgeId canonico;
+  - idempotency key;
+  - app IDs;
+  - schema/versioning del Core;
+  - transport package;
+  - ownership.
+
+Regola:
+nuove integrazioni cross-app devono parlare Shared Ecosystem Core v1.
+Life Bridge resta projection/adapter di prodotto sopra il Core.
+
+======================================================================
+3. CANONICAL APP IDs v1
+======================================================================
+
+App IDs canonici registrati:
+
+```text
+wonderlog
+annas_diary
+notes
+trailpath
+```
+
+Deep-link schemes registrati nel Core:
+
+```text
+wonderlog   -> wonderlog://
+annas_diary -> annasdiary://
+notes       -> notesapp://
+trailpath   -> trailpath://
+```
+
+Gli app IDs wire sono stabili e NON devono essere sostituiti dal display name.
+
+======================================================================
+4. CANONICAL OWNERSHIP
+======================================================================
+
+Ogni entità resta canonica nell'app proprietaria.
+
+Il Core distingue:
+- source identity;
+- canonical owner/provenance;
+- destination materialization.
+
+Un bridgeId NON sostituisce mai l'ID canonico locale.
+
+COPY:
+- la source resta owner dell'originale;
+- il destinatario materializza una nuova entità locale indipendente;
+- provenance della source viene conservata;
+- revision future della source NON si applicano automaticamente.
+
+LINK:
+- canonical ownership resta alla source;
+- il destinatario conserva una projection/reference esplicita;
+- canonicalDeepLink è obbligatorio;
+- non implica background sync;
+- non implica accesso al database della source.
+
+======================================================================
+5. ECOSYSTEM ENVELOPE v1
+======================================================================
+
+Il contratto canonico è `EcosystemEnvelope`.
+
+Campi Core consolidati:
+
+```text
+schemaVersion
+bridgeId
+sourceApp
+sourceEntityType
+sourceEntityId
+createdAtUtc
+title?
+text?
+tags[]
+people[]
+places[]
+media[]
+sourceDeepLink?
+privacyScope
+transferMode
+revision
+provenance
+fallback
+```
+
+`privacyScope` per cross-app transfer deve essere:
+
+```text
+explicitShare
+```
+
+Private envelope:
+FAIL CLOSED / NO MUTATION.
+
+======================================================================
+6. BRIDGE ID E IDEMPOTENZA
+======================================================================
+
+bridgeId canonico:
+
+```text
+ecosystem:v1:<ownerApp>:<ownerEntityType>:<ownerEntityId>
+```
+
+Esempio:
+
+```text
+ecosystem:v1:wonderlog:journey:journey-42
+```
+
+Il bridgeId:
+- deriva dall'owner canonico/provenance;
+- resta stabile fra revision;
+- resta lo stesso fra COPY e LINK.
+
+Idempotency key:
+
+```text
+<bridgeId>:<revision>:<transferMode>
+```
+
+Concettualmente:
+
+```text
+bridgeId + revision + transferMode
+```
+
+Esempio COPY:
+
+```text
+ecosystem:v1:wonderlog:journey:journey-42:1790929800000:copy
+```
+
+Esempio LINK:
+
+```text
+ecosystem:v1:wonderlog:journey:journey-42:1790929800000:link
+```
+
+Conseguenze obbligatorie:
+- COPY e LINK sono delivery distinte;
+- duplicate delivery della stessa key = NO DUPLICATE;
+- duplicate concorrente = atomic/idempotent;
+- nuova revision mantiene bridgeId e produce nuova idempotency key;
+- revision stale non deve fare downgrade/mutazione silenziosa;
+- una vecchia compatibility COPY key non deve sopprimere un LINK valido.
+
+======================================================================
+7. PROVENANCE OBBLIGATORIA
+======================================================================
+
+`EcosystemProvenance` deve preservare almeno:
+
+```text
+ownerApp
+ownerEntityType
+ownerEntityId
+ownerRevision
+canonicalDeepLink?
+parentBridgeId?
+```
+
+Regole:
+- provenance non viene sostituita silenziosamente dall'identità destination;
+- revision rappresenta la source revision trasferita;
+- LINK richiede canonicalDeepLink;
+- eventuale re-share/derivazione usa parentBridgeId quando pertinente;
+- provenance è parte del contratto, non metadata decorativa.
+
+======================================================================
+8. EXPLICIT SHARE E REVIEW PRIMA DELLA MATERIALIZZAZIONE
+======================================================================
+
+Cross-app transfer richiede:
+
+```text
+privacyScope = explicitShare
+```
+
+Pipeline destination canonica:
+
+```text
+RECEIVE PACKAGE
+-> DECODE
+-> VALIDATE VERSION
+-> VALIDATE TARGET/CAPABILITY
+-> VALIDATE EXPLICIT SHARE
+-> VALIDATE MEDIA
+-> CHECK IDEMPOTENCY/REVISION
+-> SHOW EXPLICIT REVIEW
+-> USER CONFIRMS COPY OR LINK
+-> MATERIALIZE
+-> RECORD DELIVERY/PROVENANCE
+```
+
+Regola:
+la ricezione del package NON equivale a consenso alla materializzazione.
+
+Transport/decode/validation failure:
+NO DOMAIN MUTATION.
+
+======================================================================
+9. PROTOCOLLO != TRANSPORT
+======================================================================
+
+`EcosystemEnvelope` resta identico indipendentemente dal transport.
+
+Transport possibili:
+- local deep link;
+- clipboard fallback;
+- futuro cloud transport;
+- altri adapter espliciti compatibili.
+
+Il transport NON può ridefinire:
+- ownership;
+- bridgeId;
+- COPY/LINK;
+- revision;
+- privacy;
+- provenance.
+
+Cloud transport, se introdotto, resta un adapter.
+Auth/queue/retry/cursor/provider-specific logic NON entra nel Core contract.
+
+Nessun continuous sync è implicito dal bridge.
+
+======================================================================
+10. LOCAL TRANSPORT PACKAGE v1
+======================================================================
+
+Package locale canonico:
+
+```text
+transportVersion = 1
+targetApp
+createdAtUtc
+EcosystemEnvelope v1
+```
+
+`transportVersion != 1`:
+FAIL CLOSED / NO MUTATION.
+
+Payload local bounded:
+
+```text
+maxLocalPayloadCharacters = 24576
+```
+
+Se il payload URI supera il limite:
+- NON aprire il deep link;
+- usare il fallback consentito;
+- non troncare;
+- non materializzare parzialmente.
+
+======================================================================
+11. DEEP LINK CANONICI
+======================================================================
+
+Wonderlog -> Anna:
+
+```text
+annasdiary://ecosystem/import?payload=<base64url-package>
+```
+
+Anna -> Wonderlog:
+
+```text
+wonderlog://ecosystem/import?payload=<base64url-package>
+```
+
+Il decoder deve verificare:
+- host = ecosystem;
+- path = /import;
+- payload presente;
+- scheme coerente con targetApp;
+- transportVersion;
+- envelope contract.
+
+Scheme mismatch:
+FAIL CLOSED / NO MUTATION.
+
+======================================================================
+12. CLIPBOARD FALLBACK
+======================================================================
+
+Prefix canonico:
+
+```text
+ECOSYSTEM_BRIDGE_V1:
+```
+
+Formato:
+
+```text
+ECOSYSTEM_BRIDGE_V1:<base64url-package>
+```
+
+Usare come fallback portabile quando il target non può essere aperto.
+
+Regole:
+- stesso `EcosystemTransferPackage` del deep link;
+- stesso validator;
+- stessa idempotenza;
+- nessuna semantica alternativa.
+
+======================================================================
+13. MEDIA HANDOFF v1
+======================================================================
+
+Il modello generale supporta:
+
+```text
+omitted
+shareToken
+cloudObject
+```
+
+`omitted`
+- metadata consentita;
+- binary handoff assente intenzionalmente.
+
+`shareToken`
+- token obbligatorio;
+- token può essere expiring/transport-specific;
+- NON può contenere URI/path privati.
+
+`cloudObject`
+- locator safe obbligatorio;
+- provider-specific;
+- NON può essere file/local URI privato.
+
+Private/local references vietate cross-app:
+
+```text
+file://
+content://
+media://
+/data/
+/private/
+```
+
+Stato certificazione attuale:
+- Shared Core v1 MODELLA tutti e tre i tipi;
+- Anna's Diary v1 certifica attualmente SOLO `omitted` per il binary handoff;
+- Wonderlog v1 producer usa attualmente `omitted` per media binari;
+- `shareToken` e `cloudObject` restano contract-valid ma NON certificati come
+  binary handoff Anna v1.
+
+Regola:
+mai passare un URI privato solo perché funziona temporaneamente sul device.
+
+======================================================================
+14. VERSION / REVISION FAIL-SAFE
+======================================================================
+
+Schema/protocol:
+- `schemaVersion != 1` -> reject;
+- future/incompatible schema -> reject;
+- no partial import.
+
+Local transport:
+- `transportVersion != 1` -> reject;
+- no reinterpretazione silenziosa.
+
+Revision:
+- revision < 1 -> invalid;
+- stale revision non deve sovrascrivere/downgradare uno stato più nuovo;
+- nuova revision valida può essere trattata come nuova delivery;
+- policy di materializzazione resta destination-owned.
+
+Malformed required field / enum / date / target:
+- fail closed;
+- stable error surface;
+- NO domain mutation.
+
+======================================================================
+15. NO SHARED INFRASTRUCTURE IMPLICITA
+======================================================================
+
+Il Golden vieta di dedurre dal bridge:
+- shared DB;
+- shared filesystem;
+- accesso diretto ai file privati dell'altra app;
+- account unico obbligatorio;
+- shared Supabase obbligatorio;
+- shared Firebase obbligatorio;
+- continuous background sync;
+- cross-app mutation automatica.
+
+Ogni app mantiene:
+- DB proprio;
+- lifecycle proprio;
+- auth propria se presente;
+- backup proprio;
+- local canonical IDs propri.
+
+======================================================================
+16. GOLDEN VECTORS CANONICI v1
+======================================================================
+
+VECTOR A — WONDERLOG -> ANNA / COPY
+
+```text
+ownerApp: wonderlog
+ownerEntityType: journey
+ownerEntityId: journey-42
+ownerRevision: 1790929800000
+bridgeId: ecosystem:v1:wonderlog:journey:journey-42
+transferMode: copy
+idempotencyKey:
+  ecosystem:v1:wonderlog:journey:journey-42:1790929800000:copy
+targetApp: annas_diary
+privacyScope: explicitShare
+canonicalDeepLink: wonderlog://journey/journey-42
+```
+
+Expected:
+- review destination;
+- independent Anna materialization after confirmation;
+- source provenance preserved;
+- no auto-subscription to future Wonderlog revisions.
+
+VECTOR B — WONDERLOG -> ANNA / LINK
+
+Same canonical owner as A.
+
+```text
+transferMode: link
+idempotencyKey:
+  ecosystem:v1:wonderlog:journey:journey-42:1790929800000:link
+```
+
+Expected:
+- bridgeId same as COPY;
+- idempotency key distinct;
+- Wonderlog remains canonical owner;
+- canonicalDeepLink mandatory;
+- duplicate LINK = no duplicate active link.
+
+VECTOR C — ANNA -> WONDERLOG / COPY
+
+```text
+ownerApp: annas_diary
+ownerEntityType: note
+ownerEntityId: moment-42
+ownerRevision: 7
+bridgeId: ecosystem:v1:annas_diary:note:moment-42
+transferMode: copy
+idempotencyKey:
+  ecosystem:v1:annas_diary:note:moment-42:7:copy
+targetApp: wonderlog
+privacyScope: explicitShare
+canonicalDeepLink: annasdiary://moment/moment-42
+```
+
+Expected:
+- Wonderlog validates and accepts into ecosystem inbound workflow;
+- duplicate delivery deduplicated;
+- no Journey/Memory auto-materialization before destination review.
+
+VECTOR D — PRIVATE MEDIA REJECTION / OMITTED
+
+Allowed:
+
+```text
+media.handoff.kind = omitted
+```
+
+Forbidden anywhere in wire locator/token:
+
+```text
+file://
+content://
+media://
+/data/
+/private/
+```
+
+Expected:
+- private/local media reference -> reject;
+- safe omitted media -> metadata-only transfer;
+- no domain mutation on invalid media package.
+
+VECTOR E — FAIL CLOSED
+
+Reject without domain mutation:
+- schemaVersion != 1;
+- transportVersion != 1;
+- privacyScope != explicitShare;
+- LINK without canonicalDeepLink;
+- invalid/private media locator;
+- missing shareToken token;
+- missing cloudObject locator;
+- wrong target / unsupported capability;
+- malformed required package fields.
+
+======================================================================
+17. CURRENT EVIDENCE MATRIX — 04/10/2026
+======================================================================
+
+Wonderlog producer
+- source: main @ 98d00900f2d14b801f380adb168ea8e69a1a0b89
+- IMPLEMENTED
+- CI GREEN
+
+Anna's Diary consumer
+- version: 0.96.0+106
+- source: 75b607ea28979a22e7dd15d797320ad888940f1d
+- IMPLEMENTED
+- TESTED
+- CI GREEN
+- APPLAB TRUSTED RUNTIME VERIFIED
+- SIGNED APK BUILT
+
+Cross-app pair
+- real Wonderlog -> Anna physical transfer: NOT VERIFIED
+- real Anna -> Wonderlog physical transfer: NOT VERIFIED
+- Golden promotion: BLOCKED BY PHYSICAL ROUND-TRIP EVIDENCE
+
+Golden status:
+CANDIDATE / NOT COPY-READY.
+
+======================================================================
+18. FINAL PROMOTION MATRIX — REQUIRED FOR COPY-READY
+======================================================================
+
+1. Wonderlog -> Anna COPY reale
+   Required:
+   - exact Wonderlog artifact identified;
+   - exact Anna artifact identified;
+   - deep link or documented clipboard fallback;
+   - explicit destination review;
+   - COPY materializes once;
+   - provenance preserved.
+   Current: NOT VERIFIED PHYSICALLY.
+
+2. Wonderlog -> Anna LINK reale
+   Required:
+   - same canonical bridgeId as COPY;
+   - LINK-specific idempotency key;
+   - active link/projection created only after review;
+   - Wonderlog remains canonical owner.
+   Current: NOT VERIFIED PHYSICALLY.
+
+3. Duplicate LINK -> nessun duplicato
+   Required:
+   - deliver the same exact LINK twice;
+   - one logical active link only;
+   - second delivery deterministic NO-OP/duplicate outcome.
+   Current: TESTED IN ANNA; PHYSICAL CROSS-APP NOT VERIFIED.
+
+4. Anna -> Wonderlog reale
+   Required:
+   - exact Anna artifact sends canonical Core v1 package;
+   - Wonderlog receives/validates;
+   - explicit review before materialization;
+   - provenance/idempotency preserved.
+   Current: CONTRACT TESTED; PHYSICAL CROSS-APP NOT VERIFIED.
+
+5. Protocol version incompatibile -> fail safe / no mutation
+   Required:
+   - incompatible schemaVersion and/or transportVersion fixture;
+   - destination rejects;
+   - no destination entity/history/link mutation.
+   Current: DETERMINISTIC CONTRACT COVERAGE PRESENT; PHYSICAL PAIR NOT VERIFIED.
+
+6. Private/local media URI -> reject/omit secondo contratto
+   Required:
+   - private URI fixture rejected;
+   - safe `omitted` fixture accepted metadata-only;
+   - no private path persisted or leaked;
+   - no domain mutation on rejection.
+   Current: TESTED IN ANNA/SHARED CONTRACT; PHYSICAL PAIR NOT VERIFIED.
+
+7. Artifact identity/evidence registrata
+   Required per physical run:
+   - producer repo + source SHA;
+   - consumer repo + source SHA;
+   - app versions/build numbers;
+   - exact APK artifact SHA-256 for both sides when Android is used;
+   - signing identity/fingerprint where applicable;
+   - device/OS;
+   - transport used;
+   - scenario result;
+   - logs/screenshots/evidence references.
+   Current: Anna signed APK built; full paired artifact identity record PENDING.
+
+PROMOTION RULE:
+Tutti i 7 punti devono risultare PASS con evidence coerente con
+GOLDEN_RELEASE_REALITY_PHYSICAL_VALIDATION_v1_DRAFT.
+
+Finché uno dei round-trip fisici o l'artifact identity record manca:
+ECOSYSTEM BRIDGE v1 = CANDIDATE / NOT COPY-READY.
+
+======================================================================
+19. CRITERI PER FUTURE APP
+======================================================================
+
+Una nuova app dell'ecosistema deve:
+- ottenere un canonical app ID stabile;
+- registrare scheme/capability nel registry;
+- usare EcosystemEnvelope v1 senza fork;
+- produrre/consumare Golden vectors pertinenti;
+- non introdurre un protocollo parallelo;
+- usare projection adapter di dominio se il proprio modello differisce;
+- mantenere protocol/transport separati;
+- rispettare explicitShare e private-media boundary.
+
+Nessuna nuova feature di prodotto è implicata da questo Golden.
+
+END DRAFT
