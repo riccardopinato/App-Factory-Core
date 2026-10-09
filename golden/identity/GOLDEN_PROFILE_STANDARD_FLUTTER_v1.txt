@@ -1,0 +1,703 @@
+GOLDEN PROFILE STANDARD — FLUTTER
+Versione: 1.0 — 01/10/2026
+Stato: COPY-READY GOLDEN
+
+Donor primario:
+- FrameLab
+- repo: riccardopinato/FrameLab-Google-AI-Studio
+- commit: 239995759e2b56f5315a061a169404c591d77f39
+
+Donor secondario:
+- Anna's Diary
+- repo: riccardopinato/Agenda-per-Anna
+- baseline donor: v0.90.0+100
+- commit: 240aa9e7d3587118a848313acf4c513cd19f2038
+
+Dipendenze Golden consigliate:
+- GOLDEN_GOOGLE_AUTH_SUPABASE_FLUTTER_v1
+- GOLDEN_LOCALIZATION_FLUTTER_v1
+- GOLDEN_THEME_M3_FLUTTER_v1
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Profilo standard riutilizzabile per utility Flutter.
+
+Il Profilo deve essere il punto unico per:
+- identità/account;
+- nome locale opzionale;
+- lingua;
+- tema;
+- informazioni app/versione;
+- privacy/account actions quando pertinenti.
+
+PRINCIPIO:
+il Profilo NON deve creare un secondo sistema auth o un secondo store.
+
+Google identity:
+leggere name/email/avatar dal Golden Auth.
+Non duplicarli come source of truth locale.
+
+Preferenze locali:
+salvarle localmente e mantenerle utilizzabili anche senza login.
+
+======================================================================
+2. ARCHITETTURA
+======================================================================
+
+Pattern donor FrameLab:
+- domain model;
+- repository interface;
+- repository data adapter;
+- Stream watch;
+- ProfileScope;
+- editor/page.
+
+Pattern donor Anna's Diary:
+- account globale condiviso;
+- name/email/avatar reali;
+- logout separato da delete-account;
+- lingua e tema come preferenze persistenti.
+
+Modulo standard:
+
+lib/features/profile/domain/profile_preferences.dart
+lib/features/profile/domain/profile_repository.dart
+lib/features/profile/data/shared_preferences_profile_repository.dart
+lib/features/profile/presentation/profile_scope.dart
+lib/features/profile/presentation/profile_page.dart
+
+======================================================================
+3. DIPENDENZE
+======================================================================
+
+pubspec.yaml:
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.5.3
+```
+
+La versione SharedPreferences sopra è quella validata nel donor Anna's Diary
+al momento dell'estrazione.
+
+======================================================================
+4. FILE — lib/features/profile/domain/profile_preferences.dart
+======================================================================
+
+```dart
+import '../../../core/localization/app_language.dart';
+
+enum AppThemeMode {
+  system,
+  light,
+  dark,
+}
+
+class ProfilePreferences {
+  const ProfilePreferences({
+    this.displayName = '',
+    this.themeMode = AppThemeMode.system,
+    this.languageMode = LanguageMode.device,
+    this.language,
+    this.updatedAt,
+  });
+
+  final String displayName;
+  final AppThemeMode themeMode;
+  final LanguageMode languageMode;
+  final AppLanguage? language;
+  final DateTime? updatedAt;
+
+  ProfilePreferences copyWith({
+    String? displayName,
+    AppThemeMode? themeMode,
+    LanguageMode? languageMode,
+    AppLanguage? language,
+    bool clearLanguage = false,
+    DateTime? updatedAt,
+  }) {
+    return ProfilePreferences(
+      displayName: displayName ?? this.displayName,
+      themeMode: themeMode ?? this.themeMode,
+      languageMode: languageMode ?? this.languageMode,
+      language: clearLanguage ? null : (language ?? this.language),
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'displayName': displayName,
+        'themeMode': themeMode.name,
+        'languageMode': languageMode.name,
+        'language': language?.code,
+        'updatedAt': updatedAt?.toUtc().toIso8601String(),
+      };
+
+  factory ProfilePreferences.fromJson(Map<String, dynamic> json) {
+    final themeMode = AppThemeMode.values.firstWhere(
+      (value) => value.name == json['themeMode'],
+      orElse: () => AppThemeMode.system,
+    );
+
+    final languageMode = LanguageMode.values.firstWhere(
+      (value) => value.name == json['languageMode'],
+      orElse: () => LanguageMode.device,
+    );
+
+    return ProfilePreferences(
+      displayName: (json['displayName']?.toString() ?? '').trim(),
+      themeMode: themeMode,
+      languageMode: languageMode,
+      language: AppLanguage.fromCode(json['language']?.toString()),
+      updatedAt: DateTime.tryParse(
+        json['updatedAt']?.toString() ?? '',
+      )?.toLocal(),
+    );
+  }
+}
+```
+
+======================================================================
+5. FILE — lib/features/profile/domain/profile_repository.dart
+======================================================================
+
+```dart
+import 'profile_preferences.dart';
+
+abstract interface class ProfileRepository {
+  Future<ProfilePreferences> get();
+  Stream<ProfilePreferences> watch();
+  Future<void> save(ProfilePreferences profile);
+}
+```
+
+======================================================================
+6. FILE — lib/features/profile/data/shared_preferences_profile_repository.dart
+======================================================================
+
+```dart
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../domain/profile_preferences.dart';
+import '../domain/profile_repository.dart';
+
+class SharedPreferencesProfileRepository implements ProfileRepository {
+  SharedPreferencesProfileRepository._(this._prefs);
+
+  static const _key = 'standard_profile_preferences_v1';
+
+  final SharedPreferences _prefs;
+  final _controller =
+      StreamController<ProfilePreferences>.broadcast();
+
+  ProfilePreferences _current = const ProfilePreferences();
+
+  static Future<SharedPreferencesProfileRepository> create() async {
+    final prefs = await SharedPreferences.getInstance();
+    final repository = SharedPreferencesProfileRepository._(prefs);
+    repository._current = repository._read();
+    return repository;
+  }
+
+  ProfilePreferences _read() {
+    final raw = _prefs.getString(_key);
+    if (raw == null || raw.trim().isEmpty) {
+      return const ProfilePreferences();
+    }
+
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map) return const ProfilePreferences();
+
+      return ProfilePreferences.fromJson(
+        Map<String, dynamic>.from(decoded),
+      );
+    } catch (_) {
+      // Una preferenza corrotta non deve impedire l'avvio dell'app.
+      return const ProfilePreferences();
+    }
+  }
+
+  @override
+  Future<ProfilePreferences> get() async => _current;
+
+  @override
+  Stream<ProfilePreferences> watch() async* {
+    yield _current;
+    yield* _controller.stream;
+  }
+
+  @override
+  Future<void> save(ProfilePreferences profile) async {
+    final normalized = profile.copyWith(
+      displayName: profile.displayName.trim(),
+      updatedAt: DateTime.now(),
+    );
+
+    final encoded = jsonEncode(normalized.toJson());
+    final ok = await _prefs.setString(_key, encoded);
+
+    if (!ok) {
+      throw StateError('profile_preferences_write_failed');
+    }
+
+    _current = normalized;
+    _controller.add(_current);
+  }
+
+  Future<void> dispose() async {
+    await _controller.close();
+  }
+}
+```
+
+NOTA:
+Questo adapter è volutamente leggero per utility.
+Se il progetto ha già Drift/Sembast/Room-equivalent, mantenere l'interfaccia
+ProfileRepository e sostituire SOLO l'adapter.
+
+======================================================================
+7. FILE — lib/features/profile/presentation/profile_scope.dart
+======================================================================
+
+```dart
+import 'package:flutter/widgets.dart';
+
+import '../domain/profile_repository.dart';
+
+class ProfileScope extends InheritedWidget {
+  const ProfileScope({
+    required this.repository,
+    required super.child,
+    super.key,
+  });
+
+  final ProfileRepository repository;
+
+  static ProfileRepository of(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<ProfileScope>()!
+          .repository;
+
+  @override
+  bool updateShouldNotify(ProfileScope oldWidget) =>
+      repository != oldWidget.repository;
+}
+```
+
+Questo pattern deriva direttamente dal donor FrameLab.
+
+======================================================================
+8. FILE — lib/features/profile/presentation/profile_page.dart
+======================================================================
+
+```dart
+import 'package:flutter/material.dart';
+
+import '../../../core/localization/app_language.dart';
+import '../domain/profile_preferences.dart';
+import 'profile_scope.dart';
+
+class StandardProfilePage extends StatelessWidget {
+  const StandardProfilePage({
+    super.key,
+    this.accountSection,
+    this.appVersionLabel,
+    this.onOpenPrivacy,
+    this.onOpenAbout,
+  });
+
+  final Widget? accountSection;
+  final String? appVersionLabel;
+  final VoidCallback? onOpenPrivacy;
+  final VoidCallback? onOpenAbout;
+
+  @override
+  Widget build(BuildContext context) {
+    final repository = ProfileScope.of(context);
+
+    return StreamBuilder<ProfilePreferences>(
+      stream: repository.watch(),
+      builder: (context, snapshot) {
+        final profile =
+            snapshot.data ?? const ProfilePreferences();
+
+        return _ProfileBody(
+          profile: profile,
+          onSave: repository.save,
+          accountSection: accountSection,
+          appVersionLabel: appVersionLabel,
+          onOpenPrivacy: onOpenPrivacy,
+          onOpenAbout: onOpenAbout,
+        );
+      },
+    );
+  }
+}
+
+class _ProfileBody extends StatefulWidget {
+  const _ProfileBody({
+    required this.profile,
+    required this.onSave,
+    this.accountSection,
+    this.appVersionLabel,
+    this.onOpenPrivacy,
+    this.onOpenAbout,
+  });
+
+  final ProfilePreferences profile;
+  final Future<void> Function(ProfilePreferences) onSave;
+  final Widget? accountSection;
+  final String? appVersionLabel;
+  final VoidCallback? onOpenPrivacy;
+  final VoidCallback? onOpenAbout;
+
+  @override
+  State<_ProfileBody> createState() => _ProfileBodyState();
+}
+
+class _ProfileBodyState extends State<_ProfileBody> {
+  late final TextEditingController _nameController;
+  late AppThemeMode _themeMode;
+  late LanguageMode _languageMode;
+  AppLanguage? _language;
+  bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load(widget.profile);
+  }
+
+  @override
+  void didUpdateWidget(covariant _ProfileBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.profile.updatedAt != widget.profile.updatedAt) {
+      _nameController.text = widget.profile.displayName;
+      _themeMode = widget.profile.themeMode;
+      _languageMode = widget.profile.languageMode;
+      _language = widget.profile.language;
+    }
+  }
+
+  void _load(ProfilePreferences profile) {
+    _nameController = TextEditingController(
+      text: profile.displayName,
+    );
+    _themeMode = profile.themeMode;
+    _languageMode = profile.languageMode;
+    _language = profile.language;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    setState(() => _saving = true);
+
+    try {
+      await widget.onSave(
+        ProfilePreferences(
+          displayName: _nameController.text,
+          themeMode: _themeMode,
+          languageMode: _languageMode,
+          language: _languageMode == LanguageMode.manual
+              ? (_language ?? AppLanguage.english)
+              : null,
+          updatedAt: widget.profile.updatedAt,
+        ),
+      );
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profilo salvato')),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Impossibile salvare il profilo'),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Profilo')),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          if (widget.accountSection != null) ...[
+            _SectionCard(
+              title: 'Account',
+              child: widget.accountSection!,
+            ),
+            const SizedBox(height: 12),
+          ],
+          _SectionCard(
+            title: 'Profilo locale',
+            child: TextField(
+              controller: _nameController,
+              textInputAction: TextInputAction.done,
+              autofillHints: const [AutofillHints.name],
+              decoration: const InputDecoration(
+                labelText: 'Nome',
+                prefixIcon: Icon(Icons.person_outline),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _SectionCard(
+            title: 'Aspetto',
+            child: SegmentedButton<AppThemeMode>(
+              segments: const [
+                ButtonSegment(
+                  value: AppThemeMode.system,
+                  label: Text('Sistema'),
+                ),
+                ButtonSegment(
+                  value: AppThemeMode.light,
+                  label: Text('Chiaro'),
+                ),
+                ButtonSegment(
+                  value: AppThemeMode.dark,
+                  label: Text('Scuro'),
+                ),
+              ],
+              selected: {_themeMode},
+              onSelectionChanged: (values) {
+                setState(() => _themeMode = values.single);
+              },
+            ),
+          ),
+          const SizedBox(height: 12),
+          _SectionCard(
+            title: 'Lingua',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SegmentedButton<LanguageMode>(
+                  segments: const [
+                    ButtonSegment(
+                      value: LanguageMode.device,
+                      label: Text('Sistema'),
+                    ),
+                    ButtonSegment(
+                      value: LanguageMode.manual,
+                      label: Text('Manuale'),
+                    ),
+                  ],
+                  selected: {_languageMode},
+                  onSelectionChanged: (values) {
+                    setState(() => _languageMode = values.single);
+                  },
+                ),
+                if (_languageMode == LanguageMode.manual) ...[
+                  const SizedBox(height: 12),
+                  DropdownButtonFormField<AppLanguage>(
+                    initialValue:
+                        _language ?? AppLanguage.english,
+                    items: AppLanguage.values
+                        .map(
+                          (language) => DropdownMenuItem(
+                            value: language,
+                            child: Text(language.nativeLabel),
+                          ),
+                        )
+                        .toList(growable: false),
+                    onChanged: (language) {
+                      setState(() => _language = language);
+                    },
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          if (widget.onOpenPrivacy != null)
+            ListTile(
+              leading: const Icon(Icons.privacy_tip_outlined),
+              title: const Text('Privacy'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: widget.onOpenPrivacy,
+            ),
+          if (widget.onOpenAbout != null)
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: const Text('Informazioni'),
+              subtitle: widget.appVersionLabel == null
+                  ? null
+                  : Text(widget.appVersionLabel!),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: widget.onOpenAbout,
+            ),
+          const SizedBox(height: 16),
+          FilledButton.icon(
+            onPressed: _saving ? null : _save,
+            icon: _saving
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.save_outlined),
+            label: const Text('Salva'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionCard extends StatelessWidget {
+  const _SectionCard({
+    required this.title,
+    required this.child,
+  });
+
+  final String title;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 12),
+            child,
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+======================================================================
+9. INTEGRAZIONE AUTH
+======================================================================
+
+Con GOLDEN_GOOGLE_AUTH_SUPABASE_FLUTTER_v1:
+
+```dart
+StandardProfilePage(
+  accountSection: const GoogleAuthCard(),
+  appVersionLabel: 'v1.0.0',
+)
+```
+
+Il Profilo NON deve salvare localmente:
+- Google email come source of truth;
+- Google avatar come source of truth;
+- OAuth token;
+- password.
+
+======================================================================
+10. INTEGRAZIONE MATERIALAPP
+======================================================================
+
+Il root dell'app deve ascoltare ProfileRepository e derivare:
+- ThemeMode;
+- Locale.
+
+Esempio concettuale:
+
+```dart
+StreamBuilder<ProfilePreferences>(
+  stream: profileRepository.watch(),
+  builder: (context, snapshot) {
+    final profile =
+        snapshot.data ?? const ProfilePreferences();
+
+    return MaterialApp(
+      themeMode: switch (profile.themeMode) {
+        AppThemeMode.system => ThemeMode.system,
+        AppThemeMode.light => ThemeMode.light,
+        AppThemeMode.dark => ThemeMode.dark,
+      },
+      locale: profile.languageMode == LanguageMode.device
+          ? null
+          : (profile.language ?? AppLanguage.english).locale,
+      // theme, darkTheme, l10n...
+    );
+  },
+)
+```
+
+======================================================================
+11. LOCALIZZAZIONE
+======================================================================
+
+Le stringhe hardcoded mostrate sopra sono SOLO per rendere il modulo
+autocontenuto e leggibile.
+
+NELL'APP FINALE:
+spostarle tutte negli ARB del Golden Localization.
+
+======================================================================
+12. TEST CANONICI
+======================================================================
+
+[ ] Profilo apre senza account.
+[ ] Account section compare se fornita.
+[ ] Nome locale persiste al riavvio.
+[ ] Theme system/light/dark persiste.
+[ ] Lingua device/manuale persiste.
+[ ] Cambio lingua aggiorna l'app.
+[ ] Logout Google non cancella preferenze locali.
+[ ] Login Google diverso non sovrascrive il nome locale senza consenso.
+[ ] Profilo funziona offline.
+[ ] Profilo non contiene token/password.
+[ ] Stream emette immediatamente lo stato corrente.
+[ ] Corruzione JSON preferenze non impedisce l'avvio.
+[ ] Web e Android leggono le stesse preferenze locali.
+[ ] Test con text scale elevato.
+[ ] Test con stringhe DE/FR lunghe.
+
+======================================================================
+13. EVIDENCE DONOR
+======================================================================
+
+FrameLab:
+- UserProfile domain model;
+- ProfileRepository;
+- DriftProfileRepository;
+- ProfileScope;
+- ProfilePage;
+- ProfileEditor;
+- language device/manuale.
+
+Anna's Diary:
+- account globale;
+- Profilo/Account reale;
+- name/email/avatar reali;
+- logout separato;
+- tema e lingua persistenti;
+- local-first account state.
+
+Stato donor:
+CERTIFIED DONOR.
+
+Stato template generalizzato:
+COPY-READY GOLDEN.
