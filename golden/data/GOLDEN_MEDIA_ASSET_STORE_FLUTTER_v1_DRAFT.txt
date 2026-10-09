@@ -1,0 +1,461 @@
+GOLDEN MEDIA ASSET STORE — FLUTTER
+Versione draft: 0.2 — 03/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v21 SLIM
+Audit source: GOLDEN_COMPONENTS_CROSS_APP_AUDIT_v1
+
+Donor:
+- Anna's Diary: media_asset_store.dart + IO/Web backend + tests
+- Notes-Ecosistema: attachments.dart, media_bundle.dart + tests
+- CamperBoss: travel/document storage IO
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Storage standard candidato per foto, audio, scansioni, documenti e allegati.
+
+Obiettivi:
+- private-by-default;
+- import sicuro;
+- deduplica;
+- integrità;
+- bounded cache;
+- reference-aware cleanup;
+- separazione original/thumbnail/derivative;
+- adapter Web/native.
+
+======================================================================
+2. PRINCIPI
+======================================================================
+
+- non usare il path esterno dell'utente come source of truth;
+- import = copia nello storage privato;
+- originali immutabili per default;
+- thumbnail/derivative separati;
+- SHA-256 content addressing come default candidato;
+- verify-on-read per asset content-addressed;
+- bounded RAM cache;
+- bounded derived/remote disk cache;
+- Trash references contano come reference;
+- GC solo per asset realmente orfani;
+- backup include soltanto user-owned assets realmente referenziati.
+
+======================================================================
+3. ASSET ID
+======================================================================
+
+Original:
+
+```text
+sha256_<hex>
+```
+
+Named/derived:
+
+```text
+<namespace>_<sha256(key)>
+```
+
+Esempi:
+- sha256_...
+- thumb_...
+- remote_...
+
+======================================================================
+4. MODELLO CANDIDATO
+======================================================================
+
+```dart
+enum MediaAssetKind {
+  original,
+  thumbnail,
+  derivative,
+  remoteCache,
+}
+
+class MediaAssetRef {
+  const MediaAssetRef({
+    required this.assetId,
+    required this.kind,
+    this.mimeType,
+    this.originalAssetId,
+  });
+
+  final String assetId;
+  final MediaAssetKind kind;
+  final String? mimeType;
+  final String? originalAssetId;
+}
+
+class MediaAssetStats {
+  const MediaAssetStats({
+    required this.sizeBytes,
+    required this.lastAccessedAt,
+  });
+
+  final int sizeBytes;
+  final DateTime lastAccessedAt;
+}
+```
+
+======================================================================
+5. BACKEND
+======================================================================
+
+```dart
+abstract interface class MediaAssetBackend {
+  Future<void> write(
+    String assetId,
+    List<int> bytes,
+  );
+
+  Future<List<int>?> read(
+    String assetId,
+  );
+
+  Future<bool> delete(
+    String assetId,
+  );
+
+  Future<Set<String>> listAssetIds();
+
+  Future<Map<String, MediaAssetStats>> stats();
+}
+```
+
+Implementazioni candidate:
+- IoMediaAssetBackend
+- WebMediaAssetBackend
+
+======================================================================
+6. STORE
+======================================================================
+
+```dart
+abstract interface class MediaAssetStore {
+  Future<String> putOriginal(
+    List<int> bytes, {
+    String? mimeType,
+  });
+
+  Future<String> putNamed(
+    String namespace,
+    String key,
+    List<int> bytes,
+  );
+
+  Future<List<int>?> read(
+    String assetId,
+  );
+
+  Future<bool> delete(
+    String assetId,
+  );
+
+  Future<int> prune(
+    Set<String> referencedAssetIds,
+  );
+
+  Future<Set<String>> listStoredAssetIds();
+}
+```
+
+======================================================================
+7. CONTENT ADDRESSING
+======================================================================
+
+Candidate:
+
+```dart
+String contentAssetId(List<int> bytes) {
+  final digest = sha256.convert(bytes);
+  return 'sha256_$digest';
+}
+```
+
+Benefici:
+- deduplica naturale;
+- integrity check;
+- backup manifest semplice;
+- original immutabile;
+- meno copie duplicate.
+
+======================================================================
+8. READ INTEGRITY
+======================================================================
+
+Se assetId è `sha256_*`:
+
+```text
+read bytes
+-> SHA-256
+-> compare con assetId
+-> mismatch:
+   mark corrupt
+   return typed failure/null
+```
+
+Mai servire silenziosamente un asset corrotto.
+
+======================================================================
+9. CACHE POLICY
+======================================================================
+
+```dart
+class MediaCachePolicy {
+  const MediaCachePolicy({
+    required this.maxMemoryEntries,
+    required this.maxMemoryBytes,
+    required this.maxDerivedDiskEntries,
+    required this.maxDerivedDiskBytes,
+  });
+
+  final int maxMemoryEntries;
+  final int maxMemoryBytes;
+  final int maxDerivedDiskEntries;
+  final int maxDerivedDiskBytes;
+}
+```
+
+Pattern donor Anna:
+- cache memoria bounded per count e bytes;
+- remote/derived disk cache bounded;
+- eviction per last access.
+
+Valori finali da decidere nell'audit.
+
+======================================================================
+10. IMPORT CONTRACT
+======================================================================
+
+```text
+pick file
+-> validate allowed type
+-> validate size
+-> controlled read
+-> optional decode sanity check
+-> copy into private store
+-> return assetId
+```
+
+NO:
+salvare il path esterno e dipendere dalla sua esistenza futura.
+
+======================================================================
+11. ORIGINAL / THUMBNAIL / DERIVATIVE
+======================================================================
+
+ORIGINAL
+- user-owned;
+- backup eligible;
+- non ricostruibile se perso.
+
+THUMBNAIL
+- derived;
+- ricostruibile;
+- normalmente escluso dal backup.
+
+DERIVATIVE
+- se ricostruibile: escluso;
+- se rappresenta un editing user-owned unico: trattarlo come original/version.
+
+======================================================================
+12. REFERENCE PROVIDER
+======================================================================
+
+```dart
+abstract interface class MediaReferenceProvider {
+  Future<Set<String>> referencedAssetIds();
+}
+```
+
+Il set deve includere:
+- active;
+- archived;
+- trashed;
+- draft persistenti user-owned.
+
+Escludere:
+- temp;
+- cache ricostruibili;
+- search derivatives.
+
+======================================================================
+13. GARBAGE COLLECTION
+======================================================================
+
+Formula:
+
+```text
+stored asset ids
+MINUS referenced asset ids
+MINUS protected temporary/staging ids
+=
+candidate orphan ids
+```
+
+GC:
+- debounce;
+- non startup-critical;
+- non durante backup/restore commit;
+- no delete se asset shared da più entity.
+
+======================================================================
+14. SAFE PATH RULES
+======================================================================
+
+Asset ID:
+- bounded;
+- allowlist chars;
+- nessun slash;
+- nessun `..`;
+- nessun absolute path.
+
+Filesystem filename:
+- costruito internamente;
+- mai direttamente da user input.
+
+======================================================================
+15. WEB
+======================================================================
+
+Il donor Anna ha backend Web separato.
+
+Audit dedicato deve scegliere:
+- IndexedDB/browser persistence adapter;
+- quota handling;
+- typed failure;
+- cleanup;
+- nessuna falsa equivalenza con native filesystem.
+
+======================================================================
+16. BRIDGE LIFECYCLE
+======================================================================
+
+Soft delete:
+- NON eliminare media.
+
+Restore:
+- media deve ancora esistere.
+
+Purge:
+- rimuovere la reference;
+- eseguire GC;
+- eliminare solo se nessun'altra reference esiste.
+
+======================================================================
+17. BRIDGE BACKUP
+======================================================================
+
+Backup:
+
+```text
+snapshot
+-> referencedAssetIds
+-> read original assets
+-> verify integrity
+-> bundle
+```
+
+Restore:
+
+```text
+verify hashes
+-> stage media
+-> commit domain
+-> commit staged media
+-> rollback staging on failure
+```
+
+======================================================================
+18. TEST PER PROMOZIONE
+======================================================================
+
+[ ] put/read original
+[ ] same bytes -> same assetId
+[ ] different bytes -> different assetId
+[ ] tampered content -> corrupt detection
+[ ] bounded RAM cache
+[ ] disk cache eviction
+[ ] import copies to private storage
+[ ] source deletion does not break imported asset
+[ ] invalid assetId rejected
+[ ] path traversal rejected
+[ ] prune removes orphan
+[ ] prune keeps active reference
+[ ] prune keeps trash reference
+[ ] asset shared da due entity survives one purge
+[ ] thumbnail separate from original
+[ ] backup includes required originals
+[ ] restore staging rollback
+[ ] mandatory missing original -> backup FAIL
+[ ] Web adapter failure/quota behavior
+[ ] large media memory test
+
+======================================================================
+19. DA RISOLVERE NELL'AUDIT DEDICATO
+======================================================================
+
+- MIME allowlist;
+- file size ceiling;
+- streaming/chunking large assets;
+- Web backend standard;
+- cache metadata persistence;
+- derivative registry;
+- thumbnail generator contract;
+- remote cache namespace;
+- GC scheduling;
+- I/O failure injection.
+
+======================================================================
+20. PROMOZIONE
+======================================================================
+
+DRAFT -> COPY-READY GOLDEN dopo:
+- audit Anna + Notes + CamperBoss;
+- backend native + Web verificati;
+- reference-aware GC testato;
+- backup/restore staging testato;
+- seconda app integrata senza path-specific hacks.
+
+======================================================================
+21. STAGING / TRANSACTION HARDENING — v0.2
+======================================================================
+
+Il Media Store deve supportare una fase temporanea per restore/import critici.
+
+Contratto candidato:
+
+```dart
+abstract interface class MediaStagingSession {
+  String get transactionId;
+  Future<void> stage(String assetId, List<int> bytes);
+  Future<void> verify();
+  Future<void> commit();
+  Future<void> rollback();
+}
+```
+
+Regole:
+- staging namespace separato dagli asset canonical;
+- asset staged non visibili come canonical prima del commit;
+- hash verificato dopo la scrittura fisica;
+- commit idempotente;
+- rollback idempotente;
+- GC non tocca staging attivo;
+- startup cleanup rimuove staging abbandonato solo dopo aver consultato eventuale
+  recovery marker del Backup engine.
+
+Test aggiunti:
+[ ] failure durante write fisico
+[ ] failure dopo write ma prima verify
+[ ] failure dopo verify ma prima commit
+[ ] rollback ripetuto
+[ ] commit ripetuto
+[ ] GC non elimina staging attivo
+[ ] startup cleanup staging abbandonato
+[ ] reference presente ma file canonical assente -> health error
+[ ] file canonical presente senza reference -> candidato GC, non delete immediato
+
+END DRAFT
