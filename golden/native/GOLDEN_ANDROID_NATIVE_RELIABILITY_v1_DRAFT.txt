@@ -1,0 +1,174 @@
+GOLDEN ANDROID NATIVE RELIABILITY
+Versione draft: 0.1 — 07/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Master Prompt: v24 FULL
+
+Donor candidates:
+- Battery Guard;
+- Notification Control;
+- Pocket Guard;
+- Tabletop Motion Alarm;
+- 180FlipCharge;
+- TrailPath.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare affidabilità delle capability Android che dipendono da process,
+service, boot, listener, scheduler, sensor e restrizioni OEM.
+
+Non è un unico ForegroundService da copiare: è un contratto di reliability con
+adapter per use case.
+
+======================================================================
+2. COMPONENTI COPERTI
+======================================================================
+
+- Foreground Service;
+- WorkManager;
+- AlarmManager/exact alarm quando necessario;
+- BroadcastReceiver;
+- BOOT_COMPLETED / package update recovery;
+- NotificationListener/Accessibility/overlay quando pertinenti;
+- sensors;
+- service binding;
+- notification channel health;
+- OEM battery restrictions;
+- app-process death/restart.
+
+======================================================================
+3. SINGLE OWNER RULE
+======================================================================
+
+Una responsabilità background deve avere un owner chiaro.
+Evitare:
+- doppio scheduler;
+- doppio coordinator;
+- FGS + WorkManager che fanno la stessa cosa;
+- listener registrati due volte;
+- più source of truth per "monitoring enabled".
+
+======================================================================
+4. DESIRED STATE VS RUNTIME STATE
+======================================================================
+
+Distinguere:
+
+```text
+userDesiredEnabled
+runtimeStarted
+runtimeBound
+runtimeHealthy
+lastHeartbeatAt
+lastUsefulEventAt
+```
+
+`userDesiredEnabled=true` non implica `runtimeHealthy=true`.
+
+======================================================================
+5. HEARTBEAT / RECONCILIATION
+======================================================================
+
+Usare heartbeat/reconciliation solo se il servizio può morire silenziosamente e
+il valore giustifica il costo.
+
+Il check deve:
+- essere bounded;
+- non fare polling aggressivo;
+- evitare wakeup inutili;
+- riconciliare desired state vs runtime;
+- poter riparare idempotentemente.
+
+======================================================================
+6. BOOT / UPDATE / RESTART
+======================================================================
+
+Se la funzione deve sopravvivere reboot/update, definire esplicitamente:
+- evento di riavvio supportato;
+- precondizioni;
+- permessi;
+- user opt-in;
+- Android version behavior;
+- policy Play pertinente.
+
+Non riavviare service "per sicurezza" se l'utente lo aveva disabilitato.
+
+======================================================================
+7. FOREGROUND SERVICE
+======================================================================
+
+Per FGS:
+- foregroundServiceType corretto;
+- permission richieste coerenti;
+- notification persistente informativa;
+- start/stop idempotenti;
+- no hidden always-on behavior;
+- no excessive sampling;
+- shutdown pulito;
+- crash/restart policy esplicita.
+
+======================================================================
+8. WORKMANAGER / ALARMS
+======================================================================
+
+WorkManager:
+- unique work quando serve;
+- constraints minime;
+- retry/backoff bounded;
+- niente duplicazioni.
+
+AlarmManager:
+- exact solo quando il valore lo richiede;
+- degradare a inexact quando accettabile;
+- permission/settings health se exact richiesto.
+
+======================================================================
+9. SENSOR DISCIPLINE
+======================================================================
+
+- scegliere sampling rate minimo utile;
+- sospendere listener quando non servono;
+- debounce/hysteresis;
+- evitare log/event flood;
+- calibrazione separata dal loop hot-path;
+- battery impact misurato.
+
+======================================================================
+10. OEM RELIABILITY UX
+======================================================================
+
+Quando OEM battery manager/autostart può rompere la funzione:
+- rilevare quando possibile;
+- spiegare solo se materialmente rilevante;
+- non forzare l'utente in impostazioni non necessarie;
+- fornire check/repair contestuale.
+
+======================================================================
+11. TEST MATRIX
+======================================================================
+
+[ ] enable/disable idempotente
+[ ] process kill
+[ ] service kill
+[ ] reboot se supportato
+[ ] app update se pertinente
+[ ] duplicate work prevention
+[ ] stale heartbeat
+[ ] repair
+[ ] permission revoked while active
+[ ] notification channel disabled
+[ ] low battery / Doze scenario pertinente
+[ ] background restriction
+[ ] no runaway polling
+[ ] Web unsupported boundary
+
+======================================================================
+12. CERTIFICATION
+======================================================================
+
+Emulator può coprire parte dei flussi.
+CERTIFIED richiede device reale per comportamento OEM/sensor/background che
+non è rappresentabile in modo affidabile in emulator.
+
+END GOLDEN ANDROID NATIVE RELIABILITY v0.1 DRAFT
