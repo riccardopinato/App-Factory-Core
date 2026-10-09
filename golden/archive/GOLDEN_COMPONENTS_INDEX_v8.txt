@@ -1,0 +1,772 @@
+GOLDEN COMPONENTS INDEX
+Versione: 8.0 — 07/10/2026
+
+SCOPO
+Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
+
+STATI
+- CERTIFIED DONOR: codice realmente in uso e verificato nel donor.
+- COPY-READY GOLDEN: documento generalizzato pronto da copiare; richiede test per-app.
+- CERTIFIED GOLDEN: riusato con successo in almeno due progetti/harness.
+- CANDIDATE: donor individuato, estrazione non ancora completata.
+- DRAFT / PROCESS CANDIDATE: processo/documento definito ma non ancora validato nel flusso reale.
+- COPY-READY PROCESS: processo riutilizzabile con input/output e prove reali, senza implicare certificazione runtime.
+- DEPRECATED: non usare.
+
+======================================================================
+1. GOOGLE AUTH / UNIVERSAL IDENTITY
+======================================================================
+
+File:
+GOLDEN_GOOGLE_AUTH_SUPABASE_FLUTTER_v1.txt
+
+Stato:
+COPY-READY GOLDEN
+
+Donor:
+Anna's Diary
+
+Scope:
+- Google OAuth;
+- Supabase Auth;
+- Android callback;
+- Web callback;
+- session persistence;
+- profile identity;
+- logout.
+
+======================================================================
+2. LOCALIZZAZIONE
+======================================================================
+
+File:
+GOLDEN_LOCALIZATION_FLUTTER_v1.txt
+
+Stato:
+COPY-READY GOLDEN
+
+Donor:
+FrameLab + Anna's Diary
+
+Scope:
+- lingua dispositivo;
+- manual override;
+- EN/IT/ES/FR/DE/PT;
+- ARB/gen_l10n;
+- fallback.
+
+======================================================================
+3. CI + ANDROID RELEASE + WEB DEPLOY
+======================================================================
+
+File:
+GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v1.txt
+
+Stato:
+COPY-READY GOLDEN
+
+Donor:
+Anna's Diary
+
+Scope:
+- analyze/test;
+- Web release;
+- APK ARM64;
+- universal APK;
+- AAB;
+- signing;
+- SHA-256;
+- GitHub Pages.
+
+======================================================================
+4. PROFILO STANDARD
+======================================================================
+
+File:
+GOLDEN_PROFILE_STANDARD_FLUTTER_v1.txt
+
+Stato:
+COPY-READY GOLDEN
+
+Donor:
+FrameLab + Anna's Diary
+
+Scope:
+- ProfileRepository;
+- local preferences;
+- account section slot;
+- language;
+- theme;
+- version/about/privacy;
+- offline-first.
+
+======================================================================
+5. THEME MATERIAL 3
+======================================================================
+
+File:
+GOLDEN_THEME_M3_FLUTTER_v1.txt
+
+Stato:
+COPY-READY GOLDEN
+
+Donor:
+FrameLab + Anna's Diary
+
+Scope:
+- M3;
+- light/dark/system;
+- design tokens;
+- 48dp touch targets;
+- component themes;
+- responsive shell.
+
+======================================================================
+6. SECURE STORAGE ENVELOPE
+======================================================================
+
+File:
+GOLDEN_SECURE_STORAGE_ANDROID_KEYSTORE_FLUTTER_v1.txt
+
+Stato:
+COPY-READY GOLDEN
+
+Donor:
+Anna's Diary Private Vault v0.90
+
+Scope certificato:
+Android
+
+Scope:
+- Android Keystore;
+- AES-GCM;
+- wrapped master key;
+- encrypted local payload;
+- zeroization;
+- FLAG_SECURE;
+- biometric gate optional.
+
+Limitazioni:
+- iOS Keychain NON ancora certificato;
+- Web persistent secret storage disabilitato/fail-closed.
+
+======================================================================
+7. NOTIFICATION RELIABILITY
+======================================================================
+
+File:
+GOLDEN_NOTIFICATION_RELIABILITY_FLUTTER_v1.txt
+
+Stato:
+COPY-READY GOLDEN
+
+Donor:
+Anna's Diary v0.43 + v0.63
+
+Scope:
+- permissions;
+- channels;
+- exact/inexact scheduling;
+- timezone;
+- stable IDs;
+- diagnostics;
+- tap routing;
+- quick-action pattern;
+- receipt-aware push reliability.
+
+======================================================================
+8. BACKUP / RECOVERY — DATA SAFETY
+======================================================================
+
+File:
+GOLDEN_BACKUP_RECOVERY_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE
+
+Donor:
+Anna's Diary + CamperBoss + Notes-Ecosistema
+
+Scope candidato:
+- manifest versionato;
+- SHA-256;
+- bounded archive safety;
+- inspect-before-restore;
+- staging;
+- safety snapshot;
+- rollback-safe restore;
+- data/media separation;
+- physical file staging/rollback v0.2;
+- reference-safe restore.
+
+======================================================================
+9. ENTITY LIFECYCLE / TRASH
+======================================================================
+
+File:
+GOLDEN_ENTITY_LIFECYCLE_TRASH_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE
+
+Donor:
+Anna's Diary + Notes-Ecosistema + Backlog Project
+
+Scope candidato:
+- soft delete;
+- trash;
+- restore;
+- purge;
+- archive;
+- cascade/reference cleanup;
+- reminder/media/sync hooks;
+- collaboration delete scopes;
+- reference-safe purge v0.2;
+- shared-asset protection.
+
+======================================================================
+10. MEDIA ASSET STORE
+======================================================================
+
+File:
+GOLDEN_MEDIA_ASSET_STORE_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE
+
+Donor:
+Anna's Diary + Notes-Ecosistema + CamperBoss
+
+Scope candidato:
+- private storage;
+- SHA-256 content addressing;
+- integrity check;
+- bounded cache;
+- original/thumbnail/derivative;
+- reference-aware GC;
+- Web/native adapter;
+- staging transaction v0.2;
+- physical-file rollback integration.
+
+======================================================================
+11. OSS REUSE / RECONNAISSANCE
+======================================================================
+
+File:
+GOLDEN_OSS_REUSE_RECONNAISSANCE_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE
+
+Fonte approvata:
+https://github.com/topics/flutter-clean-architecture-example
+
+Scope:
+- donor discovery;
+- license gate;
+- 3-5 repo comparison quando pertinente;
+- architecture adaptation;
+- UI/UX reference;
+- provenance tracking.
+
+======================================================================
+12. CODERABBIT PR REVIEW
+======================================================================
+
+File:
+GOLDEN_CODERABBIT_PR_REVIEW_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE
+
+Fonti:
+- GitHub Marketplace CodeRabbit;
+- CodeRabbit official docs;
+- CodeRabbit official examples.
+
+Scope:
+- automatic PR review;
+- incremental review;
+- Flutter-specific review instructions;
+- generated-code exclusions;
+- non-blocking advisory review;
+- CI/AppLab authority indipendente;
+- nessun retry/wait gate.
+
+======================================================================
+13. FASTLANE ANDROID DELIVERY
+======================================================================
+
+File:
+GOLDEN_FASTLANE_ANDROID_DELIVERY_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE
+
+Fonte:
+https://docs.fastlane.tools/
+
+Scope:
+- build-once upload;
+- Google Play Internal Testing;
+- Internal App Sharing candidate;
+- metadata;
+- screengrab candidate;
+- Bundler/Gemfile lock;
+- secret-safe service account.
+
+
+======================================================================
+14. RELEASE REALITY / PHYSICAL VALIDATION
+======================================================================
+
+File:
+GOLDEN_RELEASE_REALITY_PHYSICAL_VALIDATION_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE
+
+Donor/process:
+AppLab + release/device validation patterns dei progetti Flutter
+
+Scope:
+- Evidence Ladder;
+- exact artifact identity;
+- same-bytes rule;
+- physical-device acceptance;
+- distribution verification;
+- cross-app paired-artifact evidence when required;
+- PASS/FAIL/BLOCKED/NOT VERIFIED semantics.
+
+======================================================================
+15. PROVENANCE / REUSE LEDGER
+======================================================================
+
+File:
+GOLDEN_PROVENANCE_REUSE_LEDGER_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE
+
+Scope:
+- donor provenance;
+- source repo/ref/path;
+- OSS license tracking;
+- adaptation delta;
+- tests/evidence;
+- multi-app producer/consumer contract lineage;
+- Golden promotion lineage.
+
+======================================================================
+16. ECOSYSTEM BRIDGE — SHARED ECOSYSTEM CORE v1
+======================================================================
+
+File:
+GOLDEN_ECOSYSTEM_BRIDGE_FLUTTER_v1_DRAFT.txt
+
+Stato:
+CANDIDATE — NON COPY-READY
+
+Canonical contract:
+Shared Ecosystem Core v1
+
+Implementation baselines:
+- Wonderlog main @ 98d00900f2d14b801f380adb168ea8e69a1a0b89
+  Evidence: IMPLEMENTED + CI GREEN
+- Anna's Diary 0.96.0+106
+  source SHA 75b607ea28979a22e7dd15d797320ad888940f1d
+  Evidence: IMPLEMENTED + TESTED + CI GREEN + APPLAB TRUSTED RUNTIME + SIGNED APK BUILT
+
+Cross-app physical round trip:
+NOT VERIFIED
+
+Compatibility/product projection:
+Life Bridge v1 — NON protocollo concorrente
+
+Canonical app IDs v1:
+- wonderlog
+- annas_diary
+- notes
+- trailpath
+
+Scope consolidato:
+- EcosystemEnvelope v1;
+- bridgeId `ecosystem:v1:<ownerApp>:<ownerEntityType>:<ownerEntityId>`;
+- idempotency `bridgeId + revision + transferMode`;
+- COPY != LINK;
+- canonical ownership per app;
+- mandatory provenance/revision/explicitShare;
+- versioned local transport package;
+- deep-link + clipboard fallback;
+- bounded local payload;
+- explicit review before materialization;
+- duplicate delivery idempotency;
+- fail-safe version/revision handling;
+- media handoff omitted/shareToken/cloudObject;
+- no private local URI cross-app;
+- protocol/transport separation;
+- no shared DB/common account/implicit continuous sync.
+
+Promotion blocker:
+7-case physical/evidence matrix defined in the Golden Bridge draft.
+
+======================================================================
+17. APPLAB QA / CERTIFICATION ADAPTER
+======================================================================
+
+File:
+GOLDEN_APPLAB_QA_CERTIFICATION_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE
+
+Donor:
+AppLab v4.x
+
+Scope:
+- trusted evidence integration;
+- immutable SHA/package/artifact binding;
+- FAST/FULL/CERTIFIED;
+- Maestro/runtime/visual/log evidence;
+- cross-app single-app-vs-paired validation boundary;
+- separation from physical validation.
+
+
+
+======================================================================
+18. ADMOB SAFE & ADAPTIVE MONETIZATION
+======================================================================
+
+File:
+GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Fonte:
+- App Factory monetization policy 06/10/2026;
+- Google AdMob Flutter / UMP / Test Ads / app-ads.txt official guidance;
+- google_mobile_ads API baseline verified against 9.1.0.
+
+Scope:
+- large anchored adaptive banner default;
+- inline adaptive for scrollable content;
+- dedicated ad slots / accidental-click prevention;
+- centralized AdMob IDs/config;
+- Android/iOS mobile-only boundary;
+- Web Preview stub/no-op;
+- UMP per launch + canRequestAds gate;
+- Privacy Options;
+- Premium/No Ads = no ad request;
+- test traffic / registered test-device exception;
+- interstitial/native/rewarded off by default;
+- failure-safe no-fill/offline/error behavior;
+- telemetry boundaries;
+- app-ads.txt / AdMob readiness release gate;
+- audience/age treatment per app;
+- physical validation matrix.
+
+Promotion blocker:
+- first real App Factory integration + release build;
+- Web Preview boundary proven;
+- physical adaptive-banner/UMP/Premium/failure validation;
+- artifact identity/evidence registered.
+
+
+
+
+======================================================================
+19. APP ICON / BRANDING
+======================================================================
+
+File:
+GOLDEN_APP_ICON_BRANDING_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Scope:
+- ICON FIRST nel bootstrap di ogni nuova app;
+- production-intent icon fin dall'inizio;
+- no Flutter/Android/default placeholder durante sviluppo normale;
+- comprensione funzione/dominio a colpo d'occhio;
+- silhouette riconoscibile;
+- modernità e appeal commerciale;
+- anti "AI-generated look" / anti clipart;
+- competitor shelf test;
+- scale test;
+- Android adaptive icon;
+- themed/monochrome decision;
+- iOS icon se target;
+- Web favicon/PWA assets se target;
+- master source + branding notes;
+- physical launcher/store-size validation;
+- evidence ladder icon-specific.
+
+Promotion blocker:
+- prima integrazione reale App Factory;
+- config riproducibile;
+- physical launcher validation;
+- Web boundary se pertinente;
+- seconda integrazione per CERTIFIED GOLDEN.
+
+======================================================================
+20. APP BOOTSTRAP / ASSEMBLY FIRST
+======================================================================
+
+File:
+GOLDEN_APP_BOOTSTRAP_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — NON COPY-READY
+
+Scope:
+- App Bootstrap Manifest;
+- deterministic Golden selection;
+- app/package/version identity;
+- icon/theme/localization from first bootstrap;
+- platform/Web boundary;
+- CI/signing plan;
+- idempotent/dry-run future automation;
+- domain features only after foundation.
+
+======================================================================
+21. CAPABILITY / PERMISSION / HEALTH
+======================================================================
+
+File:
+GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidates:
+TrailPath + Battery Guard + Notification Control + Easy Debloat + Pocket Guard
+
+Core rule:
+PERMISSION GRANTED != CAPABILITY AVAILABLE != SERVICE RUNNING != SERVICE HEALTHY.
+
+======================================================================
+22. ANDROID NATIVE RELIABILITY
+======================================================================
+
+File:
+GOLDEN_ANDROID_NATIVE_RELIABILITY_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidates:
+Battery Guard + Notification Control + Pocket Guard + Tabletop Motion Alarm +
+180FlipCharge + TrailPath
+
+Scope:
+- FGS;
+- heartbeat/reconciliation;
+- WorkManager/alarms;
+- boot/update recovery;
+- sensor discipline;
+- OEM restrictions;
+- duplicate-worker/listener prevention;
+- physical native validation.
+
+======================================================================
+23. ANDROID SIGNING / RELEASE IDENTITY
+======================================================================
+
+File:
+GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — NON COPY-READY
+
+Scope:
+- persistent signing identity;
+- keystore backup;
+- CI secrets;
+- certificate fingerprint;
+- package/version identity;
+- source/artifact SHA-256;
+- internal vs production signing;
+- same-artifact rule.
+
+======================================================================
+24. IMPORT / EXPORT / PORTABILITY
+======================================================================
+
+File:
+GOLDEN_IMPORT_EXPORT_PORTABILITY_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidates:
+Notes-Ecosistema + CamperBoss + Anna's Diary
+
+Scope:
+- adapter -> staging -> validation -> commit -> report;
+- external ID != canonical ID;
+- provenance/fingerprint;
+- re-import idempotency;
+- reference resolution;
+- lossiness report;
+- import != continuous sync;
+- safe open export.
+
+======================================================================
+25. ENTITLEMENT CONTRACT
+======================================================================
+
+File:
+GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — PROVIDER-AGNOSTIC
+
+Donor candidates:
+Anna's Diary + Notes + Notification Control + TrailPath + BeerClass
+
+Scope:
+- plan/tier;
+- capability access;
+- entitlement snapshot;
+- offline grace;
+- unknown state;
+- ProductLimits;
+- QA override isolation;
+- provider adapter boundary.
+
+Non certifica RevenueCat/Play Billing.
+
+======================================================================
+26. ONBOARDING / FIRST RUN
+======================================================================
+
+File:
+GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidates:
+CamperBoss + TrailPath + Battery Guard + FrameLab
+
+Scope:
+- resumable progress;
+- first-value;
+- just-in-time permissions;
+- optional account;
+- skip/complete;
+- deep-link preservation;
+- accessibility/localization.
+
+======================================================================
+27. APP SHELL / RESPONSIVE / VISUAL QA
+======================================================================
+
+File:
+GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidates:
+CamperBoss + FrameLab + TrailPath + AppLab
+
+Scope:
+- shell/states;
+- small/large/tablet layouts;
+- SafeArea/insets/edge-to-edge;
+- font scaling;
+- overlay collision policy;
+- loading/error/empty;
+- long localization strings;
+- visual acceptance matrix.
+
+======================================================================
+28. OFFLINE CONTENT PACKS
+======================================================================
+
+File:
+GOLDEN_OFFLINE_CONTENT_PACKS_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidates:
+CamperBoss + Notes + FrameLab + TrailPath
+
+Scope:
+- versioned manifest;
+- download state machine;
+- resume;
+- checksum verification;
+- verify-before-activate;
+- atomic update/swap;
+- storage projection;
+- purge/rollback;
+- map/model/catalog/guide pack lifecycle.
+
+
+======================================================================
+EXISTING GOLDEN HARDENING QUEUE — v24
+======================================================================
+
+Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
+
+- GOLDEN_NOTIFICATION_RELIABILITY_FLUTTER_v1
+  -> Diagnostic Truth / false-green prevention / Capability Health integration.
+
+- GOLDEN_LOCALIZATION_FLUTTER_v1
+  -> target parity: native Android, widgets, notifications, foreground service.
+
+- GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v1
+  -> immutable Action SHA pins, signing completeness, artifact provenance.
+
+- GOLDEN_SECURE_STORAGE_ANDROID_KEYSTORE_FLUTTER_v1
+  -> Auto Backup/restore exclusions, platform boundary hardening.
+
+======================================================================
+CANDIDATI SUCCESSIVI
+======================================================================
+
+- GOLDEN_CAMERA_SCAN_v1
+  Donor: BeerClass
+  Stato: CANDIDATE
+
+- GOLDEN_MAP_ROUTING_PRIMITIVES_v1
+  Donor: TrailPath + CamperBoss
+  Stato: DEFER / SPECIALIZED
+
+- GOLDEN_SENSOR_FUSION_ANDROID_v1
+  Donor: Pocket Guard + Tabletop Motion Alarm
+  Stato: DEFER / SPECIALIZED
+
+- GOLDEN_BILLING_PROVIDER_ADAPTER_v1
+  Donor: da definire dopo RevenueCat/Play Billing reali
+  Stato: DEFER
+
+======================================================================
+REGOLE v24
+======================================================================
+
+1. Master Prompt operativo: MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v24_FULL.txt.
+2. Per nuovi progetti: ASSEMBLY FIRST tramite App Bootstrap Golden.
+3. Usare prima il Golden più recente compatibile.
+4. EXTEND BEFORE DUPLICATE.
+5. Non riscrivere un Golden senza motivo tecnico.
+6. Ogni integrazione per-app riesegue la checklist pertinente.
+7. DRAFT/CANDIDATE non ha authority CERTIFIED.
+8. CERTIFIED DONOR != CERTIFIED GOLDEN.
+9. Capability native richiedono physical validation quando pertinente.
+10. Permission granted != capability/service health.
+11. Provenance significativa va registrata.
+12. Shared Ecosystem Core v1 resta protocollo cross-app canonico finché non sostituito formalmente.
+13. CodeRabbit è advisory/non-blocking.
+14. AdMob segue Safe & Adaptive Golden; Premium No Ads = no ad request.
+15. ICON FIRST per ogni nuova app.
+16. Golden provider-sensitive deve avere freshness review prima di uso production se stale/unknown.
+17. Product Truth e Diagnostic Truth prevalgono sui badge/stati UI ottimistici.
+18. Build green != feature verified; Web Preview != native certification.
+19. Stessa capability non deve avere più coordinator/scheduler concorrenti senza motivo.
+20. App/package/signing/artifact identity sono parte della release evidence.
