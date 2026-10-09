@@ -18,9 +18,9 @@ Do not refresh it between consecutive steps unless the central framework changes
 
 ## Current versions
 
-- Master Prompt: **v25 FULL**
-- Golden Components Index: **v9**
-- Golden registry: **v1**
+- Master Prompt: **v25.1 FULL**
+- Golden Components Index: **v10**
+- Golden registry: **v2**
 
 ## Repository layout
 
@@ -29,11 +29,11 @@ CURRENT.yaml
 CHANGELOG.md
 master/
   MASTER_PROMPT_CURRENT.txt
-  MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v25_FULL.txt
+  MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v25_1_FULL.txt
   archive/
 golden/
   GOLDEN_INDEX_CURRENT.txt
-  GOLDEN_COMPONENTS_INDEX_v9.txt
+  GOLDEN_COMPONENTS_INDEX_v10.txt
   GOLDEN_REGISTRY.yaml
   <category>/GOLDEN_*.txt
   archive/
@@ -42,6 +42,7 @@ bootstrap/
   app_factory_manifest.example.yaml
 schemas/
 scripts/validate_factory.py
+scripts/requirements.txt
 .github/workflows/validate-factory.yml
 evidence/
 ```
@@ -71,3 +72,18 @@ See `bootstrap/APP_FACTORY_BOOTSTRAP.txt` for the short reusable bootstrap instr
 ## ChatGPT Project pointer
 
 To prevent old chats from selecting a stale Master Prompt, copy the instruction in `bootstrap/PROJECT_CUSTOM_INSTRUCTION.txt` into the ChatGPT Project instructions. The repository remains the canonical source of truth.
+
+
+## Validation semantics
+
+A green Factory validation now means YAML/schema parsing, CURRENT alias equality,
+Index↔Registry semantic consistency, orphan detection, freshness invariants,
+basic secret-pattern scanning, and immutable GitHub Action SHA checks all pass.
+
+It still does **not** certify runtime behavior of any app.
+
+## Main branch governance
+
+Normal Core changes follow branch -> PR -> green Factory validation -> merge.
+Repository branch/ruleset protection should require the validation check and
+block force-push/delete. See `GOVERNANCE.md`.

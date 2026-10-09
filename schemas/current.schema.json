@@ -2,14 +2,49 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "App Factory CURRENT resolver",
   "type": "object",
-  "required": [
-    "factory_version",
-    "repository",
-    "updated_at",
-    "master",
-    "golden_index",
-    "golden_registry",
-    "bootstrap",
-    "policy"
-  ]
+  "additionalProperties": false,
+  "required": ["factory_version","repository","updated_at","master","golden_index","golden_registry","bootstrap","validation","policy"],
+  "properties": {
+    "factory_version": {"type":"integer","minimum":2},
+    "repository": {"const":"riccardopinato/App-Factory-Core"},
+    "updated_at": {"type":"string","format":"date"},
+    "master": {
+      "type":"object","additionalProperties":false,
+      "required":["version","status","path","versioned_path"],
+      "properties":{
+        "version":{"type":["string","integer"]},
+        "status":{"const":"CURRENT"},
+        "path":{"const":"master/MASTER_PROMPT_CURRENT.txt"},
+        "versioned_path":{"type":"string","pattern":"^master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v[0-9_]+_FULL\\.txt$"}
+      }
+    },
+    "golden_index": {
+      "type":"object","additionalProperties":false,
+      "required":["version","status","path","versioned_path"],
+      "properties":{
+        "version":{"type":"integer","minimum":1},
+        "status":{"const":"CURRENT"},
+        "path":{"const":"golden/GOLDEN_INDEX_CURRENT.txt"},
+        "versioned_path":{"type":"string","pattern":"^golden/GOLDEN_COMPONENTS_INDEX_v[0-9]+\\.txt$"}
+      }
+    },
+    "golden_registry":{"type":"object","additionalProperties":false,"required":["version","path"],
+      "properties":{"version":{"type":"integer","minimum":1},"path":{"const":"golden/GOLDEN_REGISTRY.yaml"}}},
+    "bootstrap":{"type":"object","additionalProperties":false,"required":["path"],
+      "properties":{"path":{"const":"bootstrap/APP_FACTORY_BOOTSTRAP.txt"}}},
+    "validation":{"type":"object","additionalProperties":false,"required":["version","script","requirements"],
+      "properties":{"version":{"type":"integer","minimum":2},"script":{"const":"scripts/validate_factory.py"},"requirements":{"const":"scripts/requirements.txt"}}},
+    "policy":{"type":"object","additionalProperties":false,
+      "required":["master_is_authoritative","resolve_current_before_factory_dependent_work","use_only_relevant_goldens","one_factory_baseline_per_session","chat_memory_never_overrides_current","no_automatic_app_repo_refresh","factory_changes_require_green_validation","prefer_pr_for_factory_changes"],
+      "properties":{
+        "master_is_authoritative":{"const":true},
+        "resolve_current_before_factory_dependent_work":{"const":true},
+        "use_only_relevant_goldens":{"const":true},
+        "one_factory_baseline_per_session":{"const":true},
+        "chat_memory_never_overrides_current":{"const":true},
+        "no_automatic_app_repo_refresh":{"const":true},
+        "factory_changes_require_green_validation":{"const":true},
+        "prefer_pr_for_factory_changes":{"const":true}
+      }}
+  }
 }

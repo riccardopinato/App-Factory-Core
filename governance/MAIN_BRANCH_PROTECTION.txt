@@ -1,0 +1,20 @@
+MAIN BRANCH PROTECTION — REQUIRED REPOSITORY SETTING
+Versione 1 — 09/10/2026
+
+Target: main
+
+Required:
+- Pull Request before merge
+- Required status check: Validate App Factory Core / validate
+- Block force push
+- Block branch deletion
+- Owner/admin emergency bypass only when necessary
+
+Reason:
+CURRENT.yaml makes main the live source of truth. Post-push CI alone cannot
+prevent an invalid commit from temporarily becoming canonical.
+
+Audit state 09/10/2026:
+- GitHub rulesets API returned an empty list.
+- classic branch-protection read was unavailable to the connected integration.
+Protection must therefore not be assumed from CI alone.
