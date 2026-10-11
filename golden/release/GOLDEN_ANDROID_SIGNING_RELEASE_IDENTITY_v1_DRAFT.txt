@@ -1,11 +1,12 @@
 GOLDEN ANDROID SIGNING & RELEASE IDENTITY
-Versione draft: 0.1 — 07/10/2026
+Versione draft: 0.2 — 11/10/2026
 Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
 Created under Master: v24 FULL
 Current Master: resolve via CURRENT.yaml
 
 Donor/process evidence:
 - Battery Guard persistent internal signing workflow;
+- Invia al PC / Send-to-pc production-signing hardening v1.16;
 - App Factory CI/release practice;
 - Release Reality exact-artifact rules.
 
@@ -15,6 +16,19 @@ Donor/process evidence:
 
 Trattare signing identity, package identity e artifact provenance come identità
 persistente del prodotto, non come dettaglio finale di Gradle.
+
+Questa Golden definisce anche la procedura operativa una-tantum necessaria
+quando un'app passa da build INTERNAL/debug-signed a RELEASE/Store Ready.
+
+REGOLA CENTRALE:
+CI GREEN != PRODUCTION SIGNING VERIFIED.
+
+Un'app NON può essere dichiarata:
+- Store Ready;
+- Production Ready;
+- release finale firmata;
+se non esiste evidence reale della signing identity permanente e della build
+release prodotta con quella identity.
 
 ======================================================================
 2. IDENTITÀ MINIMA
@@ -34,30 +48,115 @@ artifactSha256:
 buildWorkflowRun:
 ```
 
-======================================================================
-3. KEY MATERIAL
-======================================================================
-
-Mai committare:
-- .jks/.keystore;
-- password;
-- key alias secret;
-- service account JSON;
-- base64 della key.
-
-Conservare:
-- copia locale protetta;
-- almeno un backup sicuro separato;
-- credenziali in password manager/secret store.
-
-Perdita della key può impedire aggiornamenti coerenti: trattarla come rischio P0/P1
-in base alla lane/distribuzione.
+Il fingerprint SHA-256 del certificato è dato pubblico e può essere committato.
+La chiave privata e le password NON devono essere committate.
 
 ======================================================================
-4. CI SECRETS
+3. QUANDO SCATTA IL SIGNING GATE
 ======================================================================
 
-Naming candidato:
+Il signing gate production scatta quando l'app entra in una delle seguenti fasi:
+
+- Store Ready;
+- release candidate destinata a distribuzione esterna;
+- APK diretto che dovrà ricevere aggiornamenti in-place;
+- AAB destinato a Google Play;
+- prima certificazione finale che dichiara identità di release.
+
+Durante sviluppo/QA può esistere una lane INTERNAL separata, anche debug-signed,
+purché sia dichiarata esplicitamente come NON production.
+
+Non ritardare il signing gate fino a dopo la pubblicazione.
+
+======================================================================
+4. KEY MATERIAL — GENERAZIONE UNA TANTUM
+======================================================================
+
+La keystore production/upload deve essere creata UNA sola volta per l'identità
+di release scelta e poi riutilizzata in modo stabile.
+
+Pattern raccomandato:
+- formato JKS o altro formato Android supportato e documentato;
+- algoritmo forte, tipicamente RSA 4096 o equivalente supportato;
+- alias stabile;
+- validità lunga;
+- subject/certificate identity documentabile;
+- password generate casualmente e conservate fuori dal repository.
+
+Esempio locale con JDK keytool:
+
+```bash
+keytool -genkeypair \
+  -v \
+  -keystore <APP>-release.jks \
+  -alias <APP_ALIAS> \
+  -keyalg RSA \
+  -keysize 4096 \
+  -sigalg SHA256withRSA \
+  -validity 10000
+```
+
+La generazione deve avvenire su ambiente fidato.
+
+NON:
+- creare una nuova keystore a ogni build;
+- usare la debug keystore come identity production;
+- affidare l'unica copia a un runner CI effimero;
+- committare la keystore;
+- stampare password o base64 della keystore nei log.
+
+======================================================================
+5. BACKUP OBBLIGATORIO
+======================================================================
+
+Prima di usare la key come identity permanente:
+
+[ ] keystore salvata localmente in posizione protetta;
+[ ] almeno un secondo backup sicuro e separato;
+[ ] password/alias salvati in password manager o secret store;
+[ ] fingerprint SHA-256 esportato e registrato;
+[ ] recovery ownership chiaro.
+
+Perdita della key può impedire aggiornamenti coerenti degli APK distribuiti
+direttamente. Trattare la perdita come rischio P0/P1.
+
+BACKUP PRESENTE != BACKUP RECUPERABILE.
+Verificare almeno una volta che il file di backup sia leggibile e che
+`keytool -list` restituisca il certificato atteso.
+
+======================================================================
+6. FINGERPRINT PUBBLICO E FAIL-CLOSED
+======================================================================
+
+Estrarre il fingerprint SHA-256 del certificato e conservarlo come parte
+dell'identità pubblica del progetto.
+
+Esempio:
+
+```bash
+keytool -list -v -keystore <APP>-release.jks -alias <APP_ALIAS>
+```
+
+Il workflow production dovrebbe conoscere il fingerprint atteso e fallire se
+l'APK risultante è firmato con un certificato diverso.
+
+Pattern:
+
+EXPECTED CERT SHA-256
+-> build APK
+-> apksigner verify --print-certs
+-> estrai ACTUAL CERT SHA-256
+-> confronto
+-> mismatch = FAIL
+
+Questo impedisce di generare accidentalmente una release valida tecnicamente ma
+firmata con una identity diversa.
+
+======================================================================
+7. CI SECRETS
+======================================================================
+
+Naming standard App Factory:
 
 ```text
 ANDROID_KEYSTORE_BASE64
@@ -66,30 +165,119 @@ ANDROID_KEY_ALIAS
 ANDROID_KEY_PASSWORD
 ```
 
-Non è obbligatorio usare esattamente questi nomi se il progetto ha naming
-esistente stabile.
+La keystore viene codificata base64 solo per il trasporto nel secret store.
+Il base64 della key RESTA SEGRETO: non è documentazione pubblica.
 
 CI deve:
-- ricreare key solo runtime;
+- ricreare la keystore solo runtime;
 - non stamparla;
 - non archiviarla come artifact;
-- distruggere file temporaneo a fine job quando possibile.
+- non stampare password;
+- distruggere il file temporaneo a fine job quando possibile;
+- fallire se uno dei secret richiesti manca.
+
+Se il tool/connector usato per lo sviluppo non può scrivere GitHub Secrets,
+questo è un USER-ACTION GATE esplicito:
+- indicare i quattro nomi esatti;
+- indicare dove inserirli in GitHub;
+- NON dichiarare il gate completato finché non esiste una build release reale.
+
+Percorso GitHub UI tipico:
+
+Settings
+-> Secrets and variables
+-> Actions
+-> New repository secret
+
+I valori dei secret NON devono essere riportati in documentazione pubblica,
+issue, PR, commenti o chat condivise.
 
 ======================================================================
-5. INTERNAL VS PRODUCTION
+8. WORKFLOW PRODUCTION SEPARATO
 ======================================================================
 
-Definire chiaramente:
-- debug signing;
-- internal persistent signing;
-- production signing;
-- Play App Signing boundary.
+Preferire una lane distinta dalla CI ordinaria.
 
-Non distribuire un APK "release" con firma casuale/temporanea e poi aspettarsi
-upgrade in-place garantito.
+Pattern:
+
+CI / INTERNAL
+- push / pull_request;
+- analyze/test/lint;
+- build QA/internal;
+- può usare debug/internal signing se dichiarato.
+
+PRODUCTION RELEASE
+- workflow separato;
+- normalmente `workflow_dispatch` o trigger release controllato;
+- richiede signing secrets;
+- produce APK/AAB production;
+- verifica fingerprint;
+- produce hash/evidence;
+- NON pubblica automaticamente sullo Store salvo step esplicito separato.
+
+La presenza del pulsante GitHub:
+Actions -> <release workflow> -> Run workflow
+
+significa soltanto:
+"avvia la pipeline production".
+
+NON significa automaticamente:
+- pubblicazione Play Store;
+- rollout utenti;
+- certificazione fisica;
+- release approvata.
 
 ======================================================================
-6. VERSIONING
+9. FIRST PRODUCTION RUN — GATE OBBLIGATORIO
+======================================================================
+
+Dopo aver inserito i quattro secret, eseguire almeno una volta il workflow
+production.
+
+La prima build reale deve dimostrare:
+
+[ ] workflow partito dal branch/source atteso;
+[ ] test/lint/build PASS;
+[ ] APK release generato;
+[ ] AAB generato quando pertinente;
+[ ] firma verificata;
+[ ] fingerprint ACTUAL == EXPECTED;
+[ ] SHA-256 artifact generato;
+[ ] source SHA registrato;
+[ ] workflow run URL/ID registrato;
+[ ] secret assenti dai log;
+[ ] keystore non presente negli artifact.
+
+FINCHÉ QUESTO RUN NON ESISTE:
+PRODUCTION SIGNING = BLOCKED.
+
+Configurare i secret senza eseguire il workflow NON chiude il gate.
+
+======================================================================
+10. PLAY APP SIGNING BOUNDARY
+======================================================================
+
+Distinguere sempre:
+
+UPLOAD KEY
+- posseduta dal progetto/team;
+- firma l'AAB caricato;
+- può essere la stessa key usata per APK diretti se questa scelta è intenzionale.
+
+PLAY APP SIGNING KEY
+- gestita da Google quando Play App Signing è attivo;
+- firma gli APK distribuiti dal Play Store;
+- può essere diversa dalla upload key.
+
+Documentare quale chiave è:
+- direct APK signing identity;
+- Play upload key;
+- Play app signing key.
+
+Non chiamare genericamente "la chiave Play" senza specificare il ruolo.
+
+======================================================================
+11. VERSIONING E UPDATE-IN-PLACE
 ======================================================================
 
 - versionCode sempre crescente per update Android;
@@ -97,45 +285,105 @@ upgrade in-place garantito.
 - migration expectations legate alla versione;
 - hotfix tracciabile.
 
+Prima della certificazione finale, verificare almeno un update-in-place quando
+pertinente:
+
+release N firmata con identity X
+-> installata
+-> release N+1 firmata con identity X
+-> update riuscito senza uninstall
+
+Se il signer cambia in modo non previsto, l'update diretto può fallire.
+
 ======================================================================
-7. SAME-ARTIFACT RULE
+12. SAME-ARTIFACT RULE
 ======================================================================
 
 Se l'APK testato viene ricostruito, è un nuovo artifact.
+
 Registrare SHA-256 dell'esatto file verificato/distribuito.
 
 Preferire:
 build once -> hash -> test -> distribute same bytes.
 
+Un AAB e un APK sono artifact distinti e richiedono identity/evidence coerenti.
+
 ======================================================================
-8. KEY ROTATION
+13. KEY ROTATION
 ======================================================================
 
 Non ruotare signing identity senza piano esplicito.
-Se si usa Play App Signing, distinguere upload key da app signing key.
-Documentare recovery path.
+
+Se si usa Play App Signing:
+- distinguere upload key da app signing key;
+- usare i meccanismi ufficiali di recovery/rotation quando necessari;
+- documentare data, motivo e nuova fingerprint.
+
+Per APK distribuiti direttamente, una rotation non pianificata può rompere la
+continuità degli aggiornamenti.
 
 ======================================================================
-9. ACCEPTANCE MATRIX
+14. ACCEPTANCE MATRIX
 ======================================================================
 
 [ ] applicationId stabile
 [ ] versionCode crescente
-[ ] lane dichiarata
-[ ] certificate fingerprint registrato
+[ ] lane INTERNAL/PRODUCTION dichiarata
+[ ] keystore permanente generata una volta
+[ ] backup primario presente
+[ ] backup separato presente
+[ ] credenziali in secret/password manager
+[ ] certificate fingerprint SHA-256 registrato
 [ ] key fuori repo
-[ ] key backup presente
-[ ] CI secret-safe
-[ ] release artifact hash
+[ ] quattro CI secret configurati
+[ ] workflow production separato
+[ ] first production run realmente eseguito
+[ ] workflow fail-closed su signer inatteso
+[ ] APK release firmato
+[ ] AAB generato quando pertinente
+[ ] release artifact SHA-256
 [ ] source SHA
+[ ] workflow run evidence
+[ ] secret assenti dai log
 [ ] install/update test con stessa signing identity
 [ ] Play signing boundary documentata se pertinente
+[ ] exact artifact destinato alla distribuzione identificato
 
 ======================================================================
-10. PROMOZIONE
+15. VERDETTI
 ======================================================================
 
-COPY-READY PROCESS dopo due progetti con update-in-place riuscito e CI secret-safe.
-CERTIFIED richiede artifact identity verificata su release/internal reali.
+INTERNAL READY
+- build/test interni validi;
+- signing production non ancora richiesto o non ancora chiuso.
 
-END GOLDEN ANDROID SIGNING & RELEASE IDENTITY v0.1 DRAFT
+SIGNING BLOCKED
+- key non esiste;
+- backup non esiste;
+- secret mancanti;
+- first production run non eseguito;
+- fingerprint mismatch.
+
+PRODUCTION SIGNING VERIFIED
+- workflow production reale PASS;
+- certificate fingerprint verificato;
+- artifact hash/source SHA/evidence registrati.
+
+STORE READY
+- richiede inoltre i gate release/physical validation pertinenti.
+- PRODUCTION SIGNING VERIFIED da solo NON equivale a STORE READY.
+
+======================================================================
+16. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS dopo almeno due progetti con:
+- signing production persistente;
+- update-in-place riuscito;
+- CI secret-safe;
+- first production workflow evidence.
+
+CERTIFIED richiede artifact identity verificata su release reali e il rispetto
+dei gate di Release Reality / Physical Validation pertinenti.
+
+END GOLDEN ANDROID SIGNING & RELEASE IDENTITY v0.2 DRAFT
