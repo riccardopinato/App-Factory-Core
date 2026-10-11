@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-10-11 — Android production signing gate hardening
+
+- Expanded Android Signing / Release Identity Golden from principles to an explicit one-time production signing procedure.
+- Standardized permanent keystore generation, separated secure backup, public certificate SHA-256 registration and four GitHub Actions secrets.
+- Added explicit USER-ACTION GATE semantics when connectors cannot write repository secrets.
+- Required a real first production workflow run before declaring production signing verified.
+- Added fail-closed verification of expected vs actual signing certificate identity as the canonical pattern.
+- Clarified that manual `Run workflow` starts the production build pipeline and does not itself publish to Google Play.
+- Clarified upload key vs Play App Signing key responsibilities.
+- Added update-in-place and exact-artifact evidence requirements.
+- Linked CI / Android Release Golden to the signing Golden.
+- Added validator guards so required signing-gate concepts cannot silently disappear.
+
+
 ## 2026-10-09 — Hardening v25.1 / Golden Index v10 / Registry v2
 
 - Hardened App-Factory-Core governance after heavy audit.
