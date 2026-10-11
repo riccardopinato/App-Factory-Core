@@ -72,6 +72,39 @@ NON committare:
 - key password.
 
 ======================================================================
+2.1 PRODUCTION SIGNING SETUP GATE
+======================================================================
+
+Prima di considerare una lane Android "production" o "Store Ready", applicare:
+
+GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT.txt
+
+La sola presenza dei quattro secret NON dimostra che il signing sia operativo.
+
+Procedura minima:
+1. generare una keystore permanente una sola volta;
+2. salvarla e mantenerne almeno un backup sicuro separato;
+3. registrare il fingerprint SHA-256 pubblico del certificato;
+4. configurare i quattro GitHub Secrets;
+5. usare un workflow release separato, normalmente manuale/controllato;
+6. avviare almeno un first production run reale;
+7. verificare che ACTUAL certificate SHA-256 == EXPECTED certificate SHA-256;
+8. registrare APK/AAB, artifact SHA-256, source SHA e workflow run;
+9. verificare che key/password non compaiano nei log o negli artifact;
+10. eseguire update-in-place con la stessa signing identity quando pertinente.
+
+Se un connector/tool non può creare GitHub Secrets:
+- trattare il passaggio come USER-ACTION GATE;
+- indicare all'utente i nomi esatti dei secret;
+- NON dichiarare production signing completato finché il workflow reale non è PASS.
+
+`Actions -> <release workflow> -> Run workflow` avvia la pipeline production.
+NON equivale automaticamente a pubblicazione Play Store o rollout utenti.
+
+CI GREEN != PRODUCTION SIGNING VERIFIED.
+PRODUCTION SIGNING VERIFIED != STORE READY.
+
+======================================================================
 3. WORKFLOW — .github/workflows/dev-checks.yml
 ======================================================================
 
@@ -422,6 +455,11 @@ Anna's Diary current donor:
 - GitHub Pages canonical deployment
 - persistent Android signing contract
 - ARM64 / universal / AAB / SHA-256 artifact flow
+
+Additional process evidence:
+- Send-to-pc / Invia al PC v1.16 release-signing setup:
+  permanent key generation, public fingerprint pinning, GitHub Secret gate,
+  manual production workflow and fail-closed signer verification.
 
 Certificazione:
 CERTIFIED DONOR.
