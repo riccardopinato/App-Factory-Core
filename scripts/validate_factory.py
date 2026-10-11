@@ -119,6 +119,40 @@ def check_pins(path):
 check_pins(".github/workflows/validate-factory.yml")
 for p in [str(g.get("path")) for g in goldens if g.get("id")=="ci_release_web_deploy"]: check_pins(p)
 
+signing_paths=[str(g.get("path")) for g in goldens if g.get("id")=="android_signing_release_identity"]
+if len(signing_paths)!=1:
+    fail("expected exactly one android_signing_release_identity Golden")
+else:
+    sp=req(signing_paths[0])
+    if sp.exists():
+        st=sp.read_text(encoding="utf-8")
+        required_signing_contract=[
+            "ANDROID_KEYSTORE_BASE64",
+            "ANDROID_KEYSTORE_PASSWORD",
+            "ANDROID_KEY_ALIAS",
+            "ANDROID_KEY_PASSWORD",
+            "CI GREEN != PRODUCTION SIGNING VERIFIED",
+            "first production run",
+            "workflow_dispatch",
+            "certificateSha256",
+            "build once -> hash -> test -> distribute same bytes",
+            "UPLOAD KEY",
+            "PLAY APP SIGNING KEY",
+        ]
+        for token in required_signing_contract:
+            if token not in st:
+                fail(f"Android signing Golden missing required contract token: {token}")
+
+ci_paths=[str(g.get("path")) for g in goldens if g.get("id")=="ci_release_web_deploy"]
+for cp in ci_paths:
+    p=req(cp)
+    if p.exists():
+        txt=p.read_text(encoding="utf-8")
+        if "GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT.txt" not in txt:
+            fail("CI/Release Golden must reference Android Signing / Release Identity Golden")
+        if "PRODUCTION SIGNING VERIFIED != STORE READY" not in txt:
+            fail("CI/Release Golden missing production-signing vs Store Ready boundary")
+
 secret_patterns={
  "private key":re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
  "OpenAI project key":re.compile(r"sk-proj-[A-Za-z0-9_-]{20,}"),
