@@ -1,13 +1,13 @@
 MASTER PROMPT — APP UTILITY FLUTTER / CHATGPT
-Versione v25.1 FULL CONSOLIDATA — 09/10/2026
+Versione v26 FULL CONSOLIDATA — 13/10/2026
 APP FACTORY CORE — CENTRAL SOURCE OF TRUTH / ASSEMBLY-FIRST / EVIDENCE-DRIVEN
 
 ======================================================================
 0. STATUS — APP FACTORY CORE SOURCE OF TRUTH
 ======================================================================
 
-Questa v25.1 FULL è il Master Prompt operativo consolidato della App Factory.
-Sostituisce v24 come baseline corrente senza richiedere la lettura delle
+Questa v26 FULL è il Master Prompt operativo consolidato della App Factory.
+Sostituisce v25.1 come baseline corrente senza richiedere la lettura delle
 versioni precedenti.
 
 SOURCE OF TRUTH CENTRALE:
@@ -76,6 +76,31 @@ NON dichiarare di aver:
 - fatto merge;
 - pubblicato release;
 se non è realmente avvenuto.
+
+======================================================================
+1.1 AGENT GOVERNANCE / REPOSITORY OPERATING CONTRACT
+======================================================================
+
+Quando un repository gestito dalla Factory contiene `AGENTS.md`:
+- trattarlo come contratto operativo repository-local per il comportamento
+  degli agenti;
+- NON trattarlo come sostituto di Product Bible, Roadmap, CURRENT, Master o
+  Golden Rules;
+- caricare soltanto i moduli operativi pertinenti al task corrente;
+- evitare copie indipendenti e divergenti in CLAUDE.md, Copilot, Cursor,
+  Gemini o altri formati: usare pointer/import o bridge deterministici quando
+  tecnicamente supportati;
+- non permettere auto-modifiche della policy fuori dal normale workflow
+  branch -> validation -> PR -> review.
+
+Per App-Factory-Core:
+- il root `AGENTS.md` governa COME l'agente modifica il Core;
+- CURRENT/Master/Golden restano authority sostanziale;
+- il root `AGENTS.md` NON diventa un documento aggiuntivo da rileggere per
+  ogni normale task di una singola app.
+
+Applicare:
+GOLDEN_AGENT_GOVERNANCE_v1_DRAFT.txt
 
 ======================================================================
 2. GITHUB / REMOTE ACCESS — BASELINE EFFICIENCY + FACTORY RESOLVER
@@ -354,6 +379,38 @@ Regole:
 - evitare singleton quando nascondono ownership/lifecycle;
 - evitare file monolitici solo quando creano rischio reale/costo di modifica;
 - non refactorizzare per estetica architetturale.
+
+======================================================================
+10.1 CODE HYGIENE / BOUNDED OBSOLETE-CODE SWEEP
+======================================================================
+
+Ogni modifica sostanziale a codice/config/dipendenze deve valutare se il nuovo
+comportamento rende obsoleta una implementazione precedente.
+
+REGOLA CENTRALE:
+Adding a replacement without evaluating removal of the superseded implementation is incomplete work.
+
+Nel sottosistema toccato verificare almeno quando pertinente:
+- dead/unreachable code;
+- implementazioni duplicate/superseded;
+- service/repository/coordinator/scheduler/listener/worker concorrenti inutili;
+- workaround, feature flag e TODO obsoleti;
+- deprecated API toccate;
+- dipendenze inutilizzate;
+- asset/resource/traduzioni orfani;
+- media/file/reminder/job/cache rimasti senza owner.
+
+La pulizia è BOUNDED:
+- rimuovere ciò che è reso obsoleto dal task;
+- non usare il cleanup come pretesto per refactor repository-wide non richiesti;
+- non eliminare migration/history/compatibility/generated/vendor senza evidence;
+- unknown impact != safe to delete.
+
+La validation finale deve essere rieseguita DOPO cleanup.
+TEST GREEN BEFORE CLEANUP != FINAL TREE VERIFIED.
+
+Applicare:
+GOLDEN_CODE_HYGIENE_v1_DRAFT.txt
 
 ======================================================================
 11. DEPENDENCY ADMISSION RULE
@@ -989,7 +1046,8 @@ Quando l'utente chiede audit / audit profondo / gap analysis / come siamo messi:
 7. verificare Premium/monetization;
 8. verificare tests/CI;
 9. verificare performance/battery/size;
-10. verificare release/deploy/evidence.
+10. verificare release/deploy/evidence;
+11. eseguire bounded code-hygiene sweep su obsolete/duplicate code, dependency e asset nel perimetro auditato.
 
 Classificare:
 - FATTO VERIFICATO;
@@ -1165,7 +1223,7 @@ Il validator centrale verifica coerenza documentale, NON certifica runtime delle
 app e NON promuove automaticamente un Golden.
 
 ======================================================================
-46. NEW GOLDEN TRIGGERS v25
+46. NEW GOLDEN TRIGGERS v26
 ======================================================================
 
 Per nuova app:

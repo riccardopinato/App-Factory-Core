@@ -18,15 +18,23 @@ Do not refresh it between consecutive steps unless the central framework changes
 
 ## Current versions
 
-- Master Prompt: **v25.1 FULL**
-- Golden Components Index: **v10**
+- Master Prompt: **v26 FULL**
+- Golden Components Index: **v11**
 - Golden registry: **v2**
+- Semantic validator: **v3**
 
 ## Repository layout
 
 ```text
 CURRENT.yaml
+AGENTS.md
 CHANGELOG.md
+governance/
+  agents/
+    code-hygiene.md
+    testing-validation.md
+    git-workflow.md
+    research-reuse.md
 master/
   MASTER_PROMPT_CURRENT.txt
   MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v25_1_FULL.txt
@@ -53,6 +61,8 @@ evidence/
 - `MASTER_PROMPT_CURRENT.txt` and `GOLDEN_INDEX_CURRENT.txt` are stable aliases.
 - Versioned files remain available for audit/history.
 - The Golden registry is the canonical path/status/freshness map.
+- Root `AGENTS.md` is the agent operating contract for Core work; it does not replace Master/Golden authority.
+- Tool-specific agent bridges must remain thin/derived rather than independent policy sources.
 - DRAFT/CANDIDATE never becomes COPY-READY or CERTIFIED automatically.
 - CI validates repository consistency only; it does not certify app runtime behavior.
 - No secrets, API keys, signing keys or credentials belong in this repository.
@@ -65,7 +75,8 @@ A Master/Golden framework update should update, in one coherent change:
 2. CURRENT alias;
 3. `CURRENT.yaml`;
 4. Golden index/registry when applicable;
-5. `CHANGELOG.md`.
+5. `CHANGELOG.md`;
+6. agent-governance contract/modules/validator when that policy changes.
 
 See `bootstrap/APP_FACTORY_BOOTSTRAP.txt` for the short reusable bootstrap instruction.
 
@@ -78,7 +89,8 @@ To prevent old chats from selecting a stale Master Prompt, copy the instruction 
 
 A green Factory validation now means YAML/schema parsing, CURRENT alias equality,
 Index↔Registry semantic consistency, orphan detection, freshness invariants,
-basic secret-pattern scanning, and immutable GitHub Action SHA checks all pass.
+basic secret-pattern scanning, immutable GitHub Action SHA checks, and Agent
+Governance contract/module/invariant checks all pass.
 
 It still does **not** certify runtime behavior of any app.
 

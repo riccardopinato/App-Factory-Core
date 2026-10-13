@@ -1,5 +1,5 @@
 APP FACTORY — PROJECT CUSTOM INSTRUCTION POINTER
-Versione 1 — 09/10/2026
+Versione 2 — 13/10/2026
 
 Testo consigliato da inserire nelle istruzioni del ChatGPT Project che contiene
 le chat delle app:
@@ -16,9 +16,14 @@ https://github.com/riccardopinato/App-Factory-Core
 4. golden/GOLDEN_REGISTRY.yaml
 5. solo i Golden pertinenti al task
 
+Se il task modifica App-Factory-Core stesso, leggi inoltre il root AGENTS.md e
+solo i moduli governance/agents pertinenti. Per il normale lavoro sulle singole
+app, AGENTS.md del Core NON aggiunge un'altra lettura al resolver.
+
 App-Factory-Core è la source of truth del Master Prompt e delle Golden Rules.
 Una versione ricordata dalla chat, una vecchia conversazione o un allegato
-storico NON prevale su CURRENT.yaml.
+storico NON prevale su CURRENT.yaml. AGENTS.md governa il comportamento
+operativo dell'agente e non sostituisce CURRENT/Master/Golden.
 
 Fissa il commit SHA letto come Factory baseline e non rileggere App-Factory-Core
 tra step consecutivi salvo richiesta esplicita o aggiornamento centrale appena

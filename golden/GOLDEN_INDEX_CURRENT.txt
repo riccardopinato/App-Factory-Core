@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 10.0 — 09/10/2026
+Versione: 11.0 — 13/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -718,8 +718,52 @@ Scope:
 - map/model/catalog/guide pack lifecycle.
 
 
+
 ======================================================================
-FRESHNESS GOVERNANCE — v10
+29. AGENT GOVERNANCE / REPOSITORY OPERATING CONTRACT
+======================================================================
+
+File:
+GOLDEN_AGENT_GOVERNANCE_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — NON COPY-READY
+
+Scope:
+- root AGENTS.md come contratto operativo tool-neutral;
+- authority hierarchy senza duplicare Product Bible/Master/Golden;
+- moduli operativi load-on-demand;
+- protected governance;
+- thin/generated tool-specific bridges;
+- future deterministic sync + drift gate;
+- downstream app adoption;
+- instruction validation/eval;
+- provenance delle fonti agent-governance.
+
+======================================================================
+30. CODE HYGIENE / BOUNDED OBSOLETE-CODE SWEEP
+======================================================================
+
+File:
+GOLDEN_CODE_HYGIENE_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — NON COPY-READY
+
+Scope:
+- superseded implementation sweep;
+- dead/unreachable/duplicate code;
+- unused dependency/asset/resource cleanup;
+- stale workaround/feature flag/TODO;
+- deprecated API touched;
+- safe-delete guards;
+- bounded cleanup;
+- regression/root-cause discipline;
+- final validation after cleanup.
+
+
+======================================================================
+FRESHNESS GOVERNANCE — v11
 ======================================================================
 
 Registry v2 distingue:
@@ -734,7 +778,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v25.1
+EXISTING GOLDEN HARDENING QUEUE — v26
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
@@ -772,7 +816,7 @@ CANDIDATI SUCCESSIVI
   Stato: DEFER
 
 ======================================================================
-REGOLE v25
+REGOLE v26
 ======================================================================
 
 1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt (v25 FULL alla baseline iniziale).
@@ -798,3 +842,9 @@ REGOLE v25
 21. App-Factory-Core è la source of truth centrale: chat/allegati storici non prevalgono su CURRENT.yaml.
 22. Una sessione legge la Factory baseline una volta e non la risincronizza tra step senza motivo.
 23. GOLDEN_REGISTRY.yaml è la source of truth per path, stato e freshness dei Golden.
+24. AGENTS.md è un contratto operativo repository-local, non sostituisce Product Bible/Master/Golden.
+25. I bridge tool-specific devono essere pointer/import o derivazioni deterministiche, non authority concorrenti.
+26. Ogni change sostanziale richiede bounded obsolete-code/dependency/asset sweep nel perimetro toccato.
+27. Replacement senza valutare la rimozione del superseded path = lavoro incompleto.
+28. La validation pertinente va rieseguita dopo il cleanup finale.
+29. Le istruzioni agentiche ad alto rischio devono acquisire validator/eval quando pratico.

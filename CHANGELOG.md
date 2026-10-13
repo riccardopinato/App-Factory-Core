@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-13 — Agent Governance v1 / Code Hygiene v1
+
+- Promoted the Factory baseline to Master v26 and Golden Index v11.
+- Added root `AGENTS.md` as the canonical repository-local operating contract for agents working on App-Factory-Core.
+- Added modular on-demand policies for code hygiene, testing/validation, Git workflow, and research/reuse.
+- Added Golden Agent Governance v0.1 and Golden Code Hygiene v0.1 as DRAFT / PROCESS CANDIDATE.
+- Made bounded obsolete-code/dependency/asset cleanup part of substantial implementation work.
+- Added the invariant that a replacement is incomplete until the superseded implementation has been evaluated for removal.
+- Required relevant validation to be rerun after final cleanup.
+- Added App Bootstrap adoption of repository-local AGENTS.md for new apps.
+- Added deterministic validator checks for AGENTS portability budget, module presence, and critical governance invariants.
+- Defined tool-specific CLAUDE/Copilot/Cursor/Gemini files as thin or generated bridges, not independent policy sources.
+- Recorded source research and immutable refs for awesome-copilot, AgentsMD, AGENTS-spec, agentsync, FerroxLabs, agents.md and agent-anatomy.
+- Treated jbarbier/CLAUDE.md as pattern-reference-only because no repository license was exposed at review time; no code/text was copied from it.
+
+
 ## 2026-10-11 — Android production signing gate hardening
 
 - Expanded Android Signing / Release Identity Golden from principles to an explicit one-time production signing procedure.
