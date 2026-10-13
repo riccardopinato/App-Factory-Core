@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 13.0 — 14/10/2026
+Versione: 14.0 — 14/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -757,15 +757,15 @@ File:
 GOLDEN_CODE_HYGIENE_v1.txt
 
 Stato:
-COPY-READY PROCESS
+CERTIFIED PROCESS
 
 Evidence:
 - CamperBoss: dead constants e direct dependency inutilizzata rimosse con validation finale GREEN;
-- TrailPath: nested fallback routing path sostituito da un solo `RoutingProviderChain`;
-- superseded fallback-specific test rimosso;
-- regression coverage aggiunta per primary success, failover, final-error propagation, unsnapped rejection e local routing;
-- intentional paths (Free Smart Trace / StraightLine routing) mantenuti perché ancora attivi;
-- exact-head TrailPath CI #844 PASS su analyze/test/Web/Android/provider/AppLab/migration/UX.
+- TrailPath: vero feature replacement + bug fix + regression coverage, exact-head CI #844 PASS;
+- Easy Debloat: privilege-command path sostituito con executor strutturato, duplicate Shizuku bind path corretto, invalid backup rules riparate;
+- Easy Debloat exact-head `32c3660129d85cc12121b68f3d56d8630e1db5f1` CI run `38483735583` PASS;
+- Easy Debloat merged tree `30277ac9eab8d614c9c0f6bfd04048680a3f0e76` identico all'exact-head tree;
+- nessun over-cleanup: nessun ADB legacy inventato/rimosso, Shizuku/AIDL/user-0 path intenzionali mantenuti.
 
 Scope:
 - superseded implementation sweep;
@@ -780,7 +780,7 @@ Scope:
 
 
 ======================================================================
-FRESHNESS GOVERNANCE — v13
+FRESHNESS GOVERNANCE — v14
 ======================================================================
 
 Registry v2 distingue:
@@ -795,7 +795,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v26.2
+EXISTING GOLDEN HARDENING QUEUE — v26.3
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
@@ -833,7 +833,7 @@ CANDIDATI SUCCESSIVI
   Stato: DEFER
 
 ======================================================================
-REGOLE v26.2
+REGOLE v26.3
 ======================================================================
 
 1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt; non hardcodare una versione storica.

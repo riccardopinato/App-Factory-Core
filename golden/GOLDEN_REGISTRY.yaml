@@ -1,7 +1,7 @@
 registry_version: 2
 updated_at: 2026-10-14
-master_version: "26.2"
-index_version: 13
+master_version: "26.3"
+index_version: 14
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -329,7 +329,7 @@ goldens:
   - id: code_hygiene
     title: "Code Hygiene / Bounded Obsolete-Code Sweep"
     version: "1"
-    status: "COPY-READY PROCESS"
+    status: "CERTIFIED PROCESS"
     category: governance
     path: golden/governance/GOLDEN_CODE_HYGIENE_v1.txt
     migrated_at: 2026-10-13

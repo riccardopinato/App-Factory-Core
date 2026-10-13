@@ -1,7 +1,7 @@
 GOLDEN CODE HYGIENE — BOUNDED OBSOLETE-CODE SWEEP
-Versione: 1.0 — 14/10/2026
-Stato: COPY-READY PROCESS
-Promoted under Master: v26.2 FULL
+Versione: 1.1 — 14/10/2026
+Stato: CERTIFIED PROCESS
+Promoted under Master: v26.3 FULL
 Current Master: resolve via CURRENT.yaml
 
 ======================================================================
@@ -247,19 +247,87 @@ Detailed evidence:
 evidence/agent-governance/TRAILPATH_PILOT_2026-10-14.md
 
 ======================================================================
+11B. PILOT EVIDENCE — EASY DEBLOAT
+======================================================================
+
+Repository / temporary lineage:
+riccardopinato/btrader
+
+Packed-source baseline:
+easydebloat-build @ 10ffcd4e86bb88807703d0fcaa65017a4c16b505
+
+Materialized-source commit:
+2bebd3e139181fbaa90033af26c528f445027d71
+
+Exact-head candidate:
+32c3660129d85cc12121b68f3d56d8630e1db5f1
+
+Merged Easy Debloat lineage:
+30277ac9eab8d614c9c0f6bfd04048680a3f0e76
+
+PR:
+#1 — Easy Debloat v0.1.1 — Code Hygiene / Shizuku hardening pilot
+
+Audit truth:
+- no active manual ADB / Wireless ADB privilege path existed;
+- Shizuku UserService was already the single privilege transport;
+- no fake "legacy ADB cleanup" was performed.
+
+Feature replacement evidence:
+- raw repository-owned compound `&&` package-operation strings replaced by
+  one structured `PackageOperationExecutor`;
+- required state transitions and best-effort helper steps are explicit;
+- obsolete post-enable force-stop removed;
+- package validation occurs before privileged command interpolation.
+
+Bug-fix evidence:
+- a successful ENABLE can no longer be reported as failed solely because a
+  later force-stop failed;
+- RESTORE stops if install-existing fails and surfaces a later enable failure;
+- Shizuku bootstrap no longer has a duplicate sticky-listener + explicit-bind
+  path; one in-flight bind gate owns pending connection state;
+- invalid Android backup rules discovered by release lint were corrected at the
+  source instead of suppressed with a lint baseline.
+
+Regression / validation:
+- pure Kotlin command-plan harness PASS;
+- Android unit tests PASS;
+- assembleDebug PASS;
+- assembleRelease + lintVitalRelease PASS;
+- exact-head GitHub Actions run 38483735583 PASS;
+- merged Git tree is identical to the exact-head green tree.
+
+Intentional paths retained:
+- Shizuku API/provider;
+- AIDL UserService;
+- explicit user-0 package operations;
+- best-effort pre-stop for disable/remove;
+- QUERY_ALL_PACKAGES pending separate Play-policy review;
+- existing DataStore/history/catalog/UI.
+
+Runtime truth:
+physical Shizuku permission/binder/package-action validation remains NOT VERIFIED.
+This does not promote Easy Debloat runtime capability; it is separate from
+certification of the Code Hygiene process.
+
+Detailed evidence:
+evidence/code-hygiene/EASY_DEBLOAT_PILOT_2026-10-14.md
+
+======================================================================
 12. PROMOZIONE
 ======================================================================
 
-COPY-READY PROCESS — SATISFATTO 14/10/2026:
-- CamperBoss ha dimostrato dead-code/dependency sweep + safe-retain decisions;
-- TrailPath ha dimostrato un vero feature replacement con superseded path
-  rimosso;
-- TrailPath ha dimostrato un bug fix con regression test;
-- la validation finale è stata eseguita sul tree pulito;
-- nessun over-cleanup o refactor repository-wide è stato introdotto.
+COPY-READY PROCESS — SATISFATTO 14/10/2026 con CamperBoss + TrailPath.
 
-CERTIFIED PROCESS resta bloccato fino a uso stabile ripetuto su almeno due
-progetti con evidence comparabile di replacement/bug-fix cleanup e assenza di
-regressioni da over-cleanup.
+CERTIFIED PROCESS — SATISFATTO 14/10/2026:
+- evidence comparabile di replacement/bug-fix cleanup su TrailPath ed Easy Debloat;
+- CamperBoss aggiunge evidence di dead-code/dependency cleanup e safe-retain;
+- regression coverage presente sui replacement/bug fix;
+- validation finale eseguita dopo cleanup;
+- nessun over-cleanup: i path intenzionali sono stati mantenuti e documentati;
+- nessuna failure runtime è stata convertita artificialmente in PASS.
 
-END GOLDEN CODE HYGIENE v1.0 COPY-READY PROCESS
+La certificazione del PROCESSO non sostituisce i gate runtime/physical delle
+singole capability native.
+
+END GOLDEN CODE HYGIENE v1.1 CERTIFIED PROCESS
