@@ -24,3 +24,12 @@ Migration into the Core is not review evidence.
 `migrated_at`, `last_content_reviewed_at` and
 `last_provider_verified_at` are distinct facts.
 Provider-sensitive entries without current provider evidence are NEEDS_REVIEW.
+
+## Agent governance
+
+- Root `AGENTS.md` is the canonical repository-local operating contract for agents modifying App-Factory-Core.
+- It does not replace CURRENT.yaml, the Master Prompt, Golden Rules, Product Bible, Roadmap, or executable implementation truth.
+- Detailed agent policies live under `governance/agents/` and should be loaded only when relevant.
+- Tool-specific instruction files must be thin pointers/imports or deterministic generated bridges from the canonical contract; they must not become independent policy sources.
+- Changes to AGENTS.md or its governance modules follow the same branch -> validation -> PR -> review flow as other Core governance changes.
+- Agents must not self-modify central governance as an unreviewed reaction to a single session correction.

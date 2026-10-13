@@ -153,6 +153,60 @@ for cp in ci_paths:
         if "PRODUCTION SIGNING VERIFIED != STORE READY" not in txt:
             fail("CI/Release Golden missing production-signing vs Store Ready boundary")
 
+
+# Agent Governance contract: keep the canonical entrypoint compact, modular and
+# mechanically tied to the critical Factory invariants.
+agent_path=req("AGENTS.md")
+agent_modules=[
+    "governance/agents/code-hygiene.md",
+    "governance/agents/testing-validation.md",
+    "governance/agents/git-workflow.md",
+    "governance/agents/research-reuse.md",
+]
+for p in agent_modules: req(p)
+
+if agent_path.exists():
+    agent_bytes=agent_path.read_bytes()
+    agent_text=agent_bytes.decode("utf-8")
+    agent_lines=len(agent_text.splitlines())
+    if agent_lines>200: fail(f"AGENTS.md portability budget exceeded: {agent_lines} lines > 200")
+    if len(agent_bytes)>24000: fail(f"AGENTS.md portability budget exceeded: {len(agent_bytes)} bytes > 24000")
+    required_agent_tokens=[
+        "CURRENT.yaml",
+        "governance/agents/code-hygiene.md",
+        "governance/agents/testing-validation.md",
+        "governance/agents/git-workflow.md",
+        "governance/agents/research-reuse.md",
+        "Adding a replacement without evaluating removal of the superseded implementation is incomplete work.",
+        "tool-specific",
+        "Do not merge a PR unless explicitly requested",
+    ]
+    for token in required_agent_tokens:
+        if token not in agent_text:
+            fail(f"AGENTS.md missing required contract token: {token}")
+
+for gid in ("agent_governance","code_hygiene"):
+    matches=[g for g in goldens if g.get("id")==gid]
+    if len(matches)!=1:
+        fail(f"expected exactly one {gid} Golden")
+    else:
+        gp=req(str(matches[0].get("path")))
+        if gp.exists():
+            gt=gp.read_text(encoding="utf-8")
+            required = (
+                ["AGENTS.md","CURRENT.yaml","tool-specific","drift"]
+                if gid=="agent_governance"
+                else [
+                    "Adding a replacement without evaluating removal of the superseded implementation is incomplete work.",
+                    "BOUNDED",
+                    "unused dependencies",
+                    "DOPO cleanup",
+                ]
+            )
+            for token in required:
+                if token not in gt:
+                    fail(f"{gid} Golden missing required contract token: {token}")
+
 secret_patterns={
  "private key":re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
  "OpenAI project key":re.compile(r"sk-proj-[A-Za-z0-9_-]{20,}"),
@@ -171,4 +225,4 @@ if errors:
     print("APP FACTORY VALIDATION: FAIL")
     for e in errors: print("-",e)
     sys.exit(1)
-print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v2)")
+print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v3)")

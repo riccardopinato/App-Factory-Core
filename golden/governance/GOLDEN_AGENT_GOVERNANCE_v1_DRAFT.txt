@@ -1,0 +1,236 @@
+GOLDEN AGENT GOVERNANCE — REPOSITORY OPERATING CONTRACT
+Versione draft: 0.1 — 13/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
+Created under Master: v26 FULL
+Current Master: resolve via CURRENT.yaml
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Definire un contratto operativo repository-local, tool-neutral e versionato per
+gli agenti di coding senza creare una seconda Product Bible o un secondo Master
+Prompt.
+
+Il file canonico è AGENTS.md.
+
+AGENTS.md governa COME l'agente lavora nel repository.
+NON sostituisce:
+- Product Bible;
+- Roadmap;
+- CURRENT.yaml;
+- Master Prompt;
+- Golden Rules;
+- documentazione tecnica specifica;
+- implementazione e test reali.
+
+======================================================================
+2. SOURCE OF TRUTH / PRECEDENZA
+======================================================================
+
+Per App-Factory-Core:
+
+CURRENT.yaml
+-> Master Prompt
+-> Golden Index / Registry
+-> Golden pertinenti
+-> AGENTS.md come contratto operativo dell'agente
+-> moduli governance/agents pertinenti
+-> implementazione reale
+
+Per una singola app, Product Bible e Roadmap restano rispettivamente verità di
+prodotto ed esecuzione.
+
+Un bridge tool-specific NON deve diventare una policy concorrente.
+
+======================================================================
+3. STRUTTURA CANONICA
+======================================================================
+
+Baseline v1:
+
+AGENTS.md
+
+governance/agents/
+- code-hygiene.md
+- testing-validation.md
+- git-workflow.md
+- research-reuse.md
+
+AGENTS.md deve restare un entrypoint compatto.
+Caricare solo i moduli pertinenti al task/phase corrente.
+
+PORTABILITY BUDGET iniziale:
+- target <= 200 righe;
+- target <= 24.000 byte UTF-8.
+
+Il budget è una guardrail della Factory, non una proprietà universale dello
+standard AGENTS.md.
+
+======================================================================
+4. TOOL-SPECIFIC BRIDGES
+======================================================================
+
+Se un tool richiede:
+- CLAUDE.md;
+- .github/copilot-instructions.md;
+- Cursor rules;
+- GEMINI.md;
+- altro adapter;
+
+preferire:
+- pointer/import sottile quando supportato;
+oppure
+- generazione deterministica dalla source canonica.
+
+NON mantenere manualmente più copie indipendenti della stessa policy.
+
+Future direction:
+SOURCE AGENTS.md
+-> deterministic adapters
+-> drift check
+-> CI fail se target generato diverge.
+
+L'automazione di sync NON è richiesta dalla v0.1: prima si stabilizza il
+contratto canonico.
+
+======================================================================
+5. PROTECTED GOVERNANCE
+======================================================================
+
+Le istruzioni centrali non devono auto-modificarsi perché un agente riceve una
+correzione durante una sessione.
+
+Una modifica a:
+- AGENTS.md;
+- moduli governance/agents;
+- Master;
+- Golden;
+- resolver/validator;
+
+segue il normale flusso App Factory:
+baseline -> branch -> change -> validation -> PR -> review -> merge.
+
+Questo evita self-modifying policy non revisionata.
+
+======================================================================
+6. DOWNSTREAM APP CONTRACT
+======================================================================
+
+Per nuove app, il bootstrap deve prevedere un AGENTS.md repository-local.
+
+Il contratto app-level può aggiungere:
+- stack/command reali;
+- protected paths;
+- capability native critiche;
+- build/test command;
+- project-specific seams;
+- validation specifica.
+
+Non può contraddire Product Bible, Roadmap, Master o Golden applicabili.
+
+Per app esistenti:
+- nessun mass update automatico;
+- adottare al prossimo bootstrap/modernization/audit sostanziale quando utile;
+- preservare eventuali istruzioni locali valide tramite merge/delta esplicito.
+
+======================================================================
+7. INSTRUCTION VALIDATION
+======================================================================
+
+Le istruzioni sono software operativo per agenti e possono fallire.
+
+Quando una regola contiene behavior deterministico:
+- validarla con script/schema/check quando pratico.
+
+Quando una regola ad alto rischio dipende dalla comprensione del modello:
+- considerare eval isolata;
+- positive control;
+- negative control;
+- regression case basato su failure reale.
+
+KEYWORD PRESENT != INSTRUCTION EFFECTIVE.
+
+======================================================================
+8. SOURCE EVIDENCE / PROVENANCE
+======================================================================
+
+Pattern studiati per v0.1:
+
+1. github/awesome-copilot
+   commit: 156736fb63e965b2f547a1460f3b5972c46e6b24
+   license: MIT
+   reference: modular instructions/agents/skills + validation.
+
+2. toolboxmd/agentsmd
+   commit: f67d85cb589a69d24445cfadcb783332fde92d63
+   license: MIT
+   reference: canonical contract + load-only-needed procedures + evals.
+
+3. jbarbier/CLAUDE.md
+   commit: 02ddd29be403278cfa068ffd54e247bb1f5a1b9f
+   license: NOT FOUND in repository metadata at review time.
+   classification: PATTERN REFERENCE ONLY — no code/text copied.
+   reference: deterministic tests + model eval/control concept.
+
+4. FerroxLabs/agents-md
+   commit: 90c7198cfa97ff1868f0600952098fee7fc86ef9
+   license: MIT
+   reference: compact truth/verification/simplicity contract.
+
+5. indisoluble/AGENTS-spec
+   commit: b107733e26384ad6b51e5d1ff03baf93449776f4
+   license: MIT
+   reference: canonical AGENTS + thin bridges + protected files + SSOT.
+
+6. mujinlabs/agentsync
+   commit: c160cecc5110a1703639806ad6f8652160b323c6
+   license: MIT
+   reference: deterministic source->target generation + CI drift detection.
+
+7. agentsmd/agents.md
+   commit: d001185d792eb6402a58e4cbef1c228b309ec25d
+   license: MIT
+   reference: simple portable AGENTS convention.
+
+8. agent-anatomy/claude
+   commit: 89c3d2c479365ce7b3a0d245d24f70163c981200
+   license: MIT
+   reference: compact entrypoint + modular rules/specialist-agent pattern.
+
+La v0.1 riusa CONCETTI e pattern di organizzazione; non importa automaticamente
+codice o sistemi vendor-specific.
+
+======================================================================
+9. ACCEPTANCE MATRIX
+======================================================================
+
+[ ] AGENTS.md canonico presente
+[ ] authority hierarchy esplicita
+[ ] AGENTS non sostituisce Product Bible/Master/Golden
+[ ] moduli caricati on-demand
+[ ] code hygiene collegato
+[ ] testing/validation collegato
+[ ] Git workflow collegato
+[ ] research/reuse collegato
+[ ] tool-specific bridge non authority indipendente
+[ ] protected governance definita
+[ ] downstream adoption definita
+[ ] portability budget verificato
+[ ] validator controlla invarianti minimi
+[ ] provenance esterna registrata
+
+======================================================================
+10. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS dopo:
+- integrazione reale in almeno un repository app;
+- nessun conflitto con Product Bible/Roadmap/Master;
+- validator/drift checks dimostrati;
+- feedback reale sull'efficacia del contratto.
+
+CERTIFIED PROCESS dopo uso stabile in almeno due app/tool surfaces e evidence
+che il contratto riduce drift/errori senza aumentare inutilmente il contesto.
+
+END GOLDEN AGENT GOVERNANCE v0.1 DRAFT

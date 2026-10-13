@@ -1,5 +1,5 @@
 APP FACTORY BOOTSTRAP — CANONICAL RESOLUTION FLOW
-Versione 1 — 09/10/2026
+Versione 2 — 13/10/2026
 
 SOURCE OF TRUTH
 https://github.com/riccardopinato/App-Factory-Core
@@ -17,14 +17,18 @@ FLOW
 3. Leggi il file indicato da golden_index.path.
 4. Leggi golden_registry.path.
 5. Seleziona solo i Golden pertinenti al task.
-6. Registra repo/branch/commit SHA come FACTORY BASELINE.
-7. Non rileggere il repo Factory tra step consecutivi.
-8. Rileggi soltanto su refresh esplicito o dopo un update centrale appena eseguito.
+6. Se il task MODIFICA App-Factory-Core, leggi anche il root AGENTS.md e soltanto
+   i moduli governance/agents pertinenti.
+7. Registra repo/branch/commit SHA come FACTORY BASELINE.
+8. Non rileggere il repo Factory tra step consecutivi.
+9. Rileggi soltanto su refresh esplicito o dopo un update centrale appena eseguito.
 
 ANTI-DRIFT
 - una versione del Master ricordata dalla chat non prevale su CURRENT.yaml;
 - un allegato storico non prevale su CURRENT.yaml;
 - un vecchio Golden Index non prevale su GOLDEN_INDEX_CURRENT risolto;
+- AGENTS.md governa il comportamento operativo dell'agente ma non sostituisce
+  CURRENT/Master/Golden;
 - in assenza di accesso al repo non inventare la versione: usa l'ultima baseline nota e segnala FACTORY BASELINE NOT REFRESHED.
 
 PROMPT CORTO RIUTILIZZABILE

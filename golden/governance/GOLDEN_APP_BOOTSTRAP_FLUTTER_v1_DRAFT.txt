@@ -1,7 +1,7 @@
 GOLDEN APP BOOTSTRAP — FLUTTER
-Versione draft: 0.1 — 07/10/2026
+Versione draft: 0.2 — 13/10/2026
 Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
-Created under Master: v24 FULL
+Created under Master: v26 FULL
 Current Master: resolve via CURRENT.yaml
 
 Donor/process evidence:
@@ -9,7 +9,8 @@ Donor/process evidence:
 - FrameLab bootstrap/profile/theme/localization;
 - Anna's Diary auth/release/CI patterns;
 - CamperBoss modular Flutter bootstrap;
-- Golden Library v7.
+- Golden Library v7;
+- Agent Governance / Code Hygiene v0.1.
 
 ======================================================================
 1. SCOPO
@@ -97,12 +98,13 @@ NON montare tutto "per sicurezza".
 5. Localization/theme/app shell.
 6. Persistence decision.
 7. Selezione Golden.
-8. Platform boundary/stub Web.
-9. CI baseline.
-10. Signing/release plan.
-11. Smoke tests.
-12. README/ROADMAP.
-13. Solo dopo: domain features.
+8. Repository AGENTS.md / project-specific agent contract.
+9. Platform boundary/stub Web.
+10. CI baseline.
+11. Signing/release plan.
+12. Smoke tests.
+13. README/ROADMAP.
+14. Solo dopo: domain features.
 
 ======================================================================
 5. IDEMPOTENZA / RE-RUN
@@ -177,6 +179,7 @@ Keystore/password/service-account secret restano fuori dal repo.
 [ ] premium/ads decision
 [ ] backup/export decision
 [ ] selected Golden registrati
+[ ] AGENTS.md presente e coerente con Agent Governance
 [ ] Web boundary definito
 [ ] CI baseline
 [ ] release/signing plan
@@ -193,4 +196,4 @@ senza interventi manuali ambigui e con diff riproducibile.
 CERTIFIED quando riusato con successo in almeno due nuove app e il manifest
 riduce realmente duplicazione/errori.
 
-END GOLDEN APP BOOTSTRAP v0.1 DRAFT
+END GOLDEN APP BOOTSTRAP v0.2 DRAFT

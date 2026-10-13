@@ -1,0 +1,183 @@
+GOLDEN CODE HYGIENE — BOUNDED OBSOLETE-CODE SWEEP
+Versione draft: 0.1 — 13/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
+Created under Master: v26 FULL
+Current Master: resolve via CURRENT.yaml
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Impedire che feature, bug fix e refactor accumulino implementazioni superseded,
+dead code, dipendenze inutili, asset orfani e workaround storici.
+
+REGOLA CENTRALE:
+
+Adding a replacement without evaluating removal of the superseded implementation is incomplete work.
+
+La pulizia è obbligatoria quando il task rende chiaramente qualcosa obsoleto,
+ma deve essere BOUNDED al sottosistema interessato.
+
+======================================================================
+2. TRIGGER
+======================================================================
+
+Applicare a:
+- feature sostanziale;
+- bug fix;
+- refactor;
+- rimozione feature;
+- migrazione;
+- dependency/configuration change;
+- sostituzione provider/service/repository/coordinator;
+- consolidamento di implementazioni duplicate.
+
+Per typo/copy/style senza impatto comportamentale basta cleanup locale creato dal
+diff.
+
+======================================================================
+3. MANDATORY SWEEP
+======================================================================
+
+Nel perimetro interessato cercare:
+
+- dead/unreachable code;
+- implementazioni superseded;
+- duplicate implementation paths;
+- coordinator/service/repository/scheduler/listener/worker concorrenti inutili;
+- function/class/import/route/config non usati;
+- workaround temporanei non più necessari;
+- compatibility layer obsoleti;
+- stale feature flag;
+- stale TODO già risolti;
+- commented-out implementation;
+- deprecated APIs toccate;
+- unused dependencies;
+- unused assets/translations;
+- orphan media/file/cache;
+- reminder/alarm/job/subscription/callback rimasti senza owner.
+
+======================================================================
+4. SAFE DELETE GATE
+======================================================================
+
+Prima di eliminare verificare, quando pertinente:
+
+- call/reference graph;
+- runtime registration/reflection;
+- persistence/migration role;
+- Android/iOS/Web manifests/config;
+- tests/fixtures;
+- localization/resources;
+- background lifecycle;
+- public/API compatibility;
+- import/export/backup compatibility.
+
+Non eliminare storia/migrazioni/compatibility contract/generated/vendor files
+solo perché sembrano vecchi.
+
+UNKNOWN IMPACT != SAFE TO DELETE.
+
+======================================================================
+5. BOUNDED CLEANUP
+======================================================================
+
+Consentito:
+- rimuovere ciò che il nuovo comportamento rende obsoleto;
+- consolidare duplicazione nel sottosistema toccato;
+- rimuovere dependency/asset diventati inutili;
+- sistemare deprecation direttamente toccate quando bounded.
+
+Non consentito come effetto collaterale:
+- redesign repository-wide;
+- rename/reformat massivo;
+- dependency upgrade non correlato;
+- riscrittura architetturale estetica;
+- cleanup di aree senza dipendenza dal task.
+
+Le opportunità più ampie diventano finding separati.
+
+======================================================================
+6. BUG FIX
+======================================================================
+
+Per bug:
+1. identificare root cause;
+2. verificare pattern equivalente nel vicinato;
+3. aggiungere regression test quando adatto;
+4. applicare fix;
+5. eliminare workaround/broken parallel path se superseded;
+6. rieseguire validation finale.
+
+BROKEN PATH + NEW PATH entrambi attivi richiedono motivazione esplicita.
+
+======================================================================
+7. DEPENDENCY / ASSET HYGIENE
+======================================================================
+
+Quando una feature cambia:
+- controllare package inutilizzati;
+- rimuoverli se nessun consumer resta;
+- aggiornare lock/config;
+- controllare asset inutilizzati;
+- evitare file orfani;
+- valutare size/performance/platform impact quando materiale.
+
+Applicare sempre anche la Dependency Admission Rule del Master per nuove
+dipendenze.
+
+======================================================================
+8. FINAL VALIDATION
+======================================================================
+
+La validazione finale avviene DOPO cleanup.
+
+A seconda del rischio:
+- format/lint/analyze;
+- test focused/regression;
+- broader tests se blast radius lo richiede;
+- build;
+- runtime;
+- physical/native validation secondo Golden pertinenti.
+
+TEST GREEN BEFORE CLEANUP != FINAL TREE VERIFIED.
+
+======================================================================
+9. EVIDENCE / REPORT
+======================================================================
+
+Per task sostanziale registrare nel report:
+- obsolete/superseded code trovato;
+- elementi rimossi;
+- elementi deliberatamente mantenuti e perché;
+- dependency/asset cleanup;
+- validation rieseguita after cleanup;
+- finding fuori scope.
+
+======================================================================
+10. ACCEPTANCE MATRIX
+======================================================================
+
+[ ] superseded implementation cercata
+[ ] dead/unreachable code cercato
+[ ] duplicate path cercati
+[ ] unused dependencies cercate
+[ ] unused assets/resources cercati
+[ ] deprecated API toccate valutate
+[ ] workaround/feature flag obsoleti valutati
+[ ] persistence/migration guard rispettato
+[ ] cleanup bounded
+[ ] relevant validation eseguita after cleanup
+[ ] report finale distingue removed/retained/out-of-scope
+
+======================================================================
+11. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS dopo applicazione reale ad almeno un feature replacement e
+un bug fix con evidence before/after.
+
+CERTIFIED PROCESS dopo uso stabile in almeno due progetti e prova che il processo
+riduce duplicazione/dead code senza causare regressioni da over-cleanup.
+
+END GOLDEN CODE HYGIENE v0.1 DRAFT
