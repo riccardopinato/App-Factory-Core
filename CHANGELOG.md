@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-14 — Incremental indexing / bounded hashing Golden candidates
+
+- Added **GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT** for large local catalogs, scan generations, warm reuse, revision-bound metadata and stale-index safety.
+- Added **GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT** for bounded worker hashing, backpressure, cancellation, deterministic grouping and hash-cache reuse.
+- Registered Android Omni Cleaner as the first donor candidate; donor runtime evidence remains required before promotion beyond DRAFT.
+- Bumped Golden Index from v13 to v14; Master remains v26.2.
+- Kept both Goldens provider-agnostic and non-copy-ready until large-library and physical-device evidence exists.
+
+
 ## 2026-10-14 — TrailPath second pilot / Governance certification
 
 - Merged TrailPath pilot PR #40 to the canonical post-v1 lineage at `6679b1ef0713e9bf8407e8b07578727e4f73ed2a`.
