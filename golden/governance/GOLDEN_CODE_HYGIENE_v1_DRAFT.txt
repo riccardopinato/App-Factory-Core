@@ -1,5 +1,5 @@
 GOLDEN CODE HYGIENE — BOUNDED OBSOLETE-CODE SWEEP
-Versione draft: 0.1 — 13/10/2026
+Versione draft: 0.2 — 13/10/2026
 Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
 Created under Master: v26 FULL
 Current Master: resolve via CURRENT.yaml
@@ -171,7 +171,29 @@ Per task sostanziale registrare nel report:
 [ ] report finale distingue removed/retained/out-of-scope
 
 ======================================================================
-11. PROMOZIONE
+11. PILOT EVIDENCE — CAMPERBOSS
+======================================================================
+
+Pilot merged:
+riccardopinato/CamperBoss @ 19c2b24cd5164caa9f5178679b8fbc961e7af3ce
+
+Evidence utile:
+- dead AppStrings rimosso;
+- dead AppRadius rimosso;
+- direct dependency open_route_service non usata rimossa;
+- lockfile riallineato;
+- active test doubles/adapters mantenuti;
+- validation finale rieseguita dopo cleanup;
+- Flutter CI, Web release e Android QA release PASS.
+
+Questo dimostra il dependency/dead-code sweep e il bounded-cleanup behavior,
+ma NON soddisfa ancora il criterio completo di promozione perché manca evidence
+su:
+- almeno un vero feature replacement con superseded path rimosso;
+- almeno un bug fix con regression test + cleanup del workaround/broken path.
+
+======================================================================
+12. PROMOZIONE
 ======================================================================
 
 COPY-READY PROCESS dopo applicazione reale ad almeno un feature replacement e
@@ -180,4 +202,4 @@ un bug fix con evidence before/after.
 CERTIFIED PROCESS dopo uso stabile in almeno due progetti e prova che il processo
 riduce duplicazione/dead code senza causare regressioni da over-cleanup.
 
-END GOLDEN CODE HYGIENE v0.1 DRAFT
+END GOLDEN CODE HYGIENE v0.2 DRAFT

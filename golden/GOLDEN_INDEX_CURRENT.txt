@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 11.0 — 13/10/2026
+Versione: 12.0 — 13/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -724,10 +724,18 @@ Scope:
 ======================================================================
 
 File:
-GOLDEN_AGENT_GOVERNANCE_v1_DRAFT.txt
+GOLDEN_AGENT_GOVERNANCE_v1.txt
 
 Stato:
-DRAFT / PROCESS CANDIDATE — NON COPY-READY
+COPY-READY PROCESS
+
+Evidence:
+- CamperBoss pilot merged on main at `19c2b24cd5164caa9f5178679b8fbc961e7af3ce`;
+- Flutter CI PASS;
+- Android QA release PASS;
+- Web release PASS;
+- real documentation drift and bounded cleanup findings resolved;
+- no tool-specific bridge existed in the pilot, therefore bridge drift = N/A.
 
 Scope:
 - root AGENTS.md come contratto operativo tool-neutral;
@@ -763,7 +771,7 @@ Scope:
 
 
 ======================================================================
-FRESHNESS GOVERNANCE — v11
+FRESHNESS GOVERNANCE — v12
 ======================================================================
 
 Registry v2 distingue:
@@ -778,7 +786,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v26
+EXISTING GOLDEN HARDENING QUEUE — v26.1
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
@@ -816,10 +824,10 @@ CANDIDATI SUCCESSIVI
   Stato: DEFER
 
 ======================================================================
-REGOLE v26
+REGOLE v26.1
 ======================================================================
 
-1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt (v25 FULL alla baseline iniziale).
+1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt; non hardcodare una versione storica.
 2. Per nuovi progetti: ASSEMBLY FIRST tramite App Bootstrap Golden.
 3. Usare prima il Golden più recente compatibile.
 4. EXTEND BEFORE DUPLICATE.

@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-13 — Agent Governance first real pilot / COPY-READY PROCESS
+
+- Merged CamperBoss pilot PR #26 to main at `19c2b24cd5164caa9f5178679b8fbc961e7af3ce`.
+- Promoted Agent Governance v1 to **COPY-READY PROCESS** after a real downstream integration with green CI/build evidence.
+- Clarified bridge drift semantics: required only when a duplicated/generated tool-specific bridge actually exists; N/A otherwise.
+- Added durable CamperBoss pilot evidence under `evidence/agent-governance/`.
+- Recorded real findings from the pilot: stale chat-selected authority, stale implementation-status docs, two dead constant files and one unused direct dependency.
+- Kept Code Hygiene v1 as **DRAFT / PROCESS CANDIDATE**; the pilot validates dead-code/dependency cleanup but not yet the required feature-replacement + bug-fix promotion evidence.
+- Bumped Master to v26.1 and Golden Index to v12.
+- Fixed stale README/index references to historical v25/v10 paths and versions discovered during the same bounded governance cleanup.
+
+
 ## 2026-10-13 — Agent Governance v1 / Code Hygiene v1
 
 - Promoted the Factory baseline to Master v26 and Golden Index v11.
