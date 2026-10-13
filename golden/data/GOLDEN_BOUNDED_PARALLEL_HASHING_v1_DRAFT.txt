@@ -1,0 +1,326 @@
+GOLDEN BOUNDED PARALLEL HASHING
+Versione draft: 1.0 — 14/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Created under Master: v26.1
+Current Master: resolve via CURRENT.yaml
+
+Donor candidate:
+- Android Omni Cleaner: progressive duplicate pipeline + bounded worker hashing,
+  under active validation
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Pattern per hashing/fingerprinting di grandi insiemi di file o blob senza:
+- serializzare inutilmente tutto il lavoro;
+- saturare CPU/storage;
+- creare una coroutine/task per ogni file;
+- aumentare RAM/thermal pressure senza limiti.
+
+Applicabile a:
+- duplicate detection;
+- integrity verification;
+- media catalog;
+- backup;
+- sync;
+- content addressing;
+- malware/file analysis non-security-critical per se stesso.
+
+======================================================================
+2. PRINCIPIO CENTRALE
+======================================================================
+
+CHEAP FILTER
+-> SAMPLE/FINGERPRINT
+-> BOUNDED FULL HASH
+-> FINAL VERIFICATION WHEN REQUIRED
+-> PERSIST REUSABLE HASH
+
+Parallelismo sì.
+Parallelismo illimitato no.
+
+======================================================================
+3. PIPELINE DUPLICATI CANDIDATA
+======================================================================
+
+Per duplicate detection:
+
+```text
+group by size
+-> discard unique sizes
+-> sample prefix/suffix fingerprint
+-> group by sample
+-> full SHA-256 only on remaining candidates
+-> group by full hash
+-> byte-for-byte verification for destructive/high-trust decisions
+```
+
+Sample fingerprint NON è prova di identità.
+SHA-256 riduce il candidate set; per operazioni distruttive la policy può
+richiedere verifica byte-per-byte finale.
+
+======================================================================
+4. WORKER BOUND
+======================================================================
+
+Usare un numero limitato di worker.
+
+Policy candidata:
+
+```text
+workers = clamp(availableProcessors-based policy, min=1, max=4)
+```
+
+Default tipico mobile:
+- low-end: 1-2;
+- mid/high: 2-4.
+
+Il numero esatto è app/device-specific e deve essere benchmarkato.
+
+NO:
+```text
+files.map { async { hash(it) } }
+```
+su migliaia di file.
+
+Preferire:
+- fixed worker pool;
+- bounded queue/channel;
+- semaphore + bounded producer;
+- structured concurrency equivalente.
+
+======================================================================
+5. I/O BUDGET
+======================================================================
+
+L'hashing è spesso I/O-bound.
+
+Regole:
+- buffer sequenziale ragionevole e benchmarkato;
+- evitare tiny reads;
+- evitare leggere lo stesso file integralmente più volte senza motivo;
+- non hashare file già esclusi da size/type/fingerprint;
+- evitare concorrenza che provoca random I/O e peggiora throughput;
+- limitare bytes in-flight.
+
+Il buffer NON è universale:
+64 KiB, 128 KiB, 256 KiB, 512 KiB sono candidate da benchmarkare.
+Non codificare "più grande = sempre più veloce".
+
+======================================================================
+6. CANCELLATION
+======================================================================
+
+Ogni stage lungo deve essere cooperative-cancellable.
+
+Verificare cancellation:
+- tra file;
+- durante read loop;
+- prima di publish result;
+- prima di persist hash;
+- prima della mutazione finale.
+
+CancellationException / equivalente NON deve essere inghiottita come normale
+errore I/O.
+
+======================================================================
+7. BACKPRESSURE
+======================================================================
+
+Producer più veloce dei worker != creare task illimitati.
+
+Bounded queue richiesta quando il producer può generare molti candidate.
+
+Controllare:
+- queue capacity;
+- worker count;
+- memory per buffer;
+- number of open file descriptors.
+
+======================================================================
+8. DETERMINISMO
+======================================================================
+
+L'ordine di completamento concorrente non deve cambiare il risultato logico.
+
+Prima di esporre/persistire:
+- sort deterministico quando la UI/cleanup lo richiede;
+- grouping stabile;
+- keeper selection deterministica;
+- no "first worker wins" per decisioni di dominio.
+
+======================================================================
+9. HASH CACHE
+======================================================================
+
+Integrare con:
+GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT.txt
+
+Un hash persistito è riusabile solo se la revision tuple è ancora valida.
+
+Candidate:
+
+```text
+(path, sizeBytes, modifiedAt)
+-> sampleHash
+-> fullHash
+-> verifiedAt
+```
+
+Se size/mtime/revision cambia:
+- invalidate sampleHash;
+- invalidate fullHash.
+
+Il cache hit deve evitare bytes letti, non solo CPU.
+
+======================================================================
+10. THERMAL / BATTERY AWARENESS
+======================================================================
+
+Per workload mobile pesanti, valutare:
+- thermal status;
+- battery saver;
+- charging state;
+- background/foreground;
+- storage type.
+
+Policy candidate:
+- ridurre worker count sotto thermal pressure;
+- evitare parallelismo aggressivo in background;
+- non richiedere wakelock/FGS salvo necessità reale e policy conforme.
+
+Non introdurre un servizio background solo per "ottimizzare".
+
+======================================================================
+11. FAILURE ISOLATION
+======================================================================
+
+Un file:
+- unreadable;
+- removed;
+- changed during hashing;
+- permission denied
+
+non deve abortire necessariamente l'intero batch.
+
+Distinguere:
+- candidate rejected/stale;
+- ordinary I/O failure;
+- cancellation;
+- fatal pipeline failure.
+
+Per ogni file hashato:
+- verificare che identity/revision non sia cambiata prima/dopo il read quando
+  il dominio lo richiede.
+
+======================================================================
+12. PROGRESS
+======================================================================
+
+Il progresso deve rappresentare lavoro reale.
+
+Metriche candidate:
+```text
+candidates_total
+candidates_processed
+bytes_total_candidate
+bytes_hashed
+hash_cache_hits
+sample_cache_hits
+workers_active
+workers_peak
+files_stale
+files_failed
+```
+
+Non emettere un recomposition/UI event per ogni chunk o ogni file se il volume è
+grande: throttling/batching del progress update.
+
+======================================================================
+13. ANTI-PATTERN
+======================================================================
+
+NO full SHA-256 di tutti i file come primo stage.
+NO unbounded async/task-per-file.
+NO worker count proporzionale al numero di file.
+NO hash cache senza revision binding.
+NO sample hash trattato come identità.
+NO cancellation inghiottita.
+NO progress update per ogni read chunk.
+NO concurrent delete/move durante hashing senza snapshot/revalidation contract.
+NO parallelismo aggiunto senza benchmark: può essere più lento del seriale.
+
+======================================================================
+14. TEST MINIMI
+======================================================================
+
+Coprire:
+1. duplicates same-size/same-content;
+2. same sample but different middle -> rejected by full/final verification;
+3. hash cache hit;
+4. changed revision invalidates cache;
+5. bounded worker peak <= configured max;
+6. deterministic output independent from completion order;
+7. cancellation propagates;
+8. ordinary I/O failure isolated;
+9. progress ends exactly at total;
+10. zero/one candidate edge cases;
+11. destructive path retains final real-source revalidation.
+
+======================================================================
+15. BENCHMARK
+======================================================================
+
+Confrontare almeno:
+- serial baseline;
+- 2 workers;
+- 4 workers;
+- warm hash-cache case.
+
+Dataset:
+- molti file piccoli;
+- mix realistico;
+- pochi file molto grandi;
+- duplicate-heavy;
+- mostly-unique.
+
+Misurare:
+```text
+elapsed_ms
+bytes_hashed
+hash_cache_hits
+workers_peak
+max_memory_delta
+thermal/battery note
+```
+
+Scegliere il parallelismo dal benchmark, non dall'intuizione.
+
+======================================================================
+16. EVIDENCE / STATO
+======================================================================
+
+DRAFT finché non esiste evidence reale di:
+- throughput migliore rispetto al serial baseline;
+- worker bound rispettato;
+- cancellation corretta;
+- nessuna regressione di correctness;
+- app-size/dependency impact accettabile;
+- physical validation su almeno un device medio e uno low-end per workload mobile.
+
+======================================================================
+17. PORTABILITÀ
+======================================================================
+
+Il contratto è cross-platform e provider-agnostic.
+
+Non prescrive:
+- algoritmo di hash diverso dal requisito di prodotto;
+- package di concurrency specifico;
+- database specifico;
+- worker count fisso universale.
+
+La reference implementation può essere Kotlin, Dart, Swift, Rust o altra
+tecnologia, purché preservi bounded concurrency, cancellation, determinismo e
+revision-bound hash reuse.
