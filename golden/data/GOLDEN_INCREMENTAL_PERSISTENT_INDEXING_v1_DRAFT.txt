@@ -1,7 +1,7 @@
 GOLDEN INCREMENTAL PERSISTENT INDEXING
 Versione draft: 1.0 — 14/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
-Created under Master: v26.1
+Created under Master: v26.2
 Current Master: resolve via CURRENT.yaml
 
 Donor candidate:
@@ -115,20 +115,29 @@ Regola:
 
 ```text
 same stable identity
-+ same cheap revision tuple
++ same TRUSTWORTHY revision token
 => derived metadata MAY be reused
 
-revision tuple changed
-=> derived metadata/hash MUST be invalidated
+revision changed OR revision trust unavailable
+=> derived metadata/hash MUST be recomputed or treated UNKNOWN
 ```
 
-Per file locali una cheap revision tuple candidata è:
+Per file locali una cheap discovery tuple candidata è:
 
 ```text
 (path, sizeBytes, modifiedAt)
 ```
 
-Non trattare la tuple come prova crittografica.
+Questa tuple è utile per discovery/UI, ma NON è sufficiente da sola per
+riusare hash, fingerprint, EXIF o metadata di integrità se il filesystem/provider
+consente overwrite same-size con timestamp preservato/coarse.
+
+Per derived metadata costosi preferire un revision token più forte, ad esempio:
+- provider generation/revision/etag affidabile;
+- filesystem physical identity + change-time/ctime con semantica documentata;
+- altro token monotonic/change-sensitive del provider.
+
+Se un token affidabile non esiste, recompute invece di fidarsi del cheap tuple.
 
 ======================================================================
 6. GENERATION RECONCILIATION
@@ -225,7 +234,9 @@ l'app sa già essere cambiato.
 ======================================================================
 
 Sample hash, full hash, EXIF, thumbnail fingerprint e altri derived metadata
-possono essere persistiti SOLO se legati alla revision tuple che li ha prodotti.
+possono essere persistiti SOLO se legati al revision token affidabile che li ha
+prodotti. Path + size + mtime da soli non autorizzano il riuso quando la source
+non garantisce che quella tuple cambi a ogni modifica contenuto.
 
 Esempio:
 
@@ -305,13 +316,14 @@ Coprire almeno:
 2. warm reuse;
 3. new entry;
 4. changed entry -> hash invalidation;
-5. removed entry dopo reconciliation completa;
-6. partial scan non rimuove out-of-scope;
-7. process restart riusa persistence;
-8. schema migration;
-9. crash/interruption non pubblica generation incompleta;
-10. app-owned mutation invalida/aggiorna l'indice;
-11. destructive action rivalida il file/reale source.
+5. same-size overwrite con mtime preservato/coarse NON riusa derived hash senza stronger revision;
+6. removed entry dopo reconciliation completa;
+7. partial scan non rimuove out-of-scope;
+8. process restart riusa persistence;
+9. schema migration;
+10. crash/interruption non pubblica generation incompleta;
+11. app-owned mutation invalida/aggiorna l'indice;
+12. destructive action rivalida il file/reale source.
 
 ======================================================================
 16. EVIDENCE / STATO
