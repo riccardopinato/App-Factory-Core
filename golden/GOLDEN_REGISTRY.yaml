@@ -1,7 +1,7 @@
 registry_version: 2
-updated_at: 2026-10-13
-master_version: "26.1"
-index_version: 12
+updated_at: 2026-10-14
+master_version: "26.2"
+index_version: 13
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -317,11 +317,11 @@ goldens:
   - id: agent_governance
     title: "Agent Governance / Repository Operating Contract"
     version: "1"
-    status: "COPY-READY PROCESS"
+    status: "CERTIFIED PROCESS"
     category: governance
     path: golden/governance/GOLDEN_AGENT_GOVERNANCE_v1.txt
     migrated_at: 2026-10-13
-    last_content_reviewed_at: 2026-10-13
+    last_content_reviewed_at: 2026-10-14
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -329,11 +329,11 @@ goldens:
   - id: code_hygiene
     title: "Code Hygiene / Bounded Obsolete-Code Sweep"
     version: "1"
-    status: "DRAFT / PROCESS CANDIDATE — NON COPY-READY"
+    status: "COPY-READY PROCESS"
     category: governance
-    path: golden/governance/GOLDEN_CODE_HYGIENE_v1_DRAFT.txt
+    path: golden/governance/GOLDEN_CODE_HYGIENE_v1.txt
     migrated_at: 2026-10-13
-    last_content_reviewed_at: 2026-10-13
+    last_content_reviewed_at: 2026-10-14
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT

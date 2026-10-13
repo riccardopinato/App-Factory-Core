@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-14 — TrailPath second pilot / Governance certification
+
+- Merged TrailPath pilot PR #40 to the canonical post-v1 lineage at `6679b1ef0713e9bf8407e8b07578727e4f73ed2a`.
+- Verified the merged tree is identical to exact-head `0220a88a867b6d762b103032cf5262e0a0fb0c32`, which passed TrailPath CI #844 / run `38474177782`.
+- Promoted Agent Governance v1 to **CERTIFIED PROCESS** after successful downstream adoption in CamperBoss and TrailPath.
+- Promoted Code Hygiene v1 to **COPY-READY PROCESS** after TrailPath supplied the missing feature-replacement + bug-fix + regression-test evidence.
+- TrailPath replaced nested routing fallback composition with one ordered provider chain, removed the superseded fallback-specific test, preserved intentional local/Smart Trace paths, and validated the cleaned tree.
+- Recorded one hosted-emulator UX ANR as non-deterministic infrastructure evidence only after the same exact head passed the rerun; no product assertion was weakened.
+- Renamed the current Code Hygiene Golden from the draft filename to `GOLDEN_CODE_HYGIENE_v1.txt`; archived the previous draft snapshot.
+- Bumped Master to v26.2 and Golden Index to v13.
+- Fixed the stale Master footer that still identified itself as v25.
+
+
 ## 2026-10-13 — Agent Governance first real pilot / COPY-READY PROCESS
 
 - Merged CamperBoss pilot PR #26 to main at `19c2b24cd5164caa9f5178679b8fbc961e7af3ce`.

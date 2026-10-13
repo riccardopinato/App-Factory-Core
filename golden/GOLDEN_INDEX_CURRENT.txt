@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 12.0 — 13/10/2026
+Versione: 13.0 — 14/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -21,6 +21,7 @@ STATI
 - CANDIDATE: donor individuato, estrazione non ancora completata.
 - DRAFT / PROCESS CANDIDATE: processo/documento definito ma non ancora validato nel flusso reale.
 - COPY-READY PROCESS: processo riutilizzabile con input/output e prove reali, senza implicare certificazione runtime.
+- CERTIFIED PROCESS: processo riusato stabilmente in almeno due progetti/tool surface con evidence registrata.
 - DEPRECATED: non usare.
 
 ======================================================================
@@ -727,15 +728,15 @@ File:
 GOLDEN_AGENT_GOVERNANCE_v1.txt
 
 Stato:
-COPY-READY PROCESS
+CERTIFIED PROCESS
 
 Evidence:
 - CamperBoss pilot merged on main at `19c2b24cd5164caa9f5178679b8fbc961e7af3ce`;
-- Flutter CI PASS;
-- Android QA release PASS;
-- Web release PASS;
-- real documentation drift and bounded cleanup findings resolved;
-- no tool-specific bridge existed in the pilot, therefore bridge drift = N/A.
+- TrailPath pilot PR #40 merged at `6679b1ef0713e9bf8407e8b07578727e4f73ed2a`;
+- TrailPath exact-head CI #844 / run `38474177782` PASS after exact-head rerun of one hosted-emulator UX flake;
+- authority/documentation drift detected and repaired in both downstream pilots;
+- bounded cleanup and safe-retain decisions demonstrated;
+- no duplicated/generated tool-specific bridge existed in either pilot, therefore bridge drift = N/A.
 
 Scope:
 - root AGENTS.md come contratto operativo tool-neutral;
@@ -743,7 +744,7 @@ Scope:
 - moduli operativi load-on-demand;
 - protected governance;
 - thin/generated tool-specific bridges;
-- future deterministic sync + drift gate;
+- deterministic sync + drift gate quando un bridge duplicativo esiste;
 - downstream app adoption;
 - instruction validation/eval;
 - provenance delle fonti agent-governance.
@@ -753,10 +754,18 @@ Scope:
 ======================================================================
 
 File:
-GOLDEN_CODE_HYGIENE_v1_DRAFT.txt
+GOLDEN_CODE_HYGIENE_v1.txt
 
 Stato:
-DRAFT / PROCESS CANDIDATE — NON COPY-READY
+COPY-READY PROCESS
+
+Evidence:
+- CamperBoss: dead constants e direct dependency inutilizzata rimosse con validation finale GREEN;
+- TrailPath: nested fallback routing path sostituito da un solo `RoutingProviderChain`;
+- superseded fallback-specific test rimosso;
+- regression coverage aggiunta per primary success, failover, final-error propagation, unsnapped rejection e local routing;
+- intentional paths (Free Smart Trace / StraightLine routing) mantenuti perché ancora attivi;
+- exact-head TrailPath CI #844 PASS su analyze/test/Web/Android/provider/AppLab/migration/UX.
 
 Scope:
 - superseded implementation sweep;
@@ -771,7 +780,7 @@ Scope:
 
 
 ======================================================================
-FRESHNESS GOVERNANCE — v12
+FRESHNESS GOVERNANCE — v13
 ======================================================================
 
 Registry v2 distingue:
@@ -786,7 +795,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v26.1
+EXISTING GOLDEN HARDENING QUEUE — v26.2
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
@@ -824,7 +833,7 @@ CANDIDATI SUCCESSIVI
   Stato: DEFER
 
 ======================================================================
-REGOLE v26.1
+REGOLE v26.2
 ======================================================================
 
 1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt; non hardcodare una versione storica.

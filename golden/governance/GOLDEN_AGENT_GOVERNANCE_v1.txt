@@ -1,7 +1,7 @@
 GOLDEN AGENT GOVERNANCE — REPOSITORY OPERATING CONTRACT
-Versione: 1.0 — 13/10/2026
-Stato: COPY-READY PROCESS
-Promoted under Master: v26.1 FULL
+Versione: 1.1 — 14/10/2026
+Stato: CERTIFIED PROCESS
+Promoted under Master: v26.2 FULL
 Current Master: resolve via CURRENT.yaml
 
 ======================================================================
@@ -250,6 +250,45 @@ Detailed evidence:
 evidence/agent-governance/CAMPERBOSS_PILOT_2026-10-13.md
 
 ======================================================================
+9A. PILOT EVIDENCE — TRAILPATH
+======================================================================
+
+Repository:
+riccardopinato/TrailPath
+
+Factory baseline:
+23c5b0f6b5f02a93e03bb36106f12575a58129d3
+
+Post-v1 baseline:
+44b95f8cb398cb141938452254c96a20d55b6eea
+
+Exact-head candidate:
+0220a88a867b6d762b103032cf5262e0a0fb0c32
+
+Merged post-v1 lineage:
+6679b1ef0713e9bf8407e8b07578727e4f73ed2a
+
+PR:
+#40 — TrailPath v1.5.22 — App Factory routing hygiene pilot
+
+Evidence:
+- repository-local AGENTS.md introduced without replacing product/roadmap truth;
+- deterministic App-Factory-Core baseline and post-v1 lineage made explicit;
+- two real documentation/lineage drift findings from review were corrected;
+- no unrelated planner redesign was introduced;
+- Code Hygiene applied to a real routing replacement and bug fix;
+- exact-head CI #844 / run 38474177782 passed the complete repository matrix;
+- one hosted-emulator UX ANR was investigated rather than hidden; the same exact
+  head passed the rerun without weakening assertions.
+
+Tool-specific bridge drift:
+N/A — TrailPath had no duplicated/generated CLAUDE/Copilot/Cursor/Gemini
+policy surface in the pilot.
+
+Detailed evidence:
+evidence/agent-governance/TRAILPATH_PILOT_2026-10-14.md
+
+======================================================================
 10. ACCEPTANCE MATRIX
 ======================================================================
 
@@ -268,23 +307,27 @@ evidence/agent-governance/CAMPERBOSS_PILOT_2026-10-13.md
 [x] validator controlla invarianti minimi
 [x] provenance esterna registrata
 [x] primo pilot reale merged e green
+[x] secondo pilot reale merged e green
+[x] evidence di riduzione drift/errori su due app
 [x] drift gate valutato: N/A in assenza di bridge duplicativi
 
 ======================================================================
 11. PROMOZIONE
 ======================================================================
 
-COPY-READY PROCESS — SATISFATTO 13/10/2026:
-- integrazione reale CamperBoss;
-- nessun conflitto con Product Bible/Roadmap/Master;
-- validator dimostrato;
-- drift gate valutato N/A perché nessun bridge duplicativo esisteva;
-- feedback reale: rilevati authority drift, documentation drift e cleanup sicuro.
+COPY-READY PROCESS — SATISFATTO 13/10/2026 con CamperBoss.
 
-CERTIFIED PROCESS resta bloccato fino a:
-- uso stabile in almeno una seconda app/tool surface;
-- evidence che il contratto riduce drift/errori senza aumentare inutilmente il
-  contesto;
-- se viene introdotto un bridge tool-specific, relativo drift gate dimostrato.
+CERTIFIED PROCESS — SATISFATTO 14/10/2026:
+- adozione reale e merged in due app: CamperBoss + TrailPath;
+- authority hierarchy applicata senza sostituire Product Bible/Roadmap;
+- drift documentale/repository-lineage individuato e corretto;
+- bounded context confermato tramite entrypoint compatto + moduli on-demand;
+- Code Hygiene collegato a cleanup reale senza refactor repository-wide;
+- CI/runtime evidence distinta correttamente da physical/store evidence;
+- drift gate tool-specific valutato N/A in entrambi i pilot perché nessun bridge
+  duplicativo/generato esisteva.
 
-END GOLDEN AGENT GOVERNANCE v1.0 COPY-READY PROCESS
+Se in futuro viene introdotto un bridge tool-specific duplicativo/generato,
+il relativo drift gate torna obbligatorio.
+
+END GOLDEN AGENT GOVERNANCE v1.1 CERTIFIED PROCESS

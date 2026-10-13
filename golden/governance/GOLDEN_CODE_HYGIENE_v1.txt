@@ -1,0 +1,265 @@
+GOLDEN CODE HYGIENE — BOUNDED OBSOLETE-CODE SWEEP
+Versione: 1.0 — 14/10/2026
+Stato: COPY-READY PROCESS
+Promoted under Master: v26.2 FULL
+Current Master: resolve via CURRENT.yaml
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Impedire che feature, bug fix e refactor accumulino implementazioni superseded,
+dead code, dipendenze inutili, asset orfani e workaround storici.
+
+REGOLA CENTRALE:
+
+Adding a replacement without evaluating removal of the superseded implementation is incomplete work.
+
+La pulizia è obbligatoria quando il task rende chiaramente qualcosa obsoleto,
+ma deve essere BOUNDED al sottosistema interessato.
+
+======================================================================
+2. TRIGGER
+======================================================================
+
+Applicare a:
+- feature sostanziale;
+- bug fix;
+- refactor;
+- rimozione feature;
+- migrazione;
+- dependency/configuration change;
+- sostituzione provider/service/repository/coordinator;
+- consolidamento di implementazioni duplicate.
+
+Per typo/copy/style senza impatto comportamentale basta cleanup locale creato dal
+diff.
+
+======================================================================
+3. MANDATORY SWEEP
+======================================================================
+
+Nel perimetro interessato cercare:
+
+- dead/unreachable code;
+- implementazioni superseded;
+- duplicate implementation paths;
+- coordinator/service/repository/scheduler/listener/worker concorrenti inutili;
+- function/class/import/route/config non usati;
+- workaround temporanei non più necessari;
+- compatibility layer obsoleti;
+- stale feature flag;
+- stale TODO già risolti;
+- commented-out implementation;
+- deprecated APIs toccate;
+- unused dependencies;
+- unused assets/translations;
+- orphan media/file/cache;
+- reminder/alarm/job/subscription/callback rimasti senza owner.
+
+======================================================================
+4. SAFE DELETE GATE
+======================================================================
+
+Prima di eliminare verificare, quando pertinente:
+
+- call/reference graph;
+- runtime registration/reflection;
+- persistence/migration role;
+- Android/iOS/Web manifests/config;
+- tests/fixtures;
+- localization/resources;
+- background lifecycle;
+- public/API compatibility;
+- import/export/backup compatibility.
+
+Non eliminare storia/migrazioni/compatibility contract/generated/vendor files
+solo perché sembrano vecchi.
+
+UNKNOWN IMPACT != SAFE TO DELETE.
+
+======================================================================
+5. BOUNDED CLEANUP
+======================================================================
+
+Consentito:
+- rimuovere ciò che il nuovo comportamento rende obsoleto;
+- consolidare duplicazione nel sottosistema toccato;
+- rimuovere dependency/asset diventati inutili;
+- sistemare deprecation direttamente toccate quando bounded.
+
+Non consentito come effetto collaterale:
+- redesign repository-wide;
+- rename/reformat massivo;
+- dependency upgrade non correlato;
+- riscrittura architetturale estetica;
+- cleanup di aree senza dipendenza dal task.
+
+Le opportunità più ampie diventano finding separati.
+
+======================================================================
+6. BUG FIX
+======================================================================
+
+Per bug:
+1. identificare root cause;
+2. verificare pattern equivalente nel vicinato;
+3. aggiungere regression test quando adatto;
+4. applicare fix;
+5. eliminare workaround/broken parallel path se superseded;
+6. rieseguire validation finale.
+
+BROKEN PATH + NEW PATH entrambi attivi richiedono motivazione esplicita.
+
+======================================================================
+7. DEPENDENCY / ASSET HYGIENE
+======================================================================
+
+Quando una feature cambia:
+- controllare package inutilizzati;
+- rimuoverli se nessun consumer resta;
+- aggiornare lock/config;
+- controllare asset inutilizzati;
+- evitare file orfani;
+- valutare size/performance/platform impact quando materiale.
+
+Applicare sempre anche la Dependency Admission Rule del Master per nuove
+dipendenze.
+
+======================================================================
+8. FINAL VALIDATION
+======================================================================
+
+La validazione finale avviene DOPO cleanup.
+
+A seconda del rischio:
+- format/lint/analyze;
+- test focused/regression;
+- broader tests se blast radius lo richiede;
+- build;
+- runtime;
+- physical/native validation secondo Golden pertinenti.
+
+TEST GREEN BEFORE CLEANUP != FINAL TREE VERIFIED.
+
+======================================================================
+9. EVIDENCE / REPORT
+======================================================================
+
+Per task sostanziale registrare nel report:
+- obsolete/superseded code trovato;
+- elementi rimossi;
+- elementi deliberatamente mantenuti e perché;
+- dependency/asset cleanup;
+- validation rieseguita after cleanup;
+- finding fuori scope.
+
+======================================================================
+10. ACCEPTANCE MATRIX
+======================================================================
+
+[ ] superseded implementation cercata
+[ ] dead/unreachable code cercato
+[ ] duplicate path cercati
+[ ] unused dependencies cercate
+[ ] unused assets/resources cercati
+[ ] deprecated API toccate valutate
+[ ] workaround/feature flag obsoleti valutati
+[ ] persistence/migration guard rispettato
+[ ] cleanup bounded
+[ ] relevant validation eseguita after cleanup
+[ ] report finale distingue removed/retained/out-of-scope
+
+======================================================================
+11. PILOT EVIDENCE — CAMPERBOSS
+======================================================================
+
+Pilot merged:
+riccardopinato/CamperBoss @ 19c2b24cd5164caa9f5178679b8fbc961e7af3ce
+
+Evidence utile:
+- dead AppStrings rimosso;
+- dead AppRadius rimosso;
+- direct dependency open_route_service non usata rimossa;
+- lockfile riallineato;
+- active test doubles/adapters mantenuti;
+- validation finale rieseguita dopo cleanup;
+- Flutter CI, Web release e Android QA release PASS.
+
+Questo dimostra il dependency/dead-code sweep e il bounded-cleanup behavior,
+ma NON soddisfa ancora il criterio completo di promozione perché manca evidence
+su:
+- almeno un vero feature replacement con superseded path rimosso;
+- almeno un bug fix con regression test + cleanup del workaround/broken path.
+
+======================================================================
+11A. PILOT EVIDENCE — TRAILPATH
+======================================================================
+
+Pilot:
+riccardopinato/TrailPath PR #40
+
+Factory baseline:
+23c5b0f6b5f02a93e03bb36106f12575a58129d3
+
+TrailPath baseline:
+44b95f8cb398cb141938452254c96a20d55b6eea
+
+Exact-head candidate:
+0220a88a867b6d762b103032cf5262e0a0fb0c32
+
+Merged post-v1 lineage:
+6679b1ef0713e9bf8407e8b07578727e4f73ed2a
+
+Feature replacement evidence:
+- nested FallbackRoutingEngine composition removed from the active provider path;
+- one explicit RoutingProviderChain remains for snapped remote routing;
+- superseded fallback-specific regression file removed;
+- intentional StraightLine/local routing and Free Smart Trace retained because
+  they still own valid product behavior.
+
+Bug-fix evidence:
+- provider failover no longer discards the final provider failure behind the
+  original primary failure;
+- unsnapped provider output remains rejected fail-closed;
+- regression tests cover primary success, secondary failover, final-error
+  propagation, unsnapped rejection and explicit local routing.
+
+Final-state validation:
+- formatting/analyze/tests PASS;
+- Web Preview build PASS;
+- ARM64/x86_64/AAB + size gates PASS;
+- live OSM/Valhalla provider smoke PASS;
+- API 29 PASS;
+- AppLab main E2E PASS;
+- AppLab Pro routing PASS;
+- upgrade/migration PASS;
+- small-screen/large-text UX PASS on exact-head rerun;
+- Release Certification Evidence job PASS.
+
+Hosted-emulator note:
+the first UX attempt showed a real transient target ANR during crawler stress,
+but the runtime code was unchanged from the previously green candidate and the
+same exact head passed the rerun. The gate was not weakened and no speculative
+application workaround was added.
+
+Detailed evidence:
+evidence/agent-governance/TRAILPATH_PILOT_2026-10-14.md
+
+======================================================================
+12. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS — SATISFATTO 14/10/2026:
+- CamperBoss ha dimostrato dead-code/dependency sweep + safe-retain decisions;
+- TrailPath ha dimostrato un vero feature replacement con superseded path
+  rimosso;
+- TrailPath ha dimostrato un bug fix con regression test;
+- la validation finale è stata eseguita sul tree pulito;
+- nessun over-cleanup o refactor repository-wide è stato introdotto.
+
+CERTIFIED PROCESS resta bloccato fino a uso stabile ripetuto su almeno due
+progetti con evidence comparabile di replacement/bug-fix cleanup e assenza di
+regressioni da over-cleanup.
+
+END GOLDEN CODE HYGIENE v1.0 COPY-READY PROCESS
