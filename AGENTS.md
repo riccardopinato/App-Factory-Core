@@ -30,6 +30,7 @@ For work on App-Factory-Core itself, this file governs agent operating behavior 
 - Do not add architecture, dependencies, services, background work, compatibility layers, or abstractions without a concrete present need.
 - Do not create a parallel implementation when the existing path can be safely corrected or extended.
 - Keep main stable and follow the repository governance flow.
+- Do not merge a PR unless explicitly requested by the user.
 - Report validation actually executed, omitted, blocked, or failed.
 
 ## 3. Scope and authorization
