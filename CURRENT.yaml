@@ -9,10 +9,10 @@ master:
   versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_3_FULL.txt
 
 golden_index:
-  version: 14
+  version: 15
   status: CURRENT
   path: golden/GOLDEN_INDEX_CURRENT.txt
-  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v14.txt
+  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v15.txt
 
 golden_registry:
   version: 2

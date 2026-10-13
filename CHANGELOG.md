@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-14 — Incremental indexing / bounded hashing Golden candidates
+
+- Added **GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT** for large local catalogs, scan generations, warm reuse, trustworthy revision-bound metadata and stale-index safety.
+- Added **GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT** for physical-alias collapse, bounded worker hashing, producer bounds/backpressure, cancellation, deterministic grouping and trusted hash-cache reuse.
+- Recorded immutable Android Omni Cleaner donor provenance and exact-head CI/APK evidence.
+- Bumped Golden Index from v14 to v15; Master remains v26.3.
+- Kept both Goldens provider-agnostic and non-copy-ready until large-library and physical-device evidence exists.
+
+
 ## 2026-10-14 — Easy Debloat pilot / Code Hygiene CERTIFIED PROCESS
 
 - Merged Easy Debloat pilot PR #1 into the dedicated `easydebloat-build` lineage at `30277ac9eab8d614c9c0f6bfd04048680a3f0e76`.

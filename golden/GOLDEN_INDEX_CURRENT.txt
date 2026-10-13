@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 14.0 — 14/10/2026
+Versione: 15.0 — 14/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -780,7 +780,58 @@ Scope:
 
 
 ======================================================================
-FRESHNESS GOVERNANCE — v14
+31. INCREMENTAL PERSISTENT INDEXING
+======================================================================
+
+File:
+GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidate:
+Android Omni Cleaner
+
+Scope:
+- persistent local catalog;
+- cold vs warm scan;
+- NEW / UNCHANGED / CHANGED / REMOVED state;
+- scan generations;
+- trustworthy revision-bound derived metadata;
+- process restart reuse;
+- app-owned mutation invalidation;
+- partial vs full reconciliation;
+- stale-index safety;
+- destructive-action real-source revalidation.
+
+======================================================================
+32. BOUNDED PARALLEL HASHING
+======================================================================
+
+File:
+GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor candidate:
+Android Omni Cleaner
+
+Scope:
+- physical/provider alias collapse;
+- size/sample/full-hash pipeline;
+- fixed/bounded worker pool;
+- producer bound/backpressure;
+- cancellation;
+- deterministic output;
+- bounded buffers/file descriptors;
+- trustworthy revision-bound hash-cache reuse;
+- progress throttling;
+- thermal/battery-aware scaling when justified;
+- final byte verification for destructive/high-trust duplicate decisions.
+
+======================================================================
+FRESHNESS GOVERNANCE — v15
 ======================================================================
 
 Registry v2 distingue:
