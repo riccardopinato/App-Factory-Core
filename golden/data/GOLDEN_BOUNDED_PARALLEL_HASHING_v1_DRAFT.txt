@@ -1,7 +1,7 @@
 GOLDEN BOUNDED PARALLEL HASHING
 Versione draft: 1.0 — 14/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
-Created under Master: v26.1
+Created under Master: v26.2
 Current Master: resolve via CURRENT.yaml
 
 Donor candidate:
@@ -47,7 +47,8 @@ Parallelismo illimitato no.
 Per duplicate detection:
 
 ```text
-group by size
+deduplicate by stable physical/provider identity
+-> group by size
 -> discard unique sizes
 -> sample prefix/suffix fingerprint
 -> group by sample
@@ -55,6 +56,11 @@ group by size
 -> group by full hash
 -> byte-for-byte verification for destructive/high-trust decisions
 ```
+
+Due path/provider alias che puntano allo STESSO oggetto fisico NON sono due
+duplicati reclaimable. Hard link, provider alias o altra identity condivisa
+devono essere collassati prima del grouping per size/hash quando la piattaforma
+espone una stable physical/provider identity.
 
 Sample fingerprint NON è prova di identità.
 SHA-256 riduce il candidate set; per operazioni distruttive la policy può
@@ -157,12 +163,14 @@ Prima di esporre/persistire:
 Integrare con:
 GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT.txt
 
-Un hash persistito è riusabile solo se la revision tuple è ancora valida.
+Un hash persistito è riusabile solo se una revision identity affidabile è
+ancora valida. Path + size + mtime sono un cheap filter, non una garanzia
+universale di content revision.
 
 Candidate:
 
 ```text
-(path, sizeBytes, modifiedAt)
+(stable physical/provider identity, strong revision token)
 -> sampleHash
 -> fullHash
 -> verifiedAt
@@ -260,13 +268,15 @@ Coprire:
 2. same sample but different middle -> rejected by full/final verification;
 3. hash cache hit;
 4. changed revision invalidates cache;
-5. bounded worker peak <= configured max;
-6. deterministic output independent from completion order;
-7. cancellation propagates;
-8. ordinary I/O failure isolated;
-9. progress ends exactly at total;
-10. zero/one candidate edge cases;
-11. destructive path retains final real-source revalidation.
+5. hard link/provider aliases della stessa physical identity non diventano duplicate group;
+6. bounded worker peak <= configured max;
+7. large-input producer bound: queued + in-flight work <= configured capacity, non solo active workers;
+8. deterministic output independent from completion order;
+9. cancellation propagates;
+10. ordinary I/O failure isolated;
+11. progress ends exactly at total;
+12. zero/one candidate edge cases;
+13. destructive path retains final real-source revalidation.
 
 ======================================================================
 15. BENCHMARK
