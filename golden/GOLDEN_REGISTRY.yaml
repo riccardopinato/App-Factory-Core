@@ -1,7 +1,7 @@
 registry_version: 2
 updated_at: 2026-10-13
-master_version: "26"
-index_version: 11
+master_version: "26.1"
+index_version: 12
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -317,9 +317,9 @@ goldens:
   - id: agent_governance
     title: "Agent Governance / Repository Operating Contract"
     version: "1"
-    status: "DRAFT / PROCESS CANDIDATE — NON COPY-READY"
+    status: "COPY-READY PROCESS"
     category: governance
-    path: golden/governance/GOLDEN_AGENT_GOVERNANCE_v1_DRAFT.txt
+    path: golden/governance/GOLDEN_AGENT_GOVERNANCE_v1.txt
     migrated_at: 2026-10-13
     last_content_reviewed_at: 2026-10-13
     last_provider_verified_at: null

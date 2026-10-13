@@ -1,7 +1,7 @@
 GOLDEN AGENT GOVERNANCE — REPOSITORY OPERATING CONTRACT
-Versione draft: 0.1 — 13/10/2026
-Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
-Created under Master: v26 FULL
+Versione: 1.0 — 13/10/2026
+Stato: COPY-READY PROCESS
+Promoted under Master: v26.1 FULL
 Current Master: resolve via CURRENT.yaml
 
 ======================================================================
@@ -85,14 +85,17 @@ oppure
 
 NON mantenere manualmente più copie indipendenti della stessa policy.
 
-Future direction:
+Quando esiste almeno un bridge duplicativo/generato:
 SOURCE AGENTS.md
--> deterministic adapters
+-> deterministic adapter
 -> drift check
 -> CI fail se target generato diverge.
 
-L'automazione di sync NON è richiesta dalla v0.1: prima si stabilizza il
-contratto canonico.
+Se nessun bridge tool-specific esiste, il drift gate è N/A e NON blocca
+l'adozione del contratto canonico.
+
+L'automazione multi-tool completa resta evoluzione successiva: non va introdotta
+finché un tool reale non la richiede.
 
 ======================================================================
 5. PROTECTED GOVERNANCE
@@ -155,7 +158,7 @@ KEYWORD PRESENT != INSTRUCTION EFFECTIVE.
 8. SOURCE EVIDENCE / PROVENANCE
 ======================================================================
 
-Pattern studiati per v0.1:
+Pattern studiati:
 
 1. github/awesome-copilot
    commit: 156736fb63e965b2f547a1460f3b5972c46e6b24
@@ -198,39 +201,90 @@ Pattern studiati per v0.1:
    license: MIT
    reference: compact entrypoint + modular rules/specialist-agent pattern.
 
-La v0.1 riusa CONCETTI e pattern di organizzazione; non importa automaticamente
-codice o sistemi vendor-specific.
+La Factory riusa CONCETTI e pattern di organizzazione; non importa
+automaticamente codice o sistemi vendor-specific.
 
 ======================================================================
-9. ACCEPTANCE MATRIX
+9. PILOT EVIDENCE — CAMPERBOSS
 ======================================================================
 
-[ ] AGENTS.md canonico presente
-[ ] authority hierarchy esplicita
-[ ] AGENTS non sostituisce Product Bible/Master/Golden
-[ ] moduli caricati on-demand
-[ ] code hygiene collegato
-[ ] testing/validation collegato
-[ ] Git workflow collegato
-[ ] research/reuse collegato
-[ ] tool-specific bridge non authority indipendente
-[ ] protected governance definita
-[ ] downstream adoption definita
-[ ] portability budget verificato
-[ ] validator controlla invarianti minimi
-[ ] provenance esterna registrata
+Repository:
+riccardopinato/CamperBoss
+
+Pre-pilot baseline:
+6c866bf8884b78703401db8ce08dbcf97d3f893c
+
+Pilot branch head:
+af8c00ac1710ea958cfd59545eb617f903176221
+
+Merged main:
+19c2b24cd5164caa9f5178679b8fbc961e7af3ce
+
+PR:
+#26 — Pilot App Factory v26 agent governance and code hygiene
+
+Evidence:
+- existing AGENTS.md preserved and upgraded via merge/delta, not overwritten;
+- unspecified "latest prompt in chat" authority removed;
+- deterministic CURRENT resolver introduced;
+- real documentation drift found and repaired;
+- bounded code-hygiene pass removed dead AppStrings/AppRadius;
+- unused open_route_service direct dependency removed;
+- active test doubles/platform adapters correctly retained;
+- no unrelated architectural rewrite performed;
+- Flutter CI PASS;
+- lock drift check PASS;
+- supply-chain/license/secrets/SAST/trust-boundary checks PASS;
+- analyze/integration/full tests/coverage PASS;
+- Fastlane immutable-artifact contract PASS;
+- Web release/size audit PASS;
+- Android QA release/hash/privacy-backup checks PASS.
+
+No Product Bible/Roadmap/Master conflict was observed.
+
+Tool-specific bridge drift:
+N/A — CamperBoss had no duplicated/generated CLAUDE/Copilot/Cursor/Gemini policy
+surface in the pilot.
+
+Detailed evidence:
+evidence/agent-governance/CAMPERBOSS_PILOT_2026-10-13.md
 
 ======================================================================
-10. PROMOZIONE
+10. ACCEPTANCE MATRIX
 ======================================================================
 
-COPY-READY PROCESS dopo:
-- integrazione reale in almeno un repository app;
+[x] AGENTS.md canonico presente
+[x] authority hierarchy esplicita
+[x] AGENTS non sostituisce Product Bible/Master/Golden
+[x] moduli caricati on-demand
+[x] code hygiene collegato
+[x] testing/validation collegato
+[x] Git workflow collegato
+[x] research/reuse collegato
+[x] tool-specific bridge non authority indipendente
+[x] protected governance definita
+[x] downstream adoption dimostrata
+[x] portability budget verificato
+[x] validator controlla invarianti minimi
+[x] provenance esterna registrata
+[x] primo pilot reale merged e green
+[x] drift gate valutato: N/A in assenza di bridge duplicativi
+
+======================================================================
+11. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS — SATISFATTO 13/10/2026:
+- integrazione reale CamperBoss;
 - nessun conflitto con Product Bible/Roadmap/Master;
-- validator/drift checks dimostrati;
-- feedback reale sull'efficacia del contratto.
+- validator dimostrato;
+- drift gate valutato N/A perché nessun bridge duplicativo esisteva;
+- feedback reale: rilevati authority drift, documentation drift e cleanup sicuro.
 
-CERTIFIED PROCESS dopo uso stabile in almeno due app/tool surfaces e evidence
-che il contratto riduce drift/errori senza aumentare inutilmente il contesto.
+CERTIFIED PROCESS resta bloccato fino a:
+- uso stabile in almeno una seconda app/tool surface;
+- evidence che il contratto riduce drift/errori senza aumentare inutilmente il
+  contesto;
+- se viene introdotto un bridge tool-specific, relativo drift gate dimostrato.
 
-END GOLDEN AGENT GOVERNANCE v0.1 DRAFT
+END GOLDEN AGENT GOVERNANCE v1.0 COPY-READY PROCESS

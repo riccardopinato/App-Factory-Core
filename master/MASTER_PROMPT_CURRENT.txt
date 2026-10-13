@@ -1,13 +1,13 @@
 MASTER PROMPT — APP UTILITY FLUTTER / CHATGPT
-Versione v26 FULL CONSOLIDATA — 13/10/2026
+Versione v26.1 FULL CONSOLIDATA — 13/10/2026
 APP FACTORY CORE — CENTRAL SOURCE OF TRUTH / ASSEMBLY-FIRST / EVIDENCE-DRIVEN
 
 ======================================================================
 0. STATUS — APP FACTORY CORE SOURCE OF TRUTH
 ======================================================================
 
-Questa v26 FULL è il Master Prompt operativo consolidato della App Factory.
-Sostituisce v25.1 come baseline corrente senza richiedere la lettura delle
+Questa v26.1 FULL è il Master Prompt operativo consolidato della App Factory.
+Sostituisce v26 come baseline corrente senza richiedere la lettura delle
 versioni precedenti.
 
 SOURCE OF TRUTH CENTRALE:
@@ -100,7 +100,7 @@ Per App-Factory-Core:
   ogni normale task di una singola app.
 
 Applicare:
-GOLDEN_AGENT_GOVERNANCE_v1_DRAFT.txt
+GOLDEN_AGENT_GOVERNANCE_v1.txt
 
 ======================================================================
 2. GITHUB / REMOTE ACCESS — BASELINE EFFICIENCY + FACTORY RESOLVER
