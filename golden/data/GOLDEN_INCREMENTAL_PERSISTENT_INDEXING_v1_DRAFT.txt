@@ -1,0 +1,359 @@
+GOLDEN INCREMENTAL PERSISTENT INDEXING
+Versione draft: 1.0 — 14/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Created under Master: v26.2
+Current Master: resolve via CURRENT.yaml
+
+Donor candidate:
+- Android Omni Cleaner @ `aa5f6e9951237fcfafaa1c361c4aa643c439ad63`
+- repository: https://github.com/riccardopinato/Android-Omni-Cleaner
+- provenance/evidence: `evidence/indexing-hashing/ANDROID_OMNI_CLEANER_DONOR_2026-10-14.md`
+- classification: INTERNAL_DONOR / PATTERN DONOR; no code copied into Core
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Pattern riusabile per app che devono catalogare grandi insiemi locali di:
+- file;
+- foto/media;
+- documenti;
+- asset;
+- record derivati da storage/device.
+
+Obiettivo:
+evitare che ogni apertura/sessione ripeta automaticamente lo stesso lavoro
+costoso quando una parte sostanziale dell'indice precedente è ancora valida.
+
+Non è una regola obbligatoria per app piccole o dataset piccoli.
+
+======================================================================
+2. PRINCIPIO CENTRALE
+======================================================================
+
+COLD DISCOVERY
+-> PERSIST INDEX
+-> REUSE VERIFIED METADATA
+-> DISCOVER DELTA
+-> INVALIDATE CHANGED ENTRIES
+-> RECONCILE REMOVED ENTRIES
+-> PERIODIC FULL RECONCILIATION
+
+L'indice persistente è un acceleratore.
+NON è autorità sufficiente per mutazioni distruttive.
+
+INDEX HIT != REAL FILE VERIFIED.
+
+Prima di delete/move/overwrite/restore critico:
+- rivalidare il dato/file reale;
+- verificare identity/path;
+- verificare size/revision/mtime o equivalente;
+- verificare hash quando il rischio lo richiede.
+
+======================================================================
+3. APPLICABILITÀ
+======================================================================
+
+Valutare questo Golden quando almeno una condizione è vera:
+- migliaia di file/record;
+- traversal completo percepibile dall'utente;
+- hashing/metadata extraction costosi;
+- cataloghi media/documentali;
+- backup/sync;
+- ricerca locale;
+- duplicate detection;
+- EXIF/media analysis;
+- filesystem intelligence.
+
+Non aggiungere persistence/indexing se il dataset è piccolo e una lettura diretta
+rimane più semplice, veloce e affidabile.
+
+======================================================================
+4. MODELLO MINIMO
+======================================================================
+
+Campi candidati per un file index:
+
+```text
+stableKey / canonicalPath
+sizeBytes
+modifiedAt / revision
+extension / mediaType
+sampleHash?        # derived cache
+fullHash?          # derived cache
+hashVerifiedAt?
+lastSeenGeneration
+lastVerifiedAt
+source/provider
+```
+
+Metadata globali:
+
+```text
+schemaVersion
+rootIdentity
+scanGeneration
+lastIncrementalScanAt
+lastFullReconciliationAt
+indexCreatedAt
+```
+
+Per domini non-file sostituire path/size/mtime con identity/revision equivalenti.
+
+======================================================================
+5. STATE MACHINE
+======================================================================
+
+Ogni entry deve poter essere classificata almeno come:
+
+```text
+NEW
+UNCHANGED
+CHANGED
+MISSING/REMOVED
+UNKNOWN
+```
+
+Regola:
+
+```text
+same stable identity
++ same TRUSTWORTHY revision token
+=> derived metadata MAY be reused
+
+revision changed OR revision trust unavailable
+=> derived metadata/hash MUST be recomputed or treated UNKNOWN
+```
+
+Per file locali una cheap discovery tuple candidata è:
+
+```text
+(path, sizeBytes, modifiedAt)
+```
+
+Questa tuple è utile per discovery/UI, ma NON è sufficiente da sola per
+riusare hash, fingerprint, EXIF o metadata di integrità se il filesystem/provider
+consente overwrite same-size con timestamp preservato/coarse.
+
+Per derived metadata costosi preferire un revision token più forte, ad esempio:
+- provider generation/revision/etag affidabile;
+- filesystem physical identity + change-time/ctime con semantica documentata;
+- altro token monotonic/change-sensitive del provider.
+
+Se un token affidabile non esiste, recompute invece di fidarsi del cheap tuple.
+
+======================================================================
+6. GENERATION RECONCILIATION
+======================================================================
+
+Pattern raccomandato:
+
+1. incrementa `scanGeneration`;
+2. ogni entry osservata riceve `lastSeenGeneration = current`;
+3. nuove entry vengono inserite;
+4. entry cambiate vengono aggiornate e i derived cache invalidati;
+5. a fine scansione/reconciliation:
+   - entry non viste vengono rimosse/tombstoned solo se la discovery è completa
+     per il relativo scope;
+   - una scansione parziale NON deve cancellare record fuori scope.
+
+FULL RECONCILIATION != PARTIAL/SCOPED REFRESH.
+
+======================================================================
+7. PERSISTENCE
+======================================================================
+
+Usare storage locale transazionale adatto al volume:
+- SQLite / Room;
+- Drift / SQLite;
+- database embedded equivalente.
+
+Richieste:
+- schema version;
+- migration;
+- transaction boundaries;
+- crash consistency;
+- indici DB sulle query calde;
+- no write per ogni byte/progress event;
+- batch/transaction per grandi reconciliation.
+
+JSON/Preferences non sono default per cataloghi grandi.
+
+======================================================================
+8. WARM START
+======================================================================
+
+Una sessione successiva può usare immediatamente l'indice persistito quando:
+- schema compatibile;
+- root/source identity compatibile;
+- freshness policy consente il riuso;
+- non esiste invalidazione forte nota.
+
+L'app deve distinguere:
+- snapshot persistito;
+- snapshot riconciliato;
+- snapshot full-verified.
+
+Se la UI mostra risultati da un indice non ancora riconciliato, evitare claim
+equivalenti a "scansione completa appena eseguita".
+
+======================================================================
+9. DISCOVERY DELTA
+======================================================================
+
+Preferire quando disponibili:
+- provider generation/change token;
+- filesystem watcher/journal;
+- ContentObserver;
+- provider incremental cursor;
+- directory/file revision metadata;
+- app-owned mutation log.
+
+Se la piattaforma non offre un change journal affidabile:
+- usare indice persistente per warm start;
+- applicare reconciliation incrementale quando possibile;
+- pianificare full reconciliation periodica/bounded;
+- non fingere completezza istantanea.
+
+======================================================================
+10. MUTAZIONI APP-OWNED
+======================================================================
+
+Quando l'app stessa:
+- crea;
+- sposta;
+- rinomina;
+- modifica;
+- elimina
+
+un'entità indicizzata, aggiornare/invalidate l'indice nello stesso flusso
+logico della mutazione quando possibile.
+
+Non aspettare passivamente il prossimo full scan per correggere uno stato che
+l'app sa già essere cambiato.
+
+======================================================================
+11. HASH / DERIVED METADATA
+======================================================================
+
+Sample hash, full hash, EXIF, thumbnail fingerprint e altri derived metadata
+possono essere persistiti SOLO se legati al revision token affidabile che li ha
+prodotti. Path + size + mtime da soli non autorizzano il riuso quando la source
+non garantisce che quella tuple cambi a ogni modifica contenuto.
+
+Esempio:
+
+```text
+hash(path, size=100, mtime=10) != valid for
+same path, size=100, mtime=11
+```
+
+Al cambio revision:
+- sampleHash = null;
+- fullHash = null;
+- derived metadata invalidati secondo dominio.
+
+Integrare con:
+GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT.txt
+
+======================================================================
+12. FAILURE / CRASH CONSISTENCY
+======================================================================
+
+Una scansione interrotta:
+- non deve trasformare entry non visitate in "removed";
+- non deve pubblicare una generation incompleta come completa;
+- non deve invalidare un indice precedente sano prima del commit finale.
+
+Preferire:
+STAGE GENERATION
+-> DISCOVER/UPDATE
+-> MARK COMPLETE
+-> RECONCILE OLD
+-> COMMIT
+
+======================================================================
+13. PERFORMANCE BUDGET / TELEMETRIA LOCALE
+======================================================================
+
+Metriche minime candidate:
+
+```text
+cold_scan_ms
+warm_scan_ms
+files_total
+entries_reused
+entries_new
+entries_changed
+entries_removed
+entries_unknown
+hashes_reused
+hashes_invalidated
+last_full_reconciliation_age
+db_read_ms
+db_write_ms
+```
+
+Queste metriche devono essere locali/diagnostiche per default.
+Non introdurre telemetria remota solo per misurarle.
+
+======================================================================
+14. ANTI-PATTERN
+======================================================================
+
+NO full rescan automatico a ogni apertura senza necessità.
+NO derived hash riusato dopo revision change.
+NO indice persistente senza schema/migration.
+NO delete del DB come migration ordinaria.
+NO "not seen = removed" dopo scansione parziale.
+NO cache in memoria spacciata per indice persistente.
+NO DB index usato come autorizzazione definitiva a cancellare dati reali.
+NO due index repository concorrenti per lo stesso catalogo senza ownership chiara.
+
+======================================================================
+15. TEST MINIMI
+======================================================================
+
+Coprire almeno:
+1. cold index;
+2. warm reuse;
+3. new entry;
+4. changed entry -> hash invalidation;
+5. same-size overwrite con mtime preservato/coarse NON riusa derived hash senza stronger revision;
+6. removed entry dopo reconciliation completa;
+7. partial scan non rimuove out-of-scope;
+8. process restart riusa persistence;
+9. schema migration;
+10. crash/interruption non pubblica generation incompleta;
+11. app-owned mutation invalida/aggiorna l'indice;
+12. destructive action rivalida il file/reale source.
+
+======================================================================
+16. EVIDENCE / STATO
+======================================================================
+
+DRAFT finché non esiste evidence multi-device/multi-volume sufficiente.
+
+Per promozione COPY-READY/CERTIFIED richiedere almeno:
+- donor reale con dataset grande;
+- cold vs warm benchmark;
+- restart/process-death coverage;
+- migration coverage;
+- changed/new/removed coverage;
+- stale-index safety;
+- physical validation su device medio/low-end quando il dominio è storage-heavy.
+
+======================================================================
+17. PORTABILITÀ
+======================================================================
+
+Il contratto è cross-platform.
+L'adapter di discovery è platform-specific.
+
+Esempi:
+- Android: SQLite/Room + MediaStore/filesystem/provider adapter;
+- iOS: file provider/PhotoKit/local DB adapter;
+- desktop: filesystem watcher/journal + SQLite;
+- Flutter: repository/domain contract sopra adapter nativi/provider.
+
+Non imporre un package specifico come parte del Golden.
