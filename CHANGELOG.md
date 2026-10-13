@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-14 — Incremental indexing / bounded hashing Golden candidates
+
+- Added **GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT** for large local catalogs, scan generations, warm reuse, revision-bound metadata and stale-index safety.
+- Added **GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT** for bounded worker hashing, backpressure, cancellation, deterministic grouping and hash-cache reuse.
+- Registered Android Omni Cleaner as the first donor candidate; donor runtime evidence remains required before promotion beyond DRAFT.
+- Bumped Golden Index from v12 to v13; Master remains v26.1.
+- Kept both Goldens provider-agnostic and non-copy-ready until large-library and physical-device evidence exists.
+
 ## 2026-10-13 — Agent Governance first real pilot / COPY-READY PROCESS
 
 - Merged CamperBoss pilot PR #26 to main at `19c2b24cd5164caa9f5178679b8fbc961e7af3ce`.
