@@ -5,7 +5,10 @@ Created under Master: v26.2
 Current Master: resolve via CURRENT.yaml
 
 Donor candidate:
-- Android Omni Cleaner: persistent file inventory + hash metadata reuse, under active validation
+- Android Omni Cleaner @ `aa5f6e9951237fcfafaa1c361c4aa643c439ad63`
+- repository: https://github.com/riccardopinato/Android-Omni-Cleaner
+- provenance/evidence: `evidence/indexing-hashing/ANDROID_OMNI_CLEANER_DONOR_2026-10-14.md`
+- classification: INTERNAL_DONOR / PATTERN DONOR; no code copied into Core
 
 ======================================================================
 1. SCOPO
