@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-14 — Easy Debloat pilot / Code Hygiene CERTIFIED PROCESS
+
+- Merged Easy Debloat pilot PR #1 into the dedicated `easydebloat-build` lineage at `30277ac9eab8d614c9c0f6bfd04048680a3f0e76`.
+- Verified the merged tree is identical to exact-head `32c3660129d85cc12121b68f3d56d8630e1db5f1`, which passed Easy Debloat Android CI run `38483735583`.
+- Promoted Code Hygiene v1 to **CERTIFIED PROCESS** after comparable replacement/bug-fix evidence from TrailPath and Easy Debloat.
+- Materialized Easy Debloat's historical packed source into normal Git-tracked files before functional modification, preserving a mechanical normalization boundary.
+- Confirmed that no manual ADB/Wireless ADB path existed; Shizuku remained the single privilege transport.
+- Replaced ambiguous raw `&&` command composition with a structured package-operation executor and regression coverage.
+- Fixed duplicate Shizuku bind bootstrap semantics and invalid Android backup XML surfaced by release lint.
+- Kept physical Shizuku runtime validation explicitly NOT VERIFIED; process certification does not imply native runtime certification.
+- Bumped Master to v26.3 and Golden Index to v14.
+
+
 ## 2026-10-14 — TrailPath second pilot / Governance certification
 
 - Merged TrailPath pilot PR #40 to the canonical post-v1 lineage at `6679b1ef0713e9bf8407e8b07578727e4f73ed2a`.
