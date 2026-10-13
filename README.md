@@ -19,7 +19,7 @@ Do not refresh it between consecutive steps unless the central framework changes
 ## Current versions
 
 - Master Prompt: **v26.2 FULL**
-- Golden Components Index: **v13**
+- Golden Components Index: **v14**
 - Golden registry: **v2**
 - Semantic validator: **v3**
 
@@ -41,7 +41,7 @@ master/
   archive/
 golden/
   GOLDEN_INDEX_CURRENT.txt
-  GOLDEN_COMPONENTS_INDEX_v13.txt
+  GOLDEN_COMPONENTS_INDEX_v14.txt
   GOLDEN_REGISTRY.yaml
   <category>/GOLDEN_*.txt
   archive/
