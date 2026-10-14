@@ -5,7 +5,8 @@ Promoted under Master: v26.4 FULL
 Current Master: resolve via CURRENT.yaml
 
 Donor:
-- AppLab v5.3.5 hardened verifier;\n- validated verifier SHA: 931c124dbb1a36d43842db5b60bd5f04843e5330
+- AppLab v5.3.5 hardened verifier;
+- validated verifier SHA: 931c124dbb1a36d43842db5b60bd5f04843e5330
 
 Baseline capabilities già osservate nel donor:
 - trusted APK verifier;
