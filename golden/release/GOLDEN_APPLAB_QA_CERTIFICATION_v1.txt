@@ -1,7 +1,7 @@
 GOLDEN APPLAB QA & CERTIFICATION ADAPTER
 Versione: 1.0 — 14/10/2026
-Stato: COPY-READY PROCESS
-Promoted under Master: v26.4 FULL
+Stato: CERTIFIED PROCESS
+Certified under Master: v26.5 FULL
 Current Master: resolve via CURRENT.yaml
 
 Donor:
@@ -211,7 +211,7 @@ Per nuove app:
 [x] evidence failure detected correctly
 [x] BLOCKED non convertito in PASS
 [x] physical test requirement preserved
-[ ] second project integration — richiesta per CERTIFIED PROCESS, non per COPY-READY
+[x] second project integration — CamperBoss, trusted evidence comparabile
 
 ======================================================================
 10. PROMOZIONE
@@ -237,8 +237,41 @@ Pilot:
 Detailed evidence:
 evidence/applab-qa/ANNAS_DIARY_PILOT_2026-10-14.md
 
-CERTIFIED PROCESS resta PENDING fino a uso stabile su almeno un secondo progetto
-esterno, con evidence registrata comparabile.
+CERTIFIED PROCESS — SATISFATTO 14/10/2026 con il secondo progetto indipendente CamperBoss.
+
+Secondo pilot:
+- repository: riccardopinato/CamperBoss;
+- target baseline: 19c2b24cd5164caa9f5178679b8fbc961e7af3ce;
+- exact pilot source SHA: 58b83ef630fdb04e0cc6f34d27e03b20ec191787;
+- CamperBoss PR #27 merged to main at cf4202e25bf3bc630f9cfe5e3823219acfba84b4;
+- Flutter CI #473 / 38566087656 — PASS;
+- Release Core Platform Builds #363 / 38566087778 — PASS;
+- AppLab Production Gate #1 / 38566088778 — final rerun PASS;
+- trusted verifier: 931c124dbb1a36d43842db5b60bd5f04843e5330;
+- package: com.camperboss.camperboss;
+- version: 0.2.2 (2018);
+- APK SHA-256: 3d14d922b3cfca867fb9ac9c3fbc90d9d143c01b51856321928caa2d98e0cda3;
+- trusted runtime: PASS;
+- Maestro: PASS;
+- System UI Lab final rerun: PASS;
+- physical-device stage: BLOCKED by explicit real-device requirements;
+- distribution/store/production stages: NOT VERIFIED.
+
+The first trusted-runtime attempt on the same source/build contract and exact APK
+bytes failed only at the final System UI Lab after that lab had already recorded
+a successful process restart. Maestro completed, no app FATAL/ANR was recorded,
+and hosted-emulator graphics context errors immediately preceded the failure.
+The failed attempt remains recorded; it was not rewritten as PASS. A failed-job
+rerun on the same immutable source and exact APK bytes passed the complete trusted
+runtime. Historical CamperBoss API 29/API 35 AppLab PASS evidence from 09/10/2026
+provides additional independent stability context.
+
+Detailed evidence:
+evidence/applab-qa/CAMPERBOSS_PILOT_2026-10-14.md
+
+Process result:
+**CERTIFIED PROCESS** after two independent external Flutter integrations with
+trusted, immutable, fail-closed evidence: Anna's Diary + CamperBoss.
 
 
 ======================================================================
@@ -263,4 +296,4 @@ Baseline Anna's Diary v0.96 RC:
 La promotion del Golden Ecosystem Bridge resta quindi subordinata alla matrice
 fisica definita nel Golden Bridge e al processo Release Reality.
 
-END GOLDEN APPLAB QA & CERTIFICATION ADAPTER v1 COPY-READY PROCESS
+END GOLDEN APPLAB QA & CERTIFICATION ADAPTER v1 CERTIFIED PROCESS
