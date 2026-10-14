@@ -226,7 +226,8 @@ Pilot:
 - trusted verifier: 931c124dbb1a36d43842db5b60bd5f04843e5330;
 - package: com.riccardopinato.agenda_per_anna;
 - APK SHA-256: fdbfdf7f50337fd26c95587d63fc9deb00464bc7e4c327be0f6694daa413f165;
-- trusted runtime: PASS;\n- Anna PR #103 merged to main at f929a1f48989d48eb8c6a3d75f53a16b5bae297f;
+- trusted runtime: PASS;
+- Anna PR #103 merged to main at f929a1f48989d48eb8c6a3d75f53a16b5bae297f;
 - physical-device stage: BLOCKED by explicit real-device requirement;
 - distribution/store/production stages: NOT VERIFIED;
 - fail-closed canary run #652 / 38527684391 rejected an intentionally wrong package id;
