@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-14 — Anna's Diary pilot / AppLab QA COPY-READY PROCESS
+
+- Completed the first real external pilot of the AppLab QA / Certification Adapter on Anna's Diary.
+- Upgraded Anna's client contract to the merged hardened AppLab verifier `931c124dbb1a36d43842db5b60bd5f04843e5330`.
+- Proved fail-closed package binding with canary AppLab run #652 / `38527684391`.
+- Fixed the AppLab pre-runtime failure-path analysis-mode attribution defect in AppLab PR #110 without weakening failures.
+- Verified the final integrated Anna tree `1425ab64ae4440a10228d397444eea1883ec371a` with AppLab FULL run #668 / `38558260017`: analyze/test/build/runtime/Maestro PASS and trusted evidence bound to APK SHA-256 `fdbfdf7f50337fd26c95587d63fc9deb00464bc7e4c327be0f6694daa413f165`; merged Anna PR #103 to `main` at `f929a1f48989d48eb8c6a3d75f53a16b5bae297f`.
+- Added `applab.project.json` so physical-device requirements remain explicit; Release Reality correctly leaves physical verification BLOCKED and distribution/store/production NOT VERIFIED.
+- Promoted AppLab QA / Certification Adapter v1 to **COPY-READY PROCESS**; a second independent project is still required for CERTIFIED PROCESS.
+- Bumped Master from v26.3 to v26.4 and Golden Index from v15 to v16.
+
 ## 2026-10-14 — AdMob / UMP native production hardening
 
 - Updated **GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT** from draft revision 0.1 to 0.2 without promoting its Golden status.
