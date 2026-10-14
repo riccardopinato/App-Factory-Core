@@ -199,10 +199,11 @@ goldens:
     category: monetization
     path: golden/monetization/GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-06
-    last_provider_verified_at: null
+    last_content_reviewed_at: 2026-10-14
+    last_provider_verified_at: 2026-10-14
     provider_sensitive: true
-    freshness_status: NEEDS_REVIEW
+    freshness_status: CURRENT
+    tested_package_version: "google_mobile_ads 9.1.0; play-services-ads 25.5.0; user-messaging-platform 4.0.0"
   - id: app_icon_branding
     title: "App Icon / Branding"
     version: "1"
