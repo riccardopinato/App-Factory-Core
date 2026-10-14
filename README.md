@@ -18,8 +18,8 @@ Do not refresh it between consecutive steps unless the central framework changes
 
 ## Current versions
 
-- Master Prompt: **v26.3 FULL**
-- Golden Components Index: **v15**
+- Master Prompt: **v26.4 FULL**
+- Golden Components Index: **v16**
 - Golden registry: **v2**
 - Semantic validator: **v3**
 

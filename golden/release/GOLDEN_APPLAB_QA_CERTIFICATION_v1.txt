@@ -1,0 +1,265 @@
+GOLDEN APPLAB QA & CERTIFICATION ADAPTER
+Versione: 1.0 — 14/10/2026
+Stato: COPY-READY PROCESS
+Promoted under Master: v26.4 FULL
+Current Master: resolve via CURRENT.yaml
+
+Donor:
+- AppLab v5.3.5 hardened verifier;
+- validated verifier SHA: 931c124dbb1a36d43842db5b60bd5f04843e5330
+
+Baseline capabilities già osservate nel donor:
+- trusted APK verifier;
+- production certification gate;
+- FAST analysis;
+- emulator/runtime self-test;
+- Maestro journeys;
+- visual QA/regression;
+- trusted evidence manifest;
+- evidence confidence/contradiction engine;
+- autonomous review workflows.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare il lato CLIENT di integrazione delle nostre app con AppLab.
+
+NON duplicare AppLab dentro ogni repo.
+
+======================================================================
+2. TRUST BOUNDARY
+======================================================================
+
+Il target sotto test non deve poter dichiarare da solo che la propria evidence
+è trusted.
+
+Evidence trusted deve legare almeno:
+- target repository;
+- immutable SHA/ref risolto;
+- package/application ID;
+- workflow/run;
+- artifact SHA-256;
+- verifier/AppLab identity/version quando disponibile.
+
+======================================================================
+3. LIVELLI
+======================================================================
+
+FAST
+- controlli rapidi mirati;
+- non equivale a certification.
+
+FULL
+- analyze/test/build + runtime/evidence ampia per lo scope.
+
+CERTIFIED
+- evidence trusted;
+- artifact identity;
+- acceptance criteria;
+- native physical validation separata quando richiesta.
+
+======================================================================
+4. CLIENT INTEGRATION CONTRACT
+======================================================================
+
+Ogni app candidata deve fornire/configurare almeno:
+
+```text
+repository:
+immutableTargetRef:
+packageId:
+projectType:
+flutterVersion/toolchain:
+releaseArtifactPattern:
+primaryJourney:
+physicalValidationRequired:
+physicalCapabilities:
+```
+
+Baseline reusable workflow validata nel pilot 14/10/2026:
+
+```yaml
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  applab:
+    uses: riccardopinato/AppLab/.github/workflows/external-project-runner.yml@<IMMUTABLE_APPLAB_SHA>
+    with:
+      repository: <owner/repo>
+      ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      source_ref: ${{ github.head_ref || github.ref_name }}
+      working_directory: "."
+      flutter_version: <validated-flutter-version>
+      java_version: "<validated-java-version>"
+      package_id: <android.package.id>
+      apk_path: <release-apk-path>
+      build_command: <per-app-release-build-command>
+      analysis_mode: full
+      run_maestro: true
+      maestro_flow: <primary-flow>
+      history_key: <stable-project-history-key>
+      config_fingerprint: <stable-client-contract-version>
+      cache_verification: false
+      publish_release_artifact: false
+```
+
+Regole:
+- pin AppLab a SHA immutabile già validato; non usare branch/tag mobile;
+- il normale gate PR può usare FULL per trusted runtime verification;
+- usare CERTIFICATION solo quando il progetto intende valutare anche i gate di
+  release/certification previsti;
+- mantenere build command, toolchain e artifact path per-app espliciti;
+- se il progetto richiede `prepare_command` / `post_pub_get_command` per
+  materializzare scaffold o asset generati, configurarli nel caller e copiare
+  solo valori già validati nel progetto reale;
+- il target non può dichiarare da solo PASS/CERTIFIED.
+
+Quando esistono requisiti real-device, aggiungere `applab.project.json`
+(schema v1) con `physical_validation.required=true` e capability supportate,
+per esempio:
+
+```json
+{
+  "schema_version": 1,
+  "project_type": "flutter",
+  "working_directory": ".",
+  "package_id": "com.example.app",
+  "toolchain": {
+    "flutter_version": "3.x.y",
+    "java_version": "17"
+  },
+  "release_artifact_pattern": "build/app/outputs/flutter-apk/app-release.apk",
+  "journeys": {
+    "primary": ".maestro/applab-smoke.yaml"
+  },
+  "physical_validation": {
+    "required": true,
+    "capabilities": ["biometrics", "keystore", "notifications"]
+  }
+}
+```
+
+Questa metadata è intent non trusted: può rendere la certification più severa,
+mai ridurre un requisito fisico già esistente.
+
+======================================================================
+5. EVIDENCE MINIMA
+======================================================================
+
+Quando disponibile:
+- resolved SHA;
+- build log;
+- APK/AAB hash;
+- install/launch result;
+- Maestro journey result;
+- screenshots;
+- UI hierarchy;
+- Logcat;
+- crash/ANR scan;
+- visual regression result;
+- evidence manifest.
+
+======================================================================
+6. NON CONFONDERE
+======================================================================
+
+AppLab runtime PASS != Play Internal Testing PASS.
+AppLab emulator PASS != physical sensor/device PASS.
+Visual regression PASS != product UX approval.
+Artifact built != same artifact distributed.
+
+======================================================================
+7. FAILURE SEMANTICS
+======================================================================
+
+PASS
+- evidence prevista presente e conforme.
+
+FAIL
+- evidence mostra regressione/violazione.
+
+BLOCKED
+- dipendenza/tool/device/evidence impedisce la verifica.
+
+NOT VERIFIED
+- scope non eseguito.
+
+======================================================================
+8. REUSE RULE
+======================================================================
+
+Per nuove app:
+- usare questo adapter;
+- non copiare interamente AppLab;
+- non inventare un secondo evidence manifest;
+- non rendere target-authored test l'unica authority trusted.
+
+======================================================================
+9. TEST PER PROMOZIONE
+======================================================================
+
+[x] integration su app Flutter reale
+[x] immutable SHA binding
+[x] artifact SHA binding
+[x] package binding
+[x] trusted evidence manifest validato
+[x] runtime journey eseguito
+[x] log/crash scan
+[x] evidence failure detected correctly
+[x] BLOCKED non convertito in PASS
+[x] physical test requirement preserved
+[ ] second project integration — richiesta per CERTIFIED PROCESS, non per COPY-READY
+
+======================================================================
+10. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS — SATISFATTO 14/10/2026 con Anna's Diary.
+
+Pilot:
+- repository: riccardopinato/Agenda-per-Anna;
+- final integrated-tree source SHA verificato: 1425ab64ae4440a10228d397444eea1883ec371a;
+- AppLab FULL run: #668 / 38558260017 — PASS;
+- trusted verifier: 931c124dbb1a36d43842db5b60bd5f04843e5330;
+- package: com.riccardopinato.agenda_per_anna;
+- APK SHA-256: fdbfdf7f50337fd26c95587d63fc9deb00464bc7e4c327be0f6694daa413f165;
+- trusted runtime: PASS;\n- Anna PR #103 merged to main at f929a1f48989d48eb8c6a3d75f53a16b5bae297f;
+- physical-device stage: BLOCKED by explicit real-device requirement;
+- distribution/store/production stages: NOT VERIFIED;
+- fail-closed canary run #652 / 38527684391 rejected an intentionally wrong package id;
+- certification probe run #658 / 38546895821 preserved runtime PASS while refusing
+  to promote missing release/physical evidence to certification.
+
+Detailed evidence:
+evidence/applab-qa/ANNAS_DIARY_PILOT_2026-10-14.md
+
+CERTIFIED PROCESS resta PENDING fino a uso stabile su almeno un secondo progetto
+esterno, con evidence registrata comparabile.
+
+
+======================================================================
+11. CROSS-APP CONTRACT BOUNDARY — ECOSYSTEM BRIDGE
+======================================================================
+
+AppLab può certificare evidence trusted di una singola app e verificare che:
+- il contract test esista e passi;
+- l'artifact sia legato a source SHA/package/hash;
+- runtime/materialization locale non regredisca.
+
+AppLab su una sola app NON dimostra automaticamente un round-trip fisico fra
+due app installate.
+
+Baseline Anna's Diary v0.96 RC:
+- source SHA: 75b607ea28979a22e7dd15d797320ad888940f1d
+- Shared Ecosystem Core consumer: IMPLEMENTED + TESTED + CI GREEN
+- AppLab trusted runtime: PASS
+- signed APK: BUILT
+- Wonderlog <-> Anna physical round trip: NOT VERIFIED
+
+La promotion del Golden Ecosystem Bridge resta quindi subordinata alla matrice
+fisica definita nel Golden Bridge e al processo Release Reality.
+
+END GOLDEN APPLAB QA & CERTIFICATION ADAPTER v1 COPY-READY PROCESS

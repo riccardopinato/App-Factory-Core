@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 15.0 — 14/10/2026
+Versione: 16.0 — 14/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -426,13 +426,13 @@ Promotion blocker:
 ======================================================================
 
 File:
-GOLDEN_APPLAB_QA_CERTIFICATION_v1_DRAFT.txt
+GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt
 
 Stato:
-DRAFT / PROCESS CANDIDATE
+COPY-READY PROCESS
 
 Donor:
-AppLab v4.x
+AppLab v5.3.5 + Anna's Diary pilot
 
 Scope:
 - trusted evidence integration;
@@ -831,7 +831,7 @@ Scope:
 - final byte verification for destructive/high-trust duplicate decisions.
 
 ======================================================================
-FRESHNESS GOVERNANCE — v15
+FRESHNESS GOVERNANCE — v16
 ======================================================================
 
 Registry v2 distingue:
@@ -846,7 +846,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v26.3
+EXISTING GOLDEN HARDENING QUEUE — v26.4
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
