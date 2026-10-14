@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-14 — AdMob / UMP native production hardening
+
+- Updated **GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT** from draft revision 0.1 to 0.2 without promoting its Golden status.
+- Re-verified current Google provider guidance for Android Mobile Ads Legacy 25.5.0, UMP 4.0.0, test ads, European regulations messages, privacy options/revocation and consent sync.
+- Registered **Send to PC v1.27.6** as the first real Android-native App Factory AdMob donor under `evidence/admob/`.
+- Captured the production bug/fix where `InterstitialAd.load()` inherited `Dispatchers.IO` and failed with the main-UI-thread requirement.
+- Added explicit placement-level failure isolation so one banner/interstitial failure must not disable the whole monetization session.
+- Added the two-surface UMP rule: SDK/runtime integration plus AdMob Privacy & messaging server-side publication/configuration.
+- Added server-side message reality: publishing/editing UMP content does not require a new APK when the UMP client is already integrated.
+- Added fail-closed production ID preflight, diagnostic forced-EEA/test-ID lane, privacy-policy/revocation checks and observability boundaries.
+- Marked the provider-sensitive Golden freshness **CURRENT** as of 2026-10-14.
+- Kept status **DRAFT / CANDIDATE — NON COPY-READY** because the required Flutter/Web/Premium/full failure-matrix promotion evidence is still incomplete.
+
 ## 2026-10-14 — Incremental indexing / bounded hashing Golden candidates
 
 - Added **GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT** for large local catalogs, scan generations, warm reuse, trustworthy revision-bound metadata and stale-index safety.

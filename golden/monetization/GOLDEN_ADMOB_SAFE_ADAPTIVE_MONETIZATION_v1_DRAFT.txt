@@ -2,19 +2,25 @@
 
 GOLDEN STATUS
 -------------
-Versione draft: 0.1 — 06/10/2026
+Versione draft: 0.2 — 14/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
 Ambito: App Factory — app Flutter/Android native che utilizzano Google AdMob
-Master Prompt compatibile: v22 SLIM (overlay v21)
+Master Prompt compatibile: v26.3 FULL
 
 Origine:
 - specifica App Factory fornita dall'utente il 06/10/2026;
-- hardening tecnico verificato contro documentazione Google AdMob / google_mobile_ads corrente.
+- hardening tecnico verificato contro documentazione ufficiale Google AdMob / UMP;
+- donor Android native reale: riccardopinato/Send-to-pc, v1.27.6, 14/10/2026.
 
 Evidence boundary attuale:
 - policy e reference architecture: DEFINITE;
-- API principali verificate contro google_mobile_ads 9.1.0 / documentazione Google corrente;
-- donor App Factory reale con integrazione completa e physical validation: NON ANCORA REGISTRATO;
+- provider review 14/10/2026: Google Mobile Ads SDK Android Legacy 25.5.0,
+  UMP Android 4.0.0 e documentazione Google AdMob/Privacy corrente;
+- baseline Flutter di riferimento: google_mobile_ads 9.1.0; physical donor Flutter
+  App Factory non ancora registrato;
+- donor Android native reale registrato con release/AppLab e physical validation
+  di startup, banner, UMP e riapertura Privacy Options;
+- interstitial production su device fisico: NON ANCORA VERIFICATO;
 - stato quindi: CANDIDATE, non COPY-READY e non CERTIFIED.
 
 HARDENING 06/10/2026
@@ -34,6 +40,46 @@ HARDENING 06/10/2026
 6. Age/target-audience treatment è configurazione per-app e non va ereditata
    implicitamente da un template.
 7. AdMob rimane dipendenza di monetizzazione, mai dipendenza funzionale/core.
+
+HARDENING 14/10/2026 — REAL ANDROID DONOR / UMP PRODUCTION
+-----------------------------------------------------------
+1. UMP ha DUE superfici da validare:
+   - integrazione SDK/runtime nell'app;
+   - configurazione server-side in AdMob > Privacy e messaggi.
+   Una build corretta NON prova che esista un messaggio europeo pubblicato.
+2. Un errore tipo "Publisher misconfiguration: no form(s) configured" va distinto
+   da un bug dell'app: può indicare che l'App ID è valido ma il messaggio UMP non
+   è ancora configurato/pubblicato nel pannello AdMob.
+3. Pubblicare/modificare il messaggio UMP è configurazione server-side:
+   se l'app integra già UMP correttamente non richiede una nuova APK solo per
+   aggiornare testo, targeting, lingue o stato di pubblicazione del messaggio.
+4. Un messaggio europeo può essere associato anche a UNA sola app. La funzione
+   "consent sync across multiple apps" è separata e non è prerequisito per UMP.
+5. Android threading:
+   - MobileAds.initialize() può/deve essere spostato su background secondo la
+     documentazione Google corrente;
+   - le operazioni ad che richiedono UI thread, in particolare il load/show dei
+     full-screen ad, devono essere marshalled esplicitamente sul main thread;
+   - non propagare automaticamente Dispatchers.IO fino a InterstitialAd.load().
+6. Failure isolation:
+   un errore banner o interstitial non deve disattivare globalmente l'intera
+   monetizzazione della sessione. Ogni placement fallisce in modo isolato salvo
+   un vero errore globale di configurazione/consenso.
+7. Diagnostic lane:
+   - sample Test Ad Unit ID ufficiali;
+   - UMP debug geography forzata solo in build/flow diagnostico;
+   - log di loaded/failed + response info;
+   - nessun traffico production durante test manuale/automation.
+8. Production lane:
+   - App ID / Banner ID / Interstitial ID forniti da configurazione production;
+   - preflight fail-closed su ID mancanti/malformati;
+   - Store candidate deve rifiutare i sample Google test ID.
+9. Privacy/revoca:
+   - privacy policy URL reale e pubblica nel messaggio europeo;
+   - voce privacy/revoca nell'app quando richiesta;
+   - physical test di riapertura delle Privacy Options dopo una scelta.
+10. Il runtime AdMob/UMP è provider-sensitive: CI/AppLab non sostituiscono il
+    test fisico del consenso e dei placement realmente abilitati.
 
 
 Regola obbligatoria per tutte le app App Factory che utilizzano Google AdMob.
@@ -489,6 +535,24 @@ Privacy / Scelte privacy
 
 deve essere nuovamente accessibile quando UMP indica che il Privacy Options Entry Point è necessario.
 
+Per Android UMP 4.0.0:
+- requestConsentInfoUpdate() resta il punto di refresh per-launch;
+- loadAndShowConsentFormIfRequired() gestisce il form quando necessario;
+- canRequestAds() va letto DOPO il refresh del consent state;
+- showPrivacyOptionsForm() è il percorso canonico per permettere all'utente di
+  modificare/revocare la scelta quando l'entry point è richiesto.
+
+CONFIGURAZIONE SERVER-SIDE OBBLIGATORIA QUANDO PERTINENTE:
+- app selezionata in AdMob Privacy e messaggi;
+- messaggio europeo pubblicato;
+- targeting coerente (SEE/UK/Svizzera oppure Everywhere secondo prodotto/policy);
+- lingua predefinita + lingue aggiuntive coerenti con le lingue dell'app;
+- privacy policy URL reale e raggiungibile;
+- scelta "Nega il consenso" configurata secondo la UX/policy scelta.
+
+Il messaggio UMP può essere aggiornato server-side senza rilascio di una nuova
+APK se il client UMP è già integrato e funzionante.
+
 Mai considerare il consenso una procedura eseguita una sola volta per sempre.
 
 ---
@@ -574,6 +638,33 @@ const val TEST_BANNER_ID =
     "ca-app-pub-3940256099942544/9214589741"
 ```
 
+THREADING ANDROID:
+- inizializzare Mobile Ads su background thread;
+- creare/manipolare AdView sul main thread;
+- caricare/mostrare interstitial e altri full-screen ad sul main UI thread;
+- se l'inizializzazione avviene in Dispatchers.IO, fare switch esplicito a
+  Dispatchers.Main.immediate prima di chiamare API full-screen/UI.
+
+Pattern minimo:
+
+```kotlin
+CoroutineScope(Dispatchers.IO).launch {
+    MobileAds.initialize(context) {}
+
+    withContext(Dispatchers.Main.immediate) {
+        InterstitialAd.load(
+            context,
+            adUnitId,
+            AdRequest.Builder().build(),
+            callback
+        )
+    }
+}
+```
+
+Non usare un catch globale che, a seguito di una singola eccezione di placement,
+imposti adsEnabled=false per tutta la sessione.
+
 ---
 
 # 9. INTERSTITIAL
@@ -625,6 +716,13 @@ bool canShowInterstitial({
 ```
 
 Il valore temporale è una scelta UX del prodotto, non una regola AdMob universale.
+
+Per Android:
+- preload/load/show devono rispettare il main UI thread richiesto dalle API;
+- un failure di preload/show deve invalidare SOLO lo stato dell'interstitial;
+- se l'interstitial è incluso nella release, la certificazione production
+  richiede almeno una visualizzazione fisica nel natural break previsto,
+  senza cliccare l'annuncio.
 
 ---
 
@@ -713,6 +811,12 @@ Eccezione controllata per Ad Inspector / mediation / verifica di un Ad Unit real
 - il traffico deve restare test traffic;
 - mai cliccare/live-testare annunci reali non marcati come test.
 
+Diagnostic UMP:
+- è consentito forzare una debug geography (es. EEA) soltanto nella lane
+  diagnostica/test;
+- la build production non deve contenere forcing geography o test-device
+  configuration non intenzionale.
+
 Solo una normale:
 
 ```text
@@ -743,6 +847,14 @@ Non lasciare:
 - placeholder pubblicitari;
 - UI bloccata;
 - navigazione spostata.
+
+FAILURE ISOLATION:
+- banner failure != interstitial failure;
+- interstitial failure != global monetization failure;
+- no-fill/network error devono restare placement-local;
+- disabilitare globalmente gli ads solo per condizioni realmente globali
+  (Premium/Remove Ads, consenso non idoneo, configurazione production invalida,
+  policy/kill-switch esplicito).
 
 ---
 
@@ -830,14 +942,26 @@ ADMOB VERIFIED
 Per nuove integrazioni Flutter, usare una versione `google_mobile_ads` compatibile
 con la baseline Flutter corrente e PINNARLA/LOCKARLA tramite pubspec.lock.
 
-Baseline verificata al 06/10/2026:
+Baseline verificata / provider review al 14/10/2026:
 
 ```text
-google_mobile_ads 9.1.0
-platforms: Android + iOS
+Flutter reference:
+- google_mobile_ads 9.1.0
+- platforms: Android + iOS
+- physical App Factory donor: NOT YET REGISTERED
+
+Android native donor/current Legacy path:
+- com.google.android.gms:play-services-ads:25.5.0
+- com.google.android.ump:user-messaging-platform:4.0.0
+- effective minSdk floor with this pair: API 24
+- donor: Send to PC v1.27.6
+
+GMA Next-Gen:
+- NOT adopted/certified by this Golden yet
+- requires a dedicated migration/audit before replacing the Legacy path
 ```
 
-Non aggiornare automaticamente major/minor del plugin in una release importante
+Non aggiornare automaticamente major/minor del plugin/SDK in una release importante
 senza rieseguire:
 - build Android/iOS pertinente;
 - UMP;
@@ -880,6 +1004,61 @@ Non ereditare automaticamente da un donor:
 Per UMP e Mobile Ads, i tag relativi all'età devono essere configurati secondo
 la Product Bible e le dichiarazioni store dell'app.
 
+Android GMA Legacy 25.3.0+ ha introdotto setAgeRestrictedTreatment() e ha
+deprecato i precedenti tag child-directed / under-age-of-consent: non copiare
+alla cieca chiamate legacy da donor più vecchi. Verificare l'API della versione
+pinnata.
+
+---
+
+# 16E. PRODUCTION CONFIGURATION PREFLIGHT
+
+Per ogni Store candidate monetizzato:
+
+```text
+[ ] ADMOB_APP_ID presente e formato valido
+[ ] BANNER_ID presente se il banner è abilitato
+[ ] INTERSTITIAL_ID presente se l'interstitial è abilitato
+[ ] nessun sample Google test ID nella production lane
+[ ] manifest/config production usa App ID reale
+[ ] UMP SDK incluso se richiesto dal consent flow
+[ ] Privacy e messaggi configurato/pubblicato lato AdMob
+```
+
+Il gate deve fallire chiuso prima della build/release se la configurazione
+production richiesta è assente o chiaramente di test.
+
+---
+
+# 16F. OBSERVABILITY / DIAGNOSTIC TRUTH
+
+Loggare in modo non sensibile almeno:
+- consent state resolved;
+- canRequestAds;
+- privacyOptionsRequired;
+- Mobile Ads initialized;
+- placement load success/failure;
+- response ID / error code-domain-message quando disponibile.
+
+Non loggare:
+- PII;
+- raw TC string;
+- identificatori utente non necessari;
+- segreti/config sensibile.
+
+Diagnostica obbligatoria:
+```text
+SDK runtime OK
+!=
+AdMob console configured
+!=
+ad request eligible
+!=
+ad loaded
+!=
+ad impression physically verified
+```
+
 ---
 
 # 17. VALIDATION GATE
@@ -899,13 +1078,21 @@ Prima di `CERTIFIED` verificare almeno:
 [ ] dark mode
 [ ] font scaling
 [ ] banner loaded
+[ ] interstitial production fisico se il formato è abilitato
+[ ] ad load/show Android sul thread richiesto
+[ ] failure di un placement non disabilita gli altri placement
 [ ] no fill
 [ ] offline
 [ ] errore caricamento
 [ ] Premium
-[ ] UMP
-[ ] Privacy Options
+[ ] UMP SDK runtime
+[ ] messaggio UMP/European regulations pubblicato lato AdMob
+[ ] privacy policy URL raggiungibile
+[ ] lingua/targeting del messaggio coerenti
+[ ] Privacy Options / revoca fisicamente riapribile
 [ ] Test Ads / registered test-device path
+[ ] diagnostic forced-geography path usa solo test traffic
+[ ] production preflight rifiuta sample test IDs
 [ ] Web Preview no-op/stub senza crash
 [ ] app-ads.txt VERIFIED quando richiesto
 [ ] AdMob app readiness status verificato
@@ -953,6 +1140,49 @@ Per COPY-READY -> CERTIFIED GOLDEN:
 
 ---
 
+# 17B. REAL DONOR EVIDENCE — SEND TO PC
+
+Donor:
+```text
+repository: riccardopinato/Send-to-pc
+native stack: Kotlin / Jetpack Compose
+production donor version: 1.27.6 / versionCode 43
+production commit: f4f5b52ebf39b869782b3fb199a8d615662fb87d
+GMA Legacy: 25.5.0
+UMP: 4.0.0
+```
+
+Evidence registrata 14/10/2026:
+- production release workflow GREEN;
+- production AdMob configuration preflight GREEN;
+- AppLab exact production APK GREEN;
+- diagnostic lane con sample Google banner/interstitial:
+  banner loaded + interstitial loaded;
+- diagnostic UMP normal + forced EEA eseguita con test traffic;
+- bug reale rilevato: InterstitialAd.load() ereditava Dispatchers.IO e generava
+  "#008 Must be called on the main UI thread";
+- fix reale: marshal esplicito a Dispatchers.Main.immediate;
+- failure isolation applicata per banner/interstitial;
+- physical device: startup PASS, production banner PASS, UMP message PASS,
+  Privacy Options/revocation PASS;
+- production interstitial physical display: NOT VERIFIED.
+
+Conclusione donor:
+```text
+REAL NATIVE DONOR REGISTERED
+GOLDEN STATUS REMAINS DRAFT / CANDIDATE
+```
+
+Motivo:
+la promotion gate richiede ancora una integrazione Flutter reale, Web Preview
+stub verificato, Premium/no-ad-request, failure matrix completa e ulteriori
+evidence/form factor previsti dal Golden.
+
+Evidence file:
+`evidence/admob/SEND_TO_PC_PILOT_2026-10-14.md`
+
+---
+
 # 18. REGOLA FINALE APP FACTORY
 
 Default:
@@ -984,12 +1214,16 @@ Principio finale:
 
 # 19. REFERENCES / EVIDENCE BASELINE
 
-Documentazione verificata al 06/10/2026:
-- Google AdMob Flutter — Quick start;
-- Google AdMob Flutter — Banner ads;
-- Google AdMob Flutter — UMP / Privacy;
-- Google AdMob Flutter — Test ads / Ad Inspector;
-- google_mobile_ads package / API docs;
+Documentazione verificata / riesaminata al 14/10/2026:
+- Google AdMob Android Legacy — Quick start / SDK / release notes 25.5.0;
+- Google AdMob Android — Interstitial ads / main-thread load pattern;
+- Google AdMob Android — Test ads;
+- Google UMP Android — setup / GDPR / release notes 4.0.0;
+- Google AdMob Help — European regulations messages;
+- Google AdMob Help — privacy policy URL / consent revocation;
+- Google AdMob Help — consent sync across multiple apps;
+- Google AdMob Flutter — Quick start / Banner / UMP / Test ads;
+- google_mobile_ads 9.1.0 reference baseline;
 - Google AdMob Help — app-ads.txt / app readiness.
 
 Nota:
