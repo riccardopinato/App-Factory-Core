@@ -1,7 +1,7 @@
 registry_version: 2
 updated_at: 2026-10-14
-master_version: "26.3"
-index_version: 15
+master_version: "26.4"
+index_version: 16
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -184,12 +184,12 @@ goldens:
   - id: applab_qa_certification
     title: "AppLab QA / Certification Adapter"
     version: "1"
-    status: "DRAFT / PROCESS CANDIDATE"
+    status: "COPY-READY PROCESS"
     category: release
-    path: golden/release/GOLDEN_APPLAB_QA_CERTIFICATION_v1_DRAFT.txt
+    path: golden/release/GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-04
-    last_provider_verified_at: null
+    last_content_reviewed_at: 2026-10-14
+    last_provider_verified_at: 2026-10-14
     provider_sensitive: false
     freshness_status: CURRENT
   - id: admob_safe_adaptive
