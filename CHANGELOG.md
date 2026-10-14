@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-14 — CamperBoss second pilot / AppLab QA CERTIFIED PROCESS
+
+- Completed the second independent external pilot of the AppLab QA / Certification Adapter on CamperBoss.
+- Added the Golden client contract to CamperBoss PR #27 and merged it to `main` at `cf4202e25bf3bc630f9cfe5e3823219acfba84b4`.
+- Verified exact pilot head `58b83ef630fdb04e0cc6f34d27e03b20ec191787`: Flutter CI #473 PASS and Release Core Platform Builds #363 PASS.
+- Bound AppLab run `38566088778` to package `com.camperboss.camperboss`, version `0.2.2 (2018)` and APK SHA-256 `3d14d922b3cfca867fb9ac9c3fbc90d9d143c01b51856321928caa2d98e0cda3`.
+- Preserved the first trusted-runtime System UI Lab FAIL as evidence; a failed-job rerun on the same immutable source/build contract and exact APK bytes passed the complete trusted runtime.
+- Final trusted runtime, Maestro and System UI Lab are PASS; physical-device remains BLOCKED and distribution/store/production remain NOT VERIFIED.
+- Promoted AppLab QA / Certification Adapter v1 to **CERTIFIED PROCESS** after Anna's Diary + CamperBoss.
+- Bumped Master from v26.4 to v26.5 and Golden Index from v16 to v17.
+
 ## 2026-10-14 — Anna's Diary pilot / AppLab QA COPY-READY PROCESS
 
 - Completed the first real external pilot of the AppLab QA / Certification Adapter on Anna's Diary.
