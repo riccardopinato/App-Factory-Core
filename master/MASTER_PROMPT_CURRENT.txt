@@ -1,13 +1,13 @@
 MASTER PROMPT — APP UTILITY FLUTTER / CHATGPT
-Versione v26.4 FULL CONSOLIDATA — 14/10/2026
+Versione v26.5 FULL CONSOLIDATA — 14/10/2026
 APP FACTORY CORE — CENTRAL SOURCE OF TRUTH / ASSEMBLY-FIRST / EVIDENCE-DRIVEN
 
 ======================================================================
 0. STATUS — APP FACTORY CORE SOURCE OF TRUTH
 ======================================================================
 
-Questa v26.4 FULL è il Master Prompt operativo consolidato della App Factory.
-Sostituisce v26.3 come baseline corrente senza richiedere la lettura delle
+Questa v26.5 FULL è il Master Prompt operativo consolidato della App Factory.
+Sostituisce v26.4 come baseline corrente senza richiedere la lettura delle
 versioni precedenti.
 
 SOURCE OF TRUTH CENTRALE:
@@ -1313,4 +1313,4 @@ OFFLINE TRUST.
 ICON FIRST.
 RELEASE IS A DISCIPLINE.
 
-END MASTER PROMPT v26.4 FULL CONSOLIDATED
+END MASTER PROMPT v26.5 FULL CONSOLIDATED
