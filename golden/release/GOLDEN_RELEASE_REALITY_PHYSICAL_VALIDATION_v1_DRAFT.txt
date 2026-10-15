@@ -1,5 +1,5 @@
 GOLDEN RELEASE REALITY & PHYSICAL VALIDATION
-Versione draft: 0.2 — 04/10/2026
+Versione draft: 0.3 — 15/10/2026
 Stato: DRAFT / PROCESS CANDIDATE
 Created under Master: v21 SLIM
 Current Master: resolve via CURRENT.yaml
@@ -209,4 +209,26 @@ Per Ecosystem Bridge v1 la promotion matrix canonica vive in:
 
 Non duplicare qui bridgeId/COPY/LINK/media rules.
 
-END DRAFT
+======================================================================
+CROSS-APP PAIR EVIDENCE BOUNDARY — 15/10/2026
+======================================================================
+
+When behavior exists only between two apps, single-app Release Reality records
+remain necessary but are not sufficient.
+
+PAIR RULE:
+APP A CERTIFIED + APP B CERTIFIED != CROSS-APP PASS.
+
+For pair behavior apply:
+GOLDEN_CROSS_APP_VERIFICATION_v1_DRAFT.txt
+
+That process owns:
+- exact producer/consumer pair identity;
+- scenario matrix;
+- paired physical evidence;
+- pair PASS/FAIL/BLOCKED/NOT_VERIFIED.
+
+This Golden continues to own each artifact's normal Evidence Ladder and exact
+artifact identity. Do not duplicate protocol semantics here.
+
+END GOLDEN RELEASE REALITY & PHYSICAL VALIDATION v0.3 DRAFT

@@ -1,5 +1,5 @@
 GOLDEN APPLAB QA & CERTIFICATION ADAPTER
-Versione: 1.0 — 14/10/2026
+Versione: 1.1 — 15/10/2026
 Stato: CERTIFIED PROCESS
 Certified under Master: v26.5 FULL
 Current Master: resolve via CURRENT.yaml
@@ -296,4 +296,21 @@ Baseline Anna's Diary v0.96 RC:
 La promotion del Golden Ecosystem Bridge resta quindi subordinata alla matrice
 fisica definita nel Golden Bridge e al processo Release Reality.
 
-END GOLDEN APPLAB QA & CERTIFICATION ADAPTER v1 CERTIFIED PROCESS
+======================================================================
+CROSS-APP AUTHORITY BOUNDARY — 15/10/2026
+======================================================================
+
+Single-app AppLab certification remains independent from pair verification.
+
+For behavior requiring two installed apps/artifacts:
+- keep both single-app records;
+- additionally apply GOLDEN_CROSS_APP_VERIFICATION_v1_DRAFT.txt;
+- never infer pair PASS from two single-app PASS results.
+
+AppLab current main contains the dedicated v4.8 pair-verification subsystem,
+but a real paired physical Wonderlog <-> Anna round-trip remains pending.
+
+This update does not change the CERTIFIED PROCESS status of the single-app
+AppLab adapter.
+
+END GOLDEN APPLAB QA & CERTIFICATION ADAPTER v1.1

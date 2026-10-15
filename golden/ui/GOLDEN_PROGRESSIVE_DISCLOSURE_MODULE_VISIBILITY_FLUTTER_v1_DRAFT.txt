@@ -1,0 +1,127 @@
+GOLDEN PROGRESSIVE DISCLOSURE & MODULE VISIBILITY — FLUTTER
+Versione draft: 1.0 — 15/10/2026
+Stato: DRAFT / CANDIDATE — NON COPY-READY
+Created under Master: v26.5 FULL
+Current Master: resolve via CURRENT.yaml
+
+Primary donor:
+- Anna's Diary v1.01 Personalization & Simplicity
+- repository: riccardopinato/Agenda-per-Anna
+- merged baseline: def40d1fe3bbfc7f113948e72672a67e37edbc04
+- evidence: v1.01-A/B/C implemented; Development checks #1156 PASS;
+  Web Preview #720 PASS; lightweight ARM64 sideload #79 PASS.
+
+1. SCOPO
+Standardizzare la personalizzazione di app ricche di moduli senza creare nuovi
+owner di dati e senza confondere "nascondere" con "disabilitare/cancellare".
+
+Regola centrale:
+VISIBILITY != OWNERSHIP != PERSISTENCE.
+
+Un modulo nascosto non perde dati, non cambia canonical ownership e resta
+riattivabile.
+
+2. PRESENTATION-ONLY CONTRACT
+Il flag controlla soltanto discoverability, navigation, presentation e ordering.
+NON controlla delete/purge, database ownership, backup ownership, sync ownership
+o entitlement ownership.
+
+3. REUSE EXISTING STATE OWNER
+Preferire l'owner di preferenze già canonico.
+NO secondo preferences store, router, database o sync queue.
+
+4. PRESET + CUSTOM MODEL
+Pattern candidato:
+ESSENTIAL
+DOMAIN_PRESET
+COMPLETE
+CUSTOM
+
+Requisiti:
+- preset deterministici e reversibili;
+- toggle manuale -> CUSTOM;
+- restore complete sempre disponibile;
+- dependency closure deterministica.
+
+5. BACKWARD COMPATIBILITY
+Profilo legacy senza nuovi campi -> esperienza precedente completa.
+Campi futuri sconosciuti: ignorare fail-safe quando possibile.
+
+6. MODULE DEPENDENCIES
+Se A richiede B:
+A ON -> B ON
+B OFF -> A OFF
+La normalizzazione vive nel preference/domain contract, non nei widget.
+Donor example: Cycle Tracker -> Private Vault.
+
+7. ONBOARDING ATOMICITY
+SELECT PRESET -> COMPLETE ONBOARDING -> persist preset + completion atomically.
+Un first run interrotto non lascia personalizzazione mezza applicata.
+Integrare con GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT.txt.
+
+8. PROGRESSIVE DISCLOSURE
+Feature avanzate possono esistere senza occupare la superficie primaria.
+Stato tecnico healthy può restare quiet; error/degraded/pending anomalo deve
+riemergere.
+QUIET HEALTHY STATE > PERMANENT SUCCESS BADGE.
+
+9. CORE REACHABILITY
+Personalizzazione non deve rendere irraggiungibili:
+- data safety/recovery;
+- account/privacy;
+- Search quando core;
+- impostazioni per riattivare moduli;
+- dati già posseduti.
+
+10. BACKUP / ACCOUNT / RESTORE
+Le preferenze seguono il lifecycle canonico. Definire replace, merge, account
+switch e legacy defaults. Hidden module non muta domain data.
+
+11. ENTITLEMENT BOUNDARY
+MODULE ENABLED != ENTITLED.
+Il diritto d'accesso resta nel Golden Entitlement/provider pertinente.
+
+12. ACCEPTANCE MATRIX
+[ ] legacy profile mantiene esperienza precedente
+[ ] preset deterministici/reversibili
+[ ] manual toggle -> custom
+[ ] hidden module conserva dati
+[ ] re-enable recupera dati
+[ ] dependency closure
+[ ] unknown future module fail-safe
+[ ] JSON round-trip
+[ ] backup replace/merge
+[ ] account switch
+[ ] first-run commit atomico
+[ ] owner esistente riusato
+[ ] Search/data safety raggiungibili
+[ ] localization
+[ ] Web/mobile build
+[ ] accessibility/semantics
+[ ] dynamic-surface regression
+
+13. DONOR EVIDENCE — ANNA'S DIARY
+v1.01-A:
+- reversible preferences, legacy Complete, Cycle/Vault safety, JSON/backup;
+- test diretto: hiding Shopping non elimina ShoppingItem.
+
+v1.01-B:
+- first-run presets, persist only on completion, existing profile bypass,
+  Unified Capture reuse, five-language coverage.
+
+v1.01-C:
+- module-aware Explore/Home/editor/Vault;
+- single Personalize surface;
+- no second state owner;
+- Development/Web/ARM64 merged-main workflows PASS.
+
+Detailed evidence:
+evidence/personalization/ANNAS_DIARY_V101_ABC_2026-10-15.md
+
+14. PROMOZIONE
+Resta DRAFT/CANDIDATE.
+COPY-READY dopo applicazione del contratto in una seconda app modulare con
+backup/account/restart/accessibility evidence.
+CERTIFIED dopo riuso indipendente stabile in almeno due app.
+
+END GOLDEN PROGRESSIVE DISCLOSURE & MODULE VISIBILITY v1 DRAFT

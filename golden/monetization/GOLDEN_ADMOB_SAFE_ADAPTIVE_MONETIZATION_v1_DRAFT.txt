@@ -2,7 +2,7 @@
 
 GOLDEN STATUS
 -------------
-Versione draft: 0.2 — 14/10/2026
+Versione draft: 0.3 — 15/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
 Ambito: App Factory — app Flutter/Android native che utilizzano Google AdMob
 Master Prompt compatibile: v26.3 FULL
@@ -10,14 +10,17 @@ Master Prompt compatibile: v26.3 FULL
 Origine:
 - specifica App Factory fornita dall'utente il 06/10/2026;
 - hardening tecnico verificato contro documentazione ufficiale Google AdMob / UMP;
-- donor Android native reale: riccardopinato/Send-to-pc, v1.27.6, 14/10/2026.
+- donor Android native reale: riccardopinato/Send-to-pc, v1.27.6, 14/10/2026;
+- donor Flutter reale: riccardopinato/World-Days @ b44ceeafa95e6add4d561ab658377ab25ecf7cc4, 15/10/2026.
 
 Evidence boundary attuale:
 - policy e reference architecture: DEFINITE;
 - provider review 14/10/2026: Google Mobile Ads SDK Android Legacy 25.5.0,
   UMP Android 4.0.0 e documentazione Google AdMob/Privacy corrente;
-- baseline Flutter di riferimento: google_mobile_ads 9.1.0; physical donor Flutter
-  App Factory non ancora registrato;
+- baseline Flutter reale: google_mobile_ads 9.1.0;
+- World Days registra il primo donor Flutter App Factory con mobile adapter +
+  Web stub + entitlement/no-ad-request test; physical AdMob/UMP Flutter donor
+  resta NON VERIFICATO;
 - donor Android native reale registrato con release/AppLab e physical validation
   di startup, banner, UMP e riapertura Privacy Options;
 - interstitial production su device fisico: NON ANCORA VERIFICATO;
@@ -1230,5 +1233,35 @@ Nota:
 le policy pubblicitarie e gli SDK cambiano. Prima di una nuova release importante,
 verificare la documentazione ufficiale corrente se la baseline SDK/policy è stata
 aggiornata rispetto a questa versione del Golden.
+
+# 17C. REAL FLUTTER DONOR EVIDENCE — WORLD DAYS
+
+Donor:
+repository: riccardopinato/World-Days
+source: b44ceeafa95e6add4d561ab658377ab25ecf7cc4
+app version: 0.3.0+3
+google_mobile_ads: 9.1.0
+
+Implemented:
+- centralized AdMob IDs;
+- AdaptiveBannerSlot mobile implementation;
+- Web/unsupported stub;
+- MonetizationController mobile/stub boundary;
+- entitlement-driven ad suppression;
+- unit evidence that adsSuppressed => canRequestAds=false;
+- Development checks #127 PASS;
+- Web Preview #21 PASS.
+
+Still NOT VERIFIED on the Flutter donor:
+- real UMP/Privacy Options;
+- adaptive banner on physical form factors;
+- production AdMob app/readiness;
+- app-ads.txt;
+- Play-delivered Remove Ads purchase.
+
+Therefore Golden status remains DRAFT/CANDIDATE.
+
+Evidence:
+evidence/billing/WORLD_DAYS_REMOVE_ADS_2026-10-15.md
 
 END GOLDEN ADMOB SAFE & ADAPTIVE MONETIZATION v1 DRAFT

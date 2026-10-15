@@ -1,0 +1,122 @@
+GOLDEN PLAY BILLING LIFETIME ENTITLEMENT — FLUTTER
+Versione draft: 1.0 — 15/10/2026
+Stato: DRAFT / PROVIDER CANDIDATE — STORE SANDBOX NOT VERIFIED
+Created under Master: v26.5 FULL
+Current Master: resolve via CURRENT.yaml
+
+Primary donor:
+- World Days
+- repository: riccardopinato/World-Days
+- merged baseline: b44ceeafa95e6add4d561ab658377ab25ecf7cc4
+- provider adapter: in_app_purchase 3.3.1
+- Development checks #127 PASS
+- Web Preview #21 PASS
+
+1. SCOPO
+Reference contract per acquisto una-tantum non consumabile che concede una
+capability durevole, tipicamente Remove Ads / Lifetime.
+Completa il Golden Entitlement provider-agnostic.
+NON certifica Play Billing reale: manca sandbox evidence da Internal Testing.
+
+2. BOUNDARY
+UI -> Entitlement Service -> BillingAdapter -> in_app_purchase -> Store.
+Product ID non sparso nei widget; store state convertito in BillingResult;
+entitlement persistito separatamente dal provider SDK; Web usa stub/no-op.
+
+3. PURCHASE STATE MACHINE
+IDLE / LOADING_PRODUCT / READY / PURCHASING / PENDING / PURCHASED /
+RESTORING / RESTORED / CANCELLED / FAILED / BILLING_UNAVAILABLE.
+
+PENDING/CANCELLED/FAILED non concedono entitlement.
+PURCHASED/RESTORED richiedono product ID atteso e verification boundary.
+
+4. VERIFICATION BOUNDARY
+Il donor v1 accetta per Remove Ads low-value:
+- exact product ID;
+- purchased/restored;
+- verification payload non vuoto;
+- mapping locale esplicito.
+
+Questo significa CLIENT STORE-STATE VALIDATED.
+NON significa SERVER-SIDE RECEIPT/TOKEN VERIFIED.
+
+Per valore/fraud/subscription/account-bound entitlement maggiore, usare backend
+trusted prima del durable grant.
+
+5. DURABLE GRANT + COMPLETE PURCHASE
+STORE PURCHASED/RESTORED
+-> validate
+-> persist durable entitlement
+-> update access state
+-> completePurchase quando richiesto.
+
+Se delivery è persistita e completePurchase fallisce, non revocare
+automaticamente il diritto; esporre diagnosi/retry.
+
+6. RESTORE
+Restore user-initiated, separato, idempotente, exact-product aware.
+Restore call completed != entitlement restored.
+
+7. OFFLINE CACHE
+Lifetime già verificato può essere riusato offline secondo Product Bible,
+preservando provenance providerVerified -> offlineCache.
+
+8. REMOVE ADS INVARIANT
+ENTITLED -> adsSuppressed=true -> ZERO new ad requests.
+Integrare con GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT.txt.
+
+9. PRODUCT CONFIG
+Registrare product ID, type, capability, store catalog state, localized price
+source, test track, verification strategy e restore semantics.
+Prezzo purchase UI viene dal prodotto store risolto.
+
+10. AUTOMATED TEST MATRIX
+[ ] free default
+[ ] product unavailable
+[ ] billing unavailable
+[ ] pending/cancel/error no grant
+[ ] wrong product no grant
+[ ] missing verification payload no grant
+[ ] purchased expected product grants
+[ ] async purchase stream grants
+[ ] restore exact product grants
+[ ] lifetime survives restart
+[ ] offline cache provenance
+[ ] completePurchase
+[ ] Remove Ads blocks ad requests
+[ ] Web/unsupported stub
+
+11. PLAY INTERNAL GATE
+Prima di COPY-READY sull'exact signed Store candidate:
+[ ] prodotto attivo
+[ ] license tester
+[ ] install da Internal Testing
+[ ] localized price resolved
+[ ] purchase
+[ ] pending/cancel
+[ ] restart persistence
+[ ] uninstall/reinstall + restore
+[ ] repeated delivery/idempotency
+[ ] complete/acknowledgement
+[ ] refund/revocation policy quando applicabile
+[ ] zero AdMob requests after entitlement
+[ ] source SHA + artifact hash + signer
+
+CI/mock tests non sostituiscono questo gate.
+
+12. DONOR EVIDENCE — WORLD DAYS
+Implementati: BillingAdapter, lifetime Remove Ads, persisted EntitlementSnapshot,
+purchase stream, no-grant states, exact product mapping, offline cache, restore,
+Web boundary e zero-ad-request unit invariant.
+Current state:
+IMPLEMENTED + TESTED + CI GREEN + WEB GREEN.
+PLAY CATALOG / SANDBOX / INTERNAL TEST PHYSICAL = NOT VERIFIED.
+
+Detailed evidence:
+evidence/billing/WORLD_DAYS_REMOVE_ADS_2026-10-15.md
+
+13. PROMOZIONE
+DRAFT -> COPY-READY dopo Play Internal matrix su exact bytes.
+CERTIFIED richiede seconda app/harness + repeatable provider sandbox evidence.
+
+END GOLDEN PLAY BILLING LIFETIME ENTITLEMENT v1 DRAFT

@@ -1,5 +1,5 @@
 GOLDEN ANDROID SIGNING & RELEASE IDENTITY
-Versione draft: 0.2 — 11/10/2026
+Versione draft: 0.3 — 15/10/2026
 Stato: DRAFT / PROCESS CANDIDATE — NON COPY-READY
 Created under Master: v24 FULL
 Current Master: resolve via CURRENT.yaml
@@ -386,4 +386,36 @@ COPY-READY PROCESS dopo almeno due progetti con:
 CERTIFIED richiede artifact identity verificata su release reali e il rispetto
 dei gate di Release Reality / Physical Validation pertinenti.
 
-END GOLDEN ANDROID SIGNING & RELEASE IDENTITY v0.2 DRAFT
+======================================================================
+ANDROID OMNI CLEANER RC1 — SOURCE-SIDE DONOR UPDATE
+======================================================================
+
+Repository:
+riccardopinato/Android-Omni-Cleaner
+
+Observed current main:
+130b249a0f2c572951fba896a5e2d69800009855
+
+RC source contract:
+- canonical applicationId com.riccardopinato.omnicleaner;
+- debug identity separated with .debug suffix;
+- release lane fails closed when signing inputs are missing;
+- keystore restored only at runtime;
+- expected public certificate SHA-256 pinned as release identity;
+- APK and AAB signer fingerprints checked against expected fingerprint;
+- APK/AAB SHA-256 + source SHA + workflow run recorded;
+- no debug-signing fallback;
+- temporary keystore cleanup;
+- Windows bootstrap helper keeps private key/passwords outside chat/source.
+
+Current evidence boundary:
+PIPELINE PREPARED.
+PERMANENT PRODUCTION KEY / SECRETS / SIGNED EXACT RC / PLAY INTERNAL = BLOCKED.
+
+This donor strengthens the process but does not promote the Golden.
+
+Source evidence:
+- RELEASE_SIGNING.md
+- STEP10_STORE_RELEASE_CERTIFICATION.md
+
+END GOLDEN ANDROID SIGNING & RELEASE IDENTITY v0.3 DRAFT

@@ -1,0 +1,191 @@
+GOLDEN ENTITLEMENT CONTRACT — FLUTTER
+Versione: 1.0 — 15/10/2026
+Stato: COPY-READY GOLDEN — PROVIDER-AGNOSTIC
+Created under Master: v24 FULL
+Current Master: resolve via CURRENT.yaml
+
+Donor / evidence sources:
+- Anna's Diary centralized premium capability boundary;
+- Notes Plus entitlement boundary;
+- Notification Control tier/offline-grace/ProductLimits pattern;
+- TrailPath Pro / BeerClass Premium product needs;
+- World Days merged donor @ b44ceeafa95e6add4d561ab658377ab25ecf7cc4.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Separare access rights dal provider di pagamento.
+Questo Golden NON certifica RevenueCat/Play Billing integration.
+
+======================================================================
+2. MODELLO CANDIDATO
+======================================================================
+
+```dart
+enum AppPlan { free, premium, lifetime }
+
+enum EntitlementSource {
+  localDefault,
+  providerVerified,
+  offlineCache,
+  qaOverride,
+  unknown,
+}
+
+class EntitlementSnapshot {
+  const EntitlementSnapshot({
+    required this.plan,
+    required this.source,
+    required this.verifiedAt,
+    this.expiresAt,
+    this.graceUntil,
+  });
+
+  final AppPlan plan;
+  final EntitlementSource source;
+  final DateTime? verifiedAt;
+  final DateTime? expiresAt;
+  final DateTime? graceUntil;
+}
+```
+
+Capability specifiche restano enum/domain del progetto.
+
+======================================================================
+3. UI BOUNDARY
+======================================================================
+
+UI -> Access State -> Entitlement Service -> Billing Adapter -> Provider SDK.
+
+Vietato:
+- RevenueCat/Play Billing calls sparsi nei widget;
+- product ID hardcoded nelle feature;
+- `if (isPremium)` duplicati con semantica differente.
+
+======================================================================
+4. PRODUCT LIMITS
+======================================================================
+
+Centralizzare limiti:
+- item count;
+- storage;
+- photo count;
+- AI quota;
+- export quota;
+- ads visibility;
+- capability gates.
+
+I limiti non devono vivere solo nel paywall/UI.
+
+======================================================================
+5. OFFLINE / UNKNOWN
+======================================================================
+
+Definire per-app:
+- cache duration;
+- grace period;
+- refresh policy;
+- unknown state behavior.
+
+Unknown non deve provocare data loss.
+Se Premium scade, i dati creati restano user-owned; si limita eventualmente la
+creazione/uso futuro secondo Product Bible.
+
+======================================================================
+6. QA OVERRIDE
+======================================================================
+
+QA/debug override:
+- separato dal provider reale;
+- impossibile da attivare accidentalmente in production;
+- chiaramente identificato negli evidence report.
+
+======================================================================
+7. PURCHASE STATES
+======================================================================
+
+Adapter futuri devono distinguere:
+- purchasing;
+- purchased;
+- pending;
+- cancelled;
+- failed;
+- restored;
+- expired;
+- billing unavailable.
+
+Callback di acquisto != entitlement verificato finché mapping/provider state non
+è stato validato.
+
+======================================================================
+8. TEST
+======================================================================
+
+[ ] Free default
+[ ] verified Premium
+[ ] lifetime
+[ ] expired subscription
+[ ] offline grace
+[ ] grace expired
+[ ] unknown provider
+[ ] restore
+[ ] QA override isolation
+[ ] ProductLimits centralized
+[ ] Premium expiration preserves data
+[ ] ads disabled without ad request when entitled
+
+======================================================================
+9. PROMOZIONE
+======================================================================
+
+COPY-READY per il CONTRATTO quando integrato in almeno una app senza provider
+coupling.
+Billing adapter/RevenueCat restano Golden separati finché non verificati.
+
+======================================================================
+10. REAL DONOR EVIDENCE — WORLD DAYS
+======================================================================
+
+World Days demonstrates the generic contract without coupling UI/domain to the
+store SDK:
+
+- EntitlementService owns access state;
+- BillingAdapter isolates in_app_purchase;
+- EntitlementSnapshot persists durable state;
+- ProductLimits derives ads visibility from entitlement;
+- pending/cancel/error do not grant;
+- exact product + accepted verification boundary required;
+- lifetime survives offline through explicit offlineCache provenance;
+- restore remains a provider-adapter operation;
+- Web uses unsupported-platform stub;
+- monetization cannot request ads while entitlement suppresses ads.
+
+Repository: riccardopinato/World-Days
+Merged donor: b44ceeafa95e6add4d561ab658377ab25ecf7cc4
+
+Evidence:
+- Development checks #127 PASS;
+- Web Preview #21 PASS;
+- entitlement unit suite covered by Development checks;
+- provider-specific Play sandbox remains NOT VERIFIED and is tracked separately
+  by GOLDEN_PLAY_BILLING_LIFETIME_ENTITLEMENT_FLUTTER_v1_DRAFT.txt.
+
+======================================================================
+11. COPY-READY BOUNDARY
+======================================================================
+
+This promotion certifies the PROVIDER-AGNOSTIC CONTRACT only.
+
+It does NOT certify:
+- Google Play purchase delivery;
+- Apple StoreKit;
+- RevenueCat;
+- server-side receipt verification;
+- subscription lifecycle.
+
+Promotion rationale:
+the original criterion "integrated in at least one app without provider
+coupling" is satisfied by World Days.
+
+END GOLDEN ENTITLEMENT CONTRACT v1
