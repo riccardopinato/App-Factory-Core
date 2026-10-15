@@ -1,5 +1,5 @@
 GOLDEN APP SHELL / RESPONSIVE / VISUAL QA — FLUTTER
-Versione draft: 0.1 — 07/10/2026
+Versione draft: 0.2 — 15/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
 Created under Master: v24 FULL
 Current Master: resolve via CURRENT.yaml
@@ -9,7 +9,8 @@ Donor candidates:
 - FrameLab M3 shell/theme;
 - TrailPath overlay/semantics lessons;
 - AppLab visual QA patterns;
-- AdMob safe-layout constraints.
+- AdMob safe-layout constraints;
+- Anna's Diary v1.01-C dynamic module presentation.
 
 ======================================================================
 1. SCOPO
@@ -138,4 +139,24 @@ Non duplicare Theme M3.
 COPY-READY dopo integrazione in almeno una app e visual matrix senza overflow.
 CERTIFIED dopo riuso + AppLab/physical visual evidence su più form factor.
 
-END GOLDEN APP SHELL / RESPONSIVE / VISUAL QA v0.1 DRAFT
+======================================================================
+MODULE-AWARE PRESENTATION UPDATE
+======================================================================
+
+Anna's Diary v1.01-C demonstrates a calmer shell without a second data owner:
+
+- Explore renders only enabled optional destinations;
+- Personalize remains reachable;
+- optional Home/editor/Vault surfaces honor the same canonical preferences;
+- hidden domain data remains recoverable;
+- no second preferences store/router/database/sync queue;
+- merged-main Development/Web/ARM64 workflows PASS.
+
+Do not duplicate module visibility semantics here.
+Apply:
+GOLDEN_PROGRESSIVE_DISCLOSURE_MODULE_VISIBILITY_FLUTTER_v1_DRAFT.txt
+
+App Shell owns layout/state/visual QA.
+Module Visibility owns presentation-selection semantics.
+
+END GOLDEN APP SHELL / RESPONSIVE / VISUAL QA v0.2 DRAFT
