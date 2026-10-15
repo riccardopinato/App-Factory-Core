@@ -1,0 +1,133 @@
+GOLDEN VERSIONED EDITORIAL CATALOG — FLUTTER
+Versione draft: 1.0 — 15/10/2026
+Stato: DRAFT / CANDIDATE — MULTI-APP DONOR
+Created under Master: v26.5 FULL
+Current Master: resolve via CURRENT.yaml
+
+Independent donors:
+1. FrameLab
+   repository: riccardopinato/app-fotografia
+   main: e7538d7dfc484f81f37a8e4363cd56a5b742e804
+2. World Days
+   repository: riccardopinato/World-Days
+   main: b44ceeafa95e6add4d561ab658377ab25ecf7cc4
+
+1. SCOPO
+Standardizzare cataloghi editoriali locali/versionati che devono aggiornarsi
+senza distruggere stato utente, supportare più lingue e registrare
+provenance/licenze/rights con validation deterministica.
+
+2. CANONICAL FACTS != EDITORIAL PRESENTATION
+Separare quando il dominio lo richiede:
+CANONICAL RECORD: identity, facts/rules, authority, source provenance.
+EDITORIAL RECORD: summary/body/hook, presentation, tips/actions, localized text,
+review state.
+Editorial copy non muta silenziosamente canonical facts.
+
+3. STABLE IDENTITY
+Content ID stabile, non derivato dal titolo/localizzazione.
+User state (saved/note/collection/progress) referenzia stable ID.
+
+4. VERSION MODEL
+Distinguere:
+- formatVersion: schema/contract;
+- packageVersion: bundle/delivery;
+- contentVersion: entity revision;
+- translation sourceVersion/revision quando pertinente.
+
+Same version -> idempotent/no-op.
+Higher -> controlled update.
+Downgrade -> reject salvo migration esplicita.
+Incompatible schema -> reject before writes.
+
+5. EDITORIAL STATUS
+DRAFT / NEEDS_REVIEW / REVIEWED / PUBLISHED / DEPRECATED quando serve.
+Runtime espone solo stati ammessi.
+Draft/non-reviewed non appare per errore in catalog/search/Home.
+
+6. MULTILINGUAL CONTRACT
+Definire locale, source locale, translation status, source/content version e
+fallback order.
+FALLBACK CONTENT != UI LOCALE CHANGE.
+Complete-coverage claim -> validator verifica stable-ID/locale set.
+
+7. PROVENANCE / RIGHTS
+Registrare quando pertinente:
+source, authority, verification/review date, license, attribution, rights
+evidence, source policy.
+PUBLIC URL != REUSE RIGHT.
+
+8. ASSETS
+Package-local asset metadata:
+relative path, MIME, size, checksum, localized alt text, credit/source/license,
+role/focal data quando utile.
+No absolute path/traversal.
+
+9. DETERMINISTIC VALIDATION
+Prima import:
+schema, identity uniqueness, versions, references, locales, status,
+placeholder, source/license policy, asset integrity, quality thresholds.
+Report deterministico con severity/path/reason/fix.
+Human sign-off resta per accuracy/rights non automatizzabili.
+
+10. TRANSACTIONAL IMPORT
+LOAD -> VALIDATE -> BEGIN TRANSACTION -> UPSERT STABLE IDs
+-> RELATIONS/TRANSLATIONS -> COMMIT -> RECORD INSTALLED PACKAGE.
+Validation/DB failure -> rollback/zero partial writes.
+Assenza dal package != delete salvo contract esplicito.
+
+11. USER-OWNED STATE PRESERVATION
+Catalog update non scrive/cancella automaticamente profile, saved items,
+collections, user notes, progress o preferences.
+CONTENT UPDATE != USER DATA MIGRATION.
+
+12. INSTALL CACHE / BOOTSTRAP
+Dopo verified install registrare package ID/version + integrity metadata.
+Startup successivo può saltare read/validate/reimport se record e DB integrity
+restano validi.
+CACHE HIT != CONTENT VALID se integrity condition fallisce.
+
+13. SEARCH / FTS
+Indicizzare solo content allowed/published.
+Localized title/body/tags secondo Product Bible.
+Pagination/filter deterministic.
+Search index è derived; catalog resta source of truth.
+
+14. RELAZIONE CON OFFLINE CONTENT PACKS
+Versioned Editorial Catalog = schema/content/version/import/rights.
+Offline Content Packs = download/resume/checksum/activation/storage lifecycle.
+Un catalogo remoto può usare entrambi.
+
+15. DONOR EVIDENCE
+FrameLab:
+- format/package/content version;
+- 7-locales complete catalog;
+- source/license/asset contract;
+- deterministic quality;
+- transactional Drift import;
+- same-version idempotency;
+- downgrade block;
+- invalid-input rollback;
+- user saved/collection/note preservation;
+- install cache;
+- multilingual FTS/filter/pagination tests.
+
+World Days:
+- canonical factual vs editorial layer;
+- REVIEWED / REVIEWED_TRANSLATION;
+- source policy + review date;
+- multilingual locale packs + EN fallback;
+- canonical related IDs;
+- deterministic validator;
+- current main Development/Web PASS.
+
+Detailed evidence:
+evidence/editorial/FRAMELAB_WORLD_DAYS_2026-10-15.md
+
+16. PROMOZIONE
+Due donor reali giustificano extraction, non automatic certification.
+COPY-READY dopo integrazione del Golden generalizzato in nuova app/pack con
+rollback + user-state preservation.
+CERTIFIED dopo secondo riuso del Golden generalizzato o harness indipendente.
+
+END GOLDEN VERSIONED EDITORIAL CATALOG v1 DRAFT
