@@ -1,18 +1,18 @@
 factory_version: 2
 repository: riccardopinato/App-Factory-Core
-updated_at: 2026-10-14
+updated_at: 2026-10-15
 
 master:
-  version: "26.5"
+  version: "26.6"
   status: CURRENT
   path: master/MASTER_PROMPT_CURRENT.txt
-  versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_5_FULL.txt
+  versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_6_FULL.txt
 
 golden_index:
-  version: 17
+  version: 18
   status: CURRENT
   path: golden/GOLDEN_INDEX_CURRENT.txt
-  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v17.txt
+  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v18.txt
 
 golden_registry:
   version: 2

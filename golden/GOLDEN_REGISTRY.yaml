@@ -1,7 +1,7 @@
 registry_version: 2
-updated_at: 2026-10-14
-master_version: "26.5"
-index_version: 17
+updated_at: 2026-10-15
+master_version: "26.6"
+index_version: 18
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -359,6 +359,66 @@ goldens:
     path: golden/data/GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT.txt
     migrated_at: 2026-10-14
     last_content_reviewed_at: 2026-10-14
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+  - id: progressive_disclosure_module_visibility
+    title: "Progressive Disclosure / Module Visibility"
+    version: "1"
+    status: "DRAFT / CANDIDATE — NON COPY-READY"
+    category: ui
+    path: golden/ui/GOLDEN_PROGRESSIVE_DISCLOSURE_MODULE_VISIBILITY_FLUTTER_v1_DRAFT.txt
+    migrated_at: 2026-10-15
+    last_content_reviewed_at: 2026-10-15
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: play_billing_lifetime_entitlement
+    title: "Play Billing Lifetime Entitlement"
+    version: "1"
+    status: "DRAFT / PROVIDER CANDIDATE — STORE SANDBOX NOT VERIFIED"
+    category: monetization
+    path: golden/monetization/GOLDEN_PLAY_BILLING_LIFETIME_ENTITLEMENT_FLUTTER_v1_DRAFT.txt
+    migrated_at: 2026-10-15
+    last_content_reviewed_at: 2026-10-15
+    last_provider_verified_at: null
+    provider_sensitive: true
+    freshness_status: NEEDS_REVIEW
+    tested_package_version: "in_app_purchase 3.3.1 donor implementation; provider docs/store sandbox not re-verified"
+
+  - id: resumable_local_transfer
+    title: "Resumable Local Transfer"
+    version: "1"
+    status: "DRAFT / CANDIDATE — PHYSICAL TRANSFER NOT VERIFIED"
+    category: data
+    path: golden/data/GOLDEN_RESUMABLE_LOCAL_TRANSFER_v1_DRAFT.txt
+    migrated_at: 2026-10-15
+    last_content_reviewed_at: 2026-10-15
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: versioned_editorial_catalog
+    title: "Versioned Editorial Catalog"
+    version: "1"
+    status: "DRAFT / CANDIDATE — MULTI-APP DONOR"
+    category: data
+    path: golden/data/GOLDEN_VERSIONED_EDITORIAL_CATALOG_FLUTTER_v1_DRAFT.txt
+    migrated_at: 2026-10-15
+    last_content_reviewed_at: 2026-10-15
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: cross_app_verification
+    title: "Cross-App Verification"
+    version: "1"
+    status: "DRAFT / PROCESS CANDIDATE — PAIRED PHYSICAL EVIDENCE PENDING"
+    category: release
+    path: golden/release/GOLDEN_CROSS_APP_VERIFICATION_v1_DRAFT.txt
+    migrated_at: 2026-10-15
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT

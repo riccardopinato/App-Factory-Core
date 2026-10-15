@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 17.0 — 14/10/2026
+Versione: 18.0 — 15/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -634,13 +634,14 @@ Scope:
 ======================================================================
 
 File:
-GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1_DRAFT.txt
+GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1.txt
 
 Stato:
-DRAFT / CANDIDATE — PROVIDER-AGNOSTIC
+COPY-READY GOLDEN — PROVIDER-AGNOSTIC
 
-Donor candidates:
-Anna's Diary + Notes + Notification Control + TrailPath + BeerClass
+Donor/evidence:
+Anna's Diary + Notes + Notification Control + TrailPath + BeerClass +
+World Days @ b44ceeafa95e6add4d561ab658377ab25ecf7cc4
 
 Scope:
 - plan/tier;
@@ -665,7 +666,7 @@ Stato:
 DRAFT / CANDIDATE — NON COPY-READY
 
 Donor candidates:
-CamperBoss + TrailPath + Battery Guard + FrameLab
+CamperBoss + TrailPath + Battery Guard + FrameLab + Anna's Diary v1.01-B
 
 Scope:
 - resumable progress;
@@ -687,7 +688,7 @@ Stato:
 DRAFT / CANDIDATE — NON COPY-READY
 
 Donor candidates:
-CamperBoss + FrameLab + TrailPath + AppLab
+CamperBoss + FrameLab + TrailPath + AppLab + Anna's Diary v1.01-C
 
 Scope:
 - shell/states;
@@ -836,7 +837,129 @@ Scope:
 - final byte verification for destructive/high-trust duplicate decisions.
 
 ======================================================================
-FRESHNESS GOVERNANCE — v17
+33. PROGRESSIVE DISCLOSURE / MODULE VISIBILITY
+======================================================================
+
+File:
+GOLDEN_PROGRESSIVE_DISCLOSURE_MODULE_VISIBILITY_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Donor:
+Anna's Diary v1.01-A/B/C
+
+Scope:
+- visibility != ownership/persistence;
+- reversible presets/custom modules;
+- legacy Complete compatibility;
+- dependency-safe module visibility;
+- no second preferences/router/database owner;
+- atomic onboarding personalization;
+- backup/account/restore semantics;
+- progressive disclosure + healthy-state quiet UX.
+
+======================================================================
+34. PLAY BILLING LIFETIME ENTITLEMENT
+======================================================================
+
+File:
+GOLDEN_PLAY_BILLING_LIFETIME_ENTITLEMENT_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROVIDER CANDIDATE — STORE SANDBOX NOT VERIFIED
+
+Donor:
+World Days @ b44ceeafa95e6add4d561ab658377ab25ecf7cc4
+
+Scope:
+- in_app_purchase adapter boundary;
+- non-consumable lifetime entitlement;
+- purchase stream;
+- pending/cancel/error no-grant;
+- exact product/verification boundary;
+- durable grant + completePurchase;
+- restore/offline cache;
+- Web stub;
+- Remove Ads -> zero ad request;
+- Play Internal exact-artifact promotion matrix.
+
+======================================================================
+35. RESUMABLE LOCAL TRANSFER
+======================================================================
+
+File:
+GOLDEN_RESUMABLE_LOCAL_TRANSFER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — PHYSICAL TRANSFER NOT VERIFIED
+
+Donor candidate:
+Send to PC @ 76f96e598897858d434cfb3e5a8c3c307a9282f8
+
+Scope:
+- persisted partial state;
+- authoritative offset resume;
+- overflow-safe chunk/batch limits;
+- pending/staging before final visibility;
+- final integrity hash;
+- storage headroom;
+- cancel/expiry/orphan cleanup;
+- completed-readability truth;
+- physical interruption/restart gate.
+
+======================================================================
+36. VERSIONED EDITORIAL CATALOG
+======================================================================
+
+File:
+GOLDEN_VERSIONED_EDITORIAL_CATALOG_FLUTTER_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — MULTI-APP DONOR
+
+Donors:
+FrameLab + World Days
+
+Scope:
+- canonical facts != editorial presentation;
+- stable IDs;
+- format/package/content versions;
+- locale packs + deterministic fallback;
+- review/publish states;
+- source/license/rights provenance;
+- deterministic validation;
+- transactional idempotent import;
+- downgrade block/rollback;
+- user-owned state preservation;
+- install cache;
+- multilingual search boundary.
+
+======================================================================
+37. CROSS-APP VERIFICATION
+======================================================================
+
+File:
+GOLDEN_CROSS_APP_VERIFICATION_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — PAIRED PHYSICAL EVIDENCE PENDING
+
+Process donor:
+AppLab Cross-App Verification v4.8 subsystem
+
+Scope:
+- pair PASS/FAIL/BLOCKED/NOT_VERIFIED;
+- independent producer/consumer exact identity;
+- Release Reality reconciliation;
+- protocol-aware scenario assertions;
+- paired physical-device evidence;
+- exact pair artifact hashes;
+- trusted workflow/digest;
+- fail-closed identity/transport/evidence handling.
+
+======================================================================
+FRESHNESS GOVERNANCE — v18
 ======================================================================
 
 Registry v2 distingue:
@@ -851,7 +974,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v26.5
+EXISTING GOLDEN HARDENING QUEUE — v26.6
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
@@ -884,12 +1007,8 @@ CANDIDATI SUCCESSIVI
   Donor: Pocket Guard + Tabletop Motion Alarm
   Stato: DEFER / SPECIALIZED
 
-- GOLDEN_BILLING_PROVIDER_ADAPTER_v1
-  Donor: da definire dopo RevenueCat/Play Billing reali
-  Stato: DEFER
-
 ======================================================================
-REGOLE v26.3
+REGOLE v26.6
 ======================================================================
 
 1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt; non hardcodare una versione storica.
@@ -921,3 +1040,8 @@ REGOLE v26.3
 27. Replacement senza valutare la rimozione del superseded path = lavoro incompleto.
 28. La validation pertinente va rieseguita dopo il cleanup finale.
 29. Le istruzioni agentiche ad alto rischio devono acquisire validator/eval quando pratico.
+30. Visibility != ownership/persistence: hide/show non autorizza delete/migration.
+31. Due single-app PASS/CERTIFIED non implicano cross-app PASS.
+32. Generic Entitlement Contract è COPY-READY; provider billing resta provider-specific.
+33. Versioned Editorial Catalog e Offline Content Packs restano contratti separati.
+34. Resumable transfer non dichiara completed prima del final integrity/visibility gate.

@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-15 — Reuse audit / Master v26.6 / Golden Index v18
+
+- Audited recent certified/green implementation across Anna's Diary, World Days,
+  Send to PC, FrameLab, Android Omni Cleaner and AppLab.
+- Added Progressive Disclosure / Module Visibility Golden candidate from Anna v1.01-A/B/C.
+- Promoted the provider-agnostic Entitlement Contract to COPY-READY using World Days as a real decoupled donor.
+- Added Play Billing Lifetime Entitlement provider candidate; Store sandbox/Play Internal evidence remains NOT VERIFIED.
+- Registered World Days as the first real Flutter donor for the AdMob Golden while keeping physical Flutter AdMob/UMP evidence pending.
+- Added Resumable Local Transfer candidate from Send to PC v1.28.1; physical interruption/resume remains pending.
+- Added Versioned Editorial Catalog candidate from two independent donors: FrameLab + World Days.
+- Added Cross-App Verification process candidate from AppLab v4.8; real paired Wonderlog↔Anna physical round-trip remains pending.
+- Updated Incremental Persistent Indexing and Bounded Parallel Hashing with Android Omni Cleaner Step 9.7 primary-device physical benchmark evidence.
+- Updated Android Signing / Release Identity with Omni Cleaner RC1 fail-closed source-side release pipeline evidence.
+- Updated Onboarding, App Shell, Release Reality and AppLab QA boundaries with the newly validated donor evidence.
+- No product feature was introduced by this Core update.
+
 ## 2026-10-14 — CamperBoss second pilot / AppLab QA CERTIFIED PROCESS
 
 - Completed the second independent external pilot of the AppLab QA / Certification Adapter on CamperBoss.
