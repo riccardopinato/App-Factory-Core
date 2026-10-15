@@ -155,7 +155,7 @@ goldens:
     category: release
     path: golden/release/GOLDEN_RELEASE_REALITY_PHYSICAL_VALIDATION_v1_DRAFT.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-04
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -188,7 +188,7 @@ goldens:
     category: release
     path: golden/release/GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-14
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: 2026-10-14
     provider_sensitive: false
     freshness_status: CURRENT
@@ -199,7 +199,7 @@ goldens:
     category: monetization
     path: golden/monetization/GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-14
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: 2026-10-14
     provider_sensitive: true
     freshness_status: CURRENT
@@ -255,7 +255,7 @@ goldens:
     category: release
     path: golden/release/GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-11
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
     provider_sensitive: true
     freshness_status: NEEDS_REVIEW
@@ -273,14 +273,14 @@ goldens:
   - id: entitlement_contract
     title: "Entitlement Contract"
     version: "1"
-    status: "DRAFT / CANDIDATE — PROVIDER-AGNOSTIC"
+    status: "COPY-READY GOLDEN — PROVIDER-AGNOSTIC"
     category: monetization
-    path: golden/monetization/GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1_DRAFT.txt
+    path: golden/monetization/GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-07
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
-    provider_sensitive: true
-    freshness_status: NEEDS_REVIEW
+    provider_sensitive: false
+    freshness_status: CURRENT
   - id: onboarding_first_run
     title: "Onboarding / First Run"
     version: "1"
@@ -288,7 +288,7 @@ goldens:
     category: ui
     path: golden/ui/GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-07
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -299,7 +299,7 @@ goldens:
     category: ui
     path: golden/ui/GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-07
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -346,7 +346,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT.txt
     migrated_at: 2026-10-14
-    last_content_reviewed_at: 2026-10-14
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -358,7 +358,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT.txt
     migrated_at: 2026-10-14
-    last_content_reviewed_at: 2026-10-14
+    last_content_reviewed_at: 2026-10-15
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
