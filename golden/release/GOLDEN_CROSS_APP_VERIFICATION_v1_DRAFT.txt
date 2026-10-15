@@ -1,0 +1,126 @@
+GOLDEN CROSS-APP VERIFICATION
+Versione draft: 1.0 — 15/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — PAIRED PHYSICAL EVIDENCE PENDING
+Created under Master: v26.5 FULL
+Current Master: resolve via CURRENT.yaml
+
+Process donor:
+- AppLab Cross-App Verification v4.8 subsystem
+- repository: riccardopinato/AppLab
+- current main containing verifier: 02f25d75b990055521869d75781e93893a6b6cdf
+- files:
+  integration/certification/CROSS_APP_VERIFICATION_V48.md
+  scripts/cross_app_verification.py
+  scripts/trusted_cross_app_evidence.py
+
+1. SCOPO
+Verification authority per comportamento che esiste SOLO nell'interazione fra
+due app/artifact.
+Non sostituisce single-app AppLab, Release Reality o protocol Golden.
+
+APP A PASS + APP B PASS != CROSS-APP PASS.
+CROSS-APP PASS != SINGLE-APP CERTIFICATION PROMOTION.
+
+2. RESULT SEMANTICS
+PASS = all required paired scenarios/evidence pass.
+FAIL = executed assertion/scenario failed.
+BLOCKED = identity/scenario/evidence/physical requirement missing/contradictory.
+NOT_VERIFIED = required scenario not really verified.
+Missing pair evidence never becomes PASS.
+
+3. PAIRED ARTIFACT IDENTITY
+Bind independently:
+- repo;
+- immutable source SHA;
+- exact artifact SHA-256;
+- package/application ID;
+- versionName/versionCode;
+- canonical app ID quando pertinente.
+
+Reject identical APK bytes, same package ID and contradiction with supplied
+Release Reality.
+
+4. SINGLE-APP RELEASE REALITY RECONCILIATION
+Supplied producer/consumer release-reality records must reconcile exactly with
+pair identity. Single-app CERTIFIED cannot cover pair round-trip.
+
+5. CONTRACT-SPECIFIC ASSERTIONS
+Verification process is protocol-aware via adapter/validator, not by creating a
+second protocol.
+For Shared Ecosystem Core v1 verify schema/version, explicitShare, bridgeId,
+idempotency, COPY/LINK separation, provenance/ownership, canonical deep link,
+transport target/version and private-media fail-closed.
+Ecosystem Bridge Golden remains protocol source of truth.
+
+6. REQUIRED ECOSYSTEM MATRIX
+Semantic:
+COPY / LINK / IDEMPOTENCY / PROVENANCE / OWNERSHIP / FAIL_CLOSED.
+Transport:
+DEEP_LINK_HANDOFF oppure FALLBACK_TRANSPORT.
+Assertions explicit; no generic confidence score.
+
+7. TRANSPORT / PHYSICAL REQUIREMENT
+Protocol != transport.
+Installed-app transport -> paired physical-device evidence required.
+Emulator or two independent physical sessions do not equal paired round-trip.
+Verifier derives physical requirement from transport; input cannot weaken gate.
+
+8. PAIRED PHYSICAL RECORD
+Bind both artifact hashes, device manufacturer/model/OS/build, scenario IDs,
+observed result and hashed evidence refs.
+At least one screenshot/log/video/file/trace/report ref when physical evidence
+is required.
+If external bytes are not re-hashed by hub, attestation must say so.
+
+9. FAIL-CLOSED MATRIX
+Reject/block:
+- incomplete/contradictory identity;
+- invalid package/versionCode;
+- incompatible contract;
+- private/local media;
+- missing scenario;
+- PASS with false assertion;
+- incoherent lineage;
+- unsupported/mixed transport;
+- missing paired physical evidence;
+- incomplete physical coverage;
+- unsupported evidence URI;
+- tampered trusted record/digest.
+
+10. TRUSTED WORKFLOW
+Bind authority, workflow repo/path, immutable verifier/AppLab SHA, run ID/attempt,
+event, pair digest/evidence record.
+Operator-attested physical evidence != autonomous UI execution.
+
+11. SELF-TEST MATRIX
+[ ] complete PASS fixture
+[ ] missing physical -> BLOCKED
+[ ] no evidence refs -> BLOCKED
+[ ] false assertion -> FAIL
+[ ] physical failure -> FAIL
+[ ] lineage mismatch -> BLOCKED
+[ ] same APK/package -> reject
+[ ] invalid package/versionCode -> reject
+[ ] unsupported/mixed transport -> reject
+[ ] unsupported evidence URI -> reject
+[ ] single-app CERTIFIED + no pair physical -> BLOCKED
+[ ] trusted record tamper -> reject
+
+12. CURRENT EVIDENCE
+AppLab contains deterministic pair verifier, Shared Ecosystem Core validator,
+trusted evidence validator, fail-closed self-tests and trusted manual workflow.
+
+Still missing:
+real installed Wonderlog <-> Anna paired physical round-trip bound to exact
+artifacts and complete scenario matrix.
+
+Detailed evidence:
+evidence/cross-app/APPLAB_V48_2026-10-15.md
+
+13. PROMOZIONE
+DRAFT -> COPY-READY PROCESS after real two-app pair session + exact identity +
+full matrix + paired physical evidence + trusted workflow.
+CERTIFIED PROCESS after second independent pair/protocol integration or
+equivalent harness.
+
+END GOLDEN CROSS-APP VERIFICATION v1 DRAFT
