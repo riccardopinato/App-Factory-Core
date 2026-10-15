@@ -1,5 +1,5 @@
 GOLDEN INCREMENTAL PERSISTENT INDEXING
-Versione draft: 1.0 — 14/10/2026
+Versione draft: 1.1 — 15/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
 Created under Master: v26.2
 Current Master: resolve via CURRENT.yaml
@@ -357,3 +357,47 @@ Esempi:
 - Flutter: repository/domain contract sopra adapter nativi/provider.
 
 Non imporre un package specifico come parte del Golden.
+
+======================================================================
+PHYSICAL EVIDENCE UPDATE — ANDROID OMNI CLEANER STEP 9.7
+======================================================================
+
+Exact physical development APK source:
+436e884886dbc7e034547b3a7b7299a9cd649f7b
+
+Device:
+Xiaomi M2101K6G / Android SDK 33 / 8 reported processors.
+
+Real library:
+87,136 files.
+
+Measured:
+- cold inventory: 61,064 ms;
+- warm persistent HIT: 2,599 ms;
+- warm speedup: 23.50x;
+- warm file-count delta: 0;
+- hot memory HIT: 1 ms.
+
+The first real run found two real regressions:
+1. RAM-cache TTL started from the persisted-index timestamp;
+2. warm reuse re-statted every indexed file.
+
+Both were corrected.
+
+Schema v2 now stores directory fingerprints. A migrated v1 index without those
+fingerprints deliberately forces one full reconciliation before warm reuse.
+Changed directory identity/revision rejects persisted reuse.
+
+Safety boundary remains:
+persistent index is an accelerator, never destructive authority; mutation paths
+revalidate live source state.
+
+Promotion status:
+PRIMARY DEVICE PASS.
+SECOND LOWER-END/OLDER PHYSICAL DEVICE PENDING.
+Golden remains DRAFT.
+
+Evidence:
+evidence/indexing-hashing/ANDROID_OMNI_CLEANER_STEP97_2026-10-15.md
+
+END GOLDEN INCREMENTAL PERSISTENT INDEXING v1.1 DRAFT
