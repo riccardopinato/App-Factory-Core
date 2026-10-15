@@ -1,0 +1,144 @@
+GOLDEN RESUMABLE LOCAL TRANSFER
+Versione draft: 1.0 — 15/10/2026
+Stato: DRAFT / CANDIDATE — PHYSICAL TRANSFER NOT VERIFIED
+Created under Master: v26.5 FULL
+Current Master: resolve via CURRENT.yaml
+
+Primary donor candidate:
+- Send to PC
+- repository: riccardopinato/Send-to-pc
+- candidate branch: store-candidate/v1.28.1-truth-reliability
+- candidate SHA: 76f96e598897858d434cfb3e5a8c3c307a9282f8
+- Android checks #173 PASS
+- Android release #29 PASS
+- AdMob production preflight #29 PASS
+- candidate NOT merged to main at this evidence point.
+
+1. SCOPO
+Contratto riusabile per transfer locali di file/blob che devono tollerare
+interruzioni senza esporre file incompleti come completati.
+Non impone HTTP, TLS library o Android MediaStore come protocollo universale.
+
+2. PRINCIPIO CENTRALE
+DECLARE TRANSFER
+-> CREATE CONTROLLED PARTIAL
+-> WRITE EXACT OFFSET
+-> PERSIST PROGRESS
+-> RESUME FROM AUTHORITATIVE OFFSET
+-> VERIFY FINAL INTEGRITY
+-> COMMIT/VISIBILITY
+-> CLEAN METADATA
+
+TRANSFER STARTED != FILE RECEIVED.
+BYTES WRITTEN == TOTAL != VERIFIED COMPLETE.
+
+3. IDENTITY
+Ogni upload ha bounded transfer/upload ID:
+- safe charset;
+- bounded length;
+- non path-like;
+- non derivato direttamente da filename non sanitizzato.
+
+4. OFFSET / CHUNK CONTRACT
+Validare:
+- totalBytes > 0 e <= limit;
+- offset >= 0;
+- contentLength > 0;
+- offset <= totalBytes;
+- contentLength <= totalBytes - offset.
+
+Arithmetic overflow-safe.
+REQUESTED OFFSET == AUTHORITATIVE RECEIVED OFFSET.
+Mismatch non deve appendere comunque.
+
+5. PERSISTED PARTIAL STATE
+Persistire minimo necessario:
+uploadId, safe display name, MIME, total, received, controlled partial URI/path,
+expected hash, final hash, completed, updatedAt.
+Process restart non trasforma partial in completed.
+
+6. STAGING / FINAL VISIBILITY
+Partial resta staged/controlled.
+Android donor: MediaStore IS_PENDING=1 fino a completion.
+General rule: PARTIAL != USER-FINAL ASSET.
+Solo dopo final verification esporre final URI/reference e completed.
+
+7. FINAL INTEGRITY
+Se expected SHA-256 esiste:
+- hash finale;
+- comparison fail-closed;
+- mismatch -> invalidate/clean partial;
+- no completed publication.
+
+Threshold/risk boundary per file enormi deve essere esplicito.
+
+8. BOUNDS / RESOURCE SAFETY
+Centralizzare max single file, batch count, aggregate bytes, concurrency, buffer,
+request/header bounds, session/client bounds.
+Storage admission:
+availableBytes >= incomingBytes + safetyHeadroom
+con arithmetic overflow-safe.
+
+9. CANCEL / EXPIRY / ORPHAN CLEANUP
+Cancel rimuove partial non completato e metadata.
+Non elimina un completed file salvo operazione distinta.
+TTL per stale partial.
+Reconcile:
+- physical partial senza metadata;
+- metadata senza readable asset.
+Non toccare file estranei.
+
+10. COMPLETED-STATE TRUTH
+Completed metadata deve puntare a risorsa ancora leggibile.
+completed flag != file readable.
+
+11. NETWORK / TRANSPORT FAILURE
+Network loss non corrompe bytes già committed al partial e non materializza il
+dominio finale. Resume riparte dall'offset autorevole.
+
+12. SECURITY BOUNDARY
+TLS/local identity/session PIN/host-origin/request hardening sono adapter-layer.
+Questo Golden non autorizza implicitamente un protocollo LAN.
+
+13. TEST MINIMI
+[ ] valid first/final chunk
+[ ] chunk past EOF rejected
+[ ] arithmetic overflow rejected
+[ ] invalid upload ID rejected
+[ ] offset mismatch authoritative
+[ ] restart reloads received offset
+[ ] cancel deletes partial only
+[ ] stale/orphan cleanup
+[ ] completed unreadable invalidated
+[ ] hash match commits
+[ ] hash mismatch rejects/cleans
+[ ] filename sanitation/collision
+[ ] batch bounds
+[ ] storage headroom + overflow
+[ ] deterministic retry state
+
+14. PHYSICAL GATE
+Prima di COPY-READY:
+- real network interruption + resume;
+- process/background interruption;
+- screen-off policy quando promessa;
+- >1 GiB quando promesso;
+- representative/max multi-file batch;
+- insufficient storage;
+- hash mismatch;
+- cancel/resume;
+- browser/client reconnect quando pertinente.
+
+Current donor:
+automated/code readiness PASS per v1.28.1 scope;
+physical resume/background/large-file NOT VERIFIED.
+
+Detailed evidence:
+evidence/transfer/SEND_TO_PC_V1281_2026-10-15.md
+
+15. PROMOZIONE
+Resta DRAFT.
+COPY-READY dopo merged stable donor + physical interruption/restart/integrity.
+CERTIFIED dopo seconda integration/harness con exact-artifact physical evidence.
+
+END GOLDEN RESUMABLE LOCAL TRANSFER v1 DRAFT
