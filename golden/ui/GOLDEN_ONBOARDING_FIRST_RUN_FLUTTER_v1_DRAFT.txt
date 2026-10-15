@@ -1,5 +1,5 @@
 GOLDEN ONBOARDING / FIRST RUN — FLUTTER
-Versione draft: 0.1 — 07/10/2026
+Versione draft: 0.2 — 15/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
 Created under Master: v24 FULL
 Current Master: resolve via CURRENT.yaml
@@ -8,7 +8,8 @@ Donor candidates:
 - CamperBoss LocalOnboardingService;
 - TrailPath onboarding gate;
 - Battery Guard permission/reliability onboarding;
-- FrameLab profile onboarding.
+- FrameLab profile onboarding;
+- Anna's Diary v1.01-B personalized onboarding.
 
 ======================================================================
 1. SCOPO
@@ -122,4 +123,32 @@ Se l'app si apre da deep link/import/share durante first run:
 [ ] font scaling
 [ ] screen rotation if supported
 
-END GOLDEN ONBOARDING / FIRST RUN v0.1 DRAFT
+======================================================================
+REAL DONOR UPDATE — ANNA'S DIARY v1.01-B
+======================================================================
+
+Repository:
+riccardopinato/Agenda-per-Anna
+
+Merged lineage containing v1.01-B/C:
+def40d1fe3bbfc7f113948e72672a67e37edbc04
+
+Reusable evidence:
+- choose deterministic preset;
+- persist preset + onboardingDone only when onboarding completes;
+- interrupted first run cannot leave half-applied personalization;
+- existing profiles never re-enter onboarding;
+- first useful action reuses canonical Unified Capture;
+- no mandatory account;
+- five-language copy;
+- stable semantics for automated journeys;
+- module hiding remains presentation-only.
+
+The generalized Onboarding Golden remains DRAFT until a second app adopts the
+extracted contract.
+
+Related:
+GOLDEN_PROGRESSIVE_DISCLOSURE_MODULE_VISIBILITY_FLUTTER_v1_DRAFT.txt
+evidence/personalization/ANNAS_DIARY_V101_ABC_2026-10-15.md
+
+END GOLDEN ONBOARDING / FIRST RUN v0.2 DRAFT
