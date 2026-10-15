@@ -1,5 +1,5 @@
 GOLDEN BOUNDED PARALLEL HASHING
-Versione draft: 1.0 — 14/10/2026
+Versione draft: 1.1 — 15/10/2026
 Stato: DRAFT / CANDIDATE — NON COPY-READY
 Created under Master: v26.2
 Current Master: resolve via CURRENT.yaml
@@ -336,3 +336,39 @@ Non prescrive:
 La reference implementation può essere Kotlin, Dart, Swift, Rust o altra
 tecnologia, purché preservi bounded concurrency, cancellation, determinismo e
 revision-bound hash reuse.
+
+======================================================================
+PHYSICAL EVIDENCE UPDATE — ANDROID OMNI CLEANER STEP 9.7
+======================================================================
+
+Exact physical source:
+436e884886dbc7e034547b3a7b7299a9cd649f7b
+
+Physical SHA-256 sample:
+128 MiB across 5 real large files.
+
+Measured throughput:
+- 1 worker: 573.99 MiB/s;
+- 2 workers: 920.86 MiB/s;
+- 4 workers: 1,267.33 MiB/s.
+
+Peak in-flight:
+- 1 / 2 / 4 respectively.
+
+Device:
+Xiaomi M2101K6G / SDK 33 / 8 processors.
+
+Thermal:
+- Android thermal status 0 -> 0;
+- battery temperature 35.3 C -> 37.2 C.
+
+On this device, the current 4-worker cap is supported by measurement rather
+than assumption.
+
+This is NOT a universal worker rule.
+Second lower-end/older physical device remains required before promotion.
+
+Evidence:
+evidence/indexing-hashing/ANDROID_OMNI_CLEANER_STEP97_2026-10-15.md
+
+END GOLDEN BOUNDED PARALLEL HASHING v1.1 DRAFT
