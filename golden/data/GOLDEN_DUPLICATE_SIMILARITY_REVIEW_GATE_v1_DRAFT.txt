@@ -1,0 +1,300 @@
+GOLDEN DUPLICATE / SIMILARITY REVIEW GATE
+Versione draft: 1.0 — 22/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — DESIGN-ONLY
+Created under Master: v26.6 FULL
+Current Master: resolve via CURRENT.yaml
+
+Origin:
+In Cucina con gli Anime F2 authoring/import design.
+The donor app has a validated versioned catalog contract, but this similarity
+gate is not yet implemented in production. No runtime certification is claimed.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare il controllo di duplicati esatti, near-duplicate e varianti
+semanticamente simili durante import, authoring, ingestion o merge di cataloghi.
+
+Il Golden è domain-agnostic: può essere applicato a ricette, contenuti
+editoriali, prodotti, note, knowledge records, media metadata e altri record
+strutturati quando "stesso contenuto" non coincide con "stessa stringa".
+
+======================================================================
+2. CORE INVARIANT
+======================================================================
+
+TEXT DIFFERENT != ENTITY DIFFERENT.
+HIGH SIMILARITY != SAFE AUTO-DELETE.
+
+Il gate deve distinguere almeno:
+- EXACT / IDEMPOTENT DUPLICATE;
+- PROBABLE DUPLICATE;
+- REVIEW REQUIRED;
+- POSSIBLE VARIANT;
+- DISTINCT / NO MATERIAL CONFLICT.
+
+Un punteggio sintetico non è sufficiente come spiegazione o authority.
+
+======================================================================
+3. PIPELINE
+======================================================================
+
+SOURCE CANDIDATE
+-> NORMALIZATION
+-> CANDIDATE RETRIEVAL
+-> MULTI-DIMENSION COMPARISON
+-> EXPLAINABLE REVIEW REPORT
+-> POLICY DECISION
+-> ACCEPT / SKIP / MERGE / REPLACE / KEEP VARIANT
+-> AUDIT RECORD
+
+Il gate deve avvenire prima del commit definitivo quando una collisione potrebbe
+creare duplicati o sovrascrivere dati esistenti.
+
+======================================================================
+4. NORMALIZATION
+======================================================================
+
+Confrontare rappresentazioni canoniche, non solo testo grezzo.
+
+Quando pertinente normalizzare:
+- casing/whitespace/punctuation;
+- locale e sinonimi controllati;
+- unità e conversioni quantitative;
+- date/time/number formats;
+- stable/external IDs;
+- tags/categories;
+- ordered vs unordered collections secondo semantica;
+- canonical references;
+- boilerplate editoriale.
+
+La normalizzazione deve essere deterministica e versionata quando modifica il
+risultato del matching.
+
+Non introdurre equivalenze semantiche non dimostrabili come fatti.
+
+======================================================================
+5. CANDIDATE RETRIEVAL
+======================================================================
+
+Per cataloghi piccoli è ammesso un confronto completo.
+
+Per cataloghi grandi usare retrieval/bucketing prima del confronto costoso:
+- stable/external IDs;
+- exact fingerprints;
+- category/domain keys;
+- normalized tokens;
+- deterministic signatures;
+- search/vector candidate retrieval quando giustificato.
+
+Retrieval miss != prova di unicità se il retrieval è euristico.
+
+======================================================================
+6. MULTI-DIMENSION COMPARISON
+======================================================================
+
+Il comparator deve esporre dimensioni comprensibili per il dominio, ad esempio:
+- identity/reference match;
+- structured field overlap;
+- quantities/values similarity;
+- ordered-step/sequence similarity;
+- categorical/tag overlap;
+- normalized text similarity;
+- media/hash equality;
+- source/fingerprint relationship.
+
+I pesi sono domain-specific e configurabili.
+Non fissare una soglia universale valida per tutte le app.
+
+======================================================================
+7. DECISION POLICY
+======================================================================
+
+Default sicuro:
+
+A. EXACT / IDEMPOTENT
+Può essere auto-SKIP solo quando l'identità è provata da un contratto forte
+(es. stesso stable/external ID + stesso fingerprint/versione compatibile).
+
+B. PROBABLE DUPLICATE
+BLOCK o REVIEW REQUIRED. Non cancellare/sovrascrivere automaticamente.
+
+C. POSSIBLE VARIANT
+Mantenere la possibilità di KEEP VARIANT con differenze esplicite.
+
+D. DISTINCT
+Procedere normalmente.
+
+AUTO-MERGE è consentito solo con merge semantics definite dal dominio e testate.
+AUTO-DELETE di user-owned data non è una conseguenza accettabile di un similarity score.
+
+======================================================================
+8. EXPLAINABILITY
+======================================================================
+
+Ogni match rilevante deve produrre un report leggibile, con:
+- candidate ID;
+- existing ID;
+- classificazione;
+- score complessivo se usato;
+- score/delta per dimensione;
+- campi uguali;
+- differenze materialmente rilevanti;
+- source/fingerprint evidence;
+- azione raccomandata;
+- reason code deterministico.
+
+Esempio concettuale:
+
+candidate: item_017
+existing: item_042
+classification: REVIEW_REQUIRED
+dimensions:
+  identity/reference: high
+  structured_fields: very_high
+  quantitative_values: high
+  sequence: very_high
+differences:
+  - one optional component differs
+recommended_action: KEEP_VARIANT_OR_MERGE
+reason: NEAR_DUPLICATE_WITH_MATERIAL_VARIANT
+
+Le label possono essere numeriche o qualitative, ma devono essere interpretabili.
+
+======================================================================
+9. HUMAN REVIEW
+======================================================================
+
+Quando la decisione richiede giudizio editoriale/prodotto, il sistema deve
+presentare opzioni esplicite:
+- ACCEPT NEW;
+- SKIP NEW;
+- REPLACE EXISTING;
+- MERGE;
+- KEEP AS VARIANT;
+- DEFER / NEEDS REVIEW.
+
+La scelta deve riferirsi a ID stabili e, quando possibile, essere registrata
+come decisione di review per evitare lo stesso prompt ad ogni re-import.
+
+======================================================================
+10. BATCH REPORT
+======================================================================
+
+Un import batch deve poter sintetizzare almeno:
+- no conflict;
+- exact/idempotent skipped;
+- probable duplicates;
+- review required;
+- possible variants;
+- decisions applied;
+- unresolved items.
+
+Il report non deve nascondere casi ambigui dietro un singolo "success".
+
+======================================================================
+11. IDEMPOTENCY / REVIEW MEMORY
+======================================================================
+
+Per re-import ripetuti registrare quando utile:
+- candidate/source fingerprint;
+- comparator/normalizer version;
+- reviewed-against existing ID;
+- decision;
+- reviewedAt;
+- reviewer/source of decision.
+
+Se uno dei contenuti cambia materialmente, una precedente decisione può diventare
+stale e deve essere rivalutata secondo policy.
+
+======================================================================
+12. FAILURE / SAFETY
+======================================================================
+
+Fail safe:
+- comparator failure -> non assumere distinct;
+- missing required comparison fields -> REVIEW/BLOCK secondo rischio;
+- unsupported schema/version -> reject before destructive action;
+- timeout/partial comparison -> non auto-merge/delete;
+- ambiguous identity -> preserve both until review when data loss is possible.
+
+SIMILARITY SERVICE UNAVAILABLE != ITEM UNIQUE.
+
+======================================================================
+13. PRIVACY / AI BOUNDARY
+======================================================================
+
+Il Golden non richiede AI.
+
+Preferire deterministic structured comparison quando sufficiente.
+Embedding/LLM possono essere usati come candidate/review aid solo se:
+- privacy e provider boundary sono accettabili;
+- output non è authority distruttiva;
+- prompt/model/version sono tracciabili quando influenzano la decisione;
+- esiste fallback deterministico o review umano per casi ad alto rischio.
+
+LLM SAYS DUPLICATE != DUPLICATE PROVEN.
+
+======================================================================
+14. TEST MATRIX
+======================================================================
+
+[ ] exact same ID + same fingerprint -> idempotent skip
+[ ] same ID + changed content -> update/review path
+[ ] different ID + equivalent normalized content -> probable duplicate
+[ ] different wording + same structured facts -> detected
+[ ] same title + materially different content -> not false duplicate
+[ ] unit conversion equivalence -> detected when domain supports it
+[ ] synonym normalization -> deterministic
+[ ] possible variant -> not auto-deleted
+[ ] unrelated item with token overlap -> false-positive resistance
+[ ] missing comparison field -> fail-safe behavior
+[ ] comparator error/timeout -> no unsafe acceptance
+[ ] prior review decision reused only while fingerprints/version remain valid
+[ ] batch report deterministic
+[ ] stable IDs preserved through merge/replace policy
+[ ] user-owned state preserved
+
+======================================================================
+15. RELAZIONI CON ALTRI GOLDEN
+======================================================================
+
+Versioned Editorial Catalog:
+usa questo gate quando authoring/import può introdurre contenuti sovrapposti.
+
+Import / Export / Portability:
+usa questo gate per re-import, source diverse e collisioni semantiche quando
+fingerprint/ID non sono sufficienti.
+
+Incremental Persistent Indexing:
+può supportare retrieval efficiente, ma INDEX HIT != DUPLICATE PROVEN.
+
+Bounded Parallel Hashing:
+hash identico può essere prova forte per byte-identical media; semantic content
+richiede comunque il comparator corretto al dominio.
+
+Entity Lifecycle / Trash:
+dedup/merge non autorizza purge irreversibile di user-owned data.
+
+======================================================================
+16. PROMOZIONE
+======================================================================
+
+Stato iniziale DESIGN-ONLY: il processo è generalizzato ma non ancora eseguito
+end-to-end in un donor reale.
+
+Per COPY-READY PROCESS richiedere:
+- implementazione reale in almeno un progetto;
+- fixture positive/negative/variant;
+- report explainable;
+- fail-safe paths;
+- almeno un caso reale di duplicate/variant review;
+- nessuna perdita di user-owned state.
+
+Per CERTIFIED PROCESS:
+- secondo riuso indipendente o harness forte con domini differenti;
+- evidence registrata;
+- soglie/pesi dimostrati configurabili e non app-specifici.
+
+END GOLDEN DUPLICATE / SIMILARITY REVIEW GATE v1 DRAFT

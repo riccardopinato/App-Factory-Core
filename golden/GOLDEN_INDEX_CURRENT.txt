@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 18.0 — 15/10/2026
+Versione: 19.0 — 22/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -958,8 +958,40 @@ Scope:
 - trusted workflow/digest;
 - fail-closed identity/transport/evidence handling.
 
+
 ======================================================================
-FRESHNESS GOVERNANCE — v18
+38. DUPLICATE / SIMILARITY REVIEW GATE
+======================================================================
+
+File:
+GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — DESIGN-ONLY
+
+Design origin:
+In Cucina con gli Anime F2 authoring/import pipeline
+
+Scope:
+- exact duplicate vs near-duplicate vs variant classification;
+- deterministic normalization;
+- domain-specific multi-dimensional comparison;
+- explainable similarity reports;
+- configurable thresholds/weights;
+- human review for ambiguous/destructive decisions;
+- ACCEPT / SKIP / REPLACE / MERGE / KEEP VARIANT;
+- batch conflict report;
+- review-decision invalidation when fingerprints/content change;
+- fail-safe comparator behavior;
+- no auto-delete from similarity score alone;
+- optional AI/embedding only as advisory candidate/review aid.
+
+Promotion blocker:
+real end-to-end donor implementation + positive/negative/variant fixtures +
+explainable review evidence.
+
+======================================================================
+FRESHNESS GOVERNANCE — v19
 ======================================================================
 
 Registry v2 distingue:
@@ -1045,3 +1077,4 @@ REGOLE v26.6
 32. Generic Entitlement Contract è COPY-READY; provider billing resta provider-specific.
 33. Versioned Editorial Catalog e Offline Content Packs restano contratti separati.
 34. Resumable transfer non dichiara completed prima del final integrity/visibility gate.
+35. Similarity score non autorizza auto-delete/overwrite: exact proof o review policy restano necessari.
