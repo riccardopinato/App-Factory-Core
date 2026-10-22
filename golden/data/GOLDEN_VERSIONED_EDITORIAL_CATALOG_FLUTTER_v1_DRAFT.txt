@@ -70,6 +70,14 @@ placeholder, source/license policy, asset integrity, quality thresholds.
 Report deterministico con severity/path/reason/fix.
 Human sign-off resta per accuracy/rights non automatizzabili.
 
+9A. DUPLICATE / SIMILARITY GATE
+Quando authoring/import può introdurre contenuti sovrapposti applicare:
+GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt
+
+Stable ID/fingerprint possono provare idempotenza forte; per near-duplicate e
+varianti usare confronto multi-dimensionale explainable e review policy.
+Similarity score da solo non autorizza delete/overwrite.
+
 10. TRANSACTIONAL IMPORT
 LOAD -> VALIDATE -> BEGIN TRANSACTION -> UPSERT STABLE IDs
 -> RELATIONS/TRANSLATIONS -> COMMIT -> RECORD INSTALLED PACKAGE.

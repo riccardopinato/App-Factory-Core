@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-22 — Duplicate / Similarity Review Gate / Golden Index v19
+
+- Added `GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT` as a provider-agnostic DESIGN-ONLY process candidate.
+- Generalized duplicate detection into normalization -> candidate retrieval -> multi-dimensional comparison -> explainable review -> decision.
+- Explicitly prohibited destructive auto-delete/overwrite based only on similarity scores.
+- Added configurable domain-specific scoring, variant classification, batch reports, review-memory invalidation and fail-safe comparator semantics.
+- Linked the new gate from Versioned Editorial Catalog and Import / Export / Portability without duplicating their responsibilities.
+- Recorded In Cucina con gli Anime F1/F2 design provenance while preserving the boundary that the gate is not yet implemented.
+- Bumped Golden Index from v18 to v19; Master remains v26.6.
+
+
 ## 2026-10-15 — Reuse audit / Master v26.6 / Golden Index v18
 
 - Audited recent certified/green implementation across Anna's Diary, World Days,

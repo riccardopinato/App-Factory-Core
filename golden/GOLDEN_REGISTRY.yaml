@@ -1,7 +1,7 @@
 registry_version: 2
-updated_at: 2026-10-15
+updated_at: 2026-10-22
 master_version: "26.6"
-index_version: 18
+index_version: 19
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -266,7 +266,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_IMPORT_EXPORT_PORTABILITY_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-07
+    last_content_reviewed_at: 2026-10-22
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -406,7 +406,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_VERSIONED_EDITORIAL_CATALOG_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-15
-    last_content_reviewed_at: 2026-10-15
+    last_content_reviewed_at: 2026-10-22
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -419,6 +419,18 @@ goldens:
     path: golden/release/GOLDEN_CROSS_APP_VERIFICATION_v1_DRAFT.txt
     migrated_at: 2026-10-15
     last_content_reviewed_at: 2026-10-15
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: duplicate_similarity_review_gate
+    title: "Duplicate / Similarity Review Gate"
+    version: "1"
+    status: "DRAFT / PROCESS CANDIDATE — DESIGN-ONLY"
+    category: data
+    path: golden/data/GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt
+    migrated_at: 2026-10-22
+    last_content_reviewed_at: 2026-10-22
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT

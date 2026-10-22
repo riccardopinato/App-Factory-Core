@@ -70,6 +70,13 @@ Azioni possibili:
 
 Mai overwrite silenzioso di user-owned data.
 
+Quando stessa semantica può arrivare da source/ID differenti, applicare:
+GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt
+
+Fingerprint/ID forti restano preferibili per idempotenza esatta; similarity
+serve a individuare collisioni/varianti da spiegare e revisionare, non a
+giustificare overwrite distruttivi.
+
 ======================================================================
 5. REFERENCE RESOLUTION
 ======================================================================
