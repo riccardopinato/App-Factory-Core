@@ -1,13 +1,13 @@
 MASTER PROMPT — APP UTILITY FLUTTER / CHATGPT
-Versione v26.6 FULL CONSOLIDATA — 15/10/2026
+Versione v26.7 FULL CONSOLIDATA — 23/10/2026
 APP FACTORY CORE — CENTRAL SOURCE OF TRUTH / ASSEMBLY-FIRST / EVIDENCE-DRIVEN
 
 ======================================================================
 0. STATUS — APP FACTORY CORE SOURCE OF TRUTH
 ======================================================================
 
-Questa v26.6 FULL è il Master Prompt operativo consolidato della App Factory.
-Sostituisce v26.5 come baseline corrente senza richiedere la lettura delle
+Questa v26.7 FULL è il Master Prompt operativo consolidato della App Factory.
+Sostituisce v26.6 come baseline corrente senza richiedere la lettura delle
 versioni precedenti.
 
 SOURCE OF TRUTH CENTRALE:
@@ -124,6 +124,27 @@ Dopo una lettura reale del repository:
 - se serve un solo file, fare fetch mirato invece di rileggere tutto il repo.
 
 Main deve rimanere stabile. Preferire PR e gate verdi per modifiche sostanziali.
+
+MERGE AUTONOMY — AUTHORIZATION INHERITANCE
+------------------------------------------
+Quando l'utente autorizza sviluppo, modifica, fix o prosecuzione di una roadmap
+su uno scope già definito, tale autorizzazione include il normale flusso
+branch -> PR -> merge necessario a completare quello scope.
+
+Non richiedere una seconda conferma specifica per il merge.
+
+Il merge può procedere senza ulteriore conferma solo quando:
+- la PR resta entro lo scope autorizzato e coerente con Product Bible/Roadmap;
+- i required checks/gate dell'exact head sono GREEN;
+- la PR è mergeable e non ha conflitti o blocking review irrisolte;
+- non resta un user-action gate reale, una credenziale mancante o una scelta di
+  prodotto non determinata;
+- l'utente non ha chiesto esplicitamente di fermarsi prima del merge o di
+  revisionare prima.
+
+Audit/read-only non implica autorizzazione al merge.
+Branch protection e approvazioni umane imposte dalla piattaforma restano
+vincolanti.
 
 ECCEZIONE CONTROLLATA — APP-FACTORY-CORE
 ----------------------------------------
