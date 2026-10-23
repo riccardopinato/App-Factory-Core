@@ -179,7 +179,7 @@ if agent_path.exists():
         "governance/agents/research-reuse.md",
         "Adding a replacement without evaluating removal of the superseded implementation is incomplete work.",
         "tool-specific",
-        "Do not merge a PR unless explicitly requested",
+        "Once implementation is authorized, no separate user approval is required for a PR merge.",
     ]
     for token in required_agent_tokens:
         if token not in agent_text:

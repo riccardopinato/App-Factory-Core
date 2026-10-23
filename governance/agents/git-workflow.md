@@ -11,8 +11,8 @@ Factory baseline
 -> coherent change
 -> local/CI Factory validation
 -> pull request
--> review
--> explicit merge authorization
+-> review / required repository gates
+-> merge when the authorized scope and merge gates are satisfied
 -> new main SHA becomes the next Factory baseline
 
 Do not push ordinary Factory governance changes directly to main.
@@ -66,6 +66,10 @@ A Factory PR should state:
 - validation performed;
 - known limitations or deferred work.
 
-Do not merge a PR unless explicitly requested by the user.
+Once implementation is authorized, no separate user approval is required for a PR merge.
+
+Merge only when the PR remains inside the authorized scope, required checks on the exact head are green, the PR is mergeable, and no blocking review, credential, user-action gate, unresolved product decision, or separately authorized irreversible action remains. If the user asks to stop before merge or review first, do not merge.
+
+Audit/read-only work does not imply merge authorization. Repository branch protection or a platform-required human approval remains binding.
 
 CI GREEN proves repository consistency only within the validator's contract. It does not certify downstream app runtime behavior.
