@@ -125,6 +125,27 @@ Dopo una lettura reale del repository:
 
 Main deve rimanere stabile. Preferire PR e gate verdi per modifiche sostanziali.
 
+MERGE AUTONOMY — AUTHORIZATION INHERITANCE
+------------------------------------------
+Quando l'utente autorizza sviluppo, modifica, fix o prosecuzione di una roadmap
+su uno scope già definito, tale autorizzazione include il normale flusso
+branch -> PR -> merge necessario a completare quello scope.
+
+Non richiedere una seconda conferma specifica per il merge.
+
+Il merge può procedere senza ulteriore conferma solo quando:
+- la PR resta entro lo scope autorizzato e coerente con Product Bible/Roadmap;
+- i required checks/gate dell'exact head sono GREEN;
+- la PR è mergeable e non ha conflitti o blocking review irrisolte;
+- non resta un user-action gate reale, una credenziale mancante o una scelta di
+  prodotto non determinata;
+- l'utente non ha chiesto esplicitamente di fermarsi prima del merge o di
+  revisionare prima.
+
+Audit/read-only non implica autorizzazione al merge.
+Branch protection e approvazioni umane imposte dalla piattaforma restano
+vincolanti.
+
 ECCEZIONE CONTROLLATA — APP-FACTORY-CORE
 ----------------------------------------
 `riccardopinato/App-Factory-Core` è il repository di configurazione centrale
