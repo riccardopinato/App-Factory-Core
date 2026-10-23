@@ -30,7 +30,9 @@ For work on App-Factory-Core itself, this file governs agent operating behavior 
 - Do not add architecture, dependencies, services, background work, compatibility layers, or abstractions without a concrete present need.
 - Do not create a parallel implementation when the existing path can be safely corrected or extended.
 - Keep main stable and follow the repository governance flow.
-- Do not merge a PR unless explicitly requested by the user.
+- Once implementation is authorized, no separate user approval is required for a PR merge.
+- Merge autonomously only when the PR stays inside the authorized scope, required exact-head gates are green, the PR is mergeable, and no blocking review or user-action gate remains.
+- If the user explicitly asks to stop before merge or review first, do not merge.
 - Report validation actually executed, omitted, blocked, or failed.
 
 ## 3. Scope and authorization
