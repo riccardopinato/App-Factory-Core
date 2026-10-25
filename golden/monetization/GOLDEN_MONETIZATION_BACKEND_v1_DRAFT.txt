@@ -1,0 +1,588 @@
+GOLDEN MONETIZATION BACKEND
+Versione: v1 DRAFT — 25/10/2026
+
+STATO
+DRAFT / PROCESS CANDIDATE — BACKEND PILOT PENDING
+
+SCOPO
+
+Definire il backend riutilizzabile App Factory per verificare acquisti digitali,
+sincronizzare entitlement e reagire agli eventi dei provider senza rendere il
+client mobile autoritativo.
+
+Questo Golden è complementare a:
+- GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1.txt
+- GOLDEN_PLAY_BILLING_LIFETIME_ENTITLEMENT_FLUTTER_v1_DRAFT.txt
+- eventuali adapter futuri App Store / RevenueCat.
+
+Non sostituisce i contratti provider-specific.
+
+======================================================================
+1. PRINCIPIO CENTRALE
+======================================================================
+
+CLIENT CLAIM != PURCHASE VERIFIED != ENTITLEMENT ACTIVE
+
+Il client può:
+- iniziare un acquisto;
+- ricevere purchase token / receipt;
+- chiedere restore;
+- mostrare stato locale/cache.
+
+Il client NON è authority finale per:
+- autenticità dell'acquisto;
+- unicità del purchase token;
+- entitlement definitivo;
+- revoche/rimborsi;
+- acknowledgement server-side;
+- stato subscription;
+- antifrode.
+
+L'authority monetization deve essere:
+1. provider store per lo stato di acquisto;
+2. backend App Factory per la proiezione entitlement;
+3. client come cache/consumer dell'entitlement.
+
+======================================================================
+2. QUANDO USARLO
+======================================================================
+
+USARE il backend quando esiste almeno uno di questi casi:
+- one-time product / lifetime entitlement in-app;
+- subscription;
+- entitlement cross-device;
+- restore affidabile;
+- refund/revoke handling;
+- RTDN / server notifications;
+- più app che condividono infrastruttura monetization;
+- necessità antifrode superiore al puro client-side.
+
+NON USARLO automaticamente quando:
+- l'app è semplicemente PAID UPFRONT nello store;
+- non esistono entitlement in-app;
+- il provider store gestisce direttamente il diritto di installazione;
+- aggiungere il backend non migliora un requisito reale.
+
+Regola App Factory:
+
+> Monetization infrastructure is admitted only when it protects or synchronizes
+> a real entitlement. Paid-upfront apps do not receive a backend by default.
+
+======================================================================
+3. ARCHITETTURA CANONICA
+======================================================================
+
+APP
+  |
+  | purchase token / receipt
+  v
+MONETIZATION API
+  |
+  +--> Provider Adapter
+  |      +--> Google Play Developer API
+  |      +--> Apple App Store Server API [future adapter]
+  |      +--> RevenueCat [optional future adapter]
+  |
+  +--> Purchase Ledger
+  |
+  +--> Entitlement Projector
+  |
+  +--> Event Inbox / RTDN
+  |
+  +--> Acknowledgement Worker
+  |
+  +--> Audit / Diagnostics
+
+Il client non parla direttamente con credenziali server del provider.
+
+======================================================================
+4. CONTRATTO API MINIMO
+======================================================================
+
+Endpoint logici canonici:
+
+POST /v1/monetization/verify
+GET  /v1/monetization/entitlements
+POST /v1/monetization/restore
+POST /v1/providers/google/rtdn
+
+Il naming HTTP concreto può cambiare per stack/serverless, ma i ruoli no.
+
+VERIFY request minimo:
+
+{
+  "appId": "canonical_app_id",
+  "platform": "android",
+  "packageName": "com.example.app",
+  "productId": "product_id",
+  "purchaseToken": "<opaque>",
+  "principal": {
+    "type": "account|accountless",
+    "id": "<opaque stable id when available>"
+  }
+}
+
+VERIFY response minimo:
+
+{
+  "verification": "VERIFIED|PENDING|REJECTED|UNKNOWN",
+  "entitlement": {
+    "id": "pro",
+    "status": "ACTIVE|INACTIVE|UNKNOWN",
+    "validUntil": null,
+    "source": "google_play"
+  },
+  "serverTime": "RFC3339",
+  "revision": 1
+}
+
+Non restituire al client segreti provider o credenziali service account.
+
+======================================================================
+5. DATA MODEL MINIMO
+======================================================================
+
+APP CATALOG
+- app_id
+- platform
+- package_name / bundle_id
+- environment
+- active
+
+PRODUCT CATALOG
+- app_id
+- provider
+- product_id
+- entitlement_id
+- product_type
+- active
+
+PURCHASE LEDGER
+- provider
+- app_id
+- product_id
+- purchase_token unique
+- purchase_token_hash
+- provider_state
+- acknowledgement_state
+- order_id nullable
+- purchased_at
+- last_verified_at
+- principal_id nullable
+- raw_provider_snapshot bounded/encrypted or redacted
+
+ENTITLEMENT LEDGER
+- principal_id or accountless restore key
+- app_id
+- entitlement_id
+- status
+- source_purchase_id
+- valid_from
+- valid_until nullable
+- revision
+- updated_at
+
+PROVIDER EVENT INBOX
+- provider
+- event_id/message_id unique
+- received_at
+- processed_at
+- processing_status
+- retry_count
+- error_code nullable
+
+Regola:
+purchaseToken può essere chiave univoca provider-side.
+orderId NON è la chiave di deduplica canonica.
+
+======================================================================
+6. GOOGLE PLAY ADAPTER — BASELINE 25/10/2026
+======================================================================
+
+Provider baseline verificata:
+- Google Play Billing Library 9.1.0;
+- Google Play Developer API v3;
+- one-time products model con purchase options / offers;
+- RTDN per subscriptions e one-time products.
+
+Flusso one-time non-consumable:
+
+CLIENT PURCHASE
+  ↓
+purchaseToken
+  ↓
+POST /verify
+  ↓
+backend verifica token con Google Play Developer API
+  ↓
+state == PURCHASED ?
+  ├─ no -> PENDING / REJECTED / UNKNOWN
+  └─ yes
+       ↓
+       transazione entitlement
+       ↓
+       acknowledge server-side se necessario
+       ↓
+       ACTIVE
+
+Mai concedere entitlement su PENDING.
+
+Acknowledgement:
+- eseguirlo immediatamente dopo la concessione affidabile dell'entitlement;
+- renderlo idempotente;
+- non considerare un timeout acknowledgement come prova di mancato acquisto;
+- riconciliare successivamente.
+
+======================================================================
+7. OFFERS / PRICING
+======================================================================
+
+Prezzi e offerte sono provider-owned configuration.
+
+Il client NON deve hardcodare:
+- prezzo locale;
+- valuta;
+- percentuale sconto;
+- testo "prezzo precedente";
+- eligibility dell'offerta.
+
+Il client deve visualizzare i dati restituiti dal provider/store SDK.
+
+Per one-time products Google Play:
+- supportare purchase option;
+- supportare discount offer quando disponibile;
+- selezionare e passare l'offer token corretto;
+- fallback al prezzo pieno quando l'utente non è eligible.
+
+Il backend può mantenere mirror/catalog metadata, ma non deve inventare
+eligibility diversa dal provider.
+
+======================================================================
+8. ACCOUNT E ACCOUNTLESS
+======================================================================
+
+ACCOUNT MODE
+Usare un user/principal stabile dell'app.
+Quando supportato, usare identificatori offuscati provider per legare il flow
+all'account senza inviare PII raw.
+
+ACCOUNTLESS MODE
+Non obbligare login solo per monetization.
+
+Per app senza account:
+- Play/App Store restano origine del restore;
+- il client recupera gli acquisti del provider;
+- reinvia il token al backend;
+- il backend riverifica;
+- l'entitlement viene ricostruito.
+
+Non usare Android ID, advertising ID, email implicite o fingerprint hardware
+come surrogato di account.
+
+======================================================================
+9. IDEMPOTENZA
+======================================================================
+
+Ogni operazione deve tollerare retry.
+
+VERIFY:
+same purchaseToken
+-> same purchase ledger row
+-> no duplicate entitlement
+
+RTDN:
+same messageId
+-> no duplicate provider call / projection
+
+ACKNOWLEDGE:
+already acknowledged
+-> success-equivalent
+
+ENTITLEMENT:
+same source purchase + revision
+-> deterministic projection
+
+======================================================================
+10. RTDN / EVENT-DRIVEN RECONCILIATION
+======================================================================
+
+Il backend deve supportare provider notifications quando il prodotto le usa.
+
+Google Play:
+Pub/Sub RTDN
+  ↓
+dedupe messageId
+  ↓
+NON fidarsi del payload come stato finale
+  ↓
+rileggere purchase status dal Google Play Developer API
+  ↓
+aggiornare purchase ledger
+  ↓
+riprojettare entitlement
+  ↓
+registrare evidence
+
+Per one-time products gestire almeno:
+- PURCHASED;
+- CANCELED / revoked quando notificato;
+- voided purchase reconciliation quando pertinente.
+
+Una notifica duplicata non deve generare doppie operazioni.
+
+======================================================================
+11. UNKNOWN / OFFLINE / GRACE
+======================================================================
+
+Seguire GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1.
+
+NETWORK FAILURE != FREE
+BACKEND FAILURE != PREMIUM
+CACHE PRESENT != PURCHASE VERIFIED FOREVER
+
+Il client può usare una cache firmata/versionata secondo il contratto prodotto.
+
+Per lifetime:
+- entitlement verificato può essere cached localmente;
+- restore/reconciliation deve poter correggere refund/revoke;
+- UNKNOWN deve essere rappresentato esplicitamente;
+- policy offline deve essere definita per-app.
+
+======================================================================
+12. SECURITY
+======================================================================
+
+OBBLIGATORIO:
+- provider service credentials solo server-side;
+- secret manager / environment secrets;
+- TLS;
+- auth/rate limit sugli endpoint sensibili;
+- purchase token non nei log applicativi;
+- errori redatti;
+- least privilege sul service account;
+- separazione prod/test;
+- audit trail;
+- replay protection tramite token uniqueness;
+- entitlement grant dopo verifica provider;
+- nessun QA override in production.
+
+NON USARE:
+- shared secret statico dentro APK;
+- client boolean "isPro" come authority;
+- orderId come unica chiave;
+- PII non necessaria;
+- log di receipt/token raw.
+
+======================================================================
+13. FAILURE MODEL
+======================================================================
+
+Stati distinti:
+
+PURCHASE_PROVIDER_UNAVAILABLE
+BACKEND_UNAVAILABLE
+PURCHASE_PENDING
+PURCHASE_REJECTED
+PURCHASE_VERIFIED
+ACK_PENDING
+ENTITLEMENT_ACTIVE
+ENTITLEMENT_INACTIVE
+ENTITLEMENT_UNKNOWN
+
+Mai comprimere tutti gli errori in:
+"Acquisto non riuscito".
+
+Il client deve poter distinguere:
+- riprova;
+- acquisto ancora pending;
+- restore;
+- entitlement verificato ma ack da riconciliare;
+- configurazione catalogo mancante.
+
+======================================================================
+14. OBSERVABILITY
+======================================================================
+
+Metriche minime:
+- verify_request_count;
+- verify_success_count;
+- verify_rejected_count;
+- verify_pending_count;
+- provider_latency;
+- provider_error_rate;
+- acknowledgement_pending_count;
+- rtdn_received;
+- rtdn_duplicate;
+- rtdn_failed;
+- entitlement_projection_count;
+- restore_success_rate.
+
+Log correlabili con:
+- request_id;
+- app_id;
+- provider;
+- product_id;
+- purchase_token_hash breve/non reversibile.
+
+Mai loggare il purchase token raw.
+
+======================================================================
+15. TEST / SANDBOX
+======================================================================
+
+Prima di COPY-READY:
+
+[ ] provider sandbox acquisto riuscito
+[ ] PENDING non concede entitlement
+[ ] duplicate verify idempotente
+[ ] restore dopo reinstall
+[ ] acknowledgement server-side
+[ ] timeout provider
+[ ] backend offline
+[ ] token invalido
+[ ] productId errato
+[ ] package mismatch
+[ ] RTDN duplicata
+[ ] RTDN out-of-order
+[ ] refund/revoke
+[ ] test purchase
+[ ] entitlement cache reconciliation
+[ ] prod/test secrets separati
+[ ] no raw token nei log
+
+======================================================================
+16. DEPLOYMENT SHAPE
+======================================================================
+
+Il Golden non impone un vendor.
+
+Implementazioni ammesse:
+- Supabase Edge Functions + Postgres;
+- Cloud Run / Functions + DB;
+- Railway/Vercel server + DB;
+- backend proprietario equivalente.
+
+Requisiti invarianti:
+- endpoint server-side;
+- DB con uniqueness/idempotency;
+- provider secrets non-client;
+- atomic entitlement projection;
+- health/observability;
+- migration/schema versioning;
+- backup/recovery adeguato al valore economico.
+
+======================================================================
+17. API / SCHEMA VERSIONING
+======================================================================
+
+Ogni response entitlement deve avere:
+- schemaVersion;
+- revision;
+- serverTime.
+
+Breaking change:
+-> nuova API/schema version.
+
+Non cambiare semanticamente ACTIVE/INACTIVE/UNKNOWN senza version bump.
+
+======================================================================
+18. INTEGRAZIONE CON APP FACTORY
+======================================================================
+
+Ordine:
+
+1. Product monetization model
+2. GOLDEN_ENTITLEMENT_CONTRACT
+3. provider billing Golden pertinente
+4. GOLDEN_MONETIZATION_BACKEND quando necessario
+5. client adapter
+6. backend verification
+7. sandbox evidence
+8. physical/store validation
+9. production rollout
+
+Non introdurre AdMob automaticamente.
+Ads e purchase backend sono capability indipendenti.
+
+======================================================================
+19. PAID-UPFRONT BOUNDARY
+======================================================================
+
+Per un'app venduta direttamente a pagamento nello store:
+
+STORE PAID APP
+-> entitlement all'installazione gestito dal provider
+-> nessun in-app product
+-> nessun purchase token da verificare nel client
+-> Monetization Backend = NOT REQUIRED di default
+
+Se in futuro vengono aggiunti:
+- upgrade PRO;
+- subscription;
+- consumable;
+- cross-app entitlement;
+
+allora rivalutare questo Golden.
+
+======================================================================
+20. GOLDEN PROMOTION GATE
+======================================================================
+
+DRAFT -> COPY-READY:
+
+[ ] prima integrazione reale in una app App Factory
+[ ] backend deployed in ambiente test
+[ ] Google Play sandbox verificata
+[ ] purchase token verification server-side
+[ ] entitlement transaction idempotente
+[ ] acknowledgement verificato
+[ ] restore verificato
+[ ] RTDN test message + real sandbox event
+[ ] duplicate event handling
+[ ] refund/revoke reconciliation
+[ ] secrets isolation
+[ ] evidence commit/artifact registrata
+
+COPY-READY -> CERTIFIED:
+- secondo riuso reale indipendente;
+- nessuna divergenza non documentata;
+- provider freshness review;
+- production evidence senza false-green.
+
+======================================================================
+21. PROVIDER FRESHNESS
+======================================================================
+
+Provider-sensitive.
+
+Baseline ufficiale verificata il 25/10/2026:
+- Google Play Billing Library release notes: 9.1.0;
+- Google Play billing security guidance;
+- Google Play backend integration guidance;
+- Google Play Developer API purchases.productsv2;
+- Real-time Developer Notifications;
+- one-time products offers.
+
+Prima di una nuova integrazione production:
+- verificare API/provider docs correnti;
+- verificare deprecation deadline della Billing Library;
+- verificare purchase verification endpoint corrente;
+- verificare RTDN/event schema;
+- verificare acknowledgement semantics.
+
+======================================================================
+22. REGOLE FINALI
+======================================================================
+
+1. CLIENT CLAIM != PURCHASE VERIFIED.
+2. PENDING != ENTITLED.
+3. purchaseToken è idempotency identity; orderId non lo sostituisce.
+4. Provider notification != state finale: rileggere dal provider.
+5. Entitlement projection deve essere atomica e ripetibile.
+6. Secrets provider restano server-side.
+7. Unknown resta unknown.
+8. Paid-upfront non giustifica automaticamente un backend.
+9. Prezzi/offerte non si hardcodano nel client.
+10. Build green != sandbox billing verified.
+
+END GOLDEN MONETIZATION BACKEND v1 DRAFT

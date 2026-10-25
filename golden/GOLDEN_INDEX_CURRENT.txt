@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 19.0 — 22/10/2026
+Versione: 20.0 — 25/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -990,8 +990,37 @@ Promotion blocker:
 real end-to-end donor implementation + positive/negative/variant fixtures +
 explainable review evidence.
 
+
 ======================================================================
-FRESHNESS GOVERNANCE — v19
+39. MONETIZATION BACKEND
+======================================================================
+
+File:
+GOLDEN_MONETIZATION_BACKEND_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — BACKEND PILOT PENDING
+
+Scope:
+- provider-neutral secure purchase verification boundary;
+- Google Play purchaseToken verification;
+- PURCHASED/PENDING/REJECTED/UNKNOWN truth;
+- idempotent purchase ledger;
+- entitlement projection;
+- server-side acknowledgement;
+- account/accountless restore;
+- RTDN + duplicate/out-of-order handling;
+- refund/revoke reconciliation;
+- provider-owned pricing/offers;
+- secure secrets/observability;
+- explicit paid-upfront boundary: backend not required by default.
+
+Promotion blocker:
+first real backend pilot + Play sandbox verification + RTDN + restore +
+refund/revoke evidence.
+
+======================================================================
+FRESHNESS GOVERNANCE — v20
 ======================================================================
 
 Registry v2 distingue:

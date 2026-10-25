@@ -1,7 +1,7 @@
 registry_version: 2
-updated_at: 2026-10-22
+updated_at: 2026-10-25
 master_version: "26.6"
-index_version: 19
+index_version: 20
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -386,6 +386,19 @@ goldens:
     provider_sensitive: true
     freshness_status: NEEDS_REVIEW
     tested_package_version: "in_app_purchase 3.3.1 donor implementation; provider docs/store sandbox not re-verified"
+
+  - id: monetization_backend
+    title: "Monetization Backend"
+    version: "1"
+    status: "DRAFT / PROCESS CANDIDATE — BACKEND PILOT PENDING"
+    category: monetization
+    path: golden/monetization/GOLDEN_MONETIZATION_BACKEND_v1_DRAFT.txt
+    migrated_at: 2026-10-25
+    last_content_reviewed_at: 2026-10-25
+    last_provider_verified_at: 2026-10-25
+    provider_sensitive: true
+    freshness_status: CURRENT
+    tested_package_version: "Google Play Billing 9.1.0 reference; Google Play Developer API v3; backend pilot pending"
 
   - id: resumable_local_transfer
     title: "Resumable Local Transfer"
