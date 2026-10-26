@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-26 — Factory Automation Layer / Golden Index v21
+
+- Added Roadmap Fast + Continuous Maintenance as COPY-READY PROCESS from AppLab v5.6.
+- Added Event-Driven Execution + Reconciliation as COPY-READY PROCESS from AppLab v5.4G/v5.5B.
+- Added Immutable Build / Test Artifact as COPY-READY PROCESS.
+- Added five reusable contracts: failure taxonomy, maintenance lanes, exact-artifact manifest, rollout state and recovery scenario matrix.
+- Added five machine-readable playbooks: Fast Delivery, Failure Triage, Donor Promotion, Controlled Rollout and Build Once Verify Many.
+- Added PROCESS_ONLY playbook runner; it checks inputs/materializes ordered plans without becoming merge/release/certification authority.
+- Added PATTERN-3 rule: third materially equivalent occurrence triggers APP-SPECIFIC / DONOR / FACTORY PROCESS / GOLDEN CANDIDATE evaluation, never auto-promotion.
+- Registered AppLab v5.4-v5.6 donor evidence at immutable SHA 1c117ca5224232db21d047ce376026509b0924a0.
+- Upgraded semantic Factory validation from v3 to v4 for the automation layer.
+- Bumped Golden Index v20 -> v21; Master remains v26.6.
+
 ## 2026-10-22 — Duplicate / Similarity Review Gate / Golden Index v19
 
 - Added `GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT` as a provider-agnostic DESIGN-ONLY process candidate.

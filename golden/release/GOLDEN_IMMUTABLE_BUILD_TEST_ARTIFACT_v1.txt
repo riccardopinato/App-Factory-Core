@@ -1,0 +1,36 @@
+GOLDEN IMMUTABLE BUILD / TEST ARTIFACT
+Versione: 1.0 — 26/10/2026
+Stato: COPY-READY PROCESS
+Donor: AppLab canonical runtime fixture @ 1c117ca5224232db21d047ce376026509b0924a0
+Supporting Factory pattern: build-once delivery
+Current Master: resolve via CURRENT.yaml
+
+1. SCOPO
+SOURCE / BUILD CONTRACT -> BUILD ONCE -> HASH -> IMMUTABLE ARTIFACT MANIFEST ->
+CONSUMER IDENTITY CHECK -> VERIFY MANY.
+
+2. MANIFEST MINIMO
+repository, source SHA, artifact type, SHA-256, size, producer workflow/run,
+build-contract fingerprint, toolchain fingerprint quando rilevante, created_at.
+Schema: contracts/exact_artifact_manifest_v1.schema.json
+
+3. REUSE RULE
+Riutilizzare solo se source SHA, artifact SHA, build contract e toolchain policy
+sono compatibili. Ogni consumer verifica identity prima dell'uso.
+
+4. INVALIDATION
+Source/build contract/toolchain/signing identity differente, corruption/hash
+mismatch o policy build-fresh invalidano il reuse.
+
+5. TRUST BOUNDARY
+BUILD GREEN != RUNTIME PASS.
+RUNTIME PASS != PHYSICAL DEVICE PASS.
+PHYSICAL PASS != STORE/DISTRIBUTION VERIFIED.
+ARTIFACT BUILT != SAME ARTIFACT DISTRIBUTED.
+
+6. PLAYBOOK
+playbooks/BUILD_ONCE_VERIFY_MANY.json
+
+7. PROMOZIONE
+COPY-READY: AppLab canonical runtime fixture + Factory build-once pattern.
+CERTIFIED: secondo progetto indipendente con artifact riusato da più consumer.

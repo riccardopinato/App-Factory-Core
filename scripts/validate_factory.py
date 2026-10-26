@@ -207,6 +207,56 @@ for gid in ("agent_governance","code_hygiene"):
                 if token not in gt:
                     fail(f"{gid} Golden missing required contract token: {token}")
 
+
+# Factory automation layer v21.
+for path in [
+    "contracts/failure_taxonomy_v1.json",
+    "contracts/maintenance_lanes_v1.json",
+    "contracts/exact_artifact_manifest_v1.schema.json",
+    "contracts/rollout_state_v1.json",
+    "contracts/recovery_scenario_matrix_v1.json",
+]:
+    load_json(path)
+
+playbook_schema=load_json("schemas/factory_playbook.schema.json")
+for path in [
+    "playbooks/FAST_DELIVERY.json",
+    "playbooks/FAILURE_TRIAGE.json",
+    "playbooks/DONOR_PROMOTION.json",
+    "playbooks/CONTROLLED_ROLLOUT.json",
+    "playbooks/BUILD_ONCE_VERIFY_MANY.json",
+]:
+    data=load_json(path)
+    if playbook_schema and data:
+        v=Draft202012Validator(playbook_schema,format_checker=FormatChecker())
+        for e in sorted(v.iter_errors(data),key=lambda x:list(x.path)):
+            loc=".".join(str(x) for x in e.path) or "<root>"
+            fail(f"{path} schema violation at {loc}: {e.message}")
+
+failure_contract=load_json("contracts/failure_taxonomy_v1.json")
+required_failure_classes={"APP_RUNTIME_FAILURE","APP_VISUAL_FAILURE","BUILD_OR_QUALITY_FAILURE","INFRA_ERROR","FLAKY_SUSPECT","UNKNOWN_FAILURE"}
+if set((failure_contract.get("classes") or {}).keys())!=required_failure_classes:
+    fail("failure taxonomy classes do not match canonical v1 set")
+
+maintenance_contract=load_json("contracts/maintenance_lanes_v1.json")
+if set((maintenance_contract.get("lanes") or {}).keys())!={"BLOCKING_NOW","FIX_CURRENT_STEP","BACKGROUND_MAINTENANCE","FUTURE"}:
+    fail("maintenance lanes do not match canonical v1 set")
+if (maintenance_contract.get("pattern_recurrence") or {}).get("threshold")!=3:
+    fail("Pattern-3 recurrence threshold must remain 3")
+if (maintenance_contract.get("pattern_recurrence") or {}).get("auto_promote") is not False:
+    fail("Pattern-3 must never auto-promote")
+
+recovery_contract=load_json("contracts/recovery_scenario_matrix_v1.json")
+required_recovery={"EVENT_LOSS","DUPLICATE_DELIVERY","EXECUTOR_OUTAGE","INTERRUPTED_OPERATION","COORDINATOR_RESTART","EXPIRED_LEASE","SUPERSEDING_SHA","WATCHER_RECOVERY"}
+if {x.get("id") for x in recovery_contract.get("scenarios",[]) if isinstance(x,dict)}!=required_recovery:
+    fail("recovery scenario matrix does not match canonical v1 set")
+
+runner=req("scripts/run_factory_playbook.py")
+if runner.exists():
+    rt=runner.read_text(encoding="utf-8")
+    for token in ("PROCESS_ONLY","--playbook","--inputs-json","missing_inputs"):
+        if token not in rt: fail(f"Factory playbook runner missing required token: {token}")
+
 secret_patterns={
  "private key":re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
  "OpenAI project key":re.compile(r"sk-proj-[A-Za-z0-9_-]{20,}"),
@@ -225,4 +275,4 @@ if errors:
     print("APP FACTORY VALIDATION: FAIL")
     for e in errors: print("-",e)
     sys.exit(1)
-print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v3)")
+print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v4)")

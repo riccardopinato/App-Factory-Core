@@ -1,7 +1,7 @@
 registry_version: 2
 updated_at: 2026-10-25
 master_version: "26.6"
-index_version: 20
+index_version: 21
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -444,6 +444,41 @@ goldens:
     path: golden/data/GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt
     migrated_at: 2026-10-22
     last_content_reviewed_at: 2026-10-22
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+  - id: roadmap_fast_continuous_maintenance
+    title: "Roadmap Fast + Continuous Maintenance"
+    version: "1"
+    status: "COPY-READY PROCESS"
+    category: governance
+    path: golden/governance/GOLDEN_ROADMAP_FAST_CONTINUOUS_MAINTENANCE_v1.txt
+    migrated_at: 2026-10-26
+    last_content_reviewed_at: 2026-10-26
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: event_driven_reconciliation
+    title: "Event-Driven Execution + Reconciliation"
+    version: "1"
+    status: "COPY-READY PROCESS"
+    category: governance
+    path: golden/governance/GOLDEN_EVENT_DRIVEN_RECONCILIATION_v1.txt
+    migrated_at: 2026-10-26
+    last_content_reviewed_at: 2026-10-26
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: immutable_build_test_artifact
+    title: "Immutable Build / Test Artifact"
+    version: "1"
+    status: "COPY-READY PROCESS"
+    category: release
+    path: golden/release/GOLDEN_IMMUTABLE_BUILD_TEST_ARTIFACT_v1.txt
+    migrated_at: 2026-10-26
+    last_content_reviewed_at: 2026-10-26
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT

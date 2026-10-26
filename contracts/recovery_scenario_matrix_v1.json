@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "contract_id": "recovery_scenario_matrix_v1",
+  "authority": "ORCHESTRATION_ONLY",
+  "scenarios": [
+    {
+      "id": "EVENT_LOSS",
+      "expected": "WATCHER_OR_RECONCILER_RECOVERS_MISSING_OPERATION"
+    },
+    {
+      "id": "DUPLICATE_DELIVERY",
+      "expected": "DEDUPE_EXISTING_OPERATION"
+    },
+    {
+      "id": "EXECUTOR_OUTAGE",
+      "expected": "HOLD_DURABLE_PENDING"
+    },
+    {
+      "id": "INTERRUPTED_OPERATION",
+      "expected": "RESUME_OR_RECONCILE_DURABLE_OPERATION"
+    },
+    {
+      "id": "COORDINATOR_RESTART",
+      "expected": "RESTORE_DURABLE_STATE"
+    },
+    {
+      "id": "EXPIRED_LEASE",
+      "expected": "REQUEUE_EXPIRED_LEASE"
+    },
+    {
+      "id": "SUPERSEDING_SHA",
+      "expected": "MARK_OR_CANCEL_SUPERSEDED_WORK"
+    },
+    {
+      "id": "WATCHER_RECOVERY",
+      "expected": "RECONCILE_REPOSITORY_HEAD_AND_OPERATION_STATE"
+    }
+  ],
+  "invariants": [
+    "terminal success is never redispatched merely to seek green",
+    "failed attempt remains evidence",
+    "recovery does not mint PASS or CERTIFIED",
+    "fallback remains until separately promoted for removal"
+  ]
+}

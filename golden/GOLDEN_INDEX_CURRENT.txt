@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 20.0 — 25/10/2026
+Versione: 21.0 — 26/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1019,8 +1019,117 @@ Promotion blocker:
 first real backend pilot + Play sandbox verification + RTDN + restore +
 refund/revoke evidence.
 
+
 ======================================================================
-FRESHNESS GOVERNANCE — v20
+40. ROADMAP FAST + CONTINUOUS MAINTENANCE
+======================================================================
+
+File:
+GOLDEN_ROADMAP_FAST_CONTINUOUS_MAINTENANCE_v1.txt
+
+Stato:
+COPY-READY PROCESS
+
+Donor:
+AppLab v5.6 @ 1c117ca5224232db21d047ce376026509b0924a0
+
+Scope:
+- roadmap delivery separata dalla maintenance;
+- small independently mergeable steps;
+- early PR + exact-head validation;
+- BLOCKING_NOW / FIX_CURRENT_STEP / BACKGROUND_MAINTENANCE / FUTURE;
+- idle evidence-only maintenance;
+- no mutation automatica della PR attiva;
+- no authority escalation;
+- pattern recurrence threshold = 3.
+
+Promotion blocker:
+secondo progetto indipendente che riusi il processo con evidence reale prima di
+promuovere a CERTIFIED PROCESS.
+
+======================================================================
+41. EVENT-DRIVEN EXECUTION + RECONCILIATION
+======================================================================
+
+File:
+GOLDEN_EVENT_DRIVEN_RECONCILIATION_v1.txt
+
+Stato:
+COPY-READY PROCESS
+
+Donor:
+AppLab v5.4G + v5.5B @ 1c117ca5224232db21d047ce376026509b0924a0
+
+Scope:
+- authenticated event admission;
+- idempotent operation identity;
+- durable queue/state;
+- watcher/reconciliation indipendente;
+- event loss / duplicate / outage / restart / expired lease / superseding SHA;
+- fail-closed dispatch;
+- GitHub Actions fallback;
+- controlled rollout + kill switch;
+- orchestration authority separata da verification/certification.
+
+Promotion blocker:
+secondo progetto indipendente con recovery evidence reale prima di CERTIFIED
+PROCESS.
+
+======================================================================
+42. IMMUTABLE BUILD / TEST ARTIFACT
+======================================================================
+
+File:
+GOLDEN_IMMUTABLE_BUILD_TEST_ARTIFACT_v1.txt
+
+Stato:
+COPY-READY PROCESS
+
+Donor:
+AppLab canonical runtime fixture @ 1c117ca5224232db21d047ce376026509b0924a0
++ App Factory build-once delivery pattern
+
+Scope:
+- build once -> hash -> manifest -> verify many;
+- source SHA + artifact SHA-256 + size + producer run binding;
+- immutable consumer identity;
+- no rebuild between trusted verification consumers when reuse is valid;
+- invalidation on source/toolchain/build-contract change;
+- same-bytes boundary;
+- runtime evidence != physical/store evidence.
+
+Promotion blocker:
+secondo progetto indipendente che riusi lo stesso artifact in più consumer con
+identity verificata prima di CERTIFIED PROCESS.
+
+======================================================================
+FACTORY AUTOMATION LAYER — v21
+======================================================================
+
+Reusable contracts:
+- contracts/failure_taxonomy_v1.json
+- contracts/maintenance_lanes_v1.json
+- contracts/exact_artifact_manifest_v1.schema.json
+- contracts/rollout_state_v1.json
+- contracts/recovery_scenario_matrix_v1.json
+
+Executable agent playbooks:
+- playbooks/FAST_DELIVERY.json
+- playbooks/FAILURE_TRIAGE.json
+- playbooks/DONOR_PROMOTION.json
+- playbooks/CONTROLLED_ROLLOUT.json
+- playbooks/BUILD_ONCE_VERIFY_MANY.json
+
+Runner:
+python scripts/run_factory_playbook.py --list
+python scripts/run_factory_playbook.py --playbook FAST_DELIVERY --inputs-json '<json>'
+
+The runner materializes the canonical process and checks required inputs.
+It is PROCESS-ONLY: it does not mint PASS/CERTIFIED and does not perform an
+irreversible merge/release by itself.
+
+======================================================================
+FRESHNESS GOVERNANCE — v21
 ======================================================================
 
 Registry v2 distingue:
@@ -1035,7 +1144,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v26.6
+EXISTING GOLDEN HARDENING QUEUE — v26.6 / Index v21
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
@@ -1069,7 +1178,7 @@ CANDIDATI SUCCESSIVI
   Stato: DEFER / SPECIALIZED
 
 ======================================================================
-REGOLE v26.6
+REGOLE v21 / Master v26.6
 ======================================================================
 
 1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt; non hardcodare una versione storica.
@@ -1098,6 +1207,16 @@ REGOLE v26.6
 24. AGENTS.md è un contratto operativo repository-local, non sostituisce Product Bible/Master/Golden.
 25. I bridge tool-specific devono essere pointer/import o derivazioni deterministiche, non authority concorrenti.
 26. Ogni change sostanziale richiede bounded obsolete-code/dependency/asset sweep nel perimetro toccato.
+27. PATTERN-3 RULE: alla terza occorrenza dello stesso pattern o di un pattern
+    materialmente equivalente, eseguire una classificazione esplicita:
+    APP-SPECIFIC | DONOR | FACTORY PROCESS | GOLDEN CANDIDATE.
+    La classificazione non promuove automaticamente il pattern.
+28. FAST DELIVERY: finding non bloccanti non devono essere trascinati nella PR
+    roadmap attiva; vanno nella maintenance lane salvo regressione introdotta dallo
+    step corrente o blocker P0/P1/trust/security/data/artifact.
+29. BUILD ONCE VERIFY MANY: quando più gate possono consumare gli stessi byte,
+    preferire artifact immutabile identificato e verificato rispetto a rebuild
+    duplicati, senza riusare artifact dopo invalidazione del build contract.
 27. Replacement senza valutare la rimozione del superseded path = lavoro incompleto.
 28. La validation pertinente va rieseguita dopo il cleanup finale.
 29. Le istruzioni agentiche ad alto rischio devono acquisire validator/eval quando pratico.

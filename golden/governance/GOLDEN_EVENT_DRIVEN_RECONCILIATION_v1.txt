@@ -1,0 +1,36 @@
+GOLDEN EVENT-DRIVEN EXECUTION + RECONCILIATION
+Versione: 1.0 — 26/10/2026
+Stato: COPY-READY PROCESS
+Donor: AppLab v5.4G + v5.5B @ 1c117ca5224232db21d047ce376026509b0924a0
+Current Master: resolve via CURRENT.yaml
+
+1. SCOPO
+AUTHENTICATED EVENT -> VALIDATION -> IDEMPOTENT OPERATION -> DURABLE STATE/QUEUE
+-> EXECUTOR -> FINALIZATION/EVIDENCE, con watcher/reconciliation indipendente.
+
+2. REGOLE
+- duplicate delivery idempotente;
+- terminal state non redispatchato per cercare verde;
+- event loss recuperabile;
+- executor outage mantiene work durable pending;
+- coordinator restart non perde operation state;
+- expired lease ha recovery deterministico;
+- superseding SHA è esplicito;
+- fallback resta finché una decisione separata non ne autorizza la rimozione.
+
+3. RECOVERY MATRIX
+contracts/recovery_scenario_matrix_v1.json
+Scenari minimi: EVENT_LOSS, DUPLICATE_DELIVERY, EXECUTOR_OUTAGE,
+INTERRUPTED_OPERATION, COORDINATOR_RESTART, EXPIRED_LEASE, SUPERSEDING_SHA,
+WATCHER_RECOVERY.
+
+4. CONTROLLED ROLLOUT
+Canary/pilot piccolo, global kill switch, per-target kill switch quando
+multi-repo, expansion evidence-gated, rollback bounded, fallback/reconciliation.
+
+5. AUTHORITY
+Orchestration decide scheduling, non PASS/CERTIFIED né physical/store reality.
+
+6. PROMOZIONE
+COPY-READY: corpus AppLab v5.4G/v5.5B.
+CERTIFIED: secondo progetto indipendente con recovery evidence reale.

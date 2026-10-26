@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "contract_id": "failure_taxonomy_v1",
+  "authority": "DIAGNOSTIC_ONLY",
+  "classes": {
+    "APP_RUNTIME_FAILURE": {
+      "default_severity": "P1",
+      "retry_policy": "NO_BLIND_RETRY",
+      "action": "FIX_AND_REGRESSION_TEST"
+    },
+    "APP_VISUAL_FAILURE": {
+      "default_severity": "P2",
+      "retry_policy": "NO_BLIND_RETRY",
+      "action": "INSPECT_VISUAL_OR_PRODUCT_CONTRACT"
+    },
+    "BUILD_OR_QUALITY_FAILURE": {
+      "default_severity": "P1",
+      "retry_policy": "NO_BLIND_RETRY",
+      "action": "FIX_ROOT_CAUSE"
+    },
+    "INFRA_ERROR": {
+      "default_severity": "P3",
+      "retry_policy": "SAME_EXACT_HEAD_TARGETED_RETRY_ALLOWED",
+      "action": "PRESERVE_FAILURE_AND_RETRY_TARGETED"
+    },
+    "FLAKY_SUSPECT": {
+      "default_severity": "P3",
+      "retry_policy": "SAME_EXACT_HEAD_TARGETED_RETRY_ALLOWED",
+      "action": "COLLECT_RECURRENCE_EVIDENCE"
+    },
+    "UNKNOWN_FAILURE": {
+      "default_severity": "P2",
+      "retry_policy": "NO_AUTOMATIC_GREEN_SEEKING",
+      "action": "TRIAGE_BEFORE_RETRY"
+    }
+  },
+  "invariants": [
+    "failed attempt remains evidence",
+    "retry must not weaken assertions",
+    "unknown failure is not automatically infrastructure"
+  ]
+}

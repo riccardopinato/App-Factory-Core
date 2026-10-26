@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "contract_id": "rollout_state_v1",
+  "states": [
+    "DISABLED",
+    "CANARY",
+    "PILOT",
+    "EXPANDED",
+    "ALL_COMPATIBLE",
+    "ROLLED_BACK"
+  ],
+  "required_controls": [
+    "enabled",
+    "global_kill_switch",
+    "stage",
+    "eligible_targets",
+    "disabled_targets"
+  ],
+  "promotion_rules": [
+    "promotion is evidence-gated",
+    "global kill switch blocks dispatch",
+    "per-target kill switch blocks only that target",
+    "rollout cannot alter verification/certification authority",
+    "rollback preserves reconciliation/fallback"
+  ],
+  "authority": "ORCHESTRATION_ONLY"
+}
