@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "id": "ADOPT_FACTORY_MODE",
+  "title": "Adopt Factory Mode",
+  "authority": "PROCESS_ONLY",
+  "required_inputs": [
+    "repository",
+    "repo_root"
+  ],
+  "steps": [
+    {
+      "id": "RESOLVE_FACTORY",
+      "action": "Resolve CURRENT.yaml once and load FACTORY_MODE_PROFILE_v1 plus only relevant Golden/process contracts.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": false,
+      "outputs": [
+        "factory_baseline",
+        "profile"
+      ]
+    },
+    {
+      "id": "INSPECT_REPOSITORY",
+      "action": "Inspect the target repository, existing APP_FACTORY_ADOPTION.yaml and current workflow files before any write.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "repo_inventory",
+        "workflow_inventory"
+      ]
+    },
+    {
+      "id": "DRY_RUN",
+      "action": "Run adopt_factory_mode.py without --apply and review the bounded adoption plan.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "adoption_plan"
+      ]
+    },
+    {
+      "id": "PRESERVE_WORKFLOWS",
+      "action": "If custom workflows exist, preserve them and plan only an integration delta; never replace or overwrite them during adoption.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "workflow_integration_plan"
+      ]
+    },
+    {
+      "id": "APPLY_MANIFEST",
+      "action": "Apply or update only APP_FACTORY_ADOPTION.yaml with the canonical profile pointer and per-app overrides.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": false,
+      "outputs": [
+        "adoption_manifest"
+      ]
+    },
+    {
+      "id": "VALIDATE_CONTRACT",
+      "action": "Run validate_factory_adoption.py and require profile/version/workflow-strategy alignment.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "adoption_validation"
+      ]
+    },
+    {
+      "id": "INTEGRATE_MISSING_CAPABILITIES",
+      "action": "Add only missing Factory/AppLab integration capability as a bounded repository change; extend existing workflows when safe or add a separate workflow only when no equivalent exists.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "integration_delta"
+      ]
+    },
+    {
+      "id": "REPOSITORY_VALIDATION",
+      "action": "Run the target repository's focused tests and exact-head gates after any integration delta.",
+      "gate": "EXACT_HEAD_GREEN",
+      "parallel_safe": true,
+      "outputs": [
+        "exact_head_evidence"
+      ]
+    }
+  ],
+  "completion": [
+    "APP_FACTORY_ADOPTION.yaml validates against the current central profile",
+    "existing custom workflows are preserved",
+    "Factory mode is enabled without copying central process rules into the app",
+    "any workflow integration delta is independently tested and exact-head validated"
+  ]
+}

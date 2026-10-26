@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/riccardopinato/App-Factory-Core/schemas/factory_mode_profile.schema.json",
+  "title": "App Factory Mode Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "profile_version",
+    "mode",
+    "delivery",
+    "parallelism",
+    "maintenance",
+    "workflow_integration",
+    "applab",
+    "reuse",
+    "authority"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "profile_id": {
+      "const": "FACTORY_MODE_PROFILE_v1"
+    },
+    "profile_version": {
+      "const": 1
+    },
+    "mode": {
+      "const": "ROADMAP_FAST_PLUS_CONTINUOUS_MAINTENANCE"
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "playbook",
+        "small_independently_mergeable_steps",
+        "open_pr_early",
+        "exact_head_required",
+        "bounded_code_hygiene",
+        "unrelated_maintenance_must_not_expand_active_pr"
+      ],
+      "properties": {
+        "playbook": {
+          "const": "FAST_DELIVERY"
+        },
+        "small_independently_mergeable_steps": {
+          "const": true
+        },
+        "open_pr_early": {
+          "const": true
+        },
+        "exact_head_required": {
+          "const": true
+        },
+        "bounded_code_hygiene": {
+          "const": true
+        },
+        "unrelated_maintenance_must_not_expand_active_pr": {
+          "const": true
+        }
+      }
+    },
+    "parallelism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "prepare_next_independent_step_during_ci",
+        "preserve_dependency_order_for_merge",
+        "active_pr_must_not_be_mutated_by_background_maintenance"
+      ],
+      "properties": {
+        "enabled": {
+          "const": true
+        },
+        "prepare_next_independent_step_during_ci": {
+          "const": true
+        },
+        "preserve_dependency_order_for_merge": {
+          "const": true
+        },
+        "active_pr_must_not_be_mutated_by_background_maintenance": {
+          "const": true
+        }
+      }
+    },
+    "maintenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract",
+        "blocking_lanes",
+        "background_lanes",
+        "idle_policy",
+        "expensive_runtime_requires_event_or_risk_trigger"
+      ],
+      "properties": {
+        "contract": {
+          "const": "contracts/maintenance_lanes_v1.json"
+        },
+        "blocking_lanes": {
+          "const": [
+            "BLOCKING_NOW",
+            "FIX_CURRENT_STEP"
+          ]
+        },
+        "background_lanes": {
+          "const": [
+            "BACKGROUND_MAINTENANCE",
+            "FUTURE"
+          ]
+        },
+        "idle_policy": {
+          "const": "EVIDENCE_ONLY"
+        },
+        "expensive_runtime_requires_event_or_risk_trigger": {
+          "const": true
+        }
+      }
+    },
+    "workflow_integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "overwrite_existing_workflows",
+        "replace_existing_workflows",
+        "inspect_before_change",
+        "add_separate_factory_workflow_only_when_no_equivalent_exists"
+      ],
+      "properties": {
+        "strategy": {
+          "const": "INTEGRATE_PRESERVE_EXISTING"
+        },
+        "overwrite_existing_workflows": {
+          "const": false
+        },
+        "replace_existing_workflows": {
+          "const": false
+        },
+        "inspect_before_change": {
+          "const": true
+        },
+        "add_separate_factory_workflow_only_when_no_equivalent_exists": {
+          "const": true
+        }
+      }
+    },
+    "applab": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "mode",
+        "local_copy_required",
+        "runtime_emulator_is_not_physical_or_store_evidence"
+      ],
+      "properties": {
+        "enabled": {
+          "const": true
+        },
+        "mode": {
+          "const": "CENTRAL"
+        },
+        "local_copy_required": {
+          "const": false
+        },
+        "runtime_emulator_is_not_physical_or_store_evidence": {
+          "const": true
+        }
+      }
+    },
+    "reuse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pattern_recurrence_threshold",
+        "classifications",
+        "auto_promote"
+      ],
+      "properties": {
+        "pattern_recurrence_threshold": {
+          "const": 3
+        },
+        "classifications": {
+          "const": [
+            "APP-SPECIFIC",
+            "DONOR",
+            "FACTORY PROCESS",
+            "GOLDEN CANDIDATE"
+          ]
+        },
+        "auto_promote": {
+          "const": false
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "process_only",
+        "can_mint_pass",
+        "can_mint_certified",
+        "can_reduce_coverage",
+        "can_overwrite_custom_workflows",
+        "can_reinterpret_emulator_as_physical"
+      ],
+      "properties": {
+        "process_only": {
+          "const": true
+        },
+        "can_mint_pass": {
+          "const": false
+        },
+        "can_mint_certified": {
+          "const": false
+        },
+        "can_reduce_coverage": {
+          "const": false
+        },
+        "can_overwrite_custom_workflows": {
+          "const": false
+        },
+        "can_reinterpret_emulator_as_physical": {
+          "const": false
+        }
+      }
+    }
+  }
+}

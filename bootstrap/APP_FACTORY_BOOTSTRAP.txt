@@ -37,3 +37,26 @@ PROMPT CORTO RIUTILIZZABILE
 riccardopinato/App-Factory-Core, poi MASTER_PROMPT_CURRENT, GOLDEN_INDEX_CURRENT
 e solo i Golden pertinenti. Fissa il commit come baseline e non rileggere il
 repo tra gli step salvo mia richiesta o modifica centrale."
+
+
+FACTORY ADOPTION KIT — STANDARD MODE EXPORT
+------------------------------------------
+Per una nuova app o una app esistente che deve adottare la modalità Factory:
+
+1. dry-run:
+   python scripts/adopt_factory_mode.py --repo-root <APP_ROOT> --repository <OWNER/REPO> --json
+2. apply:
+   python scripts/adopt_factory_mode.py --repo-root <APP_ROOT> --repository <OWNER/REPO> --apply
+3. validate:
+   python scripts/validate_factory_adoption.py --repo-root <APP_ROOT>
+4. eseguire il playbook ADOPT_FACTORY_MODE per eventuali delta repository-local.
+
+Regola workflow:
+- rilevare prima i workflow esistenti;
+- integrarli/estenderli quando serve;
+- non sovrascriverli o sostituirli durante l'adozione;
+- aggiungere un workflow Factory separato solo se non esiste capacità equivalente.
+
+Il file locale APP_FACTORY_ADOPTION.yaml è un pointer dichiarativo.
+Le regole canoniche restano in App-Factory-Core/CURRENT.yaml e nel profilo
+adoption/FACTORY_MODE_PROFILE_v1.yaml.

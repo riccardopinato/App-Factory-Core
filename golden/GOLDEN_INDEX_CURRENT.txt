@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 21.0 — 26/10/2026
+Versione: 22.0 — 26/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1103,7 +1103,7 @@ secondo progetto indipendente che riusi lo stesso artifact in più consumer con
 identity verificata prima di CERTIFIED PROCESS.
 
 ======================================================================
-FACTORY AUTOMATION LAYER — v21
+FACTORY AUTOMATION LAYER — v22
 ======================================================================
 
 Reusable contracts:
@@ -1119,6 +1119,7 @@ Executable agent playbooks:
 - playbooks/DONOR_PROMOTION.json
 - playbooks/CONTROLLED_ROLLOUT.json
 - playbooks/BUILD_ONCE_VERIFY_MANY.json
+- playbooks/ADOPT_FACTORY_MODE.json
 
 Runner:
 python scripts/run_factory_playbook.py --list
@@ -1129,7 +1130,37 @@ It is PROCESS-ONLY: it does not mint PASS/CERTIFIED and does not perform an
 irreversible merge/release by itself.
 
 ======================================================================
-FRESHNESS GOVERNANCE — v21
+FACTORY ADOPTION KIT — v22
+======================================================================
+
+Canonical profile:
+- adoption/FACTORY_MODE_PROFILE_v1.yaml
+
+Per-app pointer manifest:
+- adoption/APP_FACTORY_ADOPTION.yaml
+- target repository filename: APP_FACTORY_ADOPTION.yaml
+
+Automation:
+- scripts/adopt_factory_mode.py
+- scripts/validate_factory_adoption.py
+- schemas/factory_mode_profile.schema.json
+- schemas/factory_adoption.schema.json
+- playbooks/ADOPT_FACTORY_MODE.json
+
+Adoption contract:
+- dry-run by default;
+- idempotent manifest apply/update;
+- central profile remains in App-Factory-Core;
+- app repository keeps only a small pointer + app_overrides;
+- existing .github/workflows are inspected and preserved;
+- integrate/extend existing workflows before adding another workflow;
+- NEVER overwrite or replace custom workflows as part of adoption;
+- AppLab remains central; no local copy of the AppLab engine is required;
+- workflow integration changes remain ordinary repository changes and require
+  focused validation + exact-head gates.
+
+======================================================================
+FRESHNESS GOVERNANCE — v22
 ======================================================================
 
 Registry v2 distingue:

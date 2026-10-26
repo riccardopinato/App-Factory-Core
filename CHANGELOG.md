@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-26 — Factory Adoption Kit / Golden Index v22
+
+- Added `adoption/FACTORY_MODE_PROFILE_v1.yaml` as the canonical central profile for Roadmap Fast + Continuous Maintenance adoption.
+- Added the tiny per-app `APP_FACTORY_ADOPTION.yaml` pointer template.
+- Added `adopt_factory_mode.py`: dry-run by default, idempotent apply/update, and no writes to existing GitHub workflow files.
+- Added `validate_factory_adoption.py` plus JSON/YAML schemas for profile and per-app adoption contracts.
+- Added the PROCESS_ONLY `ADOPT_FACTORY_MODE` playbook for new or existing repositories.
+- Codified the fallback rule: inspect and preserve custom workflows; integrate/extend before adding a separate workflow; never overwrite or replace existing workflows as part of adoption.
+- Added validator v5 smoke coverage proving dry-run, apply, validation, idempotence and byte-for-byte preservation of an existing custom workflow.
+- Bumped Golden Index v21 -> v22; Master remains v26.6.
+
 ## 2026-10-26 — Factory Automation Layer / Golden Index v21
 
 - Added Roadmap Fast + Continuous Maintenance as COPY-READY PROCESS from AppLab v5.6.
