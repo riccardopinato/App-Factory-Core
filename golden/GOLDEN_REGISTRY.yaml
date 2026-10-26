@@ -1,7 +1,7 @@
 registry_version: 2
-updated_at: 2026-10-25
+updated_at: 2026-10-26
 master_version: "26.6"
-index_version: 21
+index_version: 22
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"

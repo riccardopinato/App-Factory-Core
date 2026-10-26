@@ -2,7 +2,7 @@
 from __future__ import annotations
 from datetime import date, datetime
 from pathlib import Path
-import json, re, sys, subprocess
+import json, re, sys, subprocess, tempfile
 import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -208,7 +208,7 @@ for gid in ("agent_governance","code_hygiene"):
                     fail(f"{gid} Golden missing required contract token: {token}")
 
 
-# Factory automation layer v21.
+# Factory automation layer v22.
 for path in [
     "contracts/failure_taxonomy_v1.json",
     "contracts/maintenance_lanes_v1.json",
@@ -225,6 +225,7 @@ for path in [
     "playbooks/DONOR_PROMOTION.json",
     "playbooks/CONTROLLED_ROLLOUT.json",
     "playbooks/BUILD_ONCE_VERIFY_MANY.json",
+    "playbooks/ADOPT_FACTORY_MODE.json",
 ]:
     data=load_json(path)
     if playbook_schema and data:
@@ -267,7 +268,7 @@ if runner.exists():
     if smoke.returncode!=0:
         fail(f"Factory playbook runner --list failed: {smoke.stderr.strip()}")
     else:
-        for playbook_id in ("FAST_DELIVERY","FAILURE_TRIAGE","DONOR_PROMOTION","CONTROLLED_ROLLOUT","BUILD_ONCE_VERIFY_MANY"):
+        for playbook_id in ("FAST_DELIVERY","FAILURE_TRIAGE","DONOR_PROMOTION","CONTROLLED_ROLLOUT","BUILD_ONCE_VERIFY_MANY","ADOPT_FACTORY_MODE"):
             if playbook_id not in smoke.stdout:
                 fail(f"Factory playbook runner --list missing {playbook_id}")
     ready=subprocess.run(
@@ -293,6 +294,117 @@ if runner.exists():
             if ready_payload.get("authority")!="PROCESS_ONLY":
                 fail("Factory playbook runner READY smoke authority drift")
 
+
+# Factory Adoption Kit v1.
+profile=load_yaml("adoption/FACTORY_MODE_PROFILE_v1.yaml")
+schema_validate(profile,"schemas/factory_mode_profile.schema.json","FACTORY_MODE_PROFILE_v1.yaml")
+adoption_template=load_yaml("adoption/APP_FACTORY_ADOPTION.yaml")
+adoption_schema=load_json("schemas/factory_adoption.schema.json")
+if adoption_schema and adoption_template:
+    v=Draft202012Validator(adoption_schema,format_checker=FormatChecker())
+    for e in sorted(v.iter_errors(adoption_template),key=lambda x:list(x.path)):
+        loc=".".join(str(x) for x in e.path) or "<root>"
+        fail(f"adoption/APP_FACTORY_ADOPTION.yaml schema violation at {loc}: {e.message}")
+
+if (profile.get("workflow_integration") or {}).get("strategy")!="INTEGRATE_PRESERVE_EXISTING":
+    fail("Factory mode profile must preserve/integrate existing workflows")
+if (profile.get("workflow_integration") or {}).get("overwrite_existing_workflows") is not False:
+    fail("Factory mode profile must forbid workflow overwrite")
+if (profile.get("workflow_integration") or {}).get("replace_existing_workflows") is not False:
+    fail("Factory mode profile must forbid workflow replacement")
+if (profile.get("authority") or {}).get("can_overwrite_custom_workflows") is not False:
+    fail("Factory mode authority drift: custom workflow overwrite enabled")
+
+for path in ("scripts/adopt_factory_mode.py","scripts/validate_factory_adoption.py"):
+    p=req(path)
+    if p.exists():
+        text_value=p.read_text(encoding="utf-8")
+        try:
+            compile(text_value,path,"exec")
+        except SyntaxError as e:
+            fail(f"{path} syntax error: {e}")
+
+adopter=req("scripts/adopt_factory_mode.py")
+adoption_validator=req("scripts/validate_factory_adoption.py")
+if adopter.exists() and adoption_validator.exists():
+    with tempfile.TemporaryDirectory(prefix="factory-adoption-") as tmp:
+        repo_root=Path(tmp)
+        workflows=repo_root/".github"/"workflows"
+        workflows.mkdir(parents=True)
+        custom=workflows/"custom.yml"
+        custom_bytes=b"name: Custom\non: [push]\njobs: {}\n"
+        custom.write_bytes(custom_bytes)
+
+        dry=subprocess.run(
+            [
+                sys.executable,str(adopter),
+                "--repo-root",str(repo_root),
+                "--repository","owner/sample",
+                "--json",
+            ],
+            cwd=ROOT,capture_output=True,text=True,check=False,
+        )
+        if dry.returncode!=0:
+            fail(f"Factory adoption dry-run failed: {dry.stderr.strip()}")
+        else:
+            try: dry_payload=json.loads(dry.stdout)
+            except json.JSONDecodeError as e: fail(f"Factory adoption dry-run invalid JSON: {e}")
+            else:
+                if dry_payload.get("workflow_action")!="PRESERVE_EXISTING_AND_INTEGRATE":
+                    fail("Factory adoption dry-run did not preserve existing workflow")
+                if (repo_root/"APP_FACTORY_ADOPTION.yaml").exists():
+                    fail("Factory adoption dry-run wrote the manifest")
+
+        apply1=subprocess.run(
+            [
+                sys.executable,str(adopter),
+                "--repo-root",str(repo_root),
+                "--repository","owner/sample",
+                "--apply","--json",
+            ],
+            cwd=ROOT,capture_output=True,text=True,check=False,
+        )
+        if apply1.returncode!=0:
+            fail(f"Factory adoption apply failed: {apply1.stderr.strip()}")
+        manifest_path=repo_root/"APP_FACTORY_ADOPTION.yaml"
+        first_manifest=manifest_path.read_bytes() if manifest_path.is_file() else b""
+        if not first_manifest:
+            fail("Factory adoption apply did not create APP_FACTORY_ADOPTION.yaml")
+        if custom.read_bytes()!=custom_bytes:
+            fail("Factory adoption modified an existing custom workflow")
+
+        check=subprocess.run(
+            [sys.executable,str(adoption_validator),"--repo-root",str(repo_root),"--json"],
+            cwd=ROOT,capture_output=True,text=True,check=False,
+        )
+        if check.returncode!=0:
+            fail(f"Factory adoption validator smoke failed: {check.stderr.strip()} {check.stdout.strip()}")
+        else:
+            try: check_payload=json.loads(check.stdout)
+            except json.JSONDecodeError as e: fail(f"Factory adoption validator smoke invalid JSON: {e}")
+            else:
+                if check_payload.get("aligned") is not True:
+                    fail("Factory adoption validator smoke did not report aligned=true")
+                if check_payload.get("workflow_overwrite_allowed") is not False:
+                    fail("Factory adoption validator allowed workflow overwrite")
+
+        apply2=subprocess.run(
+            [
+                sys.executable,str(adopter),
+                "--repo-root",str(repo_root),
+                "--repository","owner/sample",
+                "--apply","--json",
+            ],
+            cwd=ROOT,capture_output=True,text=True,check=False,
+        )
+        if apply2.returncode!=0:
+            fail(f"Factory adoption second apply failed: {apply2.stderr.strip()}")
+        second_manifest=manifest_path.read_bytes() if manifest_path.is_file() else b""
+        if first_manifest!=second_manifest:
+            fail("Factory adoption is not idempotent")
+        if custom.read_bytes()!=custom_bytes:
+            fail("Factory adoption second apply modified an existing custom workflow")
+
 secret_patterns={
  "private key":re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
  "OpenAI project key":re.compile(r"sk-proj-[A-Za-z0-9_-]{20,}"),
@@ -311,4 +423,4 @@ if errors:
     print("APP FACTORY VALIDATION: FAIL")
     for e in errors: print("-",e)
     sys.exit(1)
-print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v4)")
+print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v5)")

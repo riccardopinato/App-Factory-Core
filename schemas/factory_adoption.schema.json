@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/riccardopinato/App-Factory-Core/schemas/factory_adoption.schema.json",
+  "title": "Per-app App Factory adoption manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "repository",
+    "factory",
+    "workflow_integration",
+    "applab",
+    "app_overrides"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+    },
+    "factory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_repository",
+        "resolver",
+        "profile_path",
+        "profile_version"
+      ],
+      "properties": {
+        "source_repository": {
+          "const": "riccardopinato/App-Factory-Core"
+        },
+        "resolver": {
+          "const": "CURRENT.yaml"
+        },
+        "profile_path": {
+          "const": "adoption/FACTORY_MODE_PROFILE_v1.yaml"
+        },
+        "profile_version": {
+          "const": 1
+        }
+      }
+    },
+    "workflow_integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "overwrite_existing"
+      ],
+      "properties": {
+        "strategy": {
+          "const": "INTEGRATE_PRESERVE_EXISTING"
+        },
+        "overwrite_existing": {
+          "const": false
+        }
+      }
+    },
+    "applab": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "mode"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "mode": {
+          "const": "CENTRAL"
+        }
+      }
+    },
+    "app_overrides": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+schema_version: 1
+profile_id: FACTORY_MODE_PROFILE_v1
+profile_version: 1
+mode: ROADMAP_FAST_PLUS_CONTINUOUS_MAINTENANCE
+
+delivery:
+  playbook: FAST_DELIVERY
+  small_independently_mergeable_steps: true
+  open_pr_early: true
+  exact_head_required: true
+  bounded_code_hygiene: true
+  unrelated_maintenance_must_not_expand_active_pr: true
+
+parallelism:
+  enabled: true
+  prepare_next_independent_step_during_ci: true
+  preserve_dependency_order_for_merge: true
+  active_pr_must_not_be_mutated_by_background_maintenance: true
+
+maintenance:
+  contract: contracts/maintenance_lanes_v1.json
+  blocking_lanes:
+    - BLOCKING_NOW
+    - FIX_CURRENT_STEP
+  background_lanes:
+    - BACKGROUND_MAINTENANCE
+    - FUTURE
+  idle_policy: EVIDENCE_ONLY
+  expensive_runtime_requires_event_or_risk_trigger: true
+
+workflow_integration:
+  strategy: INTEGRATE_PRESERVE_EXISTING
+  overwrite_existing_workflows: false
+  replace_existing_workflows: false
+  inspect_before_change: true
+  add_separate_factory_workflow_only_when_no_equivalent_exists: true
+
+applab:
+  enabled: true
+  mode: CENTRAL
+  local_copy_required: false
+  runtime_emulator_is_not_physical_or_store_evidence: true
+
+reuse:
+  pattern_recurrence_threshold: 3
+  classifications:
+    - APP-SPECIFIC
+    - DONOR
+    - FACTORY PROCESS
+    - GOLDEN CANDIDATE
+  auto_promote: false
+
+authority:
+  process_only: true
+  can_mint_pass: false
+  can_mint_certified: false
+  can_reduce_coverage: false
+  can_overwrite_custom_workflows: false
+  can_reinterpret_emulator_as_physical: false
