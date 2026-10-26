@@ -2,7 +2,7 @@
 from __future__ import annotations
 from datetime import date, datetime
 from pathlib import Path
-import json, re, sys
+import json, re, sys, subprocess
 import yaml
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -256,6 +256,42 @@ if runner.exists():
     rt=runner.read_text(encoding="utf-8")
     for token in ("PROCESS_ONLY","--playbook","--inputs-json","missing_inputs"):
         if token not in rt: fail(f"Factory playbook runner missing required token: {token}")
+    try:
+        compile(rt, "scripts/run_factory_playbook.py", "exec")
+    except SyntaxError as e:
+        fail(f"Factory playbook runner syntax error: {e}")
+    smoke=subprocess.run(
+        [sys.executable, str(runner), "--list"],
+        cwd=ROOT, capture_output=True, text=True, check=False,
+    )
+    if smoke.returncode!=0:
+        fail(f"Factory playbook runner --list failed: {smoke.stderr.strip()}")
+    else:
+        for playbook_id in ("FAST_DELIVERY","FAILURE_TRIAGE","DONOR_PROMOTION","CONTROLLED_ROLLOUT","BUILD_ONCE_VERIFY_MANY"):
+            if playbook_id not in smoke.stdout:
+                fail(f"Factory playbook runner --list missing {playbook_id}")
+    ready=subprocess.run(
+        [
+            sys.executable, str(runner),
+            "--playbook","FAST_DELIVERY",
+            "--inputs-json",
+            '{"repository":"owner/repo","baseline_sha":"0123456789012345678901234567890123456789","authorized_scope":"step"}',
+            "--json",
+        ],
+        cwd=ROOT, capture_output=True, text=True, check=False,
+    )
+    if ready.returncode!=0:
+        fail(f"Factory playbook runner READY smoke failed: {ready.stderr.strip()}")
+    else:
+        try:
+            ready_payload=json.loads(ready.stdout)
+        except json.JSONDecodeError as e:
+            fail(f"Factory playbook runner READY smoke invalid JSON: {e}")
+        else:
+            if ready_payload.get("ready") is not True:
+                fail("Factory playbook runner READY smoke did not report ready=true")
+            if ready_payload.get("authority")!="PROCESS_ONLY":
+                fail("Factory playbook runner READY smoke authority drift")
 
 secret_patterns={
  "private key":re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
