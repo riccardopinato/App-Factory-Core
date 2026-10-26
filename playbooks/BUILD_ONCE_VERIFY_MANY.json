@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "BUILD_ONCE_VERIFY_MANY",
+  "title": "Build Once Verify Many",
+  "authority": "PROCESS_ONLY",
+  "required_inputs": [
+    "repository",
+    "source_sha",
+    "build_contract_fingerprint"
+  ],
+  "steps": [
+    {
+      "id": "BUILD",
+      "action": "Build canonical artifact once from exact source/build contract.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": false,
+      "outputs": [
+        "artifact"
+      ]
+    },
+    {
+      "id": "HASH",
+      "action": "Compute SHA-256 and size; create exact-artifact manifest.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": true,
+      "outputs": [
+        "manifest"
+      ]
+    },
+    {
+      "id": "PUBLISH",
+      "action": "Publish immutable artifact + manifest with bounded retention.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "artifact_ref"
+      ]
+    },
+    {
+      "id": "CONSUME",
+      "action": "Each verifier checks source/build/artifact identity before reuse.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "consumer_evidence"
+      ]
+    },
+    {
+      "id": "INVALIDATE",
+      "action": "Rebuild when source/toolchain/build-contract/signing identity invalidates reuse.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "reuse_decision"
+      ]
+    }
+  ],
+  "completion": [
+    "same bytes verified by all compatible consumers",
+    "no invalid reuse",
+    "evidence boundaries preserved"
+  ]
+}

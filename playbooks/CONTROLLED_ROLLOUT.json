@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "CONTROLLED_ROLLOUT",
+  "title": "Controlled Rollout",
+  "authority": "PROCESS_ONLY",
+  "required_inputs": [
+    "capability",
+    "baseline_state",
+    "eligible_targets"
+  ],
+  "steps": [
+    {
+      "id": "CONTROLS",
+      "action": "Define global/per-target kill switches and rollback path.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "controls"
+      ]
+    },
+    {
+      "id": "CANARY",
+      "action": "Enable self/canary target only and collect evidence.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": true,
+      "outputs": [
+        "canary_evidence"
+      ]
+    },
+    {
+      "id": "PILOT",
+      "action": "Expand to bounded pilot only if promotion criteria pass.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "pilot_state"
+      ]
+    },
+    {
+      "id": "EXPAND",
+      "action": "Expand compatible targets in bounded stages; preserve fallback/reconciliation.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "expanded_state"
+      ]
+    },
+    {
+      "id": "ROLLBACK_PROOF",
+      "action": "Prove kill switch/rollback without changing verifier/certification authority.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": true,
+      "outputs": [
+        "rollback_evidence"
+      ]
+    }
+  ],
+  "completion": [
+    "rollout evidence-gated",
+    "kill switches proven",
+    "fallback/reconciliation preserved"
+  ]
+}

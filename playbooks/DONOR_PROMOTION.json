@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "id": "DONOR_PROMOTION",
+  "title": "Donor Promotion",
+  "authority": "PROCESS_ONLY",
+  "required_inputs": [
+    "pattern_name",
+    "occurrence_count",
+    "source_refs"
+  ],
+  "steps": [
+    {
+      "id": "PATTERN3",
+      "action": "If occurrence_count >= 3 classify APP-SPECIFIC | DONOR | FACTORY PROCESS | GOLDEN CANDIDATE.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": true,
+      "outputs": [
+        "classification"
+      ]
+    },
+    {
+      "id": "PROVENANCE",
+      "action": "Freeze repo/ref/path/license/provenance for each donor.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "provenance"
+      ]
+    },
+    {
+      "id": "GENERALIZE",
+      "action": "Separate invariant contract from app-specific details.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "generalized_contract"
+      ]
+    },
+    {
+      "id": "CONTRACT_TEST",
+      "action": "Add deterministic contract/self-test where practical.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "contract_evidence"
+      ]
+    },
+    {
+      "id": "PILOT",
+      "action": "Run real pilot(s); require independent evidence before CERTIFIED when applicable.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": true,
+      "outputs": [
+        "pilot_evidence"
+      ]
+    },
+    {
+      "id": "PROMOTE",
+      "action": "Update status only to the evidence-supported level.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": false,
+      "outputs": [
+        "status"
+      ]
+    }
+  ],
+  "completion": [
+    "no auto-promotion from recurrence alone",
+    "provenance recorded",
+    "status matches evidence"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/riccardopinato/App-Factory-Core/contracts/exact_artifact_manifest_v1.schema.json",
+  "title": "App Factory Exact Artifact Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "repository",
+    "source_sha",
+    "artifact_type",
+    "artifact_sha256",
+    "artifact_size",
+    "producer",
+    "build_contract_fingerprint",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "repository": {
+      "type": "string",
+      "minLength": 3
+    },
+    "source_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "APK",
+        "AAB",
+        "WEB_BUNDLE",
+        "TEST_FIXTURE",
+        "OTHER"
+      ]
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifact_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "logical_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow",
+        "run_id",
+        "run_attempt"
+      ],
+      "properties": {
+        "workflow": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_attempt": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "build_command": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "build_contract_fingerprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "toolchain_fingerprint": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

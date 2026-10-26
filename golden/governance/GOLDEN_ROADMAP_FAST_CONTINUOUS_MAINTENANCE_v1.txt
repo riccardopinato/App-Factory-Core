@@ -1,0 +1,51 @@
+GOLDEN ROADMAP FAST + CONTINUOUS MAINTENANCE
+Versione: 1.0 — 26/10/2026
+Stato: COPY-READY PROCESS
+Donor: AppLab v5.6 @ 1c117ca5224232db21d047ce376026509b0924a0
+Current Master: resolve via CURRENT.yaml
+
+1. SCOPO
+Velocizzare la progressione delle app separando delivery roadmap e manutenzione
+continua senza indebolire trust boundary, test o release authority.
+
+2. ROADMAP_FAST
+baseline reale -> scope piccolo -> minimo preflight -> implementazione ->
+bounded code hygiene -> test focalizzati -> PR presto -> exact-head gates ->
+fix dei soli blocker -> merge.
+
+Non trascinare automaticamente debito o miglioramenti non bloccanti nella PR.
+
+3. CONTINUOUS_MAINTENANCE
+Lane canoniche:
+- BLOCKING_NOW;
+- FIX_CURRENT_STEP;
+- BACKGROUND_MAINTENANCE;
+- FUTURE.
+
+Solo le prime due bloccano il delivery corrente. Idle/background preferisce
+history/evidence già prodotte e non avvia runtime costosi senza trigger.
+
+4. BLOCKER CONTRACT
+BLOCKING_NOW almeno per P0/P1, trust-boundary violation, false PASS, artifact
+identity mismatch, data loss e critical security.
+FIX_CURRENT_STEP per regressioni materialmente introdotte dallo step corrente.
+
+5. PATTERN-3 RULE
+Alla TERZA occorrenza dello stesso pattern o di un pattern materialmente
+equivalente valutare:
+APP-SPECIFIC | DONOR | FACTORY PROCESS | GOLDEN CANDIDATE.
+La terza occorrenza non certifica nulla automaticamente.
+
+6. AUTHORITY
+Questo processo non può mintare PASS/CERTIFIED, ridurre coverage da solo,
+cambiare artifact identity, reinterpretare emulator evidence come physical/store
+evidence o bypassare Product Bible/Roadmap/Master/Golden.
+
+7. CONTRACT / PLAYBOOK
+contracts/maintenance_lanes_v1.json
+playbooks/FAST_DELIVERY.json
+playbooks/DONOR_PROMOTION.json
+
+8. PROMOZIONE
+COPY-READY: donor AppLab v5.6.
+CERTIFIED: secondo progetto indipendente con evidence reale del processo.

@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "id": "FAST_DELIVERY",
+  "title": "Fast Delivery",
+  "authority": "PROCESS_ONLY",
+  "required_inputs": [
+    "repository",
+    "baseline_sha",
+    "authorized_scope"
+  ],
+  "steps": [
+    {
+      "id": "BASELINE",
+      "action": "Resolve repository/Factory baseline and scope truth.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": false,
+      "outputs": [
+        "baseline"
+      ]
+    },
+    {
+      "id": "BRANCH",
+      "action": "Create one bounded branch for the step.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": false,
+      "outputs": [
+        "branch"
+      ]
+    },
+    {
+      "id": "PREFLIGHT",
+      "action": "Run minimum risk-based preflight and load only relevant contracts.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "preflight"
+      ]
+    },
+    {
+      "id": "IMPLEMENT",
+      "action": "Implement only the authorized behavior.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "change"
+      ]
+    },
+    {
+      "id": "HYGIENE",
+      "action": "Perform bounded obsolete/dependency/asset sweep.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "clean_tree"
+      ]
+    },
+    {
+      "id": "FOCUSED_VALIDATION",
+      "action": "Run validation covering the real blast radius.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "validation"
+      ]
+    },
+    {
+      "id": "OPEN_PR_EARLY",
+      "action": "Open PR without importing unrelated maintenance findings.",
+      "gate": "NONE",
+      "parallel_safe": true,
+      "outputs": [
+        "pr"
+      ]
+    },
+    {
+      "id": "EXACT_HEAD",
+      "action": "Validate required gates on the exact PR head.",
+      "gate": "EXACT_HEAD_GREEN",
+      "parallel_safe": true,
+      "outputs": [
+        "exact_head_evidence"
+      ]
+    },
+    {
+      "id": "MERGE",
+      "action": "Merge only if mergeable and no blocking review/user gate remains.",
+      "gate": "EXACT_HEAD_GREEN",
+      "parallel_safe": false,
+      "outputs": [
+        "merge_sha"
+      ]
+    }
+  ],
+  "completion": [
+    "requested behavior merged or BLOCKED",
+    "no unrelated maintenance scope absorbed",
+    "completion claims evidence-backed"
+  ]
+}

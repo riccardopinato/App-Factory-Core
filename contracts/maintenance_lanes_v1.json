@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "contract_id": "maintenance_lanes_v1",
+  "mode": "ROADMAP_FAST_PLUS_CONTINUOUS_MAINTENANCE",
+  "lanes": {
+    "BLOCKING_NOW": {
+      "blocks_roadmap": true,
+      "criteria": [
+        "P0",
+        "P1",
+        "TRUST_BOUNDARY",
+        "FALSE_PASS",
+        "ARTIFACT_IDENTITY",
+        "DATA_LOSS",
+        "CRITICAL_SECURITY"
+      ]
+    },
+    "FIX_CURRENT_STEP": {
+      "blocks_roadmap": true,
+      "criteria": [
+        "PROVEN_INTRODUCED_BY_CURRENT_STEP"
+      ]
+    },
+    "BACKGROUND_MAINTENANCE": {
+      "blocks_roadmap": false,
+      "criteria": [
+        "TECH_DEBT",
+        "FLAKINESS",
+        "DIAGNOSTICS",
+        "NON_BLOCKING_REGRESSION"
+      ]
+    },
+    "FUTURE": {
+      "blocks_roadmap": false,
+      "criteria": [
+        "OPTIONAL_REFACTOR",
+        "PRODUCT_OPPORTUNITY",
+        "ADVISORY_IDEA"
+      ]
+    }
+  },
+  "pattern_recurrence": {
+    "threshold": 3,
+    "classifications": [
+      "APP-SPECIFIC",
+      "DONOR",
+      "FACTORY PROCESS",
+      "GOLDEN CANDIDATE"
+    ],
+    "auto_promote": false
+  },
+  "authority": {
+    "can_mint_pass": false,
+    "can_mint_certified": false,
+    "can_reduce_coverage": false,
+    "can_mutate_active_roadmap_pr": false,
+    "can_reinterpret_emulator_as_physical": false
+  }
+}

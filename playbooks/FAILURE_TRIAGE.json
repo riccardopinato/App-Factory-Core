@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "FAILURE_TRIAGE",
+  "title": "Failure Triage",
+  "authority": "PROCESS_ONLY",
+  "required_inputs": [
+    "repository",
+    "exact_head_sha",
+    "failure_evidence"
+  ],
+  "steps": [
+    {
+      "id": "PRESERVE",
+      "action": "Preserve failed attempt and exact identity.",
+      "gate": "EVIDENCE_REQUIRED",
+      "parallel_safe": true,
+      "outputs": [
+        "failure_record"
+      ]
+    },
+    {
+      "id": "CLASSIFY",
+      "action": "Classify with failure_taxonomy_v1.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "failure_class"
+      ]
+    },
+    {
+      "id": "DECIDE",
+      "action": "Choose fix, targeted same-head retry, or investigation; never blind green-seeking.",
+      "gate": "STOP_ON_BLOCKER",
+      "parallel_safe": true,
+      "outputs": [
+        "triage_decision"
+      ]
+    },
+    {
+      "id": "REGRESSION",
+      "action": "For product defects add focused regression coverage when practical.",
+      "gate": "STOP_ON_FAILURE",
+      "parallel_safe": true,
+      "outputs": [
+        "regression_evidence"
+      ]
+    },
+    {
+      "id": "REVALIDATE",
+      "action": "Revalidate final exact head without weakening assertions.",
+      "gate": "EXACT_HEAD_GREEN",
+      "parallel_safe": true,
+      "outputs": [
+        "final_evidence"
+      ]
+    }
+  ],
+  "completion": [
+    "failure classified",
+    "failed evidence retained",
+    "retry/fix decision justified"
+  ]
+}
