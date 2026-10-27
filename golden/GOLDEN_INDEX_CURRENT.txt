@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 22.0 — 26/10/2026
+Versione: 23.0 — 27/10/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1102,8 +1102,102 @@ Promotion blocker:
 secondo progetto indipendente che riusi lo stesso artifact in più consumer con
 identity verificata prima di CERTIFIED PROCESS.
 
+
 ======================================================================
-FACTORY AUTOMATION LAYER — v22
+43. CAPABILITY HARVEST / MULTI-DONOR ASSEMBLY
+======================================================================
+
+File:
+GOLDEN_CAPABILITY_HARVEST_ASSEMBLY_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — MULTI-DONOR PILOT
+
+Donor/pilot:
+Phone Guard @ aad8f9e44361380d554e9cebfa58810d2e1b3931
+from Tabletop Motion Alarm + Pocket Guard/Pockara.
+
+Scope:
+- capability-level scoring, not whole-project scoring;
+- PRESERVE / IMPORT / REBUILD / DROP;
+- no merge-by-accumulation;
+- one authoritative owner per responsibility;
+- regression-protected mature core;
+- standalone target repo when donor products remain independent;
+- provenance + adaptation delta.
+
+======================================================================
+44. SENSOR FUSION ANDROID
+======================================================================
+
+File:
+GOLDEN_SENSOR_FUSION_ANDROID_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — SPECIALIZED
+
+Donor:
+Pocket Guard + Tabletop Motion Alarm + Phone Guard integration pilot.
+
+Scope:
+- accelerometer / gyroscope / proximity / light;
+- capability gating;
+- adaptive sampling;
+- calibration/noise profile;
+- hysteresis and confirmation windows;
+- bounded confidence scoring;
+- owner-check transition;
+- false-positive control;
+- physical-device validation.
+
+======================================================================
+45. ANDROID ALARM ESCALATION
+======================================================================
+
+File:
+GOLDEN_ANDROID_ALARM_ESCALATION_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — PHYSICAL QA PENDING
+
+Donor:
+Tabletop Motion Alarm + Phone Guard.
+Pattern input: Luminous Circle source archive, provenance not yet pinned to a
+canonical repository commit.
+
+Scope:
+- siren / vibration / LED strobe;
+- configurable flash frequency;
+- target alarm volume + restore;
+- red WARNING screen;
+- temporary window brightness;
+- guaranteed cleanup;
+- DND/OEM/background-launch truth boundary.
+
+======================================================================
+46. ANDROID LOCAL PIN VERIFIER / KEYSTORE
+======================================================================
+
+File:
+GOLDEN_ANDROID_LOCAL_PIN_VERIFIER_KEYSTORE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — ANDROID ONLY
+
+Donor:
+Tabletop Motion Alarm + Pocket Guard/Pockara + Phone Guard combined pattern.
+
+Scope:
+- PBKDF2WithHmacSHA256;
+- random salt;
+- AndroidKeyStore HMAC hardening;
+- constant-time verification;
+- no raw PIN persistence;
+- restore/reinstall fail-closed boundary;
+- biometric authentication kept separate.
+
+======================================================================
+FACTORY AUTOMATION LAYER — v23
 ======================================================================
 
 Reusable contracts:
@@ -1130,7 +1224,7 @@ It is PROCESS-ONLY: it does not mint PASS/CERTIFIED and does not perform an
 irreversible merge/release by itself.
 
 ======================================================================
-FACTORY ADOPTION KIT — v22
+FACTORY ADOPTION KIT — v23
 ======================================================================
 
 Canonical profile:
@@ -1160,7 +1254,7 @@ Adoption contract:
   focused validation + exact-head gates.
 
 ======================================================================
-FRESHNESS GOVERNANCE — v22
+FRESHNESS GOVERNANCE — v23
 ======================================================================
 
 Registry v2 distingue:
@@ -1175,7 +1269,7 @@ I Golden provider-sensitive senza verifica corrente sono NEEDS_REVIEW anche se
 sono stati importati nel Core il 09/10/2026.
 
 ======================================================================
-EXISTING GOLDEN HARDENING QUEUE — v26.6 / Index v21
+EXISTING GOLDEN HARDENING QUEUE — v26.6 / Index v23
 ======================================================================
 
 Da auditare per futura v2, senza retrocedere automaticamente lo stato corrente:
@@ -1204,12 +1298,8 @@ CANDIDATI SUCCESSIVI
   Donor: TrailPath + CamperBoss
   Stato: DEFER / SPECIALIZED
 
-- GOLDEN_SENSOR_FUSION_ANDROID_v1
-  Donor: Pocket Guard + Tabletop Motion Alarm
-  Stato: DEFER / SPECIALIZED
-
 ======================================================================
-REGOLE v21 / Master v26.6
+REGOLE v23 / Master v26.6
 ======================================================================
 
 1. Master Prompt operativo: risolvere CURRENT.yaml -> master/MASTER_PROMPT_CURRENT.txt; non hardcodare una versione storica.
