@@ -1,0 +1,180 @@
+GOLDEN ANDROID ALARM ESCALATION
+Versione draft: 0.1 — 27/10/2026
+Stato: DRAFT / CANDIDATE — PHYSICAL QA PENDING
+Current Master: resolve via CURRENT.yaml
+
+Primary donors:
+- Tabletop Motion Alarm alarm outputs @ 9e67bcbd84e8add7d183349644d3f6f6bbe9ffe0;
+- Phone Guard integration pilot @ aad8f9e44361380d554e9cebfa58810d2e1b3931;
+- Luminous Circle user-provided source archive as unpinned pattern input.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Separare il rilevamento dell'evento dalla risposta deterrente.
+
+Detector decides TRIGGER.
+Alarm Escalation Layer decides HOW TO ESCALATE.
+
+Output supportati:
+- siren;
+- vibration;
+- LED strobe;
+- target alarm volume;
+- high-visibility warning screen;
+- temporary screen-brightness escalation.
+
+======================================================================
+2. SINGLE OUTPUT OWNER
+======================================================================
+
+Un solo AlarmOutputController/session owner deve coordinare gli output.
+
+Il detector non deve:
+- manipolare direttamente torch;
+- cambiare volume;
+- gestire audio focus;
+- modificare window brightness;
+- duplicare vibration loops.
+
+Questo consente Table/Pocket/Journey di riusare lo stesso escalation layer.
+
+======================================================================
+3. SIREN
+======================================================================
+
+Pattern donor:
+- AudioAttributes.USAGE_ALARM;
+- dedicated AudioTrack / generated tone;
+- explicit audio focus;
+- loop controllato;
+- stop/flush/release idempotente.
+
+Audio playback success != audibility guaranteed.
+
+======================================================================
+4. TARGET ALARM VOLUME
+======================================================================
+
+Consentire un target configurabile 0–100% quando il prodotto lo richiede.
+
+Regole:
+- leggere e memorizzare il volume STREAM_ALARM precedente;
+- applicare il target all'inizio dell'escalation o al momento esplicitamente
+  definito dal product contract;
+- verificare il volume effettivo quando possibile;
+- ripristinare il valore precedente a stop/disarm;
+- non dichiarare override assoluto di DND/OEM policy.
+
+MODIFY_AUDIO_SETTINGS non equivale a bypass DND.
+
+======================================================================
+5. LED STROBE
+======================================================================
+
+Usare controller dedicato.
+
+Pattern hardened osservato:
+- single serial executor;
+- generation/token cancellation;
+- stale task cannot re-enable torch;
+- guaranteed torch OFF in finally/stop;
+- frequency bounded;
+- camera-busy/security failures fail safely.
+
+Phone Guard pilot bounds:
+- 0.5 Hz minimum;
+- 10 Hz maximum;
+- default 2.5 Hz.
+
+I bound sono product defaults, non limiti universali Android.
+
+======================================================================
+6. VISUAL WARNING SCREEN
+======================================================================
+
+Quando l'app è visibile/può mostrare la propria Activity:
+- high-contrast red warning;
+- clear owner-auth action;
+- optional pulse;
+- KEEP_SCREEN_ON only while triggered;
+- temporary per-window brightness, restored on dispose.
+
+Non rendere il lampeggio requisito per accessibilità; deve poter essere
+disabilitato.
+
+======================================================================
+7. BACKGROUND LAUNCH BOUNDARY
+======================================================================
+
+Non assumere che un'app possa aprire arbitrariamente una full-screen Activity
+dal background sulle versioni Android moderne.
+
+Full-screen intent / special access deve essere:
+- giustificato dal product category;
+- verificato contro policy/store correnti;
+- non usato come fallback nascosto.
+
+La notifica FGS/alarm resta il canale affidabile quando l'Activity non può essere
+portata in foreground.
+
+======================================================================
+8. OUTPUT HEALTH
+======================================================================
+
+Per ogni output distinguere:
+- configured;
+- capability available;
+- permission available;
+- start requested;
+- effective/healthy when observable.
+
+UI "allarme attivo" non deve significare che ogni output è sicuramente
+percepibile.
+
+======================================================================
+9. STOP CONTRACT
+======================================================================
+
+Stop/disarm deve essere idempotente e ripristinare:
+- torch OFF;
+- vibration cancelled;
+- AudioTrack released;
+- audio focus abandoned;
+- previous alarm volume;
+- previous window brightness;
+- temporary keep-screen-on flags.
+
+======================================================================
+10. TEST MATRIX
+======================================================================
+
+[ ] flash no permission
+[ ] flash camera busy
+[ ] rapid start/stop/start generation race
+[ ] frequency min/max clamp
+[ ] volume 0/50/100
+[ ] previous volume restore
+[ ] sound disabled leaves volume untouched
+[ ] vibration unavailable
+[ ] Activity foreground warning screen
+[ ] warning pulse disabled
+[ ] brightness restore
+[ ] process/service stop leaves torch OFF
+[ ] DND/OEM restriction diagnostic truth
+
+Physical device testing is required before COPY-READY.
+
+======================================================================
+11. PROMOZIONE
+======================================================================
+
+DRAFT until:
+- Phone Guard CI green on integrated tree;
+- physical flash frequency verification;
+- volume apply/restore on representative OEMs;
+- screen/lock-state behavior verified;
+- accessibility and photosensitive-motion review completed.
+
+END GOLDEN ANDROID ALARM ESCALATION v0.1 DRAFT

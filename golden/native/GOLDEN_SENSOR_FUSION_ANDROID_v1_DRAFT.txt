@@ -1,0 +1,183 @@
+GOLDEN SENSOR FUSION — ANDROID
+Versione draft: 0.1 — 27/10/2026
+Stato: DRAFT / CANDIDATE — SPECIALIZED
+Current Master: resolve via CURRENT.yaml
+
+Primary donors:
+- Pocket Guard / Pockara @ b7b1c74de66e047c32083365b44561e42237b4fc;
+- Tabletop Motion Alarm @ 9e67bcbd84e8add7d183349644d3f6f6bbe9ffe0;
+- Phone Guard integration pilot @ aad8f9e44361380d554e9cebfa58810d2e1b3931.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Pattern Android per combinare sensori eterogenei in una decisione robusta senza
+trattare un singolo sample come verità.
+
+Use case osservati:
+- motion/tamper detection;
+- pocket extraction;
+- bag storage/removal;
+- anti-theft protection.
+
+======================================================================
+2. CAPABILITY FIRST
+======================================================================
+
+Prima di armare una modalità:
+- rilevare i sensori realmente disponibili;
+- distinguere capability disponibile da permission/service health;
+- degradare esplicitamente quando possibile;
+- bloccare la modalità se manca un sensore obbligatorio.
+
+Esempio donor:
+- Pocket richiede almeno proximity + accelerometer;
+- Bag può funzionare con accelerometer e degradazioni controllate;
+- gyroscope/light migliorano la confidence ma non devono essere assunti.
+
+======================================================================
+3. SENSOR LAYER
+======================================================================
+
+Sensori osservati:
+- accelerometer;
+- gyroscope;
+- proximity;
+- light.
+
+Regole:
+- usare timestamp monotonic per finestre temporali;
+- resettare detector/state alla chiusura sessione;
+- non tenere sampling ALERT quando non necessario;
+- centralizzare capability detection.
+
+======================================================================
+4. ADAPTIVE SAMPLING
+======================================================================
+
+Profili consigliati:
+- LOW_POWER: stato stabile/protetto;
+- NORMAL: attesa e monitoraggio ordinario;
+- ALERT: rimozione sospetta / owner check.
+
+La transizione di sampling deve seguire lo stato di detection, non un timer
+indipendente.
+
+======================================================================
+5. CALIBRATION PROFILE
+======================================================================
+
+Separare calibrazione da detection hot-path.
+
+Profilo minimo osservato:
+- enter/exit light threshold;
+- motion noise floor;
+- rotation noise floor;
+- sample count;
+- sensor-presence flags;
+- createdAt / version identity.
+
+Derivare threshold con bound espliciti; non usare rumore grezzo senza clamp.
+
+======================================================================
+6. STATE MACHINE
+======================================================================
+
+Pattern Pocket/Bag donor:
+
+WAITING_FOR_STORAGE
+-> STORED_CONFIRMED
+-> REMOVAL_SUSPECTED
+-> OWNER_CHECK
+-> ALARM
+
+Regole:
+- una singola lettura non deve saltare direttamente ad ALARM salvo condizione
+  decisiva esplicitamente definita;
+- usare stable window / removal confirmation window;
+- consentire ritorno allo stato protetto se l'evidenza rientra;
+- owner verification è una policy esterna al puro sensor scoring.
+
+======================================================================
+7. CONFIDENCE SCORE
+======================================================================
+
+La confidence può combinare:
+- proximity state;
+- light absolute threshold;
+- light delta;
+- motion ratio vs calibrated threshold;
+- rotation ratio vs calibrated threshold;
+- mode-specific bonus.
+
+Il punteggio deve essere:
+- bounded;
+- spiegabile;
+- testabile;
+- mode-specific;
+- non presentato come probabilità statistica se non calibrato come tale.
+
+======================================================================
+8. FALSE POSITIVE CONTROL
+======================================================================
+
+Richiedere:
+- hysteresis / enter-exit separation;
+- stable duration;
+- suspect threshold;
+- owner-check threshold;
+- confirmation window;
+- return-to-safe transition;
+- sensitivity profile.
+
+HIGH sensitivity != riduzione indiscriminata di ogni threshold.
+
+======================================================================
+9. RELIABILITY BOUNDARY
+======================================================================
+
+Sensor fusion non sostituisce:
+- Foreground Service correctness;
+- WakeLock policy;
+- recovery/session persistence;
+- capability health;
+- OEM background validation.
+
+Usare insieme a GOLDEN_ANDROID_NATIVE_RELIABILITY e
+GOLDEN_CAPABILITY_PERMISSION_HEALTH.
+
+======================================================================
+10. TEST MATRIX
+======================================================================
+
+[ ] missing optional sensor
+[ ] missing required sensor
+[ ] dark pocket stable
+[ ] pocket extraction proximity-only
+[ ] pocket extraction light+motion
+[ ] false light spike
+[ ] false motion spike
+[ ] removal aborted / returned safe
+[ ] sensitivity LOW/NORMAL/HIGH ordering
+[ ] calibration with no light
+[ ] calibration with no gyroscope
+[ ] state reset after stop
+[ ] adaptive sampling transitions
+[ ] process/service recovery does not create duplicate listeners
+
+Physical-device validation is required for final certification.
+
+======================================================================
+11. PROMOZIONE
+======================================================================
+
+Resta SPECIALIZED / DRAFT perché:
+- il pattern è Android-native;
+- il pilot Phone Guard non è ancora final-certified;
+- physical sensor matrix across OEMs is pending.
+
+COPY-READY richiede almeno due device families e one full app integration with
+green CI + false-positive matrix.
+
+END GOLDEN SENSOR FUSION ANDROID v0.1 DRAFT

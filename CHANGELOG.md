@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-10-27 — Phone Guard donor harvest / Golden Index v23
+
+- Added **Capability Harvest / Multi-Donor Assembly** process candidate from the Phone Guard foundation pilot.
+- Materialized the previously deferred **Sensor Fusion Android** placeholder as a real specialized Golden draft using Pocket Guard, Tabletop Motion Alarm and Phone Guard immutable refs.
+- Added **Android Alarm Escalation** draft for siren/vibration/strobe, configurable flash frequency, target alarm volume with restore, high-visibility warning screen and Android/OEM truth boundaries.
+- Added **Android Local PIN Verifier / Keystore** draft combining Tabletop PBKDF2 policy with Pockara AndroidKeyStore-HMAC hardening.
+- Recorded four donor/evidence files under `evidence/phone-guard/`.
+- Recorded Luminous Circle as an unpinned pattern input only; the reusable downstream implementation is pinned through the Phone Guard commit instead of claiming missing source provenance.
+- No application source code was copied into App-Factory-Core.
+- Bumped Golden Index v22 -> v23; Master remains v26.6.
+
 ## 2026-10-26 — Factory Adoption Kit / Golden Index v22
 
 - Added `adoption/FACTORY_MODE_PROFILE_v1.yaml` as the canonical central profile for Roadmap Fast + Continuous Maintenance adoption.
