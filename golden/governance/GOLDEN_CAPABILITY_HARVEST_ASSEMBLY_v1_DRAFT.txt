@@ -1,0 +1,141 @@
+GOLDEN CAPABILITY HARVEST / MULTI-DONOR ASSEMBLY
+Versione draft: 0.1 — 27/10/2026
+Stato: DRAFT / PROCESS CANDIDATE — MULTI-DONOR PILOT
+Current Master: resolve via CURRENT.yaml
+
+Primary pilot:
+- Phone Guard foundation;
+- repository: riccardopinato/Phone-Guard;
+- pilot head: aad8f9e44361380d554e9cebfa58810d2e1b3931;
+- donor repositories:
+  - riccardopinato/Tabletop-Motion-Alarm @ 9e67bcbd84e8add7d183349644d3f6f6bbe9ffe0;
+  - riccardopinato/Pocket-Guard @ b7b1c74de66e047c32083365b44561e42237b4fc.
+
+======================================================================
+1. SCOPO
+======================================================================
+
+Standardizzare la costruzione di un nuovo prodotto a partire da più donor interni
+senza fare merge per accumulo e senza valutare soltanto il progetto intero.
+
+La unità di scelta è la CAPABILITY.
+
+======================================================================
+2. PRINCIPIO
+======================================================================
+
+Valutare ogni capability su almeno:
+- valore prodotto;
+- maturità funzionale;
+- affidabilità runtime/background;
+- test/evidence;
+- manutenibilità;
+- costo di adattamento;
+- compatibilità con l'architettura target.
+
+Un voto globale alto del progetto donor NON implica che ogni suo modulo vada
+importato.
+
+======================================================================
+3. HARVEST MATRIX MINIMA
+======================================================================
+
+Per ogni capability registrare:
+component/capability
+donor candidate A
+donor candidate B
+score / evidence
+selected donor
+decision
+target architecture
+adaptation notes
+regression gate
+provenance ref
+
+Decisioni canoniche:
+- PRESERVE: comportamento maturo da mantenere quasi invariato;
+- IMPORT: donor valido da trapiantare/adattare;
+- REBUILD: contratto target nuovo, riusando logica valida;
+- DROP: duplicato o componente inferiore da non mantenere.
+
+======================================================================
+4. THRESHOLD RULE
+======================================================================
+
+Se si usa una scala 0–10, 8/10 è una soglia consigliata per entrare nel pool di
+harvest, NON una promozione automatica.
+
+Un componente >=8 può comunque diventare DROP se esiste un donor migliore della
+stessa capability.
+
+Un componente <8 può essere REBUILD se la capability è necessaria al prodotto.
+
+======================================================================
+5. NO MERGE-BY-ACCUMULATION
+======================================================================
+
+Se due donor implementano la stessa responsabilità:
+- non mantenere due repository/service/controller equivalenti senza motivo;
+- definire prima il contratto target;
+- scegliere un owner autorevole;
+- importare solo differenze utili dal donor secondario;
+- valutare la rimozione del superseded path.
+
+EXTEND/PRESERVE BEFORE DUPLICATE.
+
+======================================================================
+6. REGRESSION-PROTECTED CORE
+======================================================================
+
+Quando una capability è già altamente affidabile:
+- congelarne il comportamento osservabile come baseline;
+- aggiungere nuove modalità intorno al core;
+- richiedere regression test/gate prima di modificare il core;
+- non rifattorizzare solo per uniformità estetica dell'architettura.
+
+Nel pilot Phone Guard, Table Mode / FGS / recovery di Tabletop sono la baseline
+protetta mentre Pocket/Journey sono donor da integrare.
+
+======================================================================
+7. REPOSITORY STRATEGY
+======================================================================
+
+Se i prodotti donor devono restare venduti/manutenuti separatamente, preferire:
+- repository target autonomo;
+- codice target posseduto dal nuovo prodotto;
+- provenance esplicita;
+- nessuna dipendenza runtime verso il donor solo per riuso interno.
+
+La copia/adattamento interna deve comunque mantenere source ref e adaptation
+summary.
+
+======================================================================
+8. EVIDENCE
+======================================================================
+
+Il pilot Phone Guard dimostra:
+- inventory capability-level;
+- donor selection per responsibility;
+- Tabletop come reliability core;
+- Pockara come Pocket/Journey/security donor;
+- Luminous Circle come pattern donor per escalation luminosa;
+- repository target autonomo;
+- PR draft e CI gate avviati.
+
+Build/physical certification del prodotto finale NON è implicata da questo
+process Golden.
+
+======================================================================
+9. PROMOZIONE
+======================================================================
+
+COPY-READY PROCESS richiede:
+- almeno un pilot completato con CI green;
+- matrix + provenance conservate;
+- dimostrazione di almeno un caso DROP di un componente >=8 perché superseded;
+- regression gate del core preservato.
+
+CERTIFIED PROCESS richiede un secondo prodotto indipendente con lo stesso
+workflow e risultati comparabili.
+
+END GOLDEN CAPABILITY HARVEST v0.1 DRAFT
