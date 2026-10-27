@@ -1,7 +1,7 @@
 registry_version: 2
-updated_at: 2026-10-26
+updated_at: 2026-10-27
 master_version: "26.6"
-index_version: 22
+index_version: 23
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -482,3 +482,52 @@ goldens:
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
+
+
+  - id: capability_harvest_assembly
+    title: "Capability Harvest / Multi-Donor Assembly"
+    version: "1"
+    status: "DRAFT / PROCESS CANDIDATE — MULTI-DONOR PILOT"
+    category: governance
+    path: golden/governance/GOLDEN_CAPABILITY_HARVEST_ASSEMBLY_v1_DRAFT.txt
+    migrated_at: 2026-10-27
+    last_content_reviewed_at: 2026-10-27
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: sensor_fusion_android
+    title: "Sensor Fusion Android"
+    version: "1"
+    status: "DRAFT / CANDIDATE — SPECIALIZED"
+    category: native
+    path: golden/native/GOLDEN_SENSOR_FUSION_ANDROID_v1_DRAFT.txt
+    migrated_at: 2026-10-27
+    last_content_reviewed_at: 2026-10-27
+    last_provider_verified_at: null
+    provider_sensitive: true
+    freshness_status: NEEDS_REVIEW
+
+  - id: android_alarm_escalation
+    title: "Android Alarm Escalation"
+    version: "1"
+    status: "DRAFT / CANDIDATE — PHYSICAL QA PENDING"
+    category: native
+    path: golden/native/GOLDEN_ANDROID_ALARM_ESCALATION_v1_DRAFT.txt
+    migrated_at: 2026-10-27
+    last_content_reviewed_at: 2026-10-27
+    last_provider_verified_at: null
+    provider_sensitive: true
+    freshness_status: NEEDS_REVIEW
+
+  - id: android_local_pin_verifier_keystore
+    title: "Android Local PIN Verifier / Keystore"
+    version: "1"
+    status: "DRAFT / CANDIDATE — ANDROID ONLY"
+    category: security
+    path: golden/security/GOLDEN_ANDROID_LOCAL_PIN_VERIFIER_KEYSTORE_v1_DRAFT.txt
+    migrated_at: 2026-10-27
+    last_content_reviewed_at: 2026-10-27
+    last_provider_verified_at: null
+    provider_sensitive: true
+    freshness_status: NEEDS_REVIEW
