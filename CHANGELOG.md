@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-28 — Master v26.8 / Adaptive Execution
+
+- Added a **minimum-necessary-process execution router** without introducing another QA tier, workflow or authority: DIRECT for bounded simple work, PARALLEL for genuinely independent streams, CONTROLLED for high-risk changes.
+- "Procedi" and roadmap continuation now reuse valid baseline/roadmap and decide once with the parallel-first rule; avoid repeated plans, audits, permission questions and irrelevant instructions.
+- Codified fail-fast focused preflight before costly CI (notably compile instrumentation-test sources when modified), no repeated CI on known preflight failures, and immutable exact-head artifact reuse only on matching source/build/toolchain/signing contracts.
+- Preserved existing required checks, CI branch protections, evidence trust boundaries, data safety, audit-only semantics and the repository governance/authorization contract.
+- Updated FAST_DELIVERY playbook actions and agent validation module; validator v6 adds static policy/playbook consistency checks (does NOT certify real agent behavior).
+- Bumped Master v26.7 to v26.8 (versioned + alias), CURRENT/Registry/README/changelog aligned. Golden Index stays v23 and Golden Registry stays v2; modular Master redesign is deferred to v27.
+
+
 ## 2026-10-28 — Master v26.7 / Parallel-first "Procedi" roadmap execution
 
 - Added mandatory **parallelization assessment** when the user writes "Procedi", "procedi con la roadmap", "continua" or equivalent for an already authorized implementation scope.

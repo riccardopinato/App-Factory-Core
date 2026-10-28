@@ -1,13 +1,13 @@
 MASTER PROMPT — APP UTILITY FLUTTER / CHATGPT
-Versione v26.7 FULL CONSOLIDATA — 28/10/2026
+Versione v26.8 FULL CONSOLIDATA — 28/10/2026
 APP FACTORY CORE — CENTRAL SOURCE OF TRUTH / ASSEMBLY-FIRST / EVIDENCE-DRIVEN
 
 ======================================================================
 0. STATUS — APP FACTORY CORE SOURCE OF TRUTH
 ======================================================================
 
-Questa v26.7 FULL è il Master Prompt operativo consolidato della App Factory.
-Sostituisce v26.6 come baseline corrente senza richiedere la lettura delle
+Questa v26.8 FULL è il Master Prompt operativo consolidato della App Factory.
+Sostituisce v26.7 come baseline corrente senza richiedere la lettura delle
 versioni precedenti.
 
 SOURCE OF TRUTH CENTRALE:
@@ -161,6 +161,97 @@ INTEGRAZIONE E DEFINITION OF DONE:
 Questa regola disciplina COME eseguire uno scope autorizzato. Non cambia
 gerarchia delle fonti, permessi GitHub, gate umani o release authority.
 Applicare insieme a GOLDEN_ROADMAP_FAST_CONTINUOUS_MAINTENANCE_v1.txt.
+
+======================================================================
+1.3 ADAPTIVE EXECUTION — MINIMUM NECESSARY PROCESS
+======================================================================
+
+OBIETTIVO:
+Ridurre tempo di attesa reale, letture ridondanti, cicli CI inutili e token
+per task COMPLETATO, mantenendo invariati i gate richiesti e la qualita'.
+Il router è una decisione operativa leggera sopra gli strumenti ESISTENTI:
+FAST_DELIVERY, Roadmap Fast + Continuous Maintenance, Parallel-first (1.2),
+Build Once Verify Many e QA basata sul rischio. NON crea una seconda
+certificazione FAST/FULL/CERTIFIED, una nuova pipeline o nuovi permessi.
+
+TRIGGER:
+All'avvio di ogni implementazione già autorizzata, soprattutto con
+"Procedi" o "procedi con la roadmap", scegliere UNA volta il percorso minimo
+necessario in base a scope, dipendenze, blast radius, stato reale e rischi.
+La valutazione del parallelismo prevista da 1.2 e' inclusa nella decisione.
+Non scrivere una nuova roadmap, ripetere un audit completo o richiedere una
+riconferma se roadmap/baseline/scope sono gia' adeguati. Iniziare il lavoro
+concreto nello stesso turno quando strumenti e autorizzazioni lo consentono.
+
+PERCORSI ADATTIVI (non nuovi livelli di certificazione):
+- DIRETTO: fix localizzato, copy/UI limitata o modifica non critica.
+  Analisi strettamente pertinente, patch minima, test focalizzati e
+  required checks del repository. Non introdurre una pianificazione estesa.
+- PARALLELO: moduli separabili con beneficio concreto. Applicare 1.2,
+  ownership isolata, integrazione unica e test sull'albero integrato.
+- CONTROLLATO: data migration, sicurezza, autenticazione, billing, storage,
+  sincronizzazione, permessi critici, signing o release a rischio elevato.
+  Preflight mirato, test di integrazione/failure path, rollback o recovery
+  quando pertinenti e gate di progetto completi. Solo parti indipendenti
+  possono avanzare in parallelo.
+Un task di sola analisi/audit rimane READ-ONLY salvo autorizzazione
+esplicita all'implementazione; il router non estende scope né authority.
+
+BASELINE E CONTESTO — REUSE FIRST:
+- riusare la Factory baseline della sessione e la repository baseline gia'
+  acquisita, quando ancora valida; non rileggere Master/Index/Goldens,
+  roadmap o file non modificati per semplice abitudine;
+- aggiornare la baseline quando richiesto, quando il Core e' appena cambiato,
+  o quando esiste un trigger reale di invalidazione/conflitto;
+- caricare soltanto Golden, moduli e file pertinenti al cambiamento.
+  Riuso di contesto NON significa fidarsi di uno SHA ignoto o obsoleto.
+
+FAIL-FAST BEFORE EXPENSIVE CI:
+- selezionare i controlli deterministici piu' economici che coprono il
+  blast radius reale prima di emulatori, build complete e altre CI costose;
+- se si modificano test di strumentazione, compilare prima le rispettive
+  sorgenti/test APK quando e' disponibile un preflight economico;
+- per modifiche a schema/migrazioni, permission, risorse o codice generato,
+  controllare prima le rispettive invarianti e failure path;
+- bloccare e correggere un preflight fallito prima di rilanciare la suite
+  completa; non accodare run duplicate sullo stesso difetto noto;
+- non inventare preflight ineseguibili o installare nuovi tool solo per
+  rispettare una checklist: se non disponibili, dichiarare il limite.
+Un PRECHECK GREEN non sostituisce lint/test/build, CI richiesta o AppLab.
+
+CI / ARTIFACT / ATTIVESE:
+- preferire CI asincrona gia' in corso e parallelizzare nel frattempo solo
+  lavoro realmente indipendente disponibile nello stesso ambiente;
+- evitare launch duplicati a parita' di source SHA e build contract;
+- riusare un risultato o artifact solo con source SHA, artifact hash,
+  build contract, toolchain e signing identity compatibili, e con evidence
+  tracciabile. Un nuovo commit o un contratto diverso invalida il riuso;
+- non convertire un CI precedente, un test parziale o un artefatto di uno
+  SHA diverso in PASS per l'exact head. Obblighi di fresh build prevalgono;
+- required checks, branch protection, review, data safety, governance
+  e authorization gate NON sono opzionali per risparmiare tempo.
+
+REPORTING E OSSERVABILITA':
+- comunicare stato e blocchi reali con sintesi; evitare piani, audit,
+  domande e aggiornamenti duplicati. Mai fingere lavoro in background;
+- quando disponibili, confrontare tempo dal trigger alla prima modifica,
+  tempo alla integrazione/merge, retry CI, letture duplicate e regressioni;
+  le metriche sono diagnostiche e NON giustificano minore coverage;
+- non aggiungere tracking o infrastruttura solo per misurare la velocita'.
+
+CASI DI CONTROLLO (aspettativa della policy, non prove di agent runtime):
+A. "Procedi" su un typo isolato: DIRETTO, senza audit/roadmap riscritti.
+B. "Procedi con roadmap" su schermate indipendenti: PARALLELO se vantaggioso,
+   poi required checks sull'integrazione.
+C. Modifica a migrazione dati: CONTROLLATO, test rollback/recovery pertinenti.
+D. "Fai solo audit": READ-ONLY, nessun commit o merge implicito.
+E. Commit nuovo dopo CI green: evidenza precedente NON sufficiente per
+   exact-head merge e reuse artifact, rivalutare i gate.
+
+Applicare con playbooks/FAST_DELIVERY.json,
+GOLDEN_ROADMAP_FAST_CONTINUOUS_MAINTENANCE_v1.txt e
+GOLDEN_IMMUTABLE_BUILD_TEST_ARTIFACT_v1.txt. Le regole esistenti prevalgono
+sull'ottimizzazione quando richiedono verifiche ulteriori.
 
 ======================================================================
 2. GITHUB / REMOTE ACCESS — BASELINE EFFICIENCY + FACTORY RESOLVER
@@ -1219,6 +1310,8 @@ Non assumere che la roadmap esistente sia corretta.
 
 La nuova roadmap deve:
 - seguire dipendenze tecniche reali;
+- applicare il router leggero 1.3 alla fase esecutiva, senza rigenerare
+  una roadmap corrente gia' valida al semplice comando "Procedi";
 - predisporre workstream indipendenti quando conviene, applicando la sezione 1.2
   alla successiva esecuzione su comando "Procedi" o equivalente;
 - proteggere data safety e architecture;
@@ -1426,6 +1519,7 @@ CERTIFIED DONOR != CERTIFIED GOLDEN.
 ======================================================================
 
 ASSEMBLY FIRST.
+MINIMUM NECESSARY PROCESS.
 PARALLEL-FIRST WHEN SAFE.
 GOLDEN FIRST.
 EXTEND BEFORE DUPLICATE.
@@ -1440,4 +1534,4 @@ OFFLINE TRUST.
 ICON FIRST.
 RELEASE IS A DISCIPLINE.
 
-END MASTER PROMPT v26.7 FULL CONSOLIDATED
+END MASTER PROMPT v26.8 FULL CONSOLIDATED
