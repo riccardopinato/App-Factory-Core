@@ -2,10 +2,11 @@
 
 ## 2026-10-28 — v27D / cross-app read-only routing replay harness
 
-- Added pinned read-only source snapshots for Anna's Diary, Phone Guard and AppLab, using their actual Product Bible/Roadmap/AGENTS documentation to define ten realistic pilot/negative scenarios.
+- Added pinned read-only source snapshots for Anna's Diary, Phone Guard and AppLab, using their actual Product Bible/Roadmap/AGENTS documentation to define eleven realistic pilot/negative scenarios.
 - Added deterministic candidate router replay with exact selected modules and Golden IDs, conservative context-byte comparisons against v26.8 full Master + Index + Registry, and diagnostics about fallback overhead.
 - Integrated v27D replay into Factory CI without writes to the three app repositories or changes to active v26.8 resolution.
 - **No agent behavioral equivalence, real chat token/time gains, physical certification or v27 activation claimed.** Promotion remains HOLD pending independent behavioral and end-to-end evaluation.
+- The pilot caught and corrected incomplete continuation authority loading, bare AppLab name misrouting and missing draft PIN/Keystore Golden selection; the synchronized fallback now includes the live route catalog. Exact-head replay: 11/11 route cases and 12 resolver tests green; median estimated module-case context reduction 64.8%, while v27 activation remains HOLD.
 
 
 ## 2026-10-28 — v27C / candidate lazy resolver + synchronized full fallback

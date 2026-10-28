@@ -19,7 +19,7 @@
 
 - [x] Inspect pinned HEADs and actual product/roadmap/AGENTS evidence in Anna's Diary, Phone Guard and AppLab (read-only).
 - [x] Add ten deterministic routing scenarios across the three app domains and the central Factory update rule.
-- [ ] Execute GitHub CI deterministic replay on exact candidate head; record selected modules, Golden IDs, UTF-8 context bytes and negative cases.
+- [x] Execute CI deterministic replay on exact candidate head: 11/11 cases; 9 modular/2 fallback; median 64.8% estimated UTF-8 context reduction in modular cases; source and results in `pilots/V27D_RESULTS_2026-10-28.md`.
 - [ ] Run independent *model behavioral equivalence* tests (not established by static text/routing checks).
 - [ ] Measure real ChatGPT token usage and time-to-first-edit/completion on comparable tasks (not established by script microbenchmarks).
 - [ ] Resolve any genuine safety/selection regressions prior to enabling v27.
@@ -48,3 +48,9 @@ No steps marked done above imply that external app pilots have been performed.
 ## 27D first pilot feedback — resolver defects (2026-10-28)
 
 Initial exact-head CI replay failed as intended on two selection-policy defects: a roadmap continuation selected `audit-roadmap` and `experience` but omitted the complete `authority-execution` parallel-first contract, and the bare name `AppLab` incorrectly routed to delivery because it was listed as a task trigger. The v27D branch corrects the continuation authority requirement and removes the name-only trigger. This finding demonstrates that deterministic static checks can catch selection drift; it does **not** certify real model decisions.
+
+## 27D evidence status as of 2026-10-28
+
+Deterministic routing and byte-cost replay **PASS** on candidate PR #25 exact head. The v27C/v27D resolver has also passed 12 unit tests and the synchronized fallback/section-reconstruction gates. Three routing gaps were corrected during pilot execution: omitted continuation authority, project-name-only AppLab routing and missing specialist PIN Golden. Route metadata is included in the generated full fallback, preventing invisible drift.
+
+**HOLD for v27E**: actual model response equivalence, real token counts and end-to-end time-to-first-edit/merge are not verified. Repository snapshots are source-backed and pinned but tests are read-only; no production app test, physical QA, or rollout is claimed.
