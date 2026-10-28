@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "kind": "READ_ONLY_REPLAY",
+  "date": "2026-10-28",
+  "factory_baseline": "ef4e1e4d5da04780bb7d1acac71bef7002ca4303",
+  "canonical_version": "26.8",
+  "candidate_version": "27C_INACTIVE",
+  "measurement": "DOCUMENT_BYTES_NOT_TOKENS_OR_USER_WALL_TIME",
+  "projects": [
+    {
+      "id": "anna",
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "source_sha": "84abb53c8d2bb55e80c8d6eca78363c35eaf83a1",
+      "type": "Flutter/iOS-style diary UI",
+      "evidence_files": [
+        "docs/PRODUCT_BIBLE.md",
+        "docs/ROADMAP.md",
+        "AGENTS.md"
+      ],
+      "boundary": "Privacy and local-first, no new store or silent cross-app sync. Existing project required gates only."
+    },
+    {
+      "id": "phone",
+      "repository": "riccardopinato/Phone-Guard",
+      "source_sha": "ba377aa0fadbe2d7e5ec603f5abd4b69d411ed3c",
+      "type": "Native Android Kotlin security",
+      "evidence_files": [
+        "AGENTS.md",
+        "ROADMAP.md",
+        "README.md"
+      ],
+      "boundary": "Single foreground-service owner, PIN/Keystore and strong biometrics; no runtime/physical certificate from documentation."
+    },
+    {
+      "id": "applab",
+      "repository": "riccardopinato/AppLab",
+      "source_sha": "7c4bccde4a8e9b1cc8b294ecc477bb7937cfa8b4",
+      "type": "CI and bounded agent governance",
+      "evidence_files": [
+        "AGENTS.md",
+        "ROADMAP.md",
+        "integration/roadmap/V62_GATE_AND_HYGIENE_EVIDENCE_2026-10-28.md"
+      ],
+      "boundary": "v6.2 remains SELF_CANARY; exact-head gates, review authority and no PILOT_3/PILOT_5 assumption."
+    }
+  ],
+  "cases": [
+    {
+      "id": "anna_ui_copy",
+      "project": "anna",
+      "request": "Correggi il testo nella schermata Calendario",
+      "context": "modifica UI testo",
+      "expect": "MODULES",
+      "required_modules": [
+        "experience"
+      ],
+      "forbidden_modules": [
+        "monetization-ai",
+        "data-offline"
+      ],
+      "must_contain": [
+        "LOCALIZATION"
+      ],
+      "comment": "Focused direct UI change, no automatic expanded roadmap"
+    },
+    {
+      "id": "anna_parallel",
+      "project": "anna",
+      "request": "Procedi con la roadmap",
+      "context": "redesign schermate Oggi Calendario Ricordi, design system Flutter",
+      "expect": "MODULES",
+      "required_modules": [
+        "experience",
+        "audit-roadmap"
+      ],
+      "forbidden_modules": [
+        "monetization-ai"
+      ],
+      "must_contain": [
+        "PARALLEL-FIRST"
+      ],
+      "comment": "Multi-screen redesign eligible for parallelism only if file/API dependencies allow"
+    },
+    {
+      "id": "anna_data",
+      "project": "anna",
+      "request": "Verifica migrazione database e backup",
+      "context": "dati offline restore e sync privato",
+      "expect": "MODULES",
+      "required_modules": [
+        "data-offline"
+      ],
+      "forbidden_modules": [],
+      "must_contain": [
+        "BACKUP"
+      ],
+      "comment": "Private diary migration/restore must stay risk-controlled"
+    },
+    {
+      "id": "phone_native",
+      "project": "phone",
+      "request": "Procedi con il fix",
+      "context": "Android Kotlin permessi sensori sicurezza PIN Keystore",
+      "expect": "MODULES",
+      "required_modules": [
+        "identity-native"
+      ],
+      "forbidden_modules": [
+        "monetization-ai"
+      ],
+      "must_contain": [
+        "ANDROID NATIVE RELIABILITY"
+      ],
+      "comment": "Do not bypass device capability, local PIN verifier or single service policy"
+    },
+    {
+      "id": "phone_release",
+      "project": "phone",
+      "request": "Prepara build APK firmato",
+      "context": "release Android interno",
+      "expect": "MODULES",
+      "required_modules": [
+        "delivery-verification",
+        "identity-native"
+      ],
+      "forbidden_modules": [],
+      "must_contain": [
+        "ANDROID SIGNING"
+      ],
+      "comment": "Signing/build is not a physical-device or store-certified release"
+    },
+    {
+      "id": "applab_gate",
+      "project": "applab",
+      "request": "Procedi con la roadmap v6.2",
+      "context": "AppLab CI exact-head review merge",
+      "expect": "MODULES",
+      "required_modules": [
+        "audit-roadmap",
+        "delivery-verification"
+      ],
+      "forbidden_modules": [
+        "monetization-ai"
+      ],
+      "must_contain": [
+        "CI / CODE REVIEW"
+      ],
+      "comment": "SELF_CANARY; no model inference can authorize PILOT_3 or merge without gates"
+    },
+    {
+      "id": "applab_audit",
+      "project": "applab",
+      "request": "Esegui audit CI",
+      "context": "solo analisi repository, nessuna modifica",
+      "expect": "MODULES",
+      "required_modules": [
+        "audit-roadmap",
+        "delivery-verification"
+      ],
+      "forbidden_modules": [],
+      "must_contain": [
+        "AUDIT != IMPLEMENTAZIONE"
+      ],
+      "comment": "Audit read-only must not authorize implementation"
+    },
+    {
+      "id": "factory_sync",
+      "project": "factory",
+      "request": "Aggiorna App Factory Core",
+      "context": "aggiorna il Master Prompt e fallback",
+      "expect": "MODULES",
+      "required_modules": [
+        "authority-execution",
+        "factory-policy-sync"
+      ],
+      "forbidden_modules": [],
+      "must_contain": [
+        "SYNCHRONIZED MASTER UPDATE"
+      ],
+      "comment": "Changes to modular policy and current fallback must be same PR"
+    },
+    {
+      "id": "unknown_procedi",
+      "project": "anna",
+      "request": "Procedi",
+      "context": "",
+      "expect": "FALLBACK_BASELINE_USED",
+      "required_modules": [],
+      "forbidden_modules": [],
+      "must_contain": [],
+      "comment": "No saved roadmap context; demonstrates fallback overhead, not a speed win"
+    },
+    {
+      "id": "unknown_applab",
+      "project": "applab",
+      "request": "AppLab",
+      "context": "",
+      "expect": "FALLBACK_BASELINE_USED",
+      "required_modules": [],
+      "forbidden_modules": [],
+      "must_contain": [],
+      "comment": "A repository name alone cannot safely select task instructions"
+    }
+  ],
+  "gate": "BEHAVIORAL_LLM_EQUIVALENCE_NOT_PROVEN_WITH_DETERMINISTIC_REPLAY"
+}

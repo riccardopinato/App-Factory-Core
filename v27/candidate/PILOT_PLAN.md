@@ -15,7 +15,16 @@
 - [x] Make modular + generated full fallback updates a same-PR governance and CI requirement.
 - [ ] Activate resolver via CURRENT.yaml/bootstrap only after real policy pilots and approval.
 
-## Phase 27D: behavioral and performance pilots
+## Phase 27D: source-backed dry-run pilots and performance measurement
+
+- [x] Inspect pinned HEADs and actual product/roadmap/AGENTS evidence in Anna's Diary, Phone Guard and AppLab (read-only).
+- [x] Add ten deterministic routing scenarios across the three app domains and the central Factory update rule.
+- [ ] Execute GitHub CI deterministic replay on exact candidate head; record selected modules, Golden IDs, UTF-8 context bytes and negative cases.
+- [ ] Run independent *model behavioral equivalence* tests (not established by static text/routing checks).
+- [ ] Measure real ChatGPT token usage and time-to-first-edit/completion on comparable tasks (not established by script microbenchmarks).
+- [ ] Resolve any genuine safety/selection regressions prior to enabling v27.
+
+## Initial pilot source references
 1. **Anna's Diary (Flutter/UX):** a one-screen copy fix, plus separate independent UI workstreams. Validate DIRECT/PARALLEL decisions and shared design contracts.
 2. **Phone Guard (Kotlin/native):** permissions and incident security with CONTROLLED checks; don't weaken physical/Play release boundaries.
 3. **AppLab (CI/release):** exact-head gates, source/artifact hashes and stale-run failure case.
