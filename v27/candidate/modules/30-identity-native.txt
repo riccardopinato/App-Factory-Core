@@ -1,0 +1,105 @@
+======================================================================
+21. AUTH / PROFILE
+======================================================================
+
+Google Sign-In è opzionale per default e non deve bloccare l'avvio quando il
+prodotto può funzionare localmente.
+
+Usare Golden compatibili per:
+- Google Auth / Supabase;
+- Profile Standard.
+
+Il profilo deve poter ospitare:
+- account;
+- lingua;
+- tema;
+- privacy;
+- backup/sync;
+- premium;
+- about/version.
+
+======================================================================
+25. PERMISSION / CAPABILITY / HEALTH
+======================================================================
+
+Applicare:
+GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1_DRAFT.txt
+
+Regola fondamentale:
+
+PERMISSION GRANTED
+!= CAPABILITY AVAILABLE
+!= SERVICE RUNNING
+!= SERVICE HEALTHY
+!= FEATURE VERIFIED
+
+Ogni capability critica deve poter distinguere almeno:
+- unsupported;
+- permission required;
+- denied;
+- permanently denied;
+- available;
+- degraded;
+- healthy;
+- unknown/not verified.
+
+Fornire repair/open settings quando utile.
+
+======================================================================
+26. ANDROID NATIVE RELIABILITY
+======================================================================
+
+Per FGS, boot, listener, sensor monitoring, exact alarms, WorkManager,
+notification listener e altre capability native applicare:
+GOLDEN_ANDROID_NATIVE_RELIABILITY_v1_DRAFT.txt
+
+Principi:
+- lifecycle esplicito;
+- heartbeat/reconciliation quando il servizio può morire;
+- recovery idempotente;
+- no duplicate workers/services/listeners;
+- OEM restrictions spiegate quando materialmente rilevanti;
+- battery discipline;
+- notification channel health;
+- reboot/update behavior definito;
+- physical validation obbligatoria quando il comportamento dipende dal device.
+
+======================================================================
+27. NOTIFICATION RELIABILITY
+======================================================================
+
+Usare Golden Notification Reliability esistente, ma applicare anche Diagnostic
+Truth e Capability Health.
+
+Una diagnostica non può dichiarare PASS solo perché schedule/show non ha lanciato
+un'eccezione.
+
+Distinguere:
+- permission;
+- channel;
+- exact alarm quando serve;
+- scheduler state;
+- service state;
+- push registration;
+- backend acceptance;
+- device receipt/delivery quando verificabile;
+- tap routing.
+
+======================================================================
+28. SECURE STORAGE / PRIVACY
+======================================================================
+
+Minimizzare dati e permessi.
+Secret/token/password non devono entrare in repository, log, backup portabile o
+analytics.
+
+Per dati sensibili:
+- encryption at rest quando giustificata;
+- Keystore/Keychain tramite adapter;
+- fail closed;
+- backup/Auto Backup policy esplicita;
+- export/import policy esplicita;
+- biometria come gate UX solo se semanticamente corretta.
+
+CORS != authentication.
+

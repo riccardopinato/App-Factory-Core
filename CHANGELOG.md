@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-28 — v27 Lean & Modular candidate / pinned v26.8 fallback
+
+- Prepared the **inactive** v27 modular architecture: compact candidate core, 8 verbatim domain modules, complete 55-section v26.8-to-v27 rule map and six representative routing scenarios.
+- Pinned the **existing** `master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt` as exact fallback at App Factory SHA `72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20` (Git blob `98fee1ef7ccadc98b947cefa74b33e9fae51022f`); no extra independently edited Master copy.
+- Added candidate-only validation to the central CI: exact source reconstruction, fallback identity, no missing/duplicate/altered sections, routing reference checks, compact-core size and negative controls.
+- Documented planned Flutter UI, native Android and CI/QA policy pilots and the separate resolver/activation/rollback gate.
+- **No activation:** `CURRENT.yaml`, current Master v26.8, Golden Index v23, Golden Registry v2 and downstream apps remain untouched. Static source mapping does not certify behavioral equivalence or speed gains.
+
+
 ## 2026-10-28 — Master v26.8 / Adaptive Execution
 
 - Added a **minimum-necessary-process execution router** without introducing another QA tier, workflow or authority: DIRECT for bounded simple work, PARALLEL for genuinely independent streams, CONTROLLED for high-risk changes.

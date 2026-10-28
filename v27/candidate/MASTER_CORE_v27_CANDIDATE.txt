@@ -1,0 +1,119 @@
+APP FACTORY v27 — MASTER CORE COMPACT (CANDIDATE ONLY)
+Version: 27.0-CANDIDATE | Base rules: v26.8
+STATUS: NOT ACTIVE. CURRENT.yaml still resolves Master v26.8.
+This is a routing/authority entrypoint, not a second source of truth today.
+
+1. CANONICAL BASELINE
+- Until explicit promotion: use CURRENT.yaml and the resolved Master v26.8.
+- The full v26.8 snapshot is preserved at master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt.
+- The pinned source commit is 72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20.
+- The full fallback has Git blob identity 98fee1ef7ccadc98b947cefa74b33e9fae51022f.
+- Never silently change version, source or precedence.
+- On future v27 activation resolve CURRENT first, then the modular manifest.
+- Fix a Factory baseline SHA once per session; do not repeatedly refresh without cause.
+- Resolve only task-relevant instructions, Golden modules and repository files.
+- A remembered chat rule or stale attachment does not supersede CURRENT.
+
+2. PRODUCT AND EXECUTION AUTHORITY
+- Product Bible determines approved product scope, features, exclusions, privacy and UX.
+- The project's current roadmap controls implementation dependencies.
+- App-Factory-Core Master sets cross-app policy.
+- Golden Index/Registry maps reusable capabilities and their validity.
+- Relevant Golden and repository AGENTS.md refine implementation, not product scope.
+- Real code/tests prove implemented state; green check alone is not runtime truth.
+- Read-only audit does not authorize implementation or merge.
+- An implementation request authorizes the normal branch/PR/merge flow inside scope.
+- Required human gates or user requests to review before merge still bind.
+- No new billing, cloud, AI, destructive data action or public release without scope.
+
+3. EXECUTION ROUTER — PROCED I
+- Commands "Procedi", "procedi con la roadmap", "continua" and equivalents trigger a one-pass decision.
+- Reuse known valid roadmap and baseline, no repeated analysis for its own sake.
+- DIRECT: small isolated changes, minimal relevant preflight, required tests.
+- PARALLEL: independent streams, distinct ownership, common architecture, integrate once.
+- CONTROLLED: migration, security, billing, native lifecycle, signing and risky release.
+- AUDIT ONLY: preserve read-only boundary.
+- Before parallelization assess dependencies, file collisions and net benefit.
+- Real parallel workers only if the environment supports them; never invent agents.
+- Serial execution is preferable when coupling or coordination cost dominates.
+- Prefer 2–4 clear streams over many artificial tasks when truly independent.
+- Report completed/active/blocked streams briefly and truthfully.
+
+4. RISK AND VALIDATION
+- Choose the cheapest relevant fail-fast preflight before expensive CI.
+- Check touched source compilation, test APK compilation, schema and resources when appropriate.
+- An early preflight PASS is not final certification.
+- Fix a known failure before repeating the full CI matrix.
+- Preserve required tests, branch protection and all exact-head gates.
+- Run final validation on the integrated source after bounded code hygiene.
+- New source SHA invalidates old exact-head checks unless explicitly source-identical.
+- Reuse artifact only with compatible source, toolchain, build contract, signing and checksum.
+- CI green != feature proven; emulator != physical-device or Play certification.
+- Never declare tests, builds, merge or artifact delivery without evidence.
+
+5. SECURITY, DATA AND USER TRUST
+- Do not silently change persisted user data, migration strategy or retention.
+- Preserve integrity, crash consistency and undo/recovery where relevant.
+- Restore/import critical data with stage, validate and safe commit.
+- Respect privacy, consent, secrets protection, permissions and platform policy.
+- Permission granted != capability healthy; cloud response != synchronized data.
+- UI must not claim protected, backed up, premium or downloaded unless proven.
+- Keep local-first capability where product permits; do not force cloud/login.
+- No unsafe shortcuts for reviews, required checks, signing or authentication.
+- Full requirements for data/native/security live in the routed modules.
+
+6. ENGINEERING AND USER EXPERIENCE
+- Flutter is default for new cross-platform app projects.
+- Preserve valid Kotlin/Compose apps without unneeded rewrites.
+- REUSE-FIRST, EXTEND BEFORE DUPLICATE, least architecture for present need.
+- Prefer existing production-safe Golden/donor before new dependencies.
+- Add packages only when benefits justify permissions, footprint and maintenance.
+- Favor coherent Material/iOS design depending on product requirements.
+- Localize every target surface affected by the feature, including native text.
+- Keep branding/icon production-intent for new app bootstrap.
+- A Web mock never certifies Android/iOS native behavior.
+- Do bounded hygiene in the affected scope, then rerun relevant checks.
+
+7. GITHUB AND RELEASE
+- Main stays protected; use bounded branch and PR for substantive changes.
+- Do not force push or rewrite someone else's pending work.
+- Merge only inside authorized scope after required exact-head checks pass.
+- Require mergeability and resolved blocking review/approval conditions.
+- No merge after only a preflight or after tests on a different head.
+- Use signed release identity, stable package, source/artifact hashes for delivery.
+- Never conflate internally signed APK with user-store readiness.
+- Do not duplicate CI runs or build artifacts absent a reason.
+
+8. MODULE SELECTOR (PROTOTYPE; NOT ACTIVE)
+- Read v27/candidate/MODULE_MAP.json for task-to-module routing.
+- Select modules for task impact, not all modules by default.
+- Authority/execution: governance, baseline, authorization, merges.
+- Foundation/reuse: architecture, Golden, app bootstrap, dependencies.
+- Data/offline: database, backup, media, import/export, sync.
+- Identity/native: account, permissions, notifications, privacy and Android.
+- Experience: localization, UI/UX, onboarding, Web and performance.
+- Monetization/AI: billing, AdMob, entitlement and ML.
+- Delivery/verification: CI, AppLab, signing, release and QA.
+- Audit/roadmap: read-only audit, roadmap design, gap/severity.
+- The routed section archive is a byte-exact decomposition of v26.8, not a new policy.
+
+9. FALLBACK AND FAIL-CLOSED BEHAVIOR
+- If any required v27 module/manifest is missing, corrupt or contradictory, stop modular execution.
+- Verify full fallback v26.8 blob identity against the pinned manifest.
+- Only after verification load that complete Master for the affected task.
+- Report FALLBACK_BASELINE_USED with reason and pinned commit; no silent substitution.
+- Do not auto-rewrite CURRENT or pretend the v27 candidate was validated.
+- If the fallback bytes are missing or do not match, declare FACTORY BASELINE UNVERIFIED.
+- Preserve all required gates even when switching back to the full Master.
+- Fallback is read-only; no duplicate canonical maintenance branch of the rules.
+
+10. RULE TRACEABILITY AND ACTIVATION
+- Every legacy section must map to exactly one candidate module.
+- Candidate validator reconstructs the full v26.8 document byte-for-byte.
+- A short core alone does not prove behavioral equivalence.
+- Run positive/negative policy scenarios and at least three real pilot surfaces.
+- Measure context loaded, time to first edit, wall clock, retries and regressions.
+- Do not make v27 CURRENT until validation, pilots and explicit promotion gates pass.
+- The present state remains v26.8 as canonical truth.
+
+END MASTER CORE v27 CANDIDATE

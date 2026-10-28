@@ -1,0 +1,130 @@
+======================================================================
+22. LOCALIZATION / TARGET PARITY
+======================================================================
+
+Default:
+- locale dispositivo;
+- override manuale;
+- fallback EN;
+- stringhe centralizzate.
+
+TARGET PARITY:
+la coverage deve includere, quando esistono:
+- Flutter UI;
+- Android native strings;
+- widgets;
+- notification text;
+- foreground-service notification;
+- share sheet labels;
+- deep-link error surface;
+- Web/PWA.
+
+Non dichiarare una lingua completa se parti user-facing rimangono hardcoded.
+
+======================================================================
+23. THEME / UX / ACCESSIBILITY / APP SHELL
+======================================================================
+
+Material 3 è baseline tecnica, non giustificazione per UI generica.
+Per app consumer preferire un'identità visiva moderna e coerente.
+
+Applicare:
+- GOLDEN_THEME_M3_FLUTTER_v1.txt
+- GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt
+
+Verificare:
+- light/dark/system;
+- hierarchy;
+- touch target;
+- semantics/TalkBack;
+- font scaling;
+- small/large phone;
+- tablet se supportato;
+- SafeArea/insets;
+- edge-to-edge;
+- keyboard;
+- bottom navigation/rail;
+- overlay;
+- loading/error/empty state;
+- no overflow;
+- ads separation quando presenti.
+
+======================================================================
+24. ONBOARDING / FIRST VALUE
+======================================================================
+
+Applicare:
+GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT.txt
+
+Onboarding deve essere:
+- breve;
+- resumable quando serve;
+- orientato al first-value;
+- permission-light;
+- local-first friendly;
+- accessibile;
+- non ripetuto dopo completion;
+- account-optional salvo necessità reale.
+
+Permessi sensibili vanno chiesti nel contesto in cui servono, non come muro
+iniziale indiscriminato.
+
+PROGRESSIVE DISCLOSURE / MODULAR APPS:
+per app con molti moduli applicare:
+GOLDEN_PROGRESSIVE_DISCLOSURE_MODULE_VISIBILITY_FLUTTER_v1_DRAFT.txt
+
+Regola:
+VISIBILITY != OWNERSHIP != PERSISTENCE.
+
+Nascondere un modulo non cancella, migra o trasferisce ownership dei suoi dati.
+La personalizzazione deve preferire l'owner di preferenze già esistente e
+preservare backward compatibility, restore e re-enable.
+
+======================================================================
+37. PERFORMANCE / BATTERY / APP SIZE
+======================================================================
+
+Performance, batteria e peso sono requisiti di prodotto.
+Verificare:
+- startup;
+- jank/frame;
+- main-thread work;
+- RAM;
+- bitmap/media;
+- I/O;
+- polling;
+- duplicate listener;
+- background wakeups;
+- APK/AAB size;
+- download/model pack size;
+- dependency bloat.
+
+Preferire app leggere, ma non sacrificare una capability utile solo per pochi MB.
+
+======================================================================
+38. WEB PREVIEW / TARGET BOUNDARY
+======================================================================
+
+Per Flutter Web fornire preview stabile quando tecnicamente sensato.
+
+Web Preview può verificare:
+- UI;
+- navigation;
+- localization;
+- responsive;
+- pure/shared logic.
+
+Non certifica automaticamente:
+- Android service;
+- sensor;
+- native storage;
+- real push;
+- billing;
+- Play delivery;
+- biometric;
+- background restrictions.
+
+Native-only feature su Web:
+- adapter/stub/mock chiaramente identificato;
+- mai finta equivalenza funzionale.
+

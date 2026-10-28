@@ -1,0 +1,139 @@
+======================================================================
+32. ANDROID SIGNING / RELEASE IDENTITY
+======================================================================
+
+Applicare:
+GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT.txt
+
+Ogni app destinata a distribuzione reale deve avere:
+- package/applicationId stabile;
+- signing identity stabile;
+- keystore/credentials fuori dal repository;
+- backup sicuro della key material;
+- fingerprint registrato;
+- versionCode crescente;
+- source SHA;
+- artifact SHA-256;
+- signing mode noto;
+- Play App Signing boundary nota se applicabile.
+
+Perdere la signing identity è un incidente di release, non un dettaglio build.
+
+======================================================================
+33. CI / CODE REVIEW / DELIVERY
+======================================================================
+
+CI minima:
+- analyze/lint;
+- test;
+- build release quando pertinente;
+- artifact retention ragionevole;
+- secret-safe;
+- signing-safe;
+- Web build/deploy quando previsto.
+
+Supply-chain:
+- preferire GitHub Actions pinnate a SHA immutabili;
+- evitare installer remoti non verificati;
+- permissions minime;
+- provenance degli artifact.
+
+CodeRabbit:
+- advisory/non-blocking;
+- nessun wait/retry loop;
+- non è authority PASS/FAIL/CERTIFIED.
+
+Fastlane:
+- build-once preferito;
+- usare artifact già prodotto quando possibile;
+- delivery/store automation separata dalla build truth.
+
+======================================================================
+34. APPLAB / TRUSTED QA
+======================================================================
+
+AppLab è il verifier trusted trasversale quando integrato.
+Applicare:
+GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt
+
+Trusted evidence deve legare:
+- repository;
+- source SHA;
+- package;
+- artifact SHA-256;
+- workflow/run;
+- runtime evidence.
+Il target non deve poter falsificare il verifier trusted.
+Un AppLab PASS su una singola app non certifica automaticamente round-trip
+cross-app o store distribution.
+
+======================================================================
+35. RELEASE REALITY / EVIDENCE LADDER
+======================================================================
+
+Applicare:
+GOLDEN_RELEASE_REALITY_PHYSICAL_VALIDATION_v1_DRAFT.txt
+
+Evidence Ladder:
+
+IMPLEMENTED
+-> STATICALLY CHECKED
+-> TESTED
+-> CI GREEN
+-> ARTIFACT BUILT
+-> TRUSTED RUNTIME VERIFIED
+-> PHYSICAL DEVICE VERIFIED
+-> DISTRIBUTION VERIFIED
+-> STORE READY
+-> PRODUCTION RELEASED
+
+Ogni affermazione deve fermarsi al livello realmente provato.
+
+DEBUG BUILD != RELEASE APK != AAB != GITHUB ARTIFACT != PLAY INTERNAL
+!= STORE READY != PRODUCTION RELEASE.
+
+SAME-ARTIFACT RULE:
+build once -> identify exact bytes -> verify exact bytes -> distribute exact bytes
+quando possibile.
+
+======================================================================
+36. PHYSICAL VALIDATION
+======================================================================
+
+Obbligatoria prima di CERTIFIED per capability materialmente dipendenti da:
+- sensori;
+- camera/scanner;
+- biometria/Keystore;
+- GPS/background;
+- FGS;
+- OEM battery behavior;
+- OAuth/deep link release callback;
+- notification delivery;
+- file picker/provider;
+- physical restore;
+- Play model/asset delivery;
+- billing/store purchase;
+- cross-app deep link/transport.
+
+PASS / FAIL / BLOCKED / NOT VERIFIED devono restare distinti.
+
+======================================================================
+43. QA / TEST DISCIPLINE
+======================================================================
+
+Distinguere:
+- unit;
+- integration;
+- migration;
+- failure-path;
+- widget/UI;
+- instrumentation/device;
+- E2E/Maestro;
+- visual regression;
+- physical acceptance.
+
+Self-test nell'implementazione è utile ma non sostituisce una oracle indipendente.
+
+Ogni bug fix importante deve avere test anti-regressione quando tecnicamente
+ragionevole.
+

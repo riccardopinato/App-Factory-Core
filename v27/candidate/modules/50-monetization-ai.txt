@@ -1,0 +1,77 @@
+======================================================================
+29. PREMIUM / ENTITLEMENT
+======================================================================
+
+Applicare:
+GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1.txt
+
+Regole:
+- product IDs != entitlement;
+- UI consuma access state, non SDK billing;
+- ProductLimits centralizzati;
+- unknown entitlement fail-safe;
+- offline grace esplicita se prevista;
+- QA/debug override separato;
+- scadenza Premium non elimina user-owned data;
+- provider Billing/RevenueCat resta adapter.
+
+Per acquisto lifetime/non-consumable tramite Flutter Play Billing usare inoltre,
+finché non raggiunge COPY-READY:
+GOLDEN_PLAY_BILLING_LIFETIME_ENTITLEMENT_FLUTTER_v1_DRAFT.txt
+
+CLIENT STORE-STATE VALIDATED != SERVER-SIDE RECEIPT VERIFIED.
+Mock/CI billing PASS != Play Internal Testing purchase verified.
+
+VALUE BEFORE PREMIUM:
+Premium sblocca valore reale, non frustrazione creata artificialmente.
+
+======================================================================
+30. ADMOB
+======================================================================
+
+Se l'app usa AdMob applicare:
+GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT.txt
+
+Default:
+- Large Anchored Adaptive per slot ancorati;
+- Inline Adaptive nel contenuto scrollabile;
+- UMP/consent gate;
+- Premium No Ads = nessuna ad request;
+- DEBUG/QA/test = test traffic;
+- Web = stub/no-op;
+- interstitial/native/rewarded/app-open OFF per default;
+- no accidental-click design;
+- app-ads.txt / readiness quando richiesto.
+
+Advertising failure non deve bloccare il core.
+
+======================================================================
+31. AI / LOCAL MODEL
+======================================================================
+
+AI è enhancement, non requisito predefinito.
+
+Prima di introdurla definire:
+- user value;
+- on-device vs cloud;
+- model/package size;
+- RAM/latency/battery;
+- privacy/telemetry;
+- provider abstraction;
+- output validation;
+- fallback;
+- evaluation set;
+- update/removal path.
+
+Core deve restare utile senza AI salvo prodotto esplicitamente AI-first.
+Per model pack scaricabili usare Offline Content Packs.
+Non presentare benchmark del vendor come qualità verificata sul prodotto.
+
+VERSIONED EDITORIAL CONTENT:
+per cataloghi editoriali bundled/offline con stable IDs, versioning, locale
+packs, provenance/rights e import transaction-safe applicare:
+GOLDEN_VERSIONED_EDITORIAL_CATALOG_FLUTTER_v1_DRAFT.txt
+
+Un catalogo editoriale versionato NON è automaticamente un Offline Content Pack:
+schema/import/rights e download/activation lifecycle restano contratti separati.
+
