@@ -34,3 +34,9 @@ jobs:
 
       - name: v27D read-only three-repo routing and context-byte replay
         run: python3 scripts/evaluate_v27_pilots.py
+
+      - name: Install pinned tokenizer for v27D2 prompt comparison
+        run: python3 -m pip install --disable-pip-version-check --no-cache-dir tiktoken==0.12.0
+
+      - name: v27D2 paired prompt protocol and tokenizer counts
+        run: python3 scripts/evaluate_v27d2.py --self-test --bench --require-tokenizer

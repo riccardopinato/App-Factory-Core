@@ -20,8 +20,8 @@
 - [x] Inspect pinned HEADs and actual product/roadmap/AGENTS evidence in Anna's Diary, Phone Guard and AppLab (read-only).
 - [x] Add ten deterministic routing scenarios across the three app domains and the central Factory update rule.
 - [x] Execute CI deterministic replay on exact candidate head: 11/11 cases; 9 modular/2 fallback; median 64.8% estimated UTF-8 context reduction in modular cases; source and results in `pilots/V27D_RESULTS_2026-10-28.md`.
-- [ ] Run independent *model behavioral equivalence* tests (not established by static text/routing checks).
-- [ ] Measure real ChatGPT token usage and time-to-first-edit/completion on comparable tasks (not established by script microbenchmarks).
+- [ ] Run independent model behavioral equivalence tests (D2 paired prompt/scorer prepared; real outputs NOT YET AVAILABLE).
+- [ ] Measure actual ChatGPT tokens and end-to-end time. D2 uses real o200k_base local tokenizer counts only, NOT provider usage or ChatGPT latency.
 - [ ] Resolve any genuine safety/selection regressions prior to enabling v27.
 
 ## Initial pilot source references
@@ -54,3 +54,12 @@ Initial exact-head CI replay failed as intended on two selection-policy defects:
 Deterministic routing and byte-cost replay **PASS** on candidate PR #25 exact head. The v27C/v27D resolver has also passed 12 unit tests and the synchronized fallback/section-reconstruction gates. Three routing gaps were corrected during pilot execution: omitted continuation authority, project-name-only AppLab routing and missing specialist PIN Golden. Route metadata is included in the generated full fallback, preventing invisible drift.
 
 **HOLD for v27E**: actual model response equivalence, real token counts and end-to-end time-to-first-edit/merge are not verified. Repository snapshots are source-backed and pinned but tests are read-only; no production app test, physical QA, or rollout is claimed.
+
+## v27D2 — paired behavioral evaluation
+
+- [x] Prepare 16 safety and behavior decision cases, paired prompt exporter, fail-closed evidence scoring protocol and static negative tests.
+- [ ] Confirm exact-head CI token-count benchmark with pinned tiktoken 0.12.0.
+- [ ] Execute 32 independent real model prompt runs under the same model/effort, capture verified provider request IDs and token/latency receipts.
+- [ ] Obtain independent qualitative review and comparable real development workflow timings.
+
+Activation v27E remains HOLD: model behavior and actual ChatGPT end-to-end performance must not be inferred from green static CI.
