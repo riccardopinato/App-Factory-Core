@@ -62,6 +62,8 @@ class ActivationShadowTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root=make_shadow(d)
             active=yaml.safe_load((root/"CURRENT.yaml").read_text(encoding="utf-8"))
+            # Match validate_factory.py's YAML date->ISO string normalization.
+            active=json.loads(json.dumps(active,default=str))
             self.assertFalse(list(validator.iter_errors(active)),"v27 shadow schema invalid")
             active["master"]["path"]="master/MASTER_PROMPT_CURRENT.txt"
             self.assertTrue(list(validator.iter_errors(active)),
