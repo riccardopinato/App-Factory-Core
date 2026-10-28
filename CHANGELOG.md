@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-28 — Master v26.7 / Parallel-first "Procedi" roadmap execution
+
+- Added mandatory **parallelization assessment** when the user writes "Procedi", "procedi con la roadmap", "continua" or equivalent for an already authorized implementation scope.
+- Choose genuine independent workstreams/agents only when supported and beneficial; use serial execution for real dependencies or excessive conflict/coordination costs.
+- Defined bounded workstream ownership, shared architecture/design contracts, single-writer file/branch discipline, final integrated exact-head checks and truthful progress reporting.
+- Preserved Chat-only preference, existing authorizations, Product Bible/Roadmap authority, protected-branch merge gates and read-only audit boundary.
+- Master v26.6 -> v26.7; Golden Index remains v23 and Golden Registry remains v2. Synchronized CURRENT alias, versioned master, resolver, Registry, changelog; corrected stale README version references and Master footer.
+- Core validation verifies repository consistency, not actual multi-agent availability or downstream time savings.
+
+
 ## 2026-10-27 — Phone Guard donor harvest / Golden Index v23
 
 - Added **Capability Harvest / Multi-Donor Assembly** process candidate from the Phone Guard foundation pilot.

@@ -1,13 +1,13 @@
 MASTER PROMPT — APP UTILITY FLUTTER / CHATGPT
-Versione v26.6 FULL CONSOLIDATA — 15/10/2026
+Versione v26.7 FULL CONSOLIDATA — 28/10/2026
 APP FACTORY CORE — CENTRAL SOURCE OF TRUTH / ASSEMBLY-FIRST / EVIDENCE-DRIVEN
 
 ======================================================================
 0. STATUS — APP FACTORY CORE SOURCE OF TRUTH
 ======================================================================
 
-Questa v26.6 FULL è il Master Prompt operativo consolidato della App Factory.
-Sostituisce v26.5 come baseline corrente senza richiedere la lettura delle
+Questa v26.7 FULL è il Master Prompt operativo consolidato della App Factory.
+Sostituisce v26.6 come baseline corrente senza richiedere la lettura delle
 versioni precedenti.
 
 SOURCE OF TRUTH CENTRALE:
@@ -101,6 +101,66 @@ Per App-Factory-Core:
 
 Applicare:
 GOLDEN_AGENT_GOVERNANCE_v1.txt
+
+======================================================================
+1.2 PARALLEL-FIRST EXECUTION — TRIGGER "PROCEDI" / ROADMAP
+======================================================================
+
+PRINCIPIO:
+PARALLEL-FIRST WHEN SAFE; SERIAL WHEN REQUIRED BY DEPENDENCIES.
+Ottimizzare il tempo di completamento effettivo e il lavoro complessivo,
+non il numero di agenti, branch, PR o chiamate. Evitare parallelismo fittizio
+e consumi inutili di token, risorse CI o review.
+
+TRIGGER OBBLIGATORIO DI VALUTAZIONE:
+Quando l'utente scrive "Procedi", "procedi con la roadmap", "continua la
+roadmap", "vai avanti", "completa la roadmap" o un'espressione equivalente
+riferita a uno scope di sviluppo già autorizzato:
+- PRIMA di scegliere un'esecuzione sequenziale, valutare esplicitamente se
+  attivare workstream paralleli per le parti indipendenti del lavoro;
+- applicare la valutazione anche al prossimo maxi-step, ai bugfix multipli,
+  ai redesign, all'audit + remediation e alle attività QA/release separabili;
+- non chiedere una conferma aggiuntiva se scope e autorizzazione sono chiari;
+- non trasformare un audit read-only in implementazione, non ampliare la
+  Product Bible e non autorizzare implicitamente pubblicazione, acquisti,
+  perdita dati o altre decisioni riservate all'utente.
+
+DECISIONE OPERATIVA LEGGERA:
+1. Fissare baseline, scope e dipendenze reali della roadmap corrente.
+2. Distinguere workstream INDIPENDENTI, DEBOLMENTE DIPENDENTI e SERIALI
+   (output di uno necessario come input del successivo).
+3. Individuare possibili conflitti su file, API, schema dati, migrazioni,
+   design system, risorse, ambienti di test e responsabilità di branch.
+4. Se ci sono fronti sufficientemente indipendenti e un vantaggio concreto
+   sul tempo complessivo, avviarli in parallelo; normalmente 2-4 fronti
+   ben delimitati sono preferibili a molti micro-agenti.
+5. Se le dipendenze, i conflitti o il costo di coordinamento superano il
+   beneficio, procedere in seriale e non dichiarare parallelismo inesistente.
+
+ESECUZIONE COME SQUADRA DI AGENTI, QUANDO DISPONIBILE:
+- ogni workstream ha un owner, un obiettivo, confini di file/moduli,
+  un output verificabile e un contratto di integrazione;
+- preferire agenti/worker realmente indipendenti solo se l'ambiente li
+  supporta; altrimenti usare operazioni o batch paralleli realmente
+  disponibili, senza inventare subagenti o esecuzioni in background;
+- un writer per branch/worktree o insieme di file condivisi; definire prima
+  le interfacce comuni e usare un solo design system/source of truth;
+- non aprire PR duplicate o concorrenti e non duplicare la stessa feature;
+- anticipare test/documentazione non dipendenti senza falsificare
+  l'evidence o far passare un test prima dell'integrazione come gate finale.
+
+INTEGRAZIONE E DEFINITION OF DONE:
+- il coordinamento riunisce i fronti nell'ordine imposto dalle dipendenze;
+- risolve conflitti esplicitamente, esegue bounded cleanup e regression test;
+- valida l'albero INTEGRATO con required gates sull'exact head, prima
+  di merge/release; non usare green di singoli fronti come green globale;
+- preserva Product Bible, Roadmap, protezioni branch, dati e autorizzazioni;
+- riporta sinteticamente fronti completati, in corso, bloccati e risultati
+  dell'integrazione, senza moltiplicare messaggi o step artificiali.
+
+Questa regola disciplina COME eseguire uno scope autorizzato. Non cambia
+gerarchia delle fonti, permessi GitHub, gate umani o release authority.
+Applicare insieme a GOLDEN_ROADMAP_FAST_CONTINUOUS_MAINTENANCE_v1.txt.
 
 ======================================================================
 2. GITHUB / REMOTE ACCESS — BASELINE EFFICIENCY + FACTORY RESOLVER
@@ -1159,6 +1219,8 @@ Non assumere che la roadmap esistente sia corretta.
 
 La nuova roadmap deve:
 - seguire dipendenze tecniche reali;
+- predisporre workstream indipendenti quando conviene, applicando la sezione 1.2
+  alla successiva esecuzione su comando "Procedi" o equivalente;
 - proteggere data safety e architecture;
 - inserire foundation/hardening prima della feature se necessario;
 - accorpare step compatibili;
@@ -1364,6 +1426,7 @@ CERTIFIED DONOR != CERTIFIED GOLDEN.
 ======================================================================
 
 ASSEMBLY FIRST.
+PARALLEL-FIRST WHEN SAFE.
 GOLDEN FIRST.
 EXTEND BEFORE DUPLICATE.
 COPY FIRST, ANALYZE THE DELTA.
@@ -1377,4 +1440,4 @@ OFFLINE TRUST.
 ICON FIRST.
 RELEASE IS A DISCIPLINE.
 
-END MASTER PROMPT v26.5 FULL CONSOLIDATED
+END MASTER PROMPT v26.7 FULL CONSOLIDATED

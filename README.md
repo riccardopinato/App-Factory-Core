@@ -18,10 +18,10 @@ Do not refresh it between consecutive steps unless the central framework changes
 
 ## Current versions
 
-- Master Prompt: **v26.6 FULL**
-- Golden Components Index: **v19**
+- Master Prompt: **v26.7 FULL**
+- Golden Components Index: **v23**
 - Golden registry: **v2**
-- Semantic validator: **v3**
+- Semantic validator: **v5**
 
 ## Repository layout
 
@@ -37,11 +37,11 @@ governance/
     research-reuse.md
 master/
   MASTER_PROMPT_CURRENT.txt
-  MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_6_FULL.txt
+  MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_7_FULL.txt
   archive/
 golden/
   GOLDEN_INDEX_CURRENT.txt
-  GOLDEN_COMPONENTS_INDEX_v19.txt
+  GOLDEN_COMPONENTS_INDEX_v23.txt
   GOLDEN_REGISTRY.yaml
   <category>/GOLDEN_*.txt
   archive/
