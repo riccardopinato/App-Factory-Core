@@ -1,0 +1,375 @@
+======================================================================
+3. STACK STANDARD
+======================================================================
+
+FLUTTER / DART = default per nuove app Android/iOS.
+
+Kotlin + Jetpack Compose:
+- mantenere per progetti nativi già avviati;
+- usare quando capability Android specifiche rendono il native path più semplice
+  e affidabile;
+- non riscrivere in Flutter un progetto valido senza beneficio concreto.
+
+Flutter Web:
+- fornire Web Preview/deploy quando tecnicamente possibile;
+- il Web può verificare UI, navigazione, responsive, localizzazione e logica
+  condivisa;
+- il Web NON certifica capability native Android/iOS.
+
+======================================================================
+4. ASSEMBLY FIRST — NUOVA REGOLA CENTRALE
+======================================================================
+
+Ogni nuova app deve essere trattata come composizione di moduli, non come
+progetto da reinventare.
+
+Sequenza standard:
+
+PRODUCT IDEA
+-> PRODUCT BIBLE MINIMA
+-> APP BOOTSTRAP MANIFEST
+-> GOLDEN SELECTION
+-> DONOR / OSS DELTA SOLO SE SERVE
+-> DOMAIN IMPLEMENTATION
+-> QA / EVIDENCE
+-> RELEASE
+
+Applicare:
+GOLDEN_APP_BOOTSTRAP_FLUTTER_v1_DRAFT.txt
+
+Il bootstrap deve almeno fissare:
+- APP_NAME;
+- PACKAGE_NAME / BUNDLE_ID;
+- versioning iniziale;
+- target platforms;
+- localizzazione;
+- theme/brand seed;
+- app icon;
+- auth requirement;
+- persistence choice;
+- backup requirement;
+- notifications requirement;
+- premium/ads requirement;
+- Web Preview boundary;
+- selected Golden modules;
+- native capability requirements.
+
+======================================================================
+5. ICON FIRST
+======================================================================
+
+Ogni nuova app deve avere un'icona production-intent dal primo bootstrap.
+Non lasciare Flutter/default/placeholder icon fino alla fine del progetto.
+
+Applicare:
+GOLDEN_APP_ICON_BRANDING_FLUTTER_v1_DRAFT.txt
+
+L'icona deve:
+- comunicare il dominio/funzione rapidamente;
+- essere riconoscibile a dimensioni reali;
+- essere moderna e commercialmente attraente;
+- non apparire come clipart o generazione AI non rifinita;
+- essere distinta dai competitor senza copiarli;
+- avere Android adaptive icon;
+- prevedere monochrome/themed asset quando pertinente;
+- avere iOS/Web assets quando target.
+
+ICON CREATED != ICON WIRED != PHYSICAL LAUNCHER VERIFIED.
+
+======================================================================
+7. GOLDEN COMPONENT LIBRARY — COPY FIRST
+======================================================================
+
+Ordine di preferenza:
+
+1. CERTIFIED GOLDEN interno.
+2. COPY-READY GOLDEN interno.
+3. CERTIFIED DONOR interno.
+4. DRAFT/CANDIDATE Golden con audit per-app.
+5. donor interno già usato.
+6. OSS con licenza compatibile.
+7. nuova implementazione.
+
+EXTEND BEFORE DUPLICATE.
+COPY FIRST, ANALYZE THE DELTA.
+
+Stati:
+- CERTIFIED DONOR;
+- COPY-READY GOLDEN;
+- CERTIFIED GOLDEN;
+- CANDIDATE;
+- DRAFT / PROCESS CANDIDATE;
+- COPY-READY PROCESS;
+- DEPRECATED.
+
+Un Golden generalizzato NON è CERTIFIED solo perché il donor originale funziona.
+
+======================================================================
+8. GOLDEN FRESHNESS / STALENESS
+======================================================================
+
+Ogni Golden provider/platform-sensitive deve progressivamente registrare:
+
+```text
+lastReviewedAt:
+providerSensitive: yes | no
+testedPackageVersion:
+testedPlatformVersion:
+freshnessStatus: CURRENT | NEEDS_REVIEW | STALE | DEPRECATED
+replacement:
+```
+
+Prima di usare in produzione guidance sensibile a:
+- SDK/API;
+- store policy;
+- billing;
+- AdMob;
+- OAuth;
+- Android background execution;
+- provider cloud;
+verificare la documentazione corrente se la freschezza non è CURRENT.
+
+Stale knowledge deve essere marcata, non fidata silenziosamente.
+
+FRESHNESS TRUTH:
+- migrated_at != last_content_reviewed_at;
+- last_content_reviewed_at != last_provider_verified_at;
+- copiare un Golden nel repository centrale NON lo rende automaticamente CURRENT;
+- un Golden provider-sensitive può essere CURRENT solo se possiede una verifica
+  provider/platform recente e registrata;
+- in assenza di tale verifica usare NEEDS_REVIEW, non CURRENT.
+
+======================================================================
+9. REUSE-FIRST / OSS RECONNAISSANCE
+======================================================================
+
+Prima di sviluppare un modulo non coperto bene dai Golden:
+- cercare normalmente 3-5 progetti OSS simili quando il costo è giustificato;
+- confrontare architettura, qualità, manutenzione, test e licenza;
+- riusare codice solo se licenza compatibile;
+- altrimenti riusare concetti/pattern e riscrivere;
+- registrare provenance significativa.
+
+Fonte Flutter Clean Architecture approvata come bacino di discovery:
+https://github.com/topics/flutter-clean-architecture-example
+
+Applicare:
+GOLDEN_OSS_REUSE_RECONNAISSANCE_FLUTTER_v1_DRAFT.txt
+GOLDEN_PROVENANCE_REUSE_LEDGER_v1_DRAFT.txt
+
+======================================================================
+10. ARCHITETTURA STANDARD
+======================================================================
+
+Usare la minima architettura che supporta in sicurezza il prodotto.
+Preferire confini chiari:
+
+Presentation
+-> Domain / Use Cases quando utili
+-> Repository / Data
+-> Provider / Platform / Infrastructure
+
+Regole:
+- business logic fuori dai widget;
+- provider DTO fuori dal domain;
+- dipendenze verso l'interno;
+- repository testabili;
+- provider sostituibili;
+- evitare service locator globale indiscriminato;
+- evitare singleton quando nascondono ownership/lifecycle;
+- evitare file monolitici solo quando creano rischio reale/costo di modifica;
+- non refactorizzare per estetica architetturale.
+
+======================================================================
+10.1 CODE HYGIENE / BOUNDED OBSOLETE-CODE SWEEP
+======================================================================
+
+Ogni modifica sostanziale a codice/config/dipendenze deve valutare se il nuovo
+comportamento rende obsoleta una implementazione precedente.
+
+REGOLA CENTRALE:
+Adding a replacement without evaluating removal of the superseded implementation is incomplete work.
+
+Nel sottosistema toccato verificare almeno quando pertinente:
+- dead/unreachable code;
+- implementazioni duplicate/superseded;
+- service/repository/coordinator/scheduler/listener/worker concorrenti inutili;
+- workaround, feature flag e TODO obsoleti;
+- deprecated API toccate;
+- dipendenze inutilizzate;
+- asset/resource/traduzioni orfani;
+- media/file/reminder/job/cache rimasti senza owner.
+
+La pulizia è BOUNDED:
+- rimuovere ciò che è reso obsoleto dal task;
+- non usare il cleanup come pretesto per refactor repository-wide non richiesti;
+- non eliminare migration/history/compatibility/generated/vendor senza evidence;
+- unknown impact != safe to delete.
+
+La validation finale deve essere rieseguita DOPO cleanup.
+TEST GREEN BEFORE CLEANUP != FINAL TREE VERIFIED.
+
+Applicare:
+GOLDEN_CODE_HYGIENE_v1.txt
+
+======================================================================
+11. DEPENDENCY ADMISSION RULE
+======================================================================
+
+Ogni nuova dipendenza deve giustificare almeno:
+- valore prodotto;
+- footprint/app size;
+- RAM/CPU/batteria;
+- permessi;
+- privacy/telemetria;
+- background behavior;
+- compatibilità Web/iOS/Android;
+- manutenzione e release cadence;
+- licenza;
+- possibilità di rimozione/adapter.
+
+Non aggiungere package per poche righe di logica stabile facilmente mantenibile.
+Non sacrificare però capacità reale per pochi MB quando la dipendenza porta
+valore significativo.
+
+======================================================================
+44. DOCUMENTATION / PROJECT HYGIENE
+======================================================================
+
+Mantenere coerenti quando presenti:
+- README;
+- Product Bible;
+- ROADMAP;
+- AGENTS;
+- PROJECT_RULES;
+- architecture docs;
+- changelog/release notes;
+- version metadata.
+
+Documentazione stale è un finding.
+Non aggiornare documenti irrilevanti solo per generare diff.
+
+======================================================================
+45. APP BOOTSTRAP DEFINITION OF DONE
+======================================================================
+
+Una nuova app non ha concluso il bootstrap finché non ha almeno:
+
+[ ] Product Bible minima
+[ ] package/bundle ID
+[ ] version baseline
+[ ] App Bootstrap Manifest
+[ ] Golden selection
+[ ] architecture skeleton
+[ ] local persistence decision
+[ ] localization baseline
+[ ] theme baseline
+[ ] production-intent app icon
+[ ] error/loading/empty shell
+[ ] permissions plan
+[ ] auth decision
+[ ] premium/ads decision
+[ ] backup/export decision
+[ ] Web Preview boundary
+[ ] CI baseline
+[ ] release/signing plan
+[ ] initial tests
+[ ] README/roadmap
+
+======================================================================
+45A. FACTORY CONFIGURATION REPOSITORY — STABLE RESOLUTION CONTRACT
+======================================================================
+
+Il repository `App-Factory-Core` deve mantenere sempre:
+
+- un solo `CURRENT.yaml` canonico;
+- un alias stabile `MASTER_PROMPT_CURRENT.txt`;
+- un alias stabile `GOLDEN_INDEX_CURRENT.txt`;
+- un `GOLDEN_REGISTRY.yaml` con path/stato/freshness;
+- validator CI che fallisce su path mancanti o riferimenti incoerenti;
+- changelog delle modifiche di governance;
+- nessun secret o credenziale.
+
+Ogni modifica di versione deve aggiornare nello stesso change set:
+1. file versionato;
+2. alias CURRENT;
+3. CURRENT.yaml;
+4. indice/registry se cambia la libreria Golden;
+5. CHANGELOG.
+
+Il validator centrale verifica coerenza documentale, NON certifica runtime delle
+app e NON promuove automaticamente un Golden.
+
+======================================================================
+46. NEW GOLDEN TRIGGERS v26
+======================================================================
+
+Per nuova app:
+- GOLDEN_APP_BOOTSTRAP_FLUTTER_v1_DRAFT
+
+Per capability native/permessi:
+- GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1_DRAFT
+
+Per Android background/system integration:
+- GOLDEN_ANDROID_NATIVE_RELIABILITY_v1_DRAFT
+
+Per release Android:
+- GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT
+
+Per import/export:
+- GOLDEN_IMPORT_EXPORT_PORTABILITY_FLUTTER_v1_DRAFT
+
+Per Premium:
+- GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1_DRAFT
+
+Per onboarding:
+- GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT
+
+Per responsive/app shell/visual QA:
+- GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT
+
+Per downloadable/offline content:
+- GOLDEN_OFFLINE_CONTENT_PACKS_FLUTTER_v1_DRAFT
+
+======================================================================
+47. EXISTING GOLDEN HARDENING QUEUE
+======================================================================
+
+Non promuovere automaticamente; audit dedicato prima della v2:
+
+- Notification Reliability:
+  aggiungere Diagnostic Truth / false-green prevention.
+
+- Localization:
+  estendere target parity a native/widget/notification text.
+
+- CI + Release + Web Deploy:
+  pin Actions a SHA, signing completeness, artifact provenance.
+
+- Secure Storage:
+  esplicitare Auto Backup/restore exclusions e platform boundaries.
+
+Questa coda NON blocca i progetti che usano la v1 quando la v1 è già adeguata;
+indica soltanto il prossimo hardening centrale.
+
+======================================================================
+48. GOLDEN PROMOTION RULE
+======================================================================
+
+DRAFT/CANDIDATE -> COPY-READY:
+- contratto stabile;
+- implementazione generalizzata;
+- test harness;
+- almeno una integrazione reale;
+- failure-path adeguati;
+- documentazione chiara;
+- nessuna dipendenza app-specifica accidentale.
+
+COPY-READY -> CERTIFIED GOLDEN:
+- riuso riuscito in almeno due progetti o harness equivalente forte;
+- evidence registrata;
+- physical validation quando pertinente;
+- nessuna regressione nota critica.
+
+CERTIFIED DONOR != CERTIFIED GOLDEN.
+

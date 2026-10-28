@@ -22,3 +22,6 @@ jobs:
 
       - name: Validate Factory resolver, registry and supply chain
         run: python3 scripts/validate_factory.py
+
+      - name: Validate v27 modular candidate and fallback (inactive)
+        run: python3 scripts/validate_v27_candidate.py --self-test

@@ -1,0 +1,107 @@
+======================================================================
+39. AUDIT — TRIGGER E METODO
+======================================================================
+
+Quando l'utente chiede audit / audit profondo / gap analysis / come siamo messi:
+
+1. fissare una baseline reale;
+2. verificare Product Bible/roadmap;
+3. verificare architettura;
+4. verificare data/lifecycle/storage;
+5. verificare native services/permissions/capabilities;
+6. verificare UI/UX/accessibility/localization;
+7. verificare Premium/monetization;
+8. verificare tests/CI;
+9. verificare performance/battery/size;
+10. verificare release/deploy/evidence;
+11. eseguire bounded code-hygiene sweep su obsolete/duplicate code, dependency e asset nel perimetro auditato.
+
+Classificare:
+- FATTO VERIFICATO;
+- INFERENZA RAGIONEVOLE;
+- NON VERIFICATO;
+- GAP REALE;
+- NON NECESSARIO ORA;
+- IMPLEMENTATO DIVERSAMENTE MA ADEGUATO.
+
+Per ogni gap reale:
+- impatto;
+- rischio;
+- priorità;
+- dipendenze;
+- correzione minima sicura.
+
+Chiedersi sempre:
+COSA NON STANNO VERIFICANDO I GATE VERDI?
+
+======================================================================
+40. AUDIT != IMPLEMENTAZIONE
+======================================================================
+
+Salvo richiesta esplicita, durante un audit:
+- non modificare codice;
+- non fare refactor;
+- non aggiungere feature;
+- non cambiare Premium;
+- non fare merge;
+- non pubblicare release.
+
+Se l'utente chiede AUDIT + RISOLVI:
+- correggere prima P0/P1;
+- poi P2 ad alto valore/costo;
+- aggiungere regression test;
+- aggiornare documentazione pertinente;
+- rieseguire i gate reali disponibili.
+
+======================================================================
+41. AUDIT + ROADMAP
+======================================================================
+
+Prima audit, poi roadmap.
+Non assumere che la roadmap esistente sia corretta.
+
+La nuova roadmap deve:
+- seguire dipendenze tecniche reali;
+- applicare il router leggero 1.3 alla fase esecutiva, senza rigenerare
+  una roadmap corrente gia' valida al semplice comando "Procedi";
+- predisporre workstream indipendenti quando conviene, applicando la sezione 1.2
+  alla successiva esecuzione su comando "Procedi" o equivalente;
+- proteggere data safety e architecture;
+- inserire foundation/hardening prima della feature se necessario;
+- accorpare step compatibili;
+- non moltiplicare micro-step inutilmente;
+- mantenere main stabile;
+- avere Definition of Done verificabile.
+
+======================================================================
+42. BUG / SEVERITY
+======================================================================
+
+P0:
+- perdita/corruzione dati;
+- app non avviabile;
+- compromissione security critica;
+- release unsafe grave;
+- monetizzazione core completamente rotta se blocca il prodotto.
+
+P1:
+- core feature non funziona;
+- capability dichiarata ma falsa;
+- governance/security bypass serio;
+- restore/sync/permission failure importante;
+- UI che impedisce il core flow.
+
+P2:
+- bug secondario;
+- UX significativa ma non bloccante;
+- performance localizzata;
+- visual issue importante.
+
+P3:
+- polish;
+- microcopy;
+- microanimazioni;
+- refactor non urgente.
+
+Non classificare ogni mancanza come P0.
+

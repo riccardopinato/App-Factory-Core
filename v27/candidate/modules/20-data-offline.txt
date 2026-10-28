@@ -1,0 +1,183 @@
+======================================================================
+12. LOCAL-FIRST / OFFLINE TRUST
+======================================================================
+
+Per default le utility devono restare utili senza rete quando il dominio lo
+consente.
+
+Verificare:
+- source of truth;
+- comportamento offline;
+- pending writes;
+- retry;
+- conflitti;
+- cache vs dati canonici;
+- sync opzionale;
+- export;
+- recovery.
+
+Login, billing e cloud non devono bloccare valore locale salvo requisito di
+prodotto esplicito.
+
+OFFLINE CLAIM != OFFLINE REALITY.
+Non mostrare contenuto come "scaricato/offline" se i file/pack reali non sono
+presenti e verificati.
+
+======================================================================
+14. DATA DISCIPLINE & INTEGRITY
+======================================================================
+
+Ogni write deve preservare stato valido.
+Verificare:
+- identity;
+- schema version;
+- migration;
+- atomicità;
+- crash consistency;
+- idempotenza;
+- referential integrity;
+- dedup;
+- timestamps/revision;
+- lifecycle;
+- retention;
+- cleanup;
+- media references.
+
+Per Data Safety applicare quando pertinenti:
+- GOLDEN_BACKUP_RECOVERY_FLUTTER_v1_DRAFT.txt
+- GOLDEN_ENTITY_LIFECYCLE_TRASH_FLUTTER_v1_DRAFT.txt
+- GOLDEN_MEDIA_ASSET_STORE_FLUTTER_v1_DRAFT.txt
+
+Restore/import critici:
+STAGE -> VALIDATE -> SAFETY SNAPSHOT -> COMMIT -> RECONCILE -> CLEANUP.
+
+======================================================================
+15. BACKUP / RECOVERY
+======================================================================
+
+Backup user-owned data deve essere:
+- versionato;
+- inspectable;
+- bounded;
+- integrity checked;
+- media/reference aware;
+- rollback-safe;
+- compatibile con migrazioni previste.
+
+BACKUP CREATED != RESTORE VERIFIED.
+Per file/media reali, la certificazione richiede failure-path e physical
+validation quando pertinente.
+
+======================================================================
+16. LIFECYCLE / DELETE / TRASH
+======================================================================
+
+Default contenuti:
+ACTIVE -> TRASHED -> RESTORE oppure PURGE.
+ARCHIVE != TRASH.
+
+Purge deve considerare:
+- figli;
+- media;
+- reminder;
+- sync;
+- reference;
+- derived index;
+- collaborative ownership.
+
+Soft delete non deve distruggere ciò che serve al restore.
+
+======================================================================
+17. MEDIA / FILE
+======================================================================
+
+Preferire storage privato, import tramite copia controllata e ID content-addressed
+quando utile.
+
+Original != thumbnail != derivative != cache.
+GC deve essere reference-aware.
+Gli oggetti nel Trash contano come reference finché non vengono purgati.
+
+Private file URI non devono essere trasferiti cross-app come contratto portabile.
+
+======================================================================
+18. IMPORT / EXPORT / PORTABILITY
+======================================================================
+
+Applicare:
+GOLDEN_IMPORT_EXPORT_PORTABILITY_FLUTTER_v1_DRAFT.txt
+
+Pipeline preferita:
+SOURCE -> ADAPTER -> STAGING MODEL -> VALIDATION -> REVIEW/PREVIEW quando utile
+-> ATOMIC COMMIT -> IMPORT REPORT.
+
+Regole:
+- external ID != canonical local ID;
+- conservare provenance/fingerprint quando utile;
+- re-import deve essere idempotente o esplicitamente conflittuale;
+- import != continuous sync;
+- reference resolution deterministica;
+- lossiness deve essere dichiarata;
+- export deve privilegiare formati portabili e verificabili.
+
+RESUMABLE LOCAL TRANSFER:
+se import/export o local sharing trasferisce file grandi/interrompibili applicare:
+GOLDEN_RESUMABLE_LOCAL_TRANSFER_v1_DRAFT.txt
+
+PARTIAL != COMPLETED.
+OFFSET REQUESTED deve riconciliare con RECEIVED AUTHORITATIVE.
+Final visibility avviene solo dopo completion/integrity gate.
+
+======================================================================
+19. SHARED ECOSYSTEM CORE
+======================================================================
+
+Shared Ecosystem Core v1 è il contratto cross-app canonico quando si collegano
+app autonome della Factory.
+
+Applicare:
+GOLDEN_ECOSYSTEM_BRIDGE_FLUTTER_v1_DRAFT.txt
+
+Regole principali:
+- COPY != LINK;
+- canonical ownership resta nell'app proprietaria;
+- provenance/revision obbligatorie;
+- explicitShare obbligatorio;
+- protocollo != transport;
+- no shared DB;
+- no account comune obbligatorio;
+- no sync implicito;
+- private/local URI vietati sul wire;
+- destination review prima della materializzazione;
+- duplicate delivery idempotente;
+- version incompatibile -> fail safe/no mutation.
+
+Life Bridge v1 è compatibility/product projection, non protocollo concorrente.
+
+CROSS-APP EVIDENCE:
+due app singolarmente PASS/CERTIFIED NON implicano il PASS dell'interazione.
+Per behavior che esiste nella coppia applicare:
+GOLDEN_CROSS_APP_VERIFICATION_v1_DRAFT.txt
+
+La pair verification deve legare exact producer/consumer artifact identity,
+scenario matrix e paired physical evidence quando il transport richiede app
+installate.
+
+======================================================================
+20. OFFLINE CONTENT PACKS
+======================================================================
+
+Per mappe, cataloghi, model pack, guide e contenuti scaricabili applicare:
+GOLDEN_OFFLINE_CONTENT_PACKS_FLUTTER_v1_DRAFT.txt
+
+Regole:
+- manifest/version/checksum/size;
+- staged download;
+- resume quando sicuro;
+- verify before activate;
+- atomic activation/swap;
+- partial state esplicito;
+- storage projection;
+- purge/rollback;
+- nessun "downloaded" prima della verifica.
+

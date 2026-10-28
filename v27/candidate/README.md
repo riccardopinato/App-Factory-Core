@@ -1,0 +1,27 @@
+# v27 Lean & Modular — non-authoritative candidate
+
+**Status: CANDIDATE_NOT_ACTIVE.** Current Master remains v26.8, resolved through `CURRENT.yaml`.
+Pinned Factory baseline: `72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20`.
+
+## What is implemented
+- `MASTER_CORE_v27_CANDIDATE.txt`: lightweight execution and safety entrypoint, 119 lines.
+- `MODULE_MAP.json`: section IDs, module ownership, task selector cases and verified fallback pin.
+- `modules/*.txt`: 8 on-demand groups copied **verbatim** from the complete v26.8 Master.
+- `RULE_COVERAGE.md`: audited map of 55 existing headings/sections.
+- `scripts/validate_v27_candidate.py`: checks exact section reconstruction, fallback identity, manifest pointers and negative controls.
+
+## Explicit fallback
+Do not create a second independently edited Master. The fallback is the existing:
+`master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt`.
+Its source commit is `72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20` and Git blob SHA is `98fee1ef7ccadc98b947cefa74b33e9fae51022f`.
+After v27 activation (a *separate* gated change), if modular loading fails, verify this exact identity, load the full original, and disclose `FALLBACK_BASELINE_USED`. If identity cannot be verified, stop.
+
+## Activation rule
+This PR must not update `CURRENT.yaml`, replace `master/MASTER_PROMPT_CURRENT.txt`, or change app repositories. v27 becomes CURRENT only after:
+1. Structural and negative-control tests.
+2. Policy equivalence evaluation on direct, parallel, controlled, read-only, stale-CI cases.
+3. Pilots on Flutter UI/roadmap, Android native/privacy, and CI/certification workflows.
+4. Concrete before/after context/time measurements without relaxing gates.
+5. Explicit activation PR with atomic resolver/bootstrap/schema/validator updates and rollback provision.
+
+This phase delivers a candidate and safety net, **not** a claimed speedup or active modular resolver.

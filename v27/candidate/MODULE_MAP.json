@@ -1,0 +1,520 @@
+{
+  "schema_version": 1,
+  "candidate_version": "27.0",
+  "status": "CANDIDATE_NOT_ACTIVE",
+  "created_at": "2026-10-28",
+  "original": {
+    "repository": "riccardopinato/App-Factory-Core",
+    "commit_sha": "72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20",
+    "source_path": "master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt",
+    "git_blob_sha": "98fee1ef7ccadc98b947cefa74b33e9fae51022f",
+    "section_count": 55,
+    "prefix": "MASTER PROMPT — APP UTILITY FLUTTER / CHATGPT\nVersione v26.8 FULL CONSOLIDATA — 28/10/2026\nAPP FACTORY CORE — CENTRAL SOURCE OF TRUTH / ASSEMBLY-FIRST / EVIDENCE-DRIVEN\n\n"
+  },
+  "fallback": {
+    "mode": "EXACT_PINNED_MASTER",
+    "path": "master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt",
+    "commit_sha": "72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20",
+    "git_blob_sha": "98fee1ef7ccadc98b947cefa74b33e9fae51022f",
+    "rule": "Use only after verifying the pinned v26.8 full bytes; label FALLBACK_BASELINE_USED; never quietly override CURRENT or weaken required gates."
+  },
+  "core": {
+    "path": "v27/candidate/MASTER_CORE_v27_CANDIDATE.txt",
+    "max_lines": 300
+  },
+  "modules": [
+    {
+      "id": "authority-execution",
+      "path": "v27/candidate/modules/00-authority-execution.txt",
+      "section_ids": [
+        "0",
+        "1",
+        "1.1",
+        "1.2",
+        "1.3",
+        "2",
+        "6",
+        "13",
+        "49"
+      ],
+      "selectors": [
+        "governance",
+        "policy",
+        "permission to modify",
+        "parallel execution"
+      ]
+    },
+    {
+      "id": "foundation-reuse",
+      "path": "v27/candidate/modules/10-foundation-reuse.txt",
+      "section_ids": [
+        "3",
+        "4",
+        "5",
+        "7",
+        "8",
+        "9",
+        "10",
+        "10.1",
+        "11",
+        "44",
+        "45",
+        "45A",
+        "46",
+        "47",
+        "48"
+      ],
+      "selectors": [
+        "new app",
+        "architecture",
+        "golden reuse",
+        "dependency"
+      ]
+    },
+    {
+      "id": "data-offline",
+      "path": "v27/candidate/modules/20-data-offline.txt",
+      "section_ids": [
+        "12",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20"
+      ],
+      "selectors": [
+        "migration",
+        "database",
+        "backup",
+        "sync",
+        "media",
+        "offline"
+      ]
+    },
+    {
+      "id": "identity-native",
+      "path": "v27/candidate/modules/30-identity-native.txt",
+      "section_ids": [
+        "21",
+        "25",
+        "26",
+        "27",
+        "28"
+      ],
+      "selectors": [
+        "auth",
+        "permission",
+        "native Android",
+        "notification",
+        "privacy"
+      ]
+    },
+    {
+      "id": "experience",
+      "path": "v27/candidate/modules/40-experience.txt",
+      "section_ids": [
+        "22",
+        "23",
+        "24",
+        "37",
+        "38"
+      ],
+      "selectors": [
+        "visual UI",
+        "onboarding",
+        "localization",
+        "web preview",
+        "performance"
+      ]
+    },
+    {
+      "id": "monetization-ai",
+      "path": "v27/candidate/modules/50-monetization-ai.txt",
+      "section_ids": [
+        "29",
+        "30",
+        "31"
+      ],
+      "selectors": [
+        "billing",
+        "premium",
+        "ads",
+        "AI"
+      ]
+    },
+    {
+      "id": "delivery-verification",
+      "path": "v27/candidate/modules/60-delivery-verification.txt",
+      "section_ids": [
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "43"
+      ],
+      "selectors": [
+        "CI",
+        "APK",
+        "release",
+        "signing",
+        "physical QA"
+      ]
+    },
+    {
+      "id": "audit-roadmap",
+      "path": "v27/candidate/modules/70-audit-roadmap.txt",
+      "section_ids": [
+        "39",
+        "40",
+        "41",
+        "42"
+      ],
+      "selectors": [
+        "audit",
+        "roadmap",
+        "severity",
+        "remediation"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "0",
+      "title": "STATUS — APP FACTORY CORE SOURCE OF TRUTH",
+      "module": "authority-execution"
+    },
+    {
+      "id": "1",
+      "title": "MODALITÀ DI LAVORO",
+      "module": "authority-execution"
+    },
+    {
+      "id": "1.1",
+      "title": "AGENT GOVERNANCE / REPOSITORY OPERATING CONTRACT",
+      "module": "authority-execution"
+    },
+    {
+      "id": "1.2",
+      "title": "PARALLEL-FIRST EXECUTION — TRIGGER \"PROCEDI\" / ROADMAP",
+      "module": "authority-execution"
+    },
+    {
+      "id": "1.3",
+      "title": "ADAPTIVE EXECUTION — MINIMUM NECESSARY PROCESS",
+      "module": "authority-execution"
+    },
+    {
+      "id": "2",
+      "title": "GITHUB / REMOTE ACCESS — BASELINE EFFICIENCY + FACTORY RESOLVER",
+      "module": "authority-execution"
+    },
+    {
+      "id": "3",
+      "title": "STACK STANDARD",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "4",
+      "title": "ASSEMBLY FIRST — NUOVA REGOLA CENTRALE",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "5",
+      "title": "ICON FIRST",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "6",
+      "title": "PRODUCT BIBLE / RULE ZERO / SCOPE",
+      "module": "authority-execution"
+    },
+    {
+      "id": "7",
+      "title": "GOLDEN COMPONENT LIBRARY — COPY FIRST",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "8",
+      "title": "GOLDEN FRESHNESS / STALENESS",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "9",
+      "title": "REUSE-FIRST / OSS RECONNAISSANCE",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "10",
+      "title": "ARCHITETTURA STANDARD",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "10.1",
+      "title": "CODE HYGIENE / BOUNDED OBSOLETE-CODE SWEEP",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "11",
+      "title": "DEPENDENCY ADMISSION RULE",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "12",
+      "title": "LOCAL-FIRST / OFFLINE TRUST",
+      "module": "data-offline"
+    },
+    {
+      "id": "13",
+      "title": "PRODUCT TRUTH / DIAGNOSTIC TRUTH",
+      "module": "authority-execution"
+    },
+    {
+      "id": "14",
+      "title": "DATA DISCIPLINE & INTEGRITY",
+      "module": "data-offline"
+    },
+    {
+      "id": "15",
+      "title": "BACKUP / RECOVERY",
+      "module": "data-offline"
+    },
+    {
+      "id": "16",
+      "title": "LIFECYCLE / DELETE / TRASH",
+      "module": "data-offline"
+    },
+    {
+      "id": "17",
+      "title": "MEDIA / FILE",
+      "module": "data-offline"
+    },
+    {
+      "id": "18",
+      "title": "IMPORT / EXPORT / PORTABILITY",
+      "module": "data-offline"
+    },
+    {
+      "id": "19",
+      "title": "SHARED ECOSYSTEM CORE",
+      "module": "data-offline"
+    },
+    {
+      "id": "20",
+      "title": "OFFLINE CONTENT PACKS",
+      "module": "data-offline"
+    },
+    {
+      "id": "21",
+      "title": "AUTH / PROFILE",
+      "module": "identity-native"
+    },
+    {
+      "id": "22",
+      "title": "LOCALIZATION / TARGET PARITY",
+      "module": "experience"
+    },
+    {
+      "id": "23",
+      "title": "THEME / UX / ACCESSIBILITY / APP SHELL",
+      "module": "experience"
+    },
+    {
+      "id": "24",
+      "title": "ONBOARDING / FIRST VALUE",
+      "module": "experience"
+    },
+    {
+      "id": "25",
+      "title": "PERMISSION / CAPABILITY / HEALTH",
+      "module": "identity-native"
+    },
+    {
+      "id": "26",
+      "title": "ANDROID NATIVE RELIABILITY",
+      "module": "identity-native"
+    },
+    {
+      "id": "27",
+      "title": "NOTIFICATION RELIABILITY",
+      "module": "identity-native"
+    },
+    {
+      "id": "28",
+      "title": "SECURE STORAGE / PRIVACY",
+      "module": "identity-native"
+    },
+    {
+      "id": "29",
+      "title": "PREMIUM / ENTITLEMENT",
+      "module": "monetization-ai"
+    },
+    {
+      "id": "30",
+      "title": "ADMOB",
+      "module": "monetization-ai"
+    },
+    {
+      "id": "31",
+      "title": "AI / LOCAL MODEL",
+      "module": "monetization-ai"
+    },
+    {
+      "id": "32",
+      "title": "ANDROID SIGNING / RELEASE IDENTITY",
+      "module": "delivery-verification"
+    },
+    {
+      "id": "33",
+      "title": "CI / CODE REVIEW / DELIVERY",
+      "module": "delivery-verification"
+    },
+    {
+      "id": "34",
+      "title": "APPLAB / TRUSTED QA",
+      "module": "delivery-verification"
+    },
+    {
+      "id": "35",
+      "title": "RELEASE REALITY / EVIDENCE LADDER",
+      "module": "delivery-verification"
+    },
+    {
+      "id": "36",
+      "title": "PHYSICAL VALIDATION",
+      "module": "delivery-verification"
+    },
+    {
+      "id": "37",
+      "title": "PERFORMANCE / BATTERY / APP SIZE",
+      "module": "experience"
+    },
+    {
+      "id": "38",
+      "title": "WEB PREVIEW / TARGET BOUNDARY",
+      "module": "experience"
+    },
+    {
+      "id": "39",
+      "title": "AUDIT — TRIGGER E METODO",
+      "module": "audit-roadmap"
+    },
+    {
+      "id": "40",
+      "title": "AUDIT != IMPLEMENTAZIONE",
+      "module": "audit-roadmap"
+    },
+    {
+      "id": "41",
+      "title": "AUDIT + ROADMAP",
+      "module": "audit-roadmap"
+    },
+    {
+      "id": "42",
+      "title": "BUG / SEVERITY",
+      "module": "audit-roadmap"
+    },
+    {
+      "id": "43",
+      "title": "QA / TEST DISCIPLINE",
+      "module": "delivery-verification"
+    },
+    {
+      "id": "44",
+      "title": "DOCUMENTATION / PROJECT HYGIENE",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "45",
+      "title": "APP BOOTSTRAP DEFINITION OF DONE",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "45A",
+      "title": "FACTORY CONFIGURATION REPOSITORY — STABLE RESOLUTION CONTRACT",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "46",
+      "title": "NEW GOLDEN TRIGGERS v26",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "47",
+      "title": "EXISTING GOLDEN HARDENING QUEUE",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "48",
+      "title": "GOLDEN PROMOTION RULE",
+      "module": "foundation-reuse"
+    },
+    {
+      "id": "49",
+      "title": "PRINCIPI FINALI",
+      "module": "authority-execution"
+    }
+  ],
+  "scenario_tests": [
+    {
+      "id": "typo_ui",
+      "trigger": "Procedi: correggi un testo UI",
+      "expected": "DIRECT",
+      "modules": [
+        "experience"
+      ],
+      "scope": "approved localized UI fix"
+    },
+    {
+      "id": "redesign",
+      "trigger": "Procedi con la roadmap: redesign di schermate indipendenti",
+      "expected": "PARALLEL_ELIGIBLE",
+      "modules": [
+        "foundation-reuse",
+        "experience",
+        "delivery-verification"
+      ],
+      "scope": "approved multi-screen work"
+    },
+    {
+      "id": "migration",
+      "trigger": "Procedi con migrazione database",
+      "expected": "CONTROLLED",
+      "modules": [
+        "data-offline",
+        "delivery-verification"
+      ],
+      "scope": "approved schema migration"
+    },
+    {
+      "id": "audit_only",
+      "trigger": "Fai un audit del repository, senza modifiche",
+      "expected": "READ_ONLY",
+      "modules": [
+        "audit-roadmap"
+      ],
+      "scope": "no implementation authorization"
+    },
+    {
+      "id": "artifact_sha",
+      "trigger": "Nuovo commit dopo CI green, procedi con merge",
+      "expected": "INVALIDATE_OLD_EVIDENCE",
+      "modules": [
+        "authority-execution",
+        "delivery-verification"
+      ],
+      "scope": "check exact-head before merge"
+    },
+    {
+      "id": "release",
+      "trigger": "Procedi con rilascio APK firmato",
+      "expected": "CONTROLLED",
+      "modules": [
+        "delivery-verification"
+      ],
+      "scope": "approved internal release only"
+    }
+  ]
+}
