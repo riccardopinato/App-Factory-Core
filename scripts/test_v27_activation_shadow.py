@@ -81,9 +81,9 @@ class ActivationShadowTests(unittest.TestCase):
             current=(root/"CURRENT.yaml").read_text(encoding="utf-8")
             self.assertEqual(structure.validate(manifest,source,docs,core,current),[])
 
-    def test_actual_current_remains_v26_8(self):
+    def test_release_branch_current_selects_v27(self):
         data=yaml.safe_load((ROOT/"CURRENT.yaml").read_text(encoding="utf-8"))
-        self.assertEqual(str(data["master"]["version"]),"26.8")
+        self.assertEqual(str(data["master"]["version"]),"27")
 
     def test_shadow_is_active_and_loads_minimal_context(self):
         with tempfile.TemporaryDirectory() as d:

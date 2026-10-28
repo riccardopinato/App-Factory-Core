@@ -30,7 +30,7 @@ For work on App-Factory-Core itself, this file governs agent operating behavior 
 - Do not add architecture, dependencies, services, background work, compatibility layers, or abstractions without a concrete present need.
 - Do not create a parallel implementation when the existing path can be safely corrected or extended.
 - Keep main stable and follow the repository governance flow.
-- For authorized updates to the Master Prompt or App-Factory-Core, keep v27 candidate modular policy and its generated operative full fallback synchronized in the SAME PR; regenerate with `python3 scripts/build_v27_fallback.py --write` and require `--check` plus candidate tests GREEN. Never hand-edit the generated fallback. Preserve the pinned historical v26.8 recovery snapshot unchanged; while v26.8 is CURRENT, update its official versioned/alias/resolver surfaces when the user's change affects current active rules.
+- For authorized Master/Core changes, update v27 modular source and the generated full operational fallback in the SAME PR using `scripts/build_v27_fallback.py --write`. Require `--check` and all exact-head gates. Never edit generated fallback separately; preserve historical v26.8 full unchanged. Keep CURRENT, Master Core alias, module map, Golden Registry, bootstrap and validator aligned.
 - Once implementation is authorized, no separate user approval is required for a PR merge.
 - Merge autonomously only when the PR stays inside the authorized scope, required exact-head gates are green, the PR is mergeable, and no blocking review or user-action gate remains.
 - If the user explicitly asks to stop before merge or review first, do not merge.

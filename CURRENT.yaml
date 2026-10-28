@@ -3,10 +3,11 @@ repository: riccardopinato/App-Factory-Core
 updated_at: 2026-10-28
 
 master:
-  version: "26.8"
+  version: "27"
   status: CURRENT
-  path: master/MASTER_PROMPT_CURRENT.txt
-  versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt
+  path: v27/candidate/MASTER_CORE_v27_CANDIDATE.txt
+  versioned_path: v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt
+  modular_manifest: v27/candidate/MODULE_MAP.json
 
 golden_index:
   version: 23

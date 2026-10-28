@@ -1,62 +1,18 @@
 APP FACTORY BOOTSTRAP — CANONICAL RESOLUTION FLOW
-Versione 2 — 13/10/2026
+Versione 3 — 28/10/2026
 
 SOURCE OF TRUTH
 https://github.com/riccardopinato/App-Factory-Core
 
-QUANDO USARLO
-- nuova app;
-- nuovo audit/roadmap che dipende dalle regole Factory;
-- richiesta di allineamento alle ultime Golden;
-- dubbio concreto sulla versione del Master;
-- aggiornamento del framework centrale.
+1. Leggi CURRENT.yaml una volta e fissa il commit SHA della Factory per la sessione.
+2. Con CURRENT.master.version = 27, leggi il Master Core da master.path e il manifest da master.modular_manifest.
+3. Verifica stato ACTIVE e integrità dei moduli e del fallback; carica solo i moduli pertinenti.
+4. Usa Golden Registry per path, stato e freshness, leggendo solo i Golden pertinenti; Golden Index su richiesta o necessità.
+5. Per «Procedi» riutilizza la roadmap e il Product Bible già noti; con contesto indisponibile, fallback completo verificato senza inventare lo scope.
+6. Se il modulo è corrotto/indisponibile, usa il fallback sincronizzato soltanto dopo il controllo hash e dichiara FALLBACK_BASELINE_USED. Se anche fallback non integro, blocca come FACTORY BASELINE UNVERIFIED.
+7. Aggiornamenti al Master/Core: modifica sorgenti modulari e rigenera il fallback completo nella stessa PR con CI exact-head; v26.8 storica resta immutabile.
+8. Se CURRENT risolve v26.8, usa invece il flusso legacy previsto.
+9. Non rileggere la Factory tra step consecutivi salvo aggiornamento centrale o richiesta esplicita.
+10. Product Bible e Roadmap delle app delimitano scope; AGENTS, Golden e gate di sicurezza/QA/merge restano vincolanti.
 
-FLOW
-1. Leggi CURRENT.yaml.
-2. Leggi il file indicato da master.path.
-3. Leggi il file indicato da golden_index.path.
-4. Leggi golden_registry.path.
-5. Seleziona solo i Golden pertinenti al task.
-6. Se il task MODIFICA App-Factory-Core, leggi anche il root AGENTS.md e soltanto
-   i moduli governance/agents pertinenti.
-7. Registra repo/branch/commit SHA come FACTORY BASELINE.
-8. Non rileggere il repo Factory tra step consecutivi.
-9. Rileggi soltanto su refresh esplicito o dopo un update centrale appena eseguito.
-
-ANTI-DRIFT
-- una versione del Master ricordata dalla chat non prevale su CURRENT.yaml;
-- un allegato storico non prevale su CURRENT.yaml;
-- un vecchio Golden Index non prevale su GOLDEN_INDEX_CURRENT risolto;
-- AGENTS.md governa il comportamento operativo dell'agente ma non sostituisce
-  CURRENT/Master/Golden;
-- in assenza di accesso al repo non inventare la versione: usa l'ultima baseline nota e segnala FACTORY BASELINE NOT REFRESHED.
-
-PROMPT CORTO RIUTILIZZABILE
-
-"Allineati alla App Factory: leggi una sola volta CURRENT.yaml nel repo
-riccardopinato/App-Factory-Core, poi MASTER_PROMPT_CURRENT, GOLDEN_INDEX_CURRENT
-e solo i Golden pertinenti. Fissa il commit come baseline e non rileggere il
-repo tra gli step salvo mia richiesta o modifica centrale."
-
-
-FACTORY ADOPTION KIT — STANDARD MODE EXPORT
-------------------------------------------
-Per una nuova app o una app esistente che deve adottare la modalità Factory:
-
-1. dry-run:
-   python scripts/adopt_factory_mode.py --repo-root <APP_ROOT> --repository <OWNER/REPO> --json
-2. apply:
-   python scripts/adopt_factory_mode.py --repo-root <APP_ROOT> --repository <OWNER/REPO> --apply
-3. validate:
-   python scripts/validate_factory_adoption.py --repo-root <APP_ROOT>
-4. eseguire il playbook ADOPT_FACTORY_MODE per eventuali delta repository-local.
-
-Regola workflow:
-- rilevare prima i workflow esistenti;
-- integrarli/estenderli quando serve;
-- non sovrascriverli o sostituirli durante l'adozione;
-- aggiungere un workflow Factory separato solo se non esiste capacità equivalente.
-
-Il file locale APP_FACTORY_ADOPTION.yaml è un pointer dichiarativo.
-Le regole canoniche restano in App-Factory-Core/CURRENT.yaml e nel profilo
-adoption/FACTORY_MODE_PROFILE_v1.yaml.
+Il GitHub repository non può aggiornare automaticamente le impostazioni ChatGPT Project già salvate. App-level regole GitHub restano in vigore.

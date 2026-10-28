@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-28 — v27 release promotion branch (DRAFT ONLY)
+
+- Staged CURRENT v27 modular Core, synchronized full fallback, Golden Registry, bootstrap and mirrored legacy Master alias in a separate draft PR.
+- Preserves immutable v26.8 full historical snapshot, exact-head CI and immutable source/fallback hashes.
+- No promotion/merge until actual independent model behavior and real end-to-end speed evidence are reviewed; static green CI alone is insufficient.
+
+
 ## 2026-10-28 — v27D2 optional paid real-model evaluation runner
 
 - Added manual-only paid API paired-run workflow, requiring explicit opt-in and GitHub Actions OPENAI_API_KEY secret; 32 independent prompts when actually dispatched.

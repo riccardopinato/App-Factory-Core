@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "candidate_version": "27.0",
-  "status": "CANDIDATE_NOT_ACTIVE",
+  "status": "ACTIVE",
   "created_at": "2026-10-28",
   "original": {
     "repository": "riccardopinato/App-Factory-Core",
@@ -735,21 +735,22 @@
   ],
   "router": {
     "entrypoint": "scripts/resolve_v27_candidate.py",
-    "status": "CANDIDATE_ONLY",
+    "status": "ACTIVE",
     "load_strategy": "ON_DEMAND_VERIFIED",
     "unknown_intent": "VERIFIED_FULL_FALLBACK",
     "module_integrity": "GIT_BLOB_SHA1",
-    "no_automatic_publish": true
+    "no_automatic_publish": true,
+    "activation_requires": "CURRENT version 27 and explicit promotion evidence"
   },
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "16ccf1b4f69af50e377f3c47ff583dab218b23f5",
+    "git_blob_sha": "92d666213648cca010381a71b2fb83a44be296f3",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "0405fb1f4025b6e4fd942a81f0e3ba465562f54d",
+    "core": "272de7bb29ed2b13b277364f5fd2872f66bb115e",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",

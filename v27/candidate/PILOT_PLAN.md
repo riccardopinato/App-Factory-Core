@@ -82,3 +82,7 @@ Pinned tokenization study is recorded in pilots/V27D2_RESULTS_2026-10-28.md. Rea
 - [x] Prepare a manual workflow and auditable Responses API runner for the 16 x 2 independent requests; no call starts on PR/push and no secret is shipped.
 - [ ] Repository owner supplies API key as GitHub Actions secret and explicitly dispatches the workflow, accepting applicable API charges.
 - [ ] Capture actual provider receipts, review decisions independently and measure end-to-end development completion, then consider v27E.
+
+## v27E activation PR draft — NOT YET AUTHORIZED FOR MERGE
+
+This release branch stages CURRENT version 27, ACTIVE Core/manifest, generated synchronized fallback, Golden Registry, bootstrap and validator. The historical D1/D2 reports remain benchmark evidence and are not endorsements of behavioral equivalence. Before merge, attach actual independent 16 x 2 model runs with reviewed decisions, and comparable real development timings; keep draft until gates pass.
