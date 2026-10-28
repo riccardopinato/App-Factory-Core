@@ -44,3 +44,7 @@ Compare on representative equivalent tasks:
 - [ ] Fallback decision is visible; rollback of resolver is documented and testable.
 
 No steps marked done above imply that external app pilots have been performed.
+
+## 27D first pilot feedback — resolver defects (2026-10-28)
+
+Initial exact-head CI replay failed as intended on two selection-policy defects: a roadmap continuation selected `audit-roadmap` and `experience` but omitted the complete `authority-execution` parallel-first contract, and the bare name `AppLab` incorrectly routed to delivery because it was listed as a task trigger. The v27D branch corrects the continuation authority requirement and removes the name-only trigger. This finding demonstrates that deterministic static checks can catch selection drift; it does **not** certify real model decisions.

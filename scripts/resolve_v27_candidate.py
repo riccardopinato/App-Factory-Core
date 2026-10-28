@@ -63,6 +63,15 @@ def route(task:str,context:str,manifest:dict)->tuple[list[str],list[str],list[st
             selected.extend(rule["modules"])
             goldens.extend(rule.get("golden_ids",[]))
     ids={entry["id"] for entry in [*manifest["modules"],*manifest.get("policy_updates",[])]}
+    # A continuation command must load the complete parallel-first/authorization
+    # contract, not only the short Core summary. Bare "Procedi" with no task
+    # context remains ambiguous and must use the verified full fallback.
+    command=normal(task)
+    continuation=any(has_term(command,word) for word in
+                     ("procedi","continua","vai avanti","completa"))
+    if selected and continuation:
+        selected.append("authority-execution")
+        labels.append("continuation_authority")
     if any(name not in ids for name in selected):
         raise ValueError("route references missing module")
     ordered=[entry["id"] for entry in [*manifest["modules"],*manifest.get("policy_updates",[])] if entry["id"] in selected]

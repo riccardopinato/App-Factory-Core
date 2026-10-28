@@ -21,6 +21,18 @@ class RouterTests(unittest.TestCase):
         self.assertNotIn("monetization-ai",r["modules"])
         self.assertLess(r["loaded_bytes"], (ROOT/MANIFEST["living_fallback"]["path"]).stat().st_size)
 
+    def test_continuation_always_loads_full_parallel_authority(self):
+        r=resolver.resolve("Procedi con la roadmap",
+                           "redesign schermate Oggi Calendario Ricordi")
+        self.assertEqual(r["selection"],"MODULES",r)
+        self.assertIn("authority-execution",r["modules"])
+        self.assertIn("experience",r["modules"])
+        self.assertIn("audit-roadmap",r["modules"])
+
+    def test_repository_name_alone_is_not_a_task(self):
+        r=resolver.resolve("AppLab")
+        self.assertEqual(r["selection"],"FALLBACK_BASELINE_USED",r)
+
     def test_master_update_routes_to_policy(self):
         r=resolver.resolve("aggiorna App Factory Core","regole del Master Prompt")
         self.assertEqual(r["selection"],"MODULES",r)
