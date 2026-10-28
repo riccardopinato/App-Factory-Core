@@ -3,10 +3,10 @@ repository: riccardopinato/App-Factory-Core
 updated_at: 2026-10-28
 
 master:
-  version: "26.7"
+  version: "26.8"
   status: CURRENT
   path: master/MASTER_PROMPT_CURRENT.txt
-  versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_7_FULL.txt
+  versioned_path: master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt
 
 golden_index:
   version: 23
@@ -22,7 +22,7 @@ bootstrap:
   path: bootstrap/APP_FACTORY_BOOTSTRAP.txt
 
 validation:
-  version: 5
+  version: 6
   script: scripts/validate_factory.py
   requirements: scripts/requirements.txt
 

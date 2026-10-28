@@ -104,6 +104,41 @@ mp=req(str(current.get("master",{}).get("path","")))
 if mp.exists():
     expected=f"Versione v{current.get('master',{}).get('version')} FULL CONSOLIDATA"
     if expected not in mp.read_text(encoding="utf-8"): fail(f"Master CURRENT header does not contain {expected!r}")
+# Adaptive Execution v26.8: deterministic policy/playbook drift check.
+# This proves presence/consistency, NOT that a model actually follows the policy.
+if str(current.get("master",{}).get("version"))=="26.8" and mp.exists():
+    source=mp.read_text(encoding="utf-8")
+    header="1.3 ADAPTIVE EXECUTION — MINIMUM NECESSARY PROCESS"
+    section=source.split(header,1)[1].split("\n2. GITHUB / REMOTE ACCESS",1)[0] if header in source else ""
+    must_contain=[
+        "MINIMUM NECESSARY PROCESS",
+        '"Procedi"',
+        "DIRETTO",
+        "PARALLELO",
+        "CONTROLLATO",
+        "READ-ONLY",
+        "FAIL-FAST BEFORE EXPENSIVE CI",
+        "source SHA",
+        "exact head",
+        "required checks",
+        "non aggiungere tracking",
+        "CASI DI CONTROLLO",
+    ]
+    for token in must_contain:
+        if token.casefold() not in section.casefold():
+            fail(f"Adaptive Execution v26.8 policy missing: {token}")
+    fast=load_json("playbooks/FAST_DELIVERY.json")
+    steps={s.get("id"):s for s in fast.get("steps",[]) if isinstance(s,dict)}
+    for step_id,markers,gate in (
+        ("BASELINE",("pinned","SHA"),"EVIDENCE_REQUIRED"),
+        ("PREFLIGHT",("BEFORE expensive CI","instrumentation"),"STOP_ON_BLOCKER"),
+        ("EXACT_HEAD",("exact integrated head","source SHA"),"EXACT_HEAD_GREEN"),
+    ):
+        st=steps.get(step_id,{})
+        action=st.get("action","")
+        if st.get("gate")!=gate or any(m.casefold() not in action.casefold() for m in markers):
+            fail(f"FAST_DELIVERY {step_id} drifted from Adaptive Execution v26.8")
+
 iv=current.get("golden_index",{}).get("version")
 if idx_file.exists() and f"Versione: {iv}.0" not in idx: fail(f"Golden CURRENT index header is not v{iv}")
 
@@ -423,4 +458,4 @@ if errors:
     print("APP FACTORY VALIDATION: FAIL")
     for e in errors: print("-",e)
     sys.exit(1)
-print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v5)")
+print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v6)")

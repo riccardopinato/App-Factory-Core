@@ -11,7 +11,7 @@
   "steps": [
     {
       "id": "BASELINE",
-      "action": "Resolve repository/Factory baseline and scope truth.",
+      "action": "Reuse pinned Factory/repository baseline when still valid; resolve exact source SHA and authorized scope, refresh only on an invalidation or explicit update.",
       "gate": "EVIDENCE_REQUIRED",
       "parallel_safe": false,
       "outputs": [
@@ -29,7 +29,7 @@
     },
     {
       "id": "PREFLIGHT",
-      "action": "Run minimum risk-based preflight and load only relevant contracts.",
+      "action": "Run cheapest deterministic preflight covering touched sources BEFORE expensive CI. When instrumentation tests change, compile their test sources/APK first when feasible; check schema/migration/permission invariants as relevant. Fix known failures before retrying full CI.",
       "gate": "STOP_ON_BLOCKER",
       "parallel_safe": true,
       "outputs": [
@@ -38,7 +38,7 @@
     },
     {
       "id": "IMPLEMENT",
-      "action": "Implement only the authorized behavior.",
+      "action": "Implement only the authorized behavior via minimum necessary process; assess genuine parallel-first workstreams once when the scope permits.",
       "gate": "STOP_ON_BLOCKER",
       "parallel_safe": true,
       "outputs": [
@@ -56,7 +56,7 @@
     },
     {
       "id": "FOCUSED_VALIDATION",
-      "action": "Run validation covering the real blast radius.",
+      "action": "Run focused checks for actual blast radius after bounded hygiene; these do not replace required exact-head repository gates or higher-risk QA.",
       "gate": "STOP_ON_FAILURE",
       "parallel_safe": true,
       "outputs": [
@@ -74,7 +74,7 @@
     },
     {
       "id": "EXACT_HEAD",
-      "action": "Validate required gates on the exact PR head.",
+      "action": "Require all mandatory gates GREEN on the exact integrated head; reuse result/artifact only with matching source SHA, build contract, toolchain, signing and artifact identity, or rerun.",
       "gate": "EXACT_HEAD_GREEN",
       "parallel_safe": true,
       "outputs": [

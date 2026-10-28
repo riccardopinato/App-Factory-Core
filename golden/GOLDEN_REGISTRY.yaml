@@ -1,6 +1,6 @@
 registry_version: 2
 updated_at: 2026-10-28
-master_version: "26.7"
+master_version: "26.8"
 index_version: 23
 goldens:
   - id: google_auth_supabase

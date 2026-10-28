@@ -13,6 +13,27 @@ Run the smallest set of checks that fully covers the changed behavior.
 
 "Test what you touch" means cover the real blast radius, not merely the edited file.
 
+## Adaptive execution: fast preflight, unchanged gates
+
+Master v26.8 section 1.3 is a **routing policy**, not an extra QA tier.
+Choose a minimal targeted preflight before expensive suites; run mandatory
+repository checks and risk-appropriate validations afterwards on the integrated
+exact head. Typical cheap preflights: source compilation/typecheck, resource
+consistency, migration schema checks, or test-APK compilation when instrumented
+tests changed. Do not install a new tool merely to satisfy these examples.
+
+Avoid rerunning full CI with a known local compile failure. Reuse a green run
+or built artifact only when the source SHA, build contract, toolchain, signing
+identity, artifact hash and repository-required freshness semantics match.
+A changed source commit invalidates an older exact-head CI result. This also
+applies to parallel workstreams: independently green branches do not validate
+the merged tree.
+
+For policy smoke review, exercise the scenarios in Master section 1.3:
+localized copy fix (DIRECT), separate modules (PARALLEL), data migration
+(CONTROLLED), audit-only request (READ-ONLY), and new commit following green CI
+(OLD HEAD NOT GREEN). These are expected decisions, not proof of model behavior.
+
 ## Required semantics
 
 - Behavior change should have executable coverage when practical.
