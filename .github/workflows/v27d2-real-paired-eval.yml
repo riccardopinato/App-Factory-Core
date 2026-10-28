@@ -1,0 +1,62 @@
+name: v27D2 Real Paired Model Eval (manual and billed)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_paid_run:
+        description: 'Type RUN_32_PAID_REQUESTS to authorize paid API calls'
+        required: true
+        type: string
+      model:
+        description: 'Model ID available to the connected API project'
+        required: true
+        default: gpt-6-sol
+        type: string
+      effort:
+        description: 'Reasoning effort for BOTH arms'
+        required: true
+        default: high
+        type: choice
+        options:
+          - low
+          - medium
+          - high
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v27d2-real-model-eval
+  cancel-in-progress: false
+
+jobs:
+  real-paired-model-eval:
+    if: inputs.confirm_paid_run == 'RUN_32_PAID_REQUESTS'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout pinned evaluation source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install validator dependencies
+        run: python3 -m pip install --disable-pip-version-check --no-cache-dir -r scripts/requirements.txt
+      - name: Verify Factory baseline and synchronized fallback
+        run: |
+          python3 scripts/validate_factory.py
+          python3 scripts/build_v27_fallback.py --check
+          python3 scripts/evaluate_v27d2.py --self-test
+      - name: Run actual paired model requests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EVAL_MODEL: ${{ inputs.model }}
+          EVAL_EFFORT: ${{ inputs.effort }}
+        run: |
+          test -n "$OPENAI_API_KEY" || { echo "OPENAI_API_KEY secret missing"; exit 2; }
+          python3 scripts/run_v27d2_models.py --confirm-paid-run --model "$EVAL_MODEL" --effort "$EVAL_EFFORT" --out v27d2-real-model-outputs.json
+      - name: Preserve actual model results for independent review
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: v27d2-real-model-outputs
+          path: v27d2-real-model-outputs.json
+          if-no-files-found: ignore
+          retention-days: 7
