@@ -651,6 +651,21 @@
       ]
     },
     {
+      "id": "native_pin",
+      "terms": [
+        "pin",
+        "keystore",
+        "biometria forte",
+        "biometric strong"
+      ],
+      "modules": [
+        "identity-native"
+      ],
+      "golden_ids": [
+        "android_local_pin_verifier_keystore"
+      ]
+    },
+    {
       "id": "auth",
       "terms": [
         "login",

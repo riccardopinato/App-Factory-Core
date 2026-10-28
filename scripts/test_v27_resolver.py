@@ -48,6 +48,18 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(r["selection"],"MODULES",r)
         self.assertIn("app_shell_responsive_visual_qa",[g["id"] for g in r["goldens"]])
 
+    def test_pin_keystore_selects_specialized_draft_and_marks_review(self):
+        r=resolver.resolve("Verifica PIN Android Keystore",
+                           "sicurezza biometria forte",load_golden=True)
+        self.assertEqual(r["selection"],"MODULES",r)
+        self.assertIn("android_local_pin_verifier_keystore",
+                      [g["id"] for g in r["goldens"]])
+        self.assertEqual(r["golden_readiness"],"REVIEW_REQUIRED_NOT_CERTIFIED")
+        pin=next(g for g in r["goldens"]
+                 if g["id"]=="android_local_pin_verifier_keystore")
+        self.assertTrue(pin["requires_review"])
+        self.assertEqual(pin["freshness_status"],"NEEDS_REVIEW")
+
     def test_stale_session_pin_blocks(self):
         r=resolver.resolve("redesign schermate",expected_sha="0"*40)
         self.assertEqual(r["selection"],"BLOCKED",r)

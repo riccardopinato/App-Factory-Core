@@ -63,6 +63,12 @@ def main()->None:
             if required not in ids: failures.append(f'{case["id"]}: missing module {required}')
         for forbidden in case.get("forbidden_modules",[]):
             if forbidden in ids: failures.append(f'{case["id"]}: unnecessary module {forbidden}')
+        for gid in case.get("required_golden_ids",[]):
+            if gid not in [g["id"] for g in result.get("goldens",[])]:
+                failures.append(f'{case["id"]}: missing specialized Golden {gid}')
+        if case.get("expected_golden_readiness"):
+            if result.get("golden_readiness")!=case["expected_golden_readiness"]:
+                failures.append(f'{case["id"]}: Golden review status lost')
         docs=result.get("documents",{})
         combined="\n".join(docs.values())
         for token in case.get("must_contain",[]):

@@ -114,6 +114,27 @@
       "comment": "Do not bypass device capability, local PIN verifier or single service policy"
     },
     {
+      "id": "phone_pin",
+      "project": "phone",
+      "request": "Verifica PIN Android Keystore",
+      "context": "sicurezza biometria forte",
+      "expect": "MODULES",
+      "required_modules": [
+        "identity-native"
+      ],
+      "forbidden_modules": [
+        "monetization-ai"
+      ],
+      "required_golden_ids": [
+        "android_local_pin_verifier_keystore"
+      ],
+      "expected_golden_readiness": "REVIEW_REQUIRED_NOT_CERTIFIED",
+      "must_contain": [
+        "KEYSTORE"
+      ],
+      "comment": "Android PIN verifier is DRAFT and provider-sensitive: must flag NEEDS_REVIEW, not certify it"
+    },
+    {
       "id": "phone_release",
       "project": "phone",
       "request": "Prepara build APK firmato",

@@ -124,9 +124,19 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
                 loc=(root/golden["path"]).resolve()
                 if not loc.is_relative_to(root.resolve()) or not loc.is_file():
                     raise ValueError("unavailable Golden file: "+gid)
-                chosen.append({"id":gid,"path":golden["path"],"status":golden["status"]})
+                needs_review=(golden.get("freshness_status")!="CURRENT"
+                              or "DRAFT" in str(golden.get("status","")).upper())
+                chosen.append({"id":gid,"path":golden["path"],
+                               "status":golden["status"],
+                               "freshness_status":golden.get("freshness_status"),
+                               "provider_sensitive":golden.get("provider_sensitive",False),
+                               "requires_review":needs_review})
                 if load_text: docs[golden["path"]]=loc.read_text(encoding="utf-8")
             result["goldens"]=chosen
+            if any(g["requires_review"] for g in chosen):
+                result["golden_readiness"]="REVIEW_REQUIRED_NOT_CERTIFIED"
+                result["golden_review_ids"]=[g["id"] for g in chosen
+                                              if g["requires_review"]]
         if load_text:
             result["documents"]=docs
             result["loaded_bytes"]=sum(len(s.encode("utf-8")) for s in docs.values())
