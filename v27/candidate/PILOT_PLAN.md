@@ -76,3 +76,9 @@ Pinned tokenization study is recorded in pilots/V27D2_RESULTS_2026-10-28.md. Rea
 - [ ] Real paired model inference outputs and independent policy review remain absent. No v27 promotion until provided and passing.
 - [ ] Actual downstream workflow wall-clock measurement remains absent. This cannot be inferred from router microbenchmarks.
 - [ ] Future activation PR must atomically switch CURRENT/Registry/Bootstrap/Project pointer, mark manifest/core ACTIVE and regenerate full fallback. The activation candidate must pass central exact-head CI and an updated set of pilot tests.
+
+## Real paired-model runner (opt-in, paid)
+
+- [x] Prepare a manual workflow and auditable Responses API runner for the 16 x 2 independent requests; no call starts on PR/push and no secret is shipped.
+- [ ] Repository owner supplies API key as GitHub Actions secret and explicitly dispatches the workflow, accepting applicable API charges.
+- [ ] Capture actual provider receipts, review decisions independently and measure end-to-end development completion, then consider v27E.

@@ -43,3 +43,7 @@ a **future promotion**, not permission to skip evidence or governance checks.
 unavailable. Do not set CURRENT v27 based only on simulated shadow tests.
 
 Future activation is a new atomic PR, not a direct push to main.
+
+## Optional real-model evidence capture pathway
+
+After the user configures the OpenAI API secret and explicitly dispatches the manual workflow, use its actual response artifact as provenance for the 16 paired cases. An independent reviewer must verify each answer; a completed API run alone does not authorize activation. This workflow has not been run merely by merging its definition. Do not store API credentials in the repository or in output artifacts.

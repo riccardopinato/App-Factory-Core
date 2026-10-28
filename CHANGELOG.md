@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-28 — v27D2 optional paid real-model evaluation runner
+
+- Added manual-only paid API paired-run workflow, requiring explicit opt-in and GitHub Actions OPENAI_API_KEY secret; 32 independent prompts when actually dispatched.
+- Source-locked provider output receipts include request IDs, raw model response, usage and elapsed time; independent semantic review remains mandatory.
+- Added dry-run CI to verify preparation without any model calls or fees. No credentials, real model runs, or v27 promotion claimed.
+
+
 ## 2026-10-28 — v27E shadow activation preparation, without promotion
 
 - Added support for an ACTIVE v27 CURRENT profile in the candidate resolver and validator, while preserving v26.8 as the live baseline.
