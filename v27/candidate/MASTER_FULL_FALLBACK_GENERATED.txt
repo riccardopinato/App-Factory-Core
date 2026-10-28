@@ -1689,3 +1689,211 @@ For any authorized request to update the Master Prompt, App Factory Core or Fact
   not claim to change the currently active app rules.
 
 The operative fallback is living and synchronized. The historical snapshot is immutable.
+
+===== V27 TASK ROUTES (SYNCED CANDIDATE METADATA) =====
+[
+  {
+    "id": "factory_update",
+    "terms": [
+      "master prompt",
+      "app factory core",
+      "regole factory"
+    ],
+    "modules": [
+      "authority-execution",
+      "factory-policy-sync"
+    ],
+    "golden_ids": [
+      "agent_governance"
+    ]
+  },
+  {
+    "id": "audit",
+    "terms": [
+      "audit",
+      "gap analysis",
+      "analisi repository"
+    ],
+    "modules": [
+      "audit-roadmap"
+    ]
+  },
+  {
+    "id": "roadmap",
+    "terms": [
+      "roadmap",
+      "maxi step"
+    ],
+    "modules": [
+      "audit-roadmap"
+    ],
+    "golden_ids": [
+      "roadmap_fast_continuous_maintenance"
+    ]
+  },
+  {
+    "id": "ui",
+    "terms": [
+      "ui",
+      "ux",
+      "schermata",
+      "schermate",
+      "redesign",
+      "design system",
+      "interfaccia",
+      "colori",
+      "onboarding",
+      "calendario",
+      "estetica"
+    ],
+    "modules": [
+      "experience"
+    ],
+    "golden_ids": [
+      "app_shell_responsive_visual_qa"
+    ]
+  },
+  {
+    "id": "code",
+    "terms": [
+      "codice",
+      "refactor",
+      "architettura",
+      "dipendenza",
+      "bootstrap",
+      "nuova app"
+    ],
+    "modules": [
+      "foundation-reuse"
+    ],
+    "golden_ids": [
+      "code_hygiene"
+    ]
+  },
+  {
+    "id": "data",
+    "terms": [
+      "database",
+      "dati",
+      "migrazione",
+      "migration",
+      "backup",
+      "restore",
+      "sincronizzazione",
+      "sync",
+      "offline",
+      "import",
+      "export",
+      "media"
+    ],
+    "modules": [
+      "data-offline"
+    ],
+    "golden_ids": [
+      "backup_recovery"
+    ]
+  },
+  {
+    "id": "native",
+    "terms": [
+      "android",
+      "kotlin",
+      "sensori",
+      "permessi",
+      "notifiche",
+      "foreground",
+      "allarme",
+      "privacy",
+      "sicurezza",
+      "biometria"
+    ],
+    "modules": [
+      "identity-native"
+    ],
+    "golden_ids": [
+      "android_native_reliability"
+    ]
+  },
+  {
+    "id": "native_pin",
+    "terms": [
+      "pin",
+      "keystore",
+      "biometria forte",
+      "biometric strong"
+    ],
+    "modules": [
+      "identity-native"
+    ],
+    "golden_ids": [
+      "android_local_pin_verifier_keystore"
+    ]
+  },
+  {
+    "id": "auth",
+    "terms": [
+      "login",
+      "autenticazione",
+      "account",
+      "sign in"
+    ],
+    "modules": [
+      "identity-native"
+    ],
+    "golden_ids": [
+      "google_auth_supabase"
+    ]
+  },
+  {
+    "id": "monetization",
+    "terms": [
+      "admob",
+      "pubblicita",
+      "premium",
+      "abbonamento",
+      "billing",
+      "monetizzazione",
+      "acquisto"
+    ],
+    "modules": [
+      "monetization-ai"
+    ],
+    "golden_ids": [
+      "entitlement_contract"
+    ]
+  },
+  {
+    "id": "ai",
+    "terms": [
+      "intelligenza artificiale",
+      "modello ai",
+      "modello locale"
+    ],
+    "modules": [
+      "monetization-ai"
+    ]
+  },
+  {
+    "id": "delivery",
+    "terms": [
+      "ci",
+      "build",
+      "apk",
+      "aab",
+      "release",
+      "rilascio",
+      "firmato",
+      "signing",
+      "test",
+      "pubblicazione",
+      "play store",
+      "merge"
+    ],
+    "modules": [
+      "delivery-verification"
+    ],
+    "golden_ids": [
+      "immutable_build_test_artifact"
+    ]
+  }
+]

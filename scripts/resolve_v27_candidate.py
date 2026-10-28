@@ -63,6 +63,15 @@ def route(task:str,context:str,manifest:dict)->tuple[list[str],list[str],list[st
             selected.extend(rule["modules"])
             goldens.extend(rule.get("golden_ids",[]))
     ids={entry["id"] for entry in [*manifest["modules"],*manifest.get("policy_updates",[])]}
+    # A continuation command must load the complete parallel-first/authorization
+    # contract, not only the short Core summary. Bare "Procedi" with no task
+    # context remains ambiguous and must use the verified full fallback.
+    command=normal(task)
+    continuation=any(has_term(command,word) for word in
+                     ("procedi","continua","vai avanti","completa"))
+    if selected and continuation:
+        selected.append("authority-execution")
+        labels.append("continuation_authority")
     if any(name not in ids for name in selected):
         raise ValueError("route references missing module")
     ordered=[entry["id"] for entry in [*manifest["modules"],*manifest.get("policy_updates",[])] if entry["id"] in selected]
@@ -115,9 +124,19 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
                 loc=(root/golden["path"]).resolve()
                 if not loc.is_relative_to(root.resolve()) or not loc.is_file():
                     raise ValueError("unavailable Golden file: "+gid)
-                chosen.append({"id":gid,"path":golden["path"],"status":golden["status"]})
+                needs_review=(golden.get("freshness_status")!="CURRENT"
+                              or "DRAFT" in str(golden.get("status","")).upper())
+                chosen.append({"id":gid,"path":golden["path"],
+                               "status":golden["status"],
+                               "freshness_status":golden.get("freshness_status"),
+                               "provider_sensitive":golden.get("provider_sensitive",False),
+                               "requires_review":needs_review})
                 if load_text: docs[golden["path"]]=loc.read_text(encoding="utf-8")
             result["goldens"]=chosen
+            if any(g["requires_review"] for g in chosen):
+                result["golden_readiness"]="REVIEW_REQUIRED_NOT_CERTIFIED"
+                result["golden_review_ids"]=[g["id"] for g in chosen
+                                              if g["requires_review"]]
         if load_text:
             result["documents"]=docs
             result["loaded_bytes"]=sum(len(s.encode("utf-8")) for s in docs.values())

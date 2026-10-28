@@ -32,3 +32,7 @@ This PR must not update `CURRENT.yaml`, replace `master/MASTER_PROMPT_CURRENT.tx
 5. Explicit activation PR with atomic resolver/bootstrap/schema/validator updates and rollback provision.
 
 This phase delivers a candidate and safety net, **not** a claimed speedup or active modular resolver.
+
+## v27D read-only pilot evidence
+
+Deterministic 11-case replay on pinned Anna's Diary / Phone Guard / AppLab source contexts is documented in [pilots/V27D_RESULTS_2026-10-28.md](pilots/V27D_RESULTS_2026-10-28.md). Real model behavior and end-to-end time improvements are **NOT VERIFIED**. Active Master remains v26.8.

@@ -21,6 +21,18 @@ class RouterTests(unittest.TestCase):
         self.assertNotIn("monetization-ai",r["modules"])
         self.assertLess(r["loaded_bytes"], (ROOT/MANIFEST["living_fallback"]["path"]).stat().st_size)
 
+    def test_continuation_always_loads_full_parallel_authority(self):
+        r=resolver.resolve("Procedi con la roadmap",
+                           "redesign schermate Oggi Calendario Ricordi")
+        self.assertEqual(r["selection"],"MODULES",r)
+        self.assertIn("authority-execution",r["modules"])
+        self.assertIn("experience",r["modules"])
+        self.assertIn("audit-roadmap",r["modules"])
+
+    def test_repository_name_alone_is_not_a_task(self):
+        r=resolver.resolve("AppLab")
+        self.assertEqual(r["selection"],"FALLBACK_BASELINE_USED",r)
+
     def test_master_update_routes_to_policy(self):
         r=resolver.resolve("aggiorna App Factory Core","regole del Master Prompt")
         self.assertEqual(r["selection"],"MODULES",r)
@@ -31,10 +43,29 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(r["selection"],"FALLBACK_BASELINE_USED",r)
         self.assertEqual(r["fallback_path"],MANIFEST["living_fallback"]["path"])
 
+    def test_route_manifest_update_invalidates_full_fallback(self):
+        from copy import deepcopy
+        revised=deepcopy(MANIFEST)
+        revised["task_routes"][0]["terms"].append("a future routing change")
+        self.assertNotEqual(builder.render(revised),
+                            (ROOT/MANIFEST["living_fallback"]["path"]).read_text(encoding="utf-8"))
+
     def test_golden_selection_uses_registry(self):
         r=resolver.resolve("redesign schermate",load_golden=True)
         self.assertEqual(r["selection"],"MODULES",r)
         self.assertIn("app_shell_responsive_visual_qa",[g["id"] for g in r["goldens"]])
+
+    def test_pin_keystore_selects_specialized_draft_and_marks_review(self):
+        r=resolver.resolve("Verifica PIN Android Keystore",
+                           "sicurezza biometria forte",load_golden=True)
+        self.assertEqual(r["selection"],"MODULES",r)
+        self.assertIn("android_local_pin_verifier_keystore",
+                      [g["id"] for g in r["goldens"]])
+        self.assertEqual(r["golden_readiness"],"REVIEW_REQUIRED_NOT_CERTIFIED")
+        pin=next(g for g in r["goldens"]
+                 if g["id"]=="android_local_pin_verifier_keystore")
+        self.assertTrue(pin["requires_review"])
+        self.assertEqual(pin["freshness_status"],"NEEDS_REVIEW")
 
     def test_stale_session_pin_blocks(self):
         r=resolver.resolve("redesign schermate",expected_sha="0"*40)
