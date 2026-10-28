@@ -169,13 +169,13 @@ Applicare insieme a GOLDEN_ROADMAP_FAST_CONTINUOUS_MAINTENANCE_v1.txt.
 OBIETTIVO:
 Ridurre tempo di attesa reale, letture ridondanti, cicli CI inutili e token
 per task COMPLETATO, mantenendo invariati i gate richiesti e la qualita'.
-Il router e' una decisione operativa leggera sopra gli strumenti ESISTENTI:
+Il router è una decisione operativa leggera sopra gli strumenti ESISTENTI:
 FAST_DELIVERY, Roadmap Fast + Continuous Maintenance, Parallel-first (1.2),
 Build Once Verify Many e QA basata sul rischio. NON crea una seconda
 certificazione FAST/FULL/CERTIFIED, una nuova pipeline o nuovi permessi.
 
 TRIGGER:
-All'avvio di ogni implementazione gia' autorizzata, soprattutto con
+All'avvio di ogni implementazione già autorizzata, soprattutto con
 "Procedi" o "procedi con la roadmap", scegliere UNA volta il percorso minimo
 necessario in base a scope, dipendenze, blast radius, stato reale e rischi.
 La valutazione del parallelismo prevista da 1.2 e' inclusa nella decisione.
@@ -195,7 +195,7 @@ PERCORSI ADATTIVI (non nuovi livelli di certificazione):
   quando pertinenti e gate di progetto completi. Solo parti indipendenti
   possono avanzare in parallelo.
 Un task di sola analisi/audit rimane READ-ONLY salvo autorizzazione
-esplicita all'implementazione; il router non estende scope ne' authority.
+esplicita all'implementazione; il router non estende scope né authority.
 
 BASELINE E CONTESTO — REUSE FIRST:
 - riusare la Factory baseline della sessione e la repository baseline gia'

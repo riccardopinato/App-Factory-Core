@@ -111,7 +111,6 @@ if str(current.get("master",{}).get("version"))=="26.8" and mp.exists():
     header="1.3 ADAPTIVE EXECUTION — MINIMUM NECESSARY PROCESS"
     section=source.split(header,1)[1].split("\n2. GITHUB / REMOTE ACCESS",1)[0] if header in source else ""
     must_contain=[
-        "MINIMUM NECESSARY PROCESS",
         '"Procedi"',
         "DIRETTO",
         "PARALLELO",
