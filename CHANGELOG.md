@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-28 — v27D2 / paired prompt behavioral protocol
+
+- Added 16 safety-critical source-backed cases, paired v26.8 vs modular v27 prompt export, fail-closed real-output scorer and negative tests rejecting fabricated/missing evidence.
+- Added pinned tiktoken 0.12.0 o200k_base tokenizer benchmark in Factory CI, distinct from actual ChatGPT usage and end-to-end wall time.
+- Required same model/effort, distinct real request IDs, prompt hashes, provider usage, observed latency and independent qualitative review for a future model-equivalence verdict.
+- No actual model runs or operational speedups claimed; official Master v26.8 remains authoritative and v27E is HOLD.
+
 ## 2026-10-28 — v27D / cross-app read-only routing replay harness
 
 - Added pinned read-only source snapshots for Anna's Diary, Phone Guard and AppLab, using their actual Product Bible/Roadmap/AGENTS documentation to define eleven realistic pilot/negative scenarios.

@@ -36,3 +36,7 @@ This phase delivers a candidate and safety net, **not** a claimed speedup or act
 ## v27D read-only pilot evidence
 
 Deterministic 11-case replay on pinned Anna's Diary / Phone Guard / AppLab source contexts is documented in [pilots/V27D_RESULTS_2026-10-28.md](pilots/V27D_RESULTS_2026-10-28.md). Real model behavior and end-to-end time improvements are **NOT VERIFIED**. Active Master remains v26.8.
+
+## v27D2 — paired prompts and measured tokenizer counts
+
+See pilots/V27D2_PROTOCOL.md and pilots/D2_BEHAVIORAL_CASES.json. Run python3 scripts/evaluate_v27d2.py --self-test --bench --require-tokenizer (tiktoken==0.12.0) or export actual paired prompts with --export. The --score gate refuses absent or synthetic model replies. Local tokenizer counts are not GPT-6 billed usage or response latencies. v27E remains HOLD.
