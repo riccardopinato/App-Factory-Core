@@ -60,7 +60,10 @@ def render(manifest: dict)->str:
             "\n\n===== V27 POLICY UPDATE: "+update["id"]+" =====\n"+
             checked_path(update["path"]).read_text(encoding="utf-8")
         )
-    return BANNER+core.rstrip("\n")+"\n\n===== COMPLETE LEGACY SECTION COVERAGE =====\n"+legacy+"".join(updates).rstrip("\n")+"\n"
+    route_catalog=("\n\n===== V27 TASK ROUTES (SYNCED CANDIDATE METADATA) =====\n"
+                   +json.dumps(manifest.get("task_routes",[]),ensure_ascii=False,indent=2))
+    return (BANNER+core.rstrip("\n")+"\n\n===== COMPLETE LEGACY SECTION COVERAGE =====\n"
+            +legacy+"".join(updates).rstrip("\n")+route_catalog.rstrip("\n")+"\n")
 
 def main()->None:
     ap=argparse.ArgumentParser(description=__doc__)

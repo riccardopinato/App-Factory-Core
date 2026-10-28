@@ -43,6 +43,13 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(r["selection"],"FALLBACK_BASELINE_USED",r)
         self.assertEqual(r["fallback_path"],MANIFEST["living_fallback"]["path"])
 
+    def test_route_manifest_update_invalidates_full_fallback(self):
+        from copy import deepcopy
+        revised=deepcopy(MANIFEST)
+        revised["task_routes"][0]["terms"].append("a future routing change")
+        self.assertNotEqual(builder.render(revised),
+                            (ROOT/MANIFEST["living_fallback"]["path"]).read_text(encoding="utf-8"))
+
     def test_golden_selection_uses_registry(self):
         r=resolver.resolve("redesign schermate",load_golden=True)
         self.assertEqual(r["selection"],"MODULES",r)
