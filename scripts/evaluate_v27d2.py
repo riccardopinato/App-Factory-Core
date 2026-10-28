@@ -217,6 +217,24 @@ def validate_responses(fixture,raw:dict):
             errors.append("unknown response decision: "+repr(key))
         if not isinstance(item.get("gates"),list):
             errors.append("missing structured gates: "+repr(key))
+        # Never trust independent report fields if the model's actual response
+        # says something else. Reject non-JSON, ambiguous, or detached verdicts.
+        try:
+            output=json.loads(item.get("response_text") or "")
+        except (json.JSONDecodeError,TypeError):
+            errors.append("actual model response is not JSON: "+repr(key))
+        else:
+            if not isinstance(output,dict):
+                errors.append("actual model response is not an object: "+repr(key))
+            else:
+                if output.get("decision")!=item.get("decision"):
+                    errors.append("metadata decision differs from model response: "+repr(key))
+                if output.get("gates")!=item.get("gates"):
+                    errors.append("metadata gates differ from model response: "+repr(key))
+                if not isinstance(output.get("rationale"),str) or not output["rationale"].strip():
+                    errors.append("actual response lacks explanatory rationale: "+repr(key))
+                if not isinstance(output.get("proposed_actions"),list):
+                    errors.append("actual response lacks proposed actions: "+repr(key))
     for c,b,v,_ in prompts(fixture):
         for variant,expected_prompt in (("baseline",b),("modular",v)):
             key=(c["id"],variant)
@@ -259,6 +277,19 @@ def self_test(fixture):
     errors=validate_responses(fixture,wrong)
     if not any("synthetic" in e or "unverified" in e for e in errors):
         raise RuntimeError("negative control accepted fabricated model response")
+    # A fabricated metadata PASS must not mask a divergent model-written verdict.
+    forged=dict(wrong)
+    item=dict(forged["records"][0])
+    item["source_kind"]="ACTUAL_MODEL_RUN"
+    item["response_text"]=json.dumps({
+        "decision":"READ_ONLY","gates":[],"rationale":"stay read-only",
+        "proposed_actions":[]
+    })
+    item["decision"]="DIRECT"
+    forged["records"]=[item]
+    if not any("metadata decision differs" in e
+               for e in validate_responses(fixture,forged)):
+        raise RuntimeError("negative control accepted detached claimed PASS")
     print("D2 PROTOCOL SELF-TEST: PASS (missing/synthetic/stale responses fail closed)")
 
 def main():

@@ -58,8 +58,12 @@ Deterministic routing and byte-cost replay **PASS** on candidate PR #25 exact he
 ## v27D2 — paired behavioral evaluation
 
 - [x] Prepare 16 safety and behavior decision cases, paired prompt exporter, fail-closed evidence scoring protocol and static negative tests.
-- [ ] Confirm exact-head CI token-count benchmark with pinned tiktoken 0.12.0.
+- [x] Confirm exact-head CI local token-count benchmark with pinned tiktoken 0.12.0: 16 prompts, 13 modular / 3 fallback, modular median token reduction 48.96%. See pilots/V27D2_RESULTS_2026-10-28.md. This is tokenizer output, not actual GPT-6 runtime usage.
 - [ ] Execute 32 independent real model prompt runs under the same model/effort, capture verified provider request IDs and token/latency receipts.
 - [ ] Obtain independent qualitative review and comparable real development workflow timings.
 
 Activation v27E remains HOLD: model behavior and actual ChatGPT end-to-end performance must not be inferred from green static CI.
+
+## v27D2 result boundary
+
+Pinned tokenization study is recorded in pilots/V27D2_RESULTS_2026-10-28.md. Real model executions: ZERO. Independent policy-equivalence verdicts: NONE. Real ChatGPT token-usage/time-to-edit comparisons: NOT VERIFIED. Activation v27E remains HOLD until these separate gates are met.
