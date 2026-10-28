@@ -516,5 +516,234 @@
       ],
       "scope": "approved internal release only"
     }
-  ]
+  ],
+  "policy_updates": [
+    {
+      "id": "factory-policy-sync",
+      "path": "v27/candidate/modules/80-factory-policy-sync.txt",
+      "selectors": [
+        "master prompt",
+        "app factory core"
+      ]
+    }
+  ],
+  "task_routes": [
+    {
+      "id": "factory_update",
+      "terms": [
+        "master prompt",
+        "app factory core",
+        "regole factory"
+      ],
+      "modules": [
+        "authority-execution",
+        "factory-policy-sync"
+      ],
+      "golden_ids": [
+        "agent_governance"
+      ]
+    },
+    {
+      "id": "audit",
+      "terms": [
+        "audit",
+        "gap analysis",
+        "analisi repository"
+      ],
+      "modules": [
+        "audit-roadmap"
+      ]
+    },
+    {
+      "id": "roadmap",
+      "terms": [
+        "roadmap",
+        "maxi step"
+      ],
+      "modules": [
+        "audit-roadmap"
+      ],
+      "golden_ids": [
+        "roadmap_fast_continuous_maintenance"
+      ]
+    },
+    {
+      "id": "ui",
+      "terms": [
+        "ui",
+        "ux",
+        "schermata",
+        "schermate",
+        "redesign",
+        "design system",
+        "interfaccia",
+        "colori",
+        "onboarding",
+        "calendario",
+        "estetica"
+      ],
+      "modules": [
+        "experience"
+      ],
+      "golden_ids": [
+        "app_shell_responsive_visual_qa"
+      ]
+    },
+    {
+      "id": "code",
+      "terms": [
+        "codice",
+        "refactor",
+        "architettura",
+        "dipendenza",
+        "bootstrap",
+        "nuova app"
+      ],
+      "modules": [
+        "foundation-reuse"
+      ],
+      "golden_ids": [
+        "code_hygiene"
+      ]
+    },
+    {
+      "id": "data",
+      "terms": [
+        "database",
+        "dati",
+        "migrazione",
+        "migration",
+        "backup",
+        "restore",
+        "sincronizzazione",
+        "sync",
+        "offline",
+        "import",
+        "export",
+        "media"
+      ],
+      "modules": [
+        "data-offline"
+      ],
+      "golden_ids": [
+        "backup_recovery"
+      ]
+    },
+    {
+      "id": "native",
+      "terms": [
+        "android",
+        "kotlin",
+        "sensori",
+        "permessi",
+        "notifiche",
+        "foreground",
+        "allarme",
+        "privacy",
+        "sicurezza",
+        "biometria"
+      ],
+      "modules": [
+        "identity-native"
+      ],
+      "golden_ids": [
+        "android_native_reliability"
+      ]
+    },
+    {
+      "id": "auth",
+      "terms": [
+        "login",
+        "autenticazione",
+        "account",
+        "sign in"
+      ],
+      "modules": [
+        "identity-native"
+      ],
+      "golden_ids": [
+        "google_auth_supabase"
+      ]
+    },
+    {
+      "id": "monetization",
+      "terms": [
+        "admob",
+        "pubblicita",
+        "premium",
+        "abbonamento",
+        "billing",
+        "monetizzazione",
+        "acquisto"
+      ],
+      "modules": [
+        "monetization-ai"
+      ],
+      "golden_ids": [
+        "entitlement_contract"
+      ]
+    },
+    {
+      "id": "ai",
+      "terms": [
+        "intelligenza artificiale",
+        "modello ai",
+        "modello locale"
+      ],
+      "modules": [
+        "monetization-ai"
+      ]
+    },
+    {
+      "id": "delivery",
+      "terms": [
+        "ci",
+        "build",
+        "apk",
+        "aab",
+        "release",
+        "rilascio",
+        "firmato",
+        "signing",
+        "test",
+        "applab",
+        "pubblicazione",
+        "play store",
+        "merge"
+      ],
+      "modules": [
+        "delivery-verification"
+      ],
+      "golden_ids": [
+        "immutable_build_test_artifact"
+      ]
+    }
+  ],
+  "router": {
+    "entrypoint": "scripts/resolve_v27_candidate.py",
+    "status": "CANDIDATE_ONLY",
+    "load_strategy": "ON_DEMAND_VERIFIED",
+    "unknown_intent": "VERIFIED_FULL_FALLBACK",
+    "module_integrity": "GIT_BLOB_SHA1",
+    "no_automatic_publish": true
+  },
+  "living_fallback": {
+    "mode": "SYNCHRONIZED_GENERATED",
+    "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
+    "git_blob_sha": "7a06e71edc82827833d5b8aae985981c571cf5c9",
+    "generator": "scripts/build_v27_fallback.py",
+    "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
+  },
+  "integrity_blob_sha": {
+    "core": "0405fb1f4025b6e4fd942a81f0e3ba465562f54d",
+    "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
+    "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
+    "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
+    "identity-native": "13351dd84e8a9ae8ad59523aac6f9095c96e2919",
+    "experience": "d0a26fee5d7cd2feda15206cd47a1ce3826005e3",
+    "monetization-ai": "12b306d487cfe077bb6f3b3cd1b172fa7deace39",
+    "delivery-verification": "8e1cac8a0e587d4ed73179427d3fa2b3e8ea88ff",
+    "audit-roadmap": "daada6c5059a5de30e901e273fa3486666b0f36f",
+    "factory-policy-sync": "cd3243eef4e9af507b3347baa95b59e6a7f8efc1"
+  }
 }

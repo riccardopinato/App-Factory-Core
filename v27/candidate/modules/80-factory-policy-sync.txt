@@ -1,0 +1,17 @@
+APP FACTORY v27 — SYNCHRONIZED MASTER UPDATE POLICY
+Status: v27 candidate; repository governance applies while v26.8 remains active.
+
+For any authorized request to update the Master Prompt, App Factory Core or Factory governance:
+- Update canonical modular instructions in the relevant v27 core or policy module.
+- Regenerate v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt from those same inputs.
+- Update MODULE_MAP.json source/fallback integrity pins in the same PR.
+- CI must reject a changed modular source without corresponding regenerated fallback.
+- Do not hand edit the generated fallback or maintain two independent canonical documents.
+- Keep the historical full v26.8 snapshot pinned and unchanged for emergency recovery.
+- If the current active Master is also within the requested scope, update its current
+  alias, versioned source, resolver, Registry and changelog together per governance.
+- No merge with missing exact-head checks, unresolved review or rule/fallback drift.
+- Until activation, CURRENT.yaml continues to select v26.8; candidate-only edits do
+  not claim to change the currently active app rules.
+
+The operative fallback is living and synchronized. The historical snapshot is immutable.
