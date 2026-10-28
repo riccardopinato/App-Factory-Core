@@ -92,18 +92,41 @@ registered={str(p) for p in paths if p}
 for rel in sorted(current_files-registered): fail(f"orphan current Golden not in registry: {rel}")
 for rel in sorted(registered-current_files): fail(f"registered Golden missing from current tree: {rel}")
 
-for a,b in [
- (str(current.get("master",{}).get("path","")),str(current.get("master",{}).get("versioned_path",""))),
+alias_pairs=[
  (str(current.get("golden_index",{}).get("path","")),str(current.get("golden_index",{}).get("versioned_path","")))
-]:
+]
+if str(current.get("master",{}).get("version")) not in ("27","27.0"):
+    alias_pairs.insert(0,(str(current.get("master",{}).get("path","")),str(current.get("master",{}).get("versioned_path",""))))
+for a,b in alias_pairs:
     if a and b:
         pa,pb=req(a),req(b)
         if pa.exists() and pb.exists() and pa.read_bytes()!=pb.read_bytes(): fail(f"alias drift: {a} != {b}")
 
 mp=req(str(current.get("master",{}).get("path","")))
+active_version=str(current.get("master",{}).get("version"))
 if mp.exists():
-    expected=f"Versione v{current.get('master',{}).get('version')} FULL CONSOLIDATA"
-    if expected not in mp.read_text(encoding="utf-8"): fail(f"Master CURRENT header does not contain {expected!r}")
+    if active_version in ("27","27.0"):
+        if "APP FACTORY v27" not in mp.read_text(encoding="utf-8"):
+            fail("Active modular Master does not declare v27")
+        if "CANDIDATE ONLY" in mp.read_text(encoding="utf-8"):
+            fail("Active modular Master still marked as candidate")
+        mod_manifest=load_json("v27/candidate/MODULE_MAP.json")
+        if mod_manifest.get("status")!="ACTIVE":
+            fail("Active v27 must have ACTIVE manifest status")
+        if current.get("master",{}).get("modular_manifest")!="v27/candidate/MODULE_MAP.json":
+            fail("v27 current.modular_manifest mismatch")
+        if mod_manifest.get("core",{}).get("path")!=str(mp.relative_to(ROOT)):
+            fail("v27 manifest core path mismatch")
+        if mod_manifest.get("living_fallback",{}).get("path")!=str(current.get("master",{}).get("versioned_path")):
+            fail("v27 operative full fallback path mismatch")
+        check=subprocess.run([sys.executable,"scripts/build_v27_fallback.py","--check"],
+                             cwd=ROOT,capture_output=True,text=True,check=False)
+        if check.returncode!=0:
+            fail("v27 fallback check failed: "+(check.stderr+check.stdout)[-1200:])
+    else:
+        expected=f"Versione v{active_version} FULL CONSOLIDATA"
+        if expected not in mp.read_text(encoding="utf-8"):
+            fail(f"Master CURRENT header does not contain {expected!r}")
 # Adaptive Execution v26.8: deterministic policy/playbook drift check.
 # This proves presence/consistency, NOT that a model actually follows the policy.
 if str(current.get("master",{}).get("version"))=="26.8" and mp.exists():
@@ -457,4 +480,4 @@ if errors:
     print("APP FACTORY VALIDATION: FAIL")
     for e in errors: print("-",e)
     sys.exit(1)
-print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v6)")
+print(f"APP FACTORY VALIDATION: PASS ({len(goldens)} Golden entries, semantic validator v7)")

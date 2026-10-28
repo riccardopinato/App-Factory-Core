@@ -22,7 +22,7 @@ bootstrap:
   path: bootstrap/APP_FACTORY_BOOTSTRAP.txt
 
 validation:
-  version: 6
+  version: 7
   script: scripts/validate_factory.py
   requirements: scripts/requirements.txt
 

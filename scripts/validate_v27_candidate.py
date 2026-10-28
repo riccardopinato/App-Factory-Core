@@ -54,10 +54,27 @@ def safely_read(path: str) -> str:
 def validate(manifest: dict, source_bytes: bytes, module_texts: dict,
              core_text: str, current_text: str):
     errors = []
-    if manifest.get("status") != "CANDIDATE_NOT_ACTIVE":
-        errors.append("candidate must remain inactive")
-    if '"26.8"' not in current_text or "v26_8_FULL.txt" not in current_text:
-        errors.append("CURRENT.yaml must stay on v26.8 during this candidate phase")
+    import yaml
+    try:
+        current_master=yaml.safe_load(current_text)["master"]
+        current_version=str(current_master["version"])
+    except (KeyError,TypeError,yaml.YAMLError):
+        current_master={}
+        current_version="UNVERIFIED"
+    if current_version=="26.8":
+        if manifest.get("status")!="CANDIDATE_NOT_ACTIVE":
+            errors.append("v26.8 CURRENT requires inactive v27 manifest")
+        if "v26_8_FULL.txt" not in current_text:
+            errors.append("v26.8 current full Master pointer absent")
+    elif current_version in ("27","27.0"):
+        if manifest.get("status")!="ACTIVE":
+            errors.append("v27 CURRENT requires ACTIVE manifest")
+        if current_master.get("path")!=manifest.get("core",{}).get("path"):
+            errors.append("active master path differs from v27 core")
+        if current_master.get("versioned_path")!=manifest.get("living_fallback",{}).get("path"):
+            errors.append("active full fallback pointer mismatch")
+    else:
+        errors.append("unsupported CURRENT version for v27 validator")
 
     original = manifest.get("original", {})
     fallback = manifest.get("fallback", {})
@@ -139,9 +156,14 @@ def validate(manifest: dict, source_bytes: bytes, module_texts: dict,
         errors.append("unexpected core entrypoint")
     if len(core_text.splitlines()) > core.get("max_lines", 300):
         errors.append("candidate core exceeds line budget")
-    for token in ("CANDIDATE", "CURRENT.yaml", "Procedi", "DIRECT",
-                  "PARALLEL", "CONTROLLED", "READ", "FALLBACK_BASELINE_USED",
-                  "exact-head", "no silent", "source"):
+    required_tokens=("CURRENT.yaml", "Procedi", "DIRECT", "PARALLEL",
+                     "CONTROLLED", "READ", "FALLBACK_BASELINE_USED",
+                     "exact-head", "no silent", "source")
+    if manifest.get("status")=="CANDIDATE_NOT_ACTIVE":
+        required_tokens+=("CANDIDATE",)
+    else:
+        required_tokens+=("v27",)
+    for token in required_tokens:
         if token.casefold() not in core_text.casefold():
             errors.append("core lacks necessary invariant: " + token)
 

@@ -40,3 +40,6 @@ jobs:
 
       - name: v27D2 paired prompt protocol and tokenizer counts
         run: python3 scripts/evaluate_v27d2.py --self-test --bench --require-tokenizer
+
+      - name: v27E shadow activation compatibility and fail-closed gates
+        run: python3 scripts/test_v27_activation_shadow.py

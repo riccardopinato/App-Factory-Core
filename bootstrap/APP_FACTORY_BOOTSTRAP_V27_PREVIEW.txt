@@ -1,0 +1,34 @@
+APP FACTORY — V27E BOOTSTRAP PREVIEW (NOT CURRENT)
+App Factory Core versioned source: https://github.com/riccardopinato/App-Factory-Core
+Do not activate this preview from a chat memory or old attachment.
+CURRENT.yaml remains the ONLY authority for the live Factory version.
+
+Algorithm:
+1. Resolve CURRENT.yaml and pin exact Core commit SHA once per session.
+2. If master.version is 26.8: use master.path (full Master) + Golden Index/Registry,
+   with only task-relevant Golden; existing bootstrap stays in force.
+3. If master.version is 27: require master.modular_manifest, and a manifest marked
+   ACTIVE; load the short master.path core, validate registered source hashes and
+   load selected task-related modules using scripts/resolve_v27_candidate.py.
+4. For a bare "Procedi", derive scope from the already approved roadmap if known;
+   if that context is unavailable, use the verified synchronized full v27 fallback
+   rather than invent a specific task or bypass required gates.
+5. Use the Golden Registry for canonical paths and fresh status; read the Golden
+   Index or full Golden only when its content is needed for the task.
+6. If any required module is missing/corrupt or routing is ambiguous, use only the
+   hash-verified v27 living full fallback and disclose FALLBACK_BASELINE_USED.
+7. If the living fallback also fails integrity: BLOCKED_FACTORY_BASELINE_UNVERIFIED.
+   Historical immutable v26.8 is disaster-recovery evidence, not current v27 policy.
+8. During Master/App Factory Core updates, modify modular sources AND regenerate
+   the synchronized full living fallback in the SAME PR. No independent edits.
+9. Preserve Product Bible, project Roadmap, app-level AGENTS, required exact-head
+   CI/reviews, data safety, signing and release authority; no fabricated evidence.
+10. Do NOT promote to v27 without actual independent paired-model policy evaluation,
+    qualitative review and performance measurement. Shadow tests alone do not
+    prove equivalent ChatGPT execution.
+11. Do not reread central rules between consecutive steps unless central is updated
+    or the user explicitly requests refresh.
+
+For downstream apps, their own GitHub access rules and AGENTS remain in force.
+This preview does not change CURRENT.yaml, ChatGPT Project custom instructions,
+or any other application repository.

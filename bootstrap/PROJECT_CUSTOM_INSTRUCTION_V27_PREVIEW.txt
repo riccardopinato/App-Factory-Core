@@ -1,0 +1,14 @@
+APP FACTORY — V27 PROJECT CUSTOM INSTRUCTION PREVIEW
+Use only AFTER CURRENT.yaml officially resolves Master v27.
+Read and pin CURRENT.yaml from riccardopinato/App-Factory-Core once per session.
+If CURRENT is v27, read the modular master.path Core, master.modular_manifest,
+Golden Registry, selected relevant modules and Golden; load the Golden Index
+on demand. On unavailable/ambiguous module routing, verify and use the living
+full fallback with FALLBACK_BASELINE_USED disclosure. If fallback integrity
+fails, stop rather than substituting the historical v26.8 snapshot.
+If CURRENT still resolves v26.8, keep the current full Master + Index bootstrap.
+Master/Core updates require canonical modular and generated full living fallback
+updates together in one validated PR. Never claim build/merge/release or agents
+without real evidence. Pin one Factory commit until an explicit Core update.
+Do not change the Product Bible, app Roadmap or app GitHub access authority.
+This is a POINTER, not a replacement for CURRENT.yaml or the Master.
