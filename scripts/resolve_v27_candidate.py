@@ -80,11 +80,44 @@ def route(task:str,context:str,manifest:dict)->tuple[list[str],list[str],list[st
 def resolve(task:str,context:str="",expected_sha:str|None=None,
             load_text:bool=False,load_golden:bool=False,root:Path=ROOT)->dict:
     """Return data and selected docs, or fail closed to a pinned full fallback."""
-    result={"candidate":"v27C","active":False,"task":task,
-            "selection":"", "note":"CURRENT.yaml remains authoritative (v26.8)."}
+    result={"candidate":"v27","active":False,"task":task,
+            "selection":"", "note":"CURRENT.yaml remains authoritative."}
     current=(root/"CURRENT.yaml").read_text(encoding="utf-8")
-    if not re.search(r'(?m)^  version: "26\.8"$',current):
-        return {**result,"selection":"BLOCKED","reason":"CURRENT_UNEXPECTED; candidate not activated"}
+    # Only CURRENT selects authority. Candidate may be evaluated in v26.8 mode;
+    # a future v27 promotion must use the registered core, manifest, fallback.
+    import yaml
+    try:
+        current_record=yaml.safe_load(current)
+        if not isinstance(current_record,dict):
+            raise ValueError("CURRENT is not a mapping")
+        master=current_record["master"]
+        current_version=str(master["version"])
+        manifest=json.loads((root/MANIFEST).read_text(encoding="utf-8"))
+        if current_version=="26.8":
+            if manifest.get("status")!="CANDIDATE_NOT_ACTIVE":
+                raise ValueError("candidate status disagrees with v26.8 CURRENT")
+            result["active"]=False
+            result["note"]="v27 shadow candidate; CURRENT v26.8 authoritative."
+        elif current_version in ("27","27.0"):
+            if manifest.get("status")!="ACTIVE":
+                raise ValueError("v27 CURRENT requires ACTIVE module manifest")
+            if master.get("path")!=manifest["core"]["path"]:
+                raise ValueError("CURRENT master.path is not the pinned modular core")
+            if master.get("versioned_path")!=manifest["living_fallback"]["path"]:
+                raise ValueError("CURRENT versioned full fallback path mismatch")
+            if master.get("modular_manifest")!=MANIFEST:
+                raise ValueError("CURRENT module manifest path mismatch")
+            if not manifest.get("living_fallback",{}).get("git_blob_sha"):
+                raise ValueError("missing synchronized full fallback seal")
+            result["active"]=True
+            result["note"]="Active modular v27 resolved by CURRENT."
+        else:
+            return {**result,"selection":"BLOCKED",
+                    "reason":"UNSUPPORTED_FACTORY_MASTER_VERSION"}
+    except (KeyError,ValueError,TypeError,UnicodeError, OSError,
+            yaml.YAMLError, json.JSONDecodeError) as exc:
+        return {**result,"selection":"BLOCKED",
+                "reason":"CURRENT_OR_MANIFEST_INVALID: "+str(exc)}
     sha=git_sha(root)
     if expected_sha is not None:
         if not re.fullmatch(r"[0-9a-f]{40}",expected_sha):
@@ -94,8 +127,6 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
     result["factory_sha"]=sha
     try:
         manifest=json.loads((root/MANIFEST).read_text(encoding="utf-8"))
-        if manifest.get("status")!="CANDIDATE_NOT_ACTIVE":
-            raise ValueError("v27 candidate activation state invalid")
         names,golden_ids,matched=route(task,context,manifest)
         if not names: raise ValueError("NO_SAFE_MODULE_ROUTE")
         seals=manifest["integrity_blob_sha"]
@@ -111,7 +142,7 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
             # Registry path/status is authoritative; no need to load full Golden Index.
             import yaml
             registry=yaml.safe_load((root/"golden/GOLDEN_REGISTRY.yaml").read_text(encoding="utf-8"))
-            if str(registry.get("master_version"))!="26.8":
+            if str(registry.get("master_version"))!=current_version:
                 raise ValueError("Golden Registry baseline mismatch")
             registry_map={g["id"]:g for g in registry["goldens"]}
             chosen=[]
@@ -151,7 +182,7 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
             result.update(selection="FALLBACK_BASELINE_USED",
                           reason=cause,
                           fallback_path=fb["path"],
-                          fallback_sha256=fb["git_blob_sha"],
+                          fallback_git_blob_sha=fb["git_blob_sha"],
                           loaded_bytes=len(content.encode("utf-8")))
             if load_text:result["documents"]={fb["path"]:content}
             return result

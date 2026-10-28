@@ -67,3 +67,12 @@ Activation v27E remains HOLD: model behavior and actual ChatGPT end-to-end perfo
 ## v27D2 result boundary
 
 Pinned tokenization study is recorded in pilots/V27D2_RESULTS_2026-10-28.md. Real model executions: ZERO. Independent policy-equivalence verdicts: NONE. Real ChatGPT token-usage/time-to-edit comparisons: NOT VERIFIED. Activation v27E remains HOLD until these separate gates are met.
+
+## v27E readiness (pre-activation staging)
+
+- [x] Prepare version-aware resolver contract for either official v26.8 or future active v27; CURRENT remains 26.8 until separate promotion.
+- [x] Prepare conditional CURRENT schema and central validator v7 that can check active modular core, manifest and synchronized full fallback.
+- [x] Prepare shadow activation tests in temporary directories, including invalid manifest/core pointers, Golden version alignment, degraded modules, verified full fallback and blocking a double corruption.
+- [ ] Real paired model inference outputs and independent policy review remain absent. No v27 promotion until provided and passing.
+- [ ] Actual downstream workflow wall-clock measurement remains absent. This cannot be inferred from router microbenchmarks.
+- [ ] Future activation PR must atomically switch CURRENT/Registry/Bootstrap/Project pointer, mark manifest/core ACTIVE and regenerate full fallback. The activation candidate must pass central exact-head CI and an updated set of pilot tests.

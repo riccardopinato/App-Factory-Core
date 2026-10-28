@@ -21,7 +21,7 @@ Do not refresh it between consecutive steps unless the central framework changes
 - Master Prompt: **v26.8 FULL**
 - Golden Components Index: **v23**
 - Golden registry: **v2**
-- Semantic validator: **v6**
+- Semantic validator: **v7**
 
 ## Repository layout
 

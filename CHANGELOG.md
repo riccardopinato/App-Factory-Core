@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-28 — v27E shadow activation preparation, without promotion
+
+- Added support for an ACTIVE v27 CURRENT profile in the candidate resolver and validator, while preserving v26.8 as the live baseline.
+- Added shadow activation tests in an isolated temporary directory with Golden Registry alignment and fail-closed behavior; CI covers both v26.8 live and simulated v27 paths.
+- Extended CURRENT schema for an explicit modular manifest path and operational full fallback pointer; bumped semantic validator v7.
+- No CURRENT master promotion, no fabricated paired-model results, and no downstream app changes. Activation remains blocked until real behavioral evidence and review are green.
+
+
 ## 2026-10-28 — v27D2 / paired prompt behavioral protocol
 
 - Added 16 safety-critical source-backed cases, paired v26.8 vs modular v27 prompt export, fail-closed real-output scorer and negative tests rejecting fabricated/missing evidence.
