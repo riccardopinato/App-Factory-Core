@@ -26,7 +26,7 @@ This is a routing/authority entrypoint, not a second source of truth today.
 - Required human gates or user requests to review before merge still bind.
 - No new billing, cloud, AI, destructive data action or public release without scope.
 
-3. EXECUTION ROUTER — PROCED I
+3. EXECUTION ROUTER — PROCEDI
 - Commands "Procedi", "procedi con la roadmap", "continua" and equivalents trigger a one-pass decision.
 - Reuse known valid roadmap and baseline, no repeated analysis for its own sake.
 - DIRECT: small isolated changes, minimal relevant preflight, required tests.
@@ -84,8 +84,10 @@ This is a routing/authority entrypoint, not a second source of truth today.
 - Never conflate internally signed APK with user-store readiness.
 - Do not duplicate CI runs or build artifacts absent a reason.
 
-8. MODULE SELECTOR (PROTOTYPE; NOT ACTIVE)
-- Read v27/candidate/MODULE_MAP.json for task-to-module routing.
+8. MODULE SELECTOR (V27C PROTOTYPE; NOT ACTIVE)
+- Prototype: scripts/resolve_v27_candidate.py --task ... --context ... --include-goldens.
+- Read MODULE_MAP.json for deterministic task-to-module routing.
+- Load only relevant modules; ambiguous routing requires a verified fallback.
 - Select modules for task impact, not all modules by default.
 - Authority/execution: governance, baseline, authorization, merges.
 - Foundation/reuse: architecture, Golden, app bootstrap, dependencies.
@@ -99,17 +101,23 @@ This is a routing/authority entrypoint, not a second source of truth today.
 
 9. FALLBACK AND FAIL-CLOSED BEHAVIOR
 - If any required v27 module/manifest is missing, corrupt or contradictory, stop modular execution.
-- Verify full fallback v26.8 blob identity against the pinned manifest.
-- Only after verification load that complete Master for the affected task.
+- Verify the synchronized v27 full fallback identity recorded in the manifest.
+- The original v26.8 remains pinned separately for historical emergency recovery.
+- Only after verification load the synchronized v27 full fallback for the affected task.
 - Report FALLBACK_BASELINE_USED with reason and pinned commit; no silent substitution.
 - Do not auto-rewrite CURRENT or pretend the v27 candidate was validated.
-- If the fallback bytes are missing or do not match, declare FACTORY BASELINE UNVERIFIED.
+- If synchronized fallback bytes are missing or inconsistent, block as FACTORY BASELINE UNVERIFIED.
+- Never silently downgrade to the historical v26.8 snapshot.
 - Preserve all required gates even when switching back to the full Master.
-- Fallback is read-only; no duplicate canonical maintenance branch of the rules.
+- Fallback is GENERATED and read-only: edit v27 core/modules first, then regenerate in the same PR.
+- Requests to update the Master Prompt or App Factory Core must update modular rules AND
+  the generated operative full fallback together; immutable v26.8 remains archival.
+- CI blocks drift between canonical modular rules and the generated full fallback.
 
 10. RULE TRACEABILITY AND ACTIVATION
 - Every legacy section must map to exactly one candidate module.
-- Candidate validator reconstructs the full v26.8 document byte-for-byte.
+- Candidate validator reconstructs original v26.8 sections and validates the synchronized
+  full fallback against the complete current candidate modules and policy updates.
 - A short core alone does not prove behavioral equivalence.
 - Run positive/negative policy scenarios and at least three real pilot surfaces.
 - Measure context loaded, time to first edit, wall clock, retries and regressions.

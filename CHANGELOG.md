@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-28 — v27C / candidate lazy resolver + synchronized full fallback
+
+- Added deterministic task-to-module routing with lazy verified file reads, optional Golden Registry lookups, explicit factory SHA check and fail-closed verified full fallback.
+- Added v27 candidate full operative fallback generated from core, legacy modules and policy updates; every future authorized Master/Core change must update both modular rules and generated fallback in the same PR; CI rejects drift.
+- Preserved immutable v26.8 as historical emergency recovery, distinct from the up-to-date operative fallback; no silent downgrade.
+- Added build/check helper, resolver tests and negative controls to Factory CI; updated AGENTS/GOVERNANCE and candidate docs.
+- No CURRENT activation, no downstream app modification, no claimed runtime/speedup pilot evidence.
+
+
 ## 2026-10-28 — v27 Lean & Modular candidate / pinned v26.8 fallback
 
 - Prepared the **inactive** v27 modular architecture: compact candidate core, 8 verbatim domain modules, complete 55-section v26.8-to-v27 rule map and six representative routing scenarios.

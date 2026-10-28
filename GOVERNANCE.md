@@ -33,3 +33,7 @@ Provider-sensitive entries without current provider evidence are NEEDS_REVIEW.
 - Tool-specific instruction files must be thin pointers/imports or deterministic generated bridges from the canonical contract; they must not become independent policy sources.
 - Changes to AGENTS.md or its governance modules follow the same branch -> validation -> PR -> review flow as other Core governance changes.
 - Agents must not self-modify central governance as an unreviewed reaction to a single session correction.
+
+## v27 synchronized modular/full policy update (candidate)
+
+When a user requests an update to the Master Prompt or App-Factory-Core, update both the canonical modular v27 rule sources and the generated *operative* full v27 fallback in the same branch/PR. `scripts/build_v27_fallback.py --write` produces the fallback and updates the manifest source/fallback pins; CI runs `--check` and resolver tests to reject drift. Never hand-edit the fallback. The original v26.8 full Master remains an immutable historical recovery asset, not the current-policy fallback. Until v27 activation, the version resolved by CURRENT.yaml remains independently authoritative and must be updated if the requested policy change affects currently active rules. No silent fallback to stale policy, no branch-protection bypass.

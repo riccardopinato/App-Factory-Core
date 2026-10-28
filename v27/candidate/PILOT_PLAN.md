@@ -6,12 +6,14 @@
 - [x] Map all 55 original sections, verify reconstruction and fallback Git identity in CI when passing.
 - [ ] Prove candidate rules have equivalent actual model decisions.
 
-## Phase 27C: resolver, only after policy contract approval
-- Implement a lazy resolver driven by CURRENT for v27 (not ad hoc text search).
-- Route task to only relevant modules and relevant Golden docs.
-- Guard failures with verified fallback and explicit `FALLBACK_BASELINE_USED`.
-- Detect unavailable/corrupt/outdated module or missing dependency; fail closed.
-- Test deterministic selection, version pinning and one-baseline-per-session.
+## Phase 27C: candidate resolver and dual-surface fallback
+- [x] Implement prototype deterministic lazy resolver with CURRENT guard and a future activation boundary.
+- [x] Route tasks to integrity-checked relevant modules and optional relevant Golden Registry entries.
+- [x] Use synchronized generated full fallback, verify its blob identity and disclose `FALLBACK_BASELINE_USED`.
+- [x] Fail closed when a selected module or full fallback cannot be verified; add test cases.
+- [x] Test deterministic selection and optional pinned SHA rejection. Actual cross-session pinning and active v27 bootstrap require the later activation phase.
+- [x] Make modular + generated full fallback updates a same-PR governance and CI requirement.
+- [ ] Activate resolver via CURRENT.yaml/bootstrap only after real policy pilots and approval.
 
 ## Phase 27D: behavioral and performance pilots
 1. **Anna's Diary (Flutter/UX):** a one-screen copy fix, plus separate independent UI workstreams. Validate DIRECT/PARALLEL decisions and shared design contracts.

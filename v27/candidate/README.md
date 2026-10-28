@@ -10,11 +10,18 @@ Pinned Factory baseline: `72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20`.
 - `RULE_COVERAGE.md`: audited map of 55 existing headings/sections.
 - `scripts/validate_v27_candidate.py`: checks exact section reconstruction, fallback identity, manifest pointers and negative controls.
 
-## Explicit fallback
-Do not create a second independently edited Master. The fallback is the existing:
+## v27C prototype: synchronized operational fallback
+
+- `scripts/resolve_v27_candidate.py --task "Procedi" --context "redesign schermate" --include-goldens` tests deterministic lazy routing. The prototype is read-only and not in the official bootstrap.
+- `scripts/build_v27_fallback.py --write` regenerates the full current candidate policy from core + modules + registered policy updates and refreshes hash pins. `--check` runs in CI.
+- `MASTER_FULL_FALLBACK_GENERATED.txt` is the living operative fallback, updated atomically whenever the modular Master changes. An unknown or corrupt module triggers the hash-verified fallback with an explicit status; a corrupt fallback blocks execution.
+- Central repository `AGENTS.md` and `GOVERNANCE.md` now require simultaneous modular + generated full updates for future Master/Core changes.
+
+## Immutable historical recovery snapshot
+Do not create a second independently edited Master. The **immutable historical recovery copy** is the existing:
 `master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt`.
 Its source commit is `72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20` and Git blob SHA is `98fee1ef7ccadc98b947cefa74b33e9fae51022f`.
-After v27 activation (a *separate* gated change), if modular loading fails, verify this exact identity, load the full original, and disclose `FALLBACK_BASELINE_USED`. If identity cannot be verified, stop.
+After v27 activation (a *separate* gated change), first use the **generated synchronized v27 full fallback** with integrity verification and `FALLBACK_BASELINE_USED` disclosure. The historical v26.8 is emergency recovery only and is never silently used as a current-policy replacement.
 
 ## Activation rule
 This PR must not update `CURRENT.yaml`, replace `master/MASTER_PROMPT_CURRENT.txt`, or change app repositories. v27 becomes CURRENT only after:
