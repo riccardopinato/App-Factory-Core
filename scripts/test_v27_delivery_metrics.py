@@ -27,6 +27,22 @@ class DeliveryMetricsTests(unittest.TestCase):
         self.assertTrue(all(not r["sufficient_matched_samples"] for r in
                             summary["comparable_groups"]))
 
+    def test_anna_parallel_prs_are_not_counted_as_independent_work_time(self):
+        summary = m.summarize(self.source)
+        anna = next(x for x in summary["per_repo"]
+                    if x["repo"] == "riccardopinato/Agenda-per-Anna")
+        self.assertEqual(anna["pre_v27_n"], 8)
+        self.assertEqual(anna["pre_v27_overlapping_pr_windows_n"], 6)
+        self.assertGreater(anna["pre_v27_raw_pr_elapsed_median_minutes_not_active_time"], 580)
+        self.assertFalse(anna["can_infer_active_development_time"])
+        feature = next(x for x in summary["comparable_groups"]
+                       if x["repo"] == "riccardopinato/Agenda-per-Anna"
+                       and x["category"] == "feature")
+        self.assertEqual(feature["pre_v27_n"], 7)
+        self.assertEqual(feature["pre_v27_nonoverlap_in_sample_n"], 1)
+        self.assertFalse(feature["sufficient_matched_samples"])
+        self.assertIsNone(feature["descriptive_relative_change_pct"])
+
     def test_same_pr_cannot_be_double_counted(self):
         altered = copy.deepcopy(self.source)
         altered["records"].append(copy.deepcopy(altered["records"][0]))
@@ -57,6 +73,16 @@ class DeliveryMetricsTests(unittest.TestCase):
         old = next(x for x in altered["records"]
                    if x["repo"] == "riccardopinato/Agenda-per-Anna"
                    and x["category"] == "feature" and x["cohort"] == "pre_v27")
+        # Add independent historical fixtures on non-overlapping days.
+        # The real Anna feature PRs are mostly a single overlapping open-window episode.
+        for i in range(2):
+            old_row = copy.deepcopy(old)
+            old_row.update(
+                pr_number=98001+i,
+                opened_at=f"2026-10-{20+i}T10:00:00Z",
+                merged_at=f"2026-10-{20+i}T10:30:00Z",
+                url=f"https://github.com/{old['repo']}/pull/{98001+i}")
+            altered["records"].append(old_row)
         for i in range(3):
             row = copy.deepcopy(old)
             row.update(
