@@ -86,3 +86,28 @@ Pinned tokenization study is recorded in pilots/V27D2_RESULTS_2026-10-28.md. Rea
 ## v27E activation PR draft — NOT YET AUTHORIZED FOR MERGE
 
 This release branch stages CURRENT version 27, ACTIVE Core/manifest, generated synchronized fallback, Golden Registry, bootstrap and validator. The historical D1/D2 reports remain benchmark evidence and are not endorsements of behavioral equivalence. Before merge, attach actual independent 16 x 2 model runs with reviewed decisions, and comparable real development timings; keep draft until gates pass.
+
+
+## v27E zero-cost controlled activation amendment — 2026-10-29
+
+The existing D2 32-call test tasks above remain **NOT PERFORMED** and are
+retained as historical research tasks, **not** prerequisites for controlled
+Factory v27 activation. The owner explicitly requires **EUR 0** additional
+API expenses. Do not prompt for API billing, require a key, or dispatch paid
+tests in normal ChatGPT Plus development.
+
+The substitute **controlled/preliminary** release criteria are in
+`ACTIVATION_CONTRACT.md`: 16 source-backed policy reviews, exact-head
+structural and regression CI, intact safety/exact-head/fail-closed protections,
+atomic CURRENT/core/Registry/fallback switch, rollback and transparent limits.
+This is not certified independent GPT-6 behavioral equivalence.
+
+- [x] Source-review mapping prepared for all 16 protected scenarios
+  (`pilots/V27E_ZERO_COST_SOURCE_REVIEW_2026-10-29.md`).
+- [ ] Revalidate the **changed exact-head** v27 activation PR with central CI.
+- [ ] Ensure no blocking reviews/merge conflicts, then perform controlled
+  v27 activation on protected main.
+- [ ] Collect real practical pilot workflow timing *after* activation, with
+  honest `SPEEDUP_NOT_VERIFIED` until comparable end-to-end data exists.
+
+No new paid endpoint, service or subscription is authorized.
