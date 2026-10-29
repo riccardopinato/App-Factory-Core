@@ -77,7 +77,7 @@ class RouterTests(unittest.TestCase):
         self.assertIn("audit-roadmap",r["modules"])
         self.assertNotIn("factory-policy-sync",r["modules"])
         # Router only returns documents; it never grants a mutation authority.
-        self.assertFalse(r["active"])
+        self.assertTrue(r["active"])
 
     def test_selected_module_corruption_fallback_and_bad_fallback_block(self):
         with tempfile.TemporaryDirectory() as tmp:

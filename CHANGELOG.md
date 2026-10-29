@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-10-29 — v27 controlled zero-cost promotion protocol
+
+- The owner explicitly requires zero additional API expense; normal App Factory work uses ChatGPT Plus/Chat only.
+- Replaced the paid-32-call *activation prerequisite* with source-reviewed, exact-head CI-validated, controlled/preliminary activation and protected rollback, without weakening security/data/review/CI/physical release gates.
+- Recorded source-policy mapping of all 16 safety scenarios; no independent GPT-6 response parity or real ChatGPT end-to-end speedup is claimed.
+- Integrated main's offline mocked runner checkpoint regression suite into the v27 activation branch; no paid model workflow dispatched.
+- If activated, monitor the next real ChatGPT app workflow and log actual timings, not proxy performance estimates.
+
+
+## 2026-10-28 — v27 release promotion branch (historical draft)
+
+- Staged CURRENT v27 modular Core, synchronized full fallback, Golden Registry, bootstrap and mirrored legacy Master alias in a separate draft PR.
+- Preserves immutable v26.8 full historical snapshot, exact-head CI and immutable source/fallback hashes.
+- Original release gate required actual independent-model responses and time metrics; it was superseded for *controlled, preliminary* zero-cost activation by the 2026-10-29 contract above. No model parity was certified.
+
+
 ## 2026-10-28 — v27D2 optional paid real-model evaluation runner
 
 - Added manual-only paid API paired-run workflow, requiring explicit opt-in and GitHub Actions OPENAI_API_KEY secret; 32 independent prompts when actually dispatched.

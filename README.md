@@ -7,18 +7,19 @@ Canonical source of truth for the App Utility Factory.
 Do **not** guess the current Master Prompt from chat memory or old attachments.
 Resolve it deterministically:
 
-1. `CURRENT.yaml`
-2. `master/MASTER_PROMPT_CURRENT.txt`
-3. `golden/GOLDEN_INDEX_CURRENT.txt`
-4. `golden/GOLDEN_REGISTRY.yaml`
-5. only the Golden documents relevant to the task
+1. `CURRENT.yaml` (pin the exact Factory commit SHA)
+2. `master.path`: active modular v27 Core
+3. `master.modular_manifest`: integrity-verified module and route map
+4. `golden_registry.path`: relevant Golden paths, status and freshness
+5. load only task-relevant modules and Golden; full Index on demand
+6. fallback to verified synchronized generated full v27 policy on ambiguity/module error, block if it is invalid
 
 The commit SHA used for this read becomes the **Factory baseline** for the session.
 Do not refresh it between consecutive steps unless the central framework changes or a refresh is explicitly requested.
 
 ## Current versions
 
-- Master Prompt: **v26.8 FULL**
+- Master Prompt: **v27 modular Core** (controlled/preliminary activation; model-behavior and real-time speedup not independently certified)
 - Golden Components Index: **v23**
 - Golden registry: **v2**
 - Semantic validator: **v7**
@@ -99,3 +100,7 @@ It still does **not** certify runtime behavior of any app.
 Normal Core changes follow branch -> PR -> green Factory validation -> merge.
 Repository branch/ruleset protection should require the validation check and
 block force-push/delete. See `GOVERNANCE.md`.
+
+## Active v27 modular Master and fallback
+
+The compact Core is current modular authority. Legacy stable alias `master/MASTER_PROMPT_CURRENT.txt` mirrors the Core. The full operative fallback is generated deterministically from Core, legacy-section modules, policy updates and route catalog and checked by CI; historical v26.8 remains immutable emergency recovery. ChatGPT Project custom instruction settings are not automatically modified by GitHub; update the pointer separately.

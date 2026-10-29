@@ -19,8 +19,8 @@ BANNER=(
     "modules and policy updates\n"
     "Precedence: v27 Core and v27 policy updates override retained legacy "
     "v26.8 prose where directly inconsistent.\n"
-    "Status: CANDIDATE_NOT_ACTIVE; CURRENT.yaml remains authoritative "
-    "until v27 promotion.\n"
+    "Status: ACTIVE v27 only when CURRENT.yaml resolves version 27; "
+    "generated full policy remains synchronized.\n"
     "FALLBACK_BASELINE_USED must be disclosed when the resolver selects this file.\n"
     "\n"
 )

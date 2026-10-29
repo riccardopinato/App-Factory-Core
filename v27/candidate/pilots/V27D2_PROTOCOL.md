@@ -68,3 +68,11 @@ Its offline CI regression test uses temporary mocked responses only, with
 no credentials, network calls, promotion decision or real-model evidence.
 The output-token cap and model prices still apply per actual request;
 select a model available to your API project before authorizing costs.
+
+## Release authority revision — 2026-10-29
+
+This original D2 protocol is preserved as **OPTIONAL** research. It is **not**
+the sole activation pathway. The owner requires zero additional spending.
+See `../ACTIVATION_CONTRACT.md` for the controlled zero-cost release gate
+with strict exact-head CI, source-level safety checks, fail-closed fallback,
+explicit non-certification and rollback. No API run was conducted.

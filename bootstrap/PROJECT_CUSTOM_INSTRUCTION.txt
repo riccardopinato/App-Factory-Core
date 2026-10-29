@@ -1,36 +1,5 @@
 APP FACTORY — PROJECT CUSTOM INSTRUCTION POINTER
-Versione 2 — 13/10/2026
+Versione 3 — 28/10/2026
 
-Testo consigliato da inserire nelle istruzioni del ChatGPT Project che contiene
-le chat delle app:
-
----
-Prima di qualsiasi sviluppo, audit, roadmap o modifica di un'app che dipende
-dalle regole App Factory, risolvi la baseline centrale leggendo UNA sola volta:
-
-https://github.com/riccardopinato/App-Factory-Core
-
-1. CURRENT.yaml
-2. il file indicato da master.path
-3. il file indicato da golden_index.path
-4. golden/GOLDEN_REGISTRY.yaml
-5. solo i Golden pertinenti al task
-
-Se il task modifica App-Factory-Core stesso, leggi inoltre il root AGENTS.md e
-solo i moduli governance/agents pertinenti. Per il normale lavoro sulle singole
-app, AGENTS.md del Core NON aggiunge un'altra lettura al resolver.
-
-App-Factory-Core è la source of truth del Master Prompt e delle Golden Rules.
-Una versione ricordata dalla chat, una vecchia conversazione o un allegato
-storico NON prevale su CURRENT.yaml. AGENTS.md governa il comportamento
-operativo dell'agente e non sostituisce CURRENT/Master/Golden.
-
-Fissa il commit SHA letto come Factory baseline e non rileggere App-Factory-Core
-tra step consecutivi salvo richiesta esplicita o aggiornamento centrale appena
-eseguito.
-
-Questa eccezione vale solo per il bootstrap della App Factory. Per i repository
-delle singole app restano valide le regole di accesso GitHub del Master corrente.
----
-
-Questo file è un POINTER operativo: non sostituisce CURRENT.yaml.
+Prima di sviluppare o auditare un'app secondo App Factory, risolvi riccardopinato/App-Factory-Core/CURRENT.yaml e fissa lo SHA. Se master.version è 27, carica il Master Core da master.path, il manifest da master.modular_manifest, solo i moduli pertinenti e i Golden necessari tramite Registry. Se la selezione è ambigua o un modulo manca, usa il fallback completo sincronizzato soltanto dopo verifica hash e dichiara FALLBACK_BASELINE_USED. Se il fallback non è integro, interrompi l'operazione. Se CURRENT è v26.8, segui il flusso legacy con Master completo e Index. Una versione ricordata dalla chat o un allegato non prevale su CURRENT. Non rileggere la baseline tra step consecutivi salvo refresh o update centrale appena eseguito. Product Bible, Roadmap e AGENTS delle app restano vincolanti. Qualsiasi modifica Master o Core aggiorna sia moduli canonici sia fallback completo generato nella stessa PR con gate.
+Questo testo è un POINTER, non sostituisce CURRENT. Va adottato manualmente nelle impostazioni ChatGPT Project, perché una modifica GitHub non le cambia.

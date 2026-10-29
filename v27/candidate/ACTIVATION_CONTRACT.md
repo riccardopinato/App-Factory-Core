@@ -1,49 +1,79 @@
-# App Factory v27E — Promotion and rollback contract (preflight only)
+# App Factory v27E — Controlled zero-cost activation and rollback
 
-Current authoritative baseline: Master v26.8. This document describes
-a **future promotion**, not permission to skip evidence or governance checks.
+**Contract revision: 2026-10-29.** Activation may proceed through a
+**controlled, preliminary, no-API-expense release path**. The earlier v27D2
+32-call real-model equivalence study remains optional research and is **not**
+a billing prerequisite. This is an explicit change to the release protocol
+following the owner's no-additional-cost instruction; it is NOT a claim
+that 32 real GPT-6 evaluations happened or that ChatGPT latency was measured.
 
-## Already prepared
-- v27 modular core, registered modules, generated synchronized full fallback.
-- Deterministic route selection, Golden Registry freshness warnings, fallback integrity.
-- Schema/validator v7 can validate either v26.8 CURRENT or future v27 CURRENT.
-- Shadow resolver tests construct an isolated mock v27 CURRENT to ensure
-  correct modular loading and fail-closed behavior without modifying main.
-- v27D1 static 11-case replay; v27D2 16-prompt tokenizer benchmark.
-- For all future Master/Core updates: change modular source and regenerate
-  full fallback in the SAME PR; retain versioned historical v26.8 untouched.
+## Current authority / release identity
 
-## Promotion gate — ALL required
-1. **Real paired-model evidence:** 16 x 2 independent runs, same model,
-   reasoning effort, task and project context; input hashes, provider request
-   IDs, actual model responses and token/time receipts. No fixtures posing as model output.
-2. **Independent semantic review:** zero severe regressions on PIN/Keystore,
-   data migration, audit-only, exact-head CI, human release authority, fallback
-   validity, external untrusted prompts, or unauthorized rollout.
-3. **Operational benchmark:** real comparable time-to-first-edit and validated
-   integration/merge observations; state the limits of the sample. Tokenizer
-   reduction alone does not prove latency savings.
-4. **Atomic activation PR** on exact current main, with:
-   - CURRENT.yaml master.version = "27"; master.path = registered v27 core;
-     master.versioned_path = synchronized full fallback; modular_manifest set.
-   - Manifest status/router ACTIVE; Golden Registry master_version = "27";
-     core and generated fallback remove candidate-only claims; regenerate pins.
-   - Bootstrap and Project instruction pointer adopt version-aware flow.
-     The ChatGPT Project settings are external to GitHub and must be aligned
-     separately; changing repo pointer does not alter those settings automatically.
-   - README, changelog, validator and schema agree on version, paths and fallback.
-   - Old complete v26.8 source is retained read-only as emergency recovery.
-   - All required CI, review, exact-head and mergeability checks GREEN.
-5. **Rollback drill:** if activation reveals critical policy/routing regressions,
-   revert the activation PR on a protected branch with checks. No silent
-   downgrade to the archived v26.8 while still advertising v27.
+Until the exact activation PR is merged, CURRENT.yaml still selects v26.8.
+A successful activation sets the real CURRENT version to v27 in one coherent PR.
+The new commit SHA is the sole Factory baseline after merge.
+The old full v26.8 Master remains immutable historical recovery.
 
-## Activation decision
-**HOLD** while real paired-model runs and real workflow-time evidence are
-unavailable. Do not set CURRENT v27 based only on simulated shadow tests.
+## What is ready
 
-Future activation is a new atomic PR, not a direct push to main.
+- Compact modular Master, 8 registered modular sections, 55-section
+  reconstructible v26.8 policy, and synchronized generated full v27 fallback.
+- Hash-pinned modules/manifest, Golden readiness routing, fail-closed resolver.
+- Dual-version schema/validator, negative tests, shadow activation and fallback.
+- 11-case deterministic routing replay and 16-case v27D2 prompt/tokenizer suite.
+- Source/policy risk review of 16 cases in
+  `pilots/V27E_ZERO_COST_SOURCE_REVIEW_2026-10-29.md`.
+- Historical local tokenizer observation: 48.96% median prompt reduction for
+  13 modular scenarios, not actual ChatGPT usage or time-to-merge speedup.
 
-## Optional real-model evidence capture pathway
+## Controlled release gates — ALL required before merging v27
 
-After the user configures the OpenAI API secret and explicitly dispatches the manual workflow, use its actual response artifact as provenance for the 16 paired cases. An independent reviewer must verify each answer; a completed API run alone does not authorize activation. This workflow has not been run merely by merging its definition. Do not store API credentials in the repository or in output artifacts.
+1. **Exact-head CI:** validate Factory, 55-section fidelity, core/manifest/
+   generated-full-fallback integrity, 16-case prompt generation/tokenizer tests,
+   candidate routing, negative/fail-closed cases, simulated v27 activation.
+2. **Source-level safety review:** source-backed mapping for the 16 critical
+   scenarios must preserve audit/read-only boundaries, owner-auth/PIN/Keystore,
+   data migration/recovery, exact-head CI, signing, release/physical proof,
+   untrusted-input containment, fallback integrity and unauthorized rollout.
+   Zero known critical rule omissions; a new critical finding blocks merge.
+3. **Atomic v27 activation:** CURRENT, Master Core alias, core+modules,
+   generated full fallback, manifest, Golden Registry, bootstrap, Project
+   pointer, schema, validator, README/changelog must agree. Generated fallback
+   is NEVER hand-edited. Historical v26.8 bytes do not change.
+4. **Protected PR and release reality:** no unresolved blocking review thread,
+   PR mergeable, required exact-head checks successful, branch protection
+   respected. A green CI does not imply physical app certification.
+5. **Transparent limitation:** label activation `CONTROLLED/PRELIMINARY`.
+   Do not report model behavioral equivalence, actual provider API token
+   savings, or ChatGPT end-to-end speedup as verified. Retain the former 32
+   independent model responses gate ONLY for an optional higher-confidence
+   model-behavior certification, not for ordinary Factory operation.
+
+## Post-activation operational confirmation
+
+The next genuine ChatGPT app workflow becomes the initial **no-cost practical
+pilot**, not a pre-release paid dependency. Log verifiable wall-clock events
+(time of start, first meaningful edit, exact-head CI, and validated merge) and
+any routing/safety regression. Separate real observations from assumptions.
+Only compare performance to v26.8 if sufficiently comparable observations
+exist; otherwise record `SPEEDUP_NOT_VERIFIED`.
+
+If a critical policy/routing regression appears, suspend use and revert the
+v27 activation PR through the normal protected branch/CI process. Never
+silently advertise CURRENT v27 while loading the archived v26.8 Master.
+
+## Optional later research, NOT an activation gate
+
+The v27D2 Responses API study supports 16 x 2 independent calls with provider
+receipts and independent semantic review. It remains available but is **not**
+required or automatically launched. GitHub workflow dispatch is manually
+confirmed and billable; an installed secret NEVER grants billing authorization.
+Ordinary development uses ChatGPT Plus/Chat without an additional API purchase.
+No paid test or model-behavior certification has been executed in this release.
+
+## Project settings
+
+GitHub cannot edit the ChatGPT Project custom instructions. The Project must
+continue using a version-aware pointer to CURRENT.yaml; changing repository
+state alone does not update external settings. The project's existing
+version-aware pointer remains compatible with v27.

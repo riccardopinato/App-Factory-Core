@@ -23,7 +23,7 @@ jobs:
       - name: Validate Factory resolver, registry and supply chain
         run: python3 scripts/validate_factory.py
 
-      - name: Validate v27 modular candidate and fallback (inactive)
+      - name: Validate v27 section coverage and synchronized fallback
         run: python3 scripts/validate_v27_candidate.py --self-test
 
       - name: Check synchronized full fallback and modular hashes
@@ -41,7 +41,7 @@ jobs:
       - name: v27D2 paired prompt protocol and tokenizer counts
         run: python3 scripts/evaluate_v27d2.py --self-test --bench --require-tokenizer
 
-      - name: v27E shadow activation compatibility and fail-closed gates
+      - name: v27E release branch activation compatibility and fail-closed gates
         run: python3 scripts/test_v27_activation_shadow.py
 
       - name: v27D2 manual real-model runner dry-run (zero API calls)

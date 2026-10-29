@@ -37,3 +37,7 @@ Provider-sensitive entries without current provider evidence are NEEDS_REVIEW.
 ## v27 synchronized modular/full policy update (candidate)
 
 When a user requests an update to the Master Prompt or App-Factory-Core, update both the canonical modular v27 rule sources and the generated *operative* full v27 fallback in the same branch/PR. `scripts/build_v27_fallback.py --write` produces the fallback and updates the manifest source/fallback pins; CI runs `--check` and resolver tests to reject drift. Never hand-edit the fallback. The original v26.8 full Master remains an immutable historical recovery asset, not the current-policy fallback. Until v27 activation, the version resolved by CURRENT.yaml remains independently authoritative and must be updated if the requested policy change affects currently active rules. No silent fallback to stale policy, no branch-protection bypass.
+
+## Active v27 baseline
+
+When CURRENT selects v27, the modular Core at master.path is current policy. The legacy `master/MASTER_PROMPT_CURRENT.txt` mirrors the Core, not the full fallback. Full fallback is generated from canonical Core and modules in the same PR and hash-verified, never edited independently. Historical v26.8 is only for emergency recovery. The ChatGPT Project instructions require separate user-side adjustment. All security, data, review, exact-head CI, signing and release gates remain binding.
