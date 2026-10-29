@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       confirm_paid_run:
-        description: 'Type RUN_32_PAID_REQUESTS to authorize paid API calls'
+        description: 'Type RUN_32_PAID_REQUESTS to explicitly authorize up to max_new_requests billed calls'
         required: true
         type: string
       model:
         description: 'Model ID available to the connected API project'
         required: true
-        default: gpt-6-sol
+        default: gpt-6.1-sol
         type: string
       effort:
         description: 'Reasoning effort for BOTH arms'
@@ -21,9 +21,23 @@ on:
           - low
           - medium
           - high
+      max_new_requests:
+        description: 'Billed requests in this dispatch: 2 (smoke), 8 or 32'
+        required: true
+        default: '2'
+        type: choice
+        options:
+          - '2'
+          - '8'
+          - '32'
+      resume_run_id:
+        description: 'Optional previous successful/partial evaluation run ID with retained checkpoint artifact'
+        required: false
+        type: string
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: v27d2-real-model-eval
@@ -44,14 +58,26 @@ jobs:
           python3 scripts/validate_factory.py
           python3 scripts/build_v27_fallback.py --check
           python3 scripts/evaluate_v27d2.py --self-test
+      - name: Recover prior verified checkpoint (optional, no API calls)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          if [ -n "$RESUME_RUN_ID" ]; then
+            [[ "$RESUME_RUN_ID" =~ ^[0-9]+$ ]] || { echo "Invalid numeric run ID"; exit 2; }
+            [ "$RESUME_RUN_ID" != "$GITHUB_RUN_ID" ] || { echo "Cannot resume current run"; exit 2; }
+            gh run download "$RESUME_RUN_ID" --repo "$GITHUB_REPOSITORY" --name v27d2-real-model-outputs --dir .
+            test -s v27d2-real-model-outputs.json || { echo "Checkpoint artifact missing"; exit 2; }
+          fi
       - name: Run actual paired model requests
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           EVAL_MODEL: ${{ inputs.model }}
           EVAL_EFFORT: ${{ inputs.effort }}
+          EVAL_MAX_NEW: ${{ inputs.max_new_requests }}
         run: |
           test -n "$OPENAI_API_KEY" || { echo "OPENAI_API_KEY secret missing"; exit 2; }
-          python3 scripts/run_v27d2_models.py --confirm-paid-run --model "$EVAL_MODEL" --effort "$EVAL_EFFORT" --out v27d2-real-model-outputs.json
+          python3 scripts/run_v27d2_models.py --confirm-paid-run --model "$EVAL_MODEL" --effort "$EVAL_EFFORT" --max-new-requests "$EVAL_MAX_NEW" --out v27d2-real-model-outputs.json
       - name: Preserve actual model results for independent review
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
