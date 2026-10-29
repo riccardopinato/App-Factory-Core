@@ -10,7 +10,7 @@
       "pr_number": 147,
       "title": "docs(ui4): close v1.05.x after #146 merge and verified main artifacts",
       "category": "governance_docs",
-      "cohort": "pre_v27",
+      "cohort": "post_v27_unverified",
       "opened_at": "2026-10-29T09:58:09Z",
       "merged_at": "2026-10-29T10:03:17Z",
       "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/147",
@@ -20,7 +20,7 @@
       "first_edit_at": null,
       "ci_green_at": null,
       "ci_retries": null,
-      "remarks": "Historical pre-v27 PR. Exact prior Factory version and active effort NOT verified."
+      "remarks": "Created and merged after activation; Factory v27 use not evidenced, so not yet attributable."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
