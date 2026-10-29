@@ -42,8 +42,8 @@ Activation boundary: **2026-10-29 09:14:41 UTC**, commit
   Factory SHA used by the task, with a contemporaneous PR/task evidence URL,
   is available. Merely copying a CURRENT link is insufficient to prove usage.
 
-The initial ledger has **40 merged PRs**, comprising **38 pre-v27** and
-**2 transition-excluded** PRs across Agenda-per-Anna, AppLab, CamperBoss and
+The initial ledger has **40 merged PRs**, comprising **37 pre-v27**,
+**2 transition-excluded** and **1 post-v27-unverified** PRs across Agenda-per-Anna, AppLab, CamperBoss and
 TrailPath. These are real GitHub PR timestamps; the source's exact factory
 version and first-edit times were generally not recorded, so leave them null.
 Never invent these missing fields.
