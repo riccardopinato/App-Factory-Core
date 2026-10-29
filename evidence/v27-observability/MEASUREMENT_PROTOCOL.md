@@ -48,6 +48,37 @@ TrailPath. These are real GitHub PR timestamps; the source's exact factory
 version and first-edit times were generally not recorded, so leave them null.
 Never invent these missing fields.
 
+## Accuracy correction — Anna's Diary parallel PRs (29 October 2026)
+
+**PR open→merge is elapsed GitHub latency, NOT coding or ChatGPT working time.**
+The initial median of **582.58 minutes** (~9h43m) among eight historical
+Anna PRs was numerically correct but **misleading as a development-duration
+baseline**. Six of those eight PRs have overlapping open windows:
+
+- #138 opened 2026-10-28 10:35 UTC; merged 20:59 UTC.
+- #139 opened 11:47 UTC; merged 22:19 UTC.
+- #140–#143 all opened about 13:08 UTC and merged between 22:50 and
+  22:51 UTC, within 41 seconds of one another.
+
+The overlapping PR windows prove that these intervals are **not independent
+samples of elapsed development work**. Overlap alone does NOT prove concurrent
+coding or identify actual active effort. Only two of the eight pre-v27
+records lack observed overlap with another PR in the ledger, and they are
+different scopes (UI and docs), so **there is no defensible estimate of
+active historical Anna development time from this sample**.
+
+The summarizer now reports raw PR latency explicitly as
+`raw_pr_elapsed_median_minutes_not_active_time` and the number of
+`observed_parallel_window_pr_n`. For descriptive same-app/category
+comparisons it does not count overlapping open-window PRs as separate
+independent duration samples. This is deliberately conservative, and a
+missing overlap in the sampled ledger is NOT proof that there was no other
+concurrent PR.
+
+**Never publish `9h43m` as the old development time or promise its
+reduction.** With no contemporaneous time-to-first-edit/activity record,
+show `ACTIVE_WORK_BASELINE_NOT_MEASURED`.
+
 ## Collection workflow during ordinary app development
 
 After each meaningful merged PR or completed roadmap step:
@@ -86,7 +117,10 @@ The formula for a descriptive change in elapsed PR duration is
 
 Negative = shorter elapsed PR duration. This is still only a proxy;
 PR open->merge includes overnight waiting, human approvals, CI contention,
-parallel streams, and task-size differences. Use similar change size,
+parallel streams, and task-size differences.
+The analyzer detects overlapping open-PR windows and excludes those PRs from
+independent PR duration comparisons; the raw historic median remains only
+for audit and must not be presented as active development hours. Use similar change size,
 dependency/risk tier and scope when interpreting an observed improvement.
 Report medians, sample sizes, per-group breakdown and uncertainty rather than
 one impressive percentage. Avoid Simpson's paradox from mixing apps.
