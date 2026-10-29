@@ -46,3 +46,6 @@ jobs:
 
       - name: v27D2 manual real-model runner dry-run (zero API calls)
         run: python3 scripts/run_v27d2_models.py --dry-run
+
+      - name: v27D2 checkpoint recovery regression tests (offline mocks only)
+        run: python3 scripts/test_v27d2_runner.py
