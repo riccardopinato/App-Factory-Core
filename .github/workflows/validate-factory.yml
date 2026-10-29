@@ -49,3 +49,8 @@ jobs:
 
       - name: v27D2 checkpoint recovery regression tests (offline mocks only)
         run: python3 scripts/test_v27d2_runner.py
+
+      - name: Validate cumulative delivery observatory (offline, no API)
+        run: |
+          python3 scripts/test_v27_delivery_metrics.py
+          python3 scripts/summarize_v27_delivery.py
