@@ -81,25 +81,68 @@ def validate(data):
     return processed
 
 
+def mark_observed_pr_overlap(items):
+    """Detect overlapping *open PR windows*, NOT concurrent coding effort.
+
+    Ledger may be a subset of all PRs. An apparent isolated PR means only
+    'no overlap observed in the current sample', not actual solo work.
+    """
+    by_repo = defaultdict(list)
+    for item in items:
+        item["observed_overlapping_prs"] = 0
+        by_repo[item["repo"]].append(item)
+    for repo, rows in by_repo.items():
+        ordered = sorted(rows, key=lambda item: parse_time(item["opened_at"]))
+        episode = []
+        episode_end = None
+
+        def flush():
+            if len(episode) > 1:
+                for entry in episode:
+                    entry["observed_overlapping_prs"] = len(episode) - 1
+
+        for item in ordered:
+            opened, merged = parse_time(item["opened_at"]), parse_time(item["merged_at"])
+            if episode and opened >= episode_end:
+                flush()
+                episode = []
+                episode_end = None
+            episode.append(item)
+            episode_end = max(episode_end, merged) if episode_end else merged
+        if episode:
+            flush()
+    return items
+
+
 def summarize(data):
-    items = validate(data)
+    items = mark_observed_pr_overlap(validate(data))
     cohorts = defaultdict(list)
     by_scope = defaultdict(lambda: defaultdict(list))
+    by_repo = defaultdict(list)
     for item in items:
-        cohorts[item["cohort"]].append(item["pr_to_merge_minutes"])
-        by_scope[(item["repo"], item["category"])][item["cohort"]].append(item["pr_to_merge_minutes"])
+        cohorts[item["cohort"]].append(item)
+        by_scope[(item["repo"], item["category"])][item["cohort"]].append(item)
+        by_repo[item["repo"]].append(item)
     group_summaries = []
     for (repo, category), subsets in sorted(by_scope.items()):
-        old = sorted(subsets["pre_v27"])
-        new = sorted(subsets["v27_confirmed"])
+        old_all, new_all = subsets["pre_v27"], subsets["v27_confirmed"]
+        # Overlapping PR windows are not independent time-to-completion samples.
+        old = sorted(x["pr_to_merge_minutes"] for x in old_all
+                     if x["observed_overlapping_prs"] == 0)
+        new = sorted(x["pr_to_merge_minutes"] for x in new_all
+                     if x["observed_overlapping_prs"] == 0)
         eligible = len(old) >= MIN_MATCHED_PAIRS and len(new) >= MIN_MATCHED_PAIRS
         old_median = statistics.median(old) if old else None
         new_median = statistics.median(new) if new else None
         group_summaries.append({
-            "repo": repo, "category": category, "pre_v27_n": len(old),
-            "v27_confirmed_n": len(new),
-            "pre_v27_median_pr_minutes": old_median,
-            "v27_median_pr_minutes": new_median,
+            "repo": repo, "category": category, "pre_v27_n": len(old_all),
+            "v27_confirmed_n": len(new_all),
+            "pre_v27_observed_overlapping_pr_n": len(old_all)-len(old),
+            "v27_observed_overlapping_pr_n": len(new_all)-len(new),
+            "pre_v27_nonoverlap_in_sample_n": len(old),
+            "v27_nonoverlap_in_sample_n": len(new),
+            "pre_v27_nonoverlap_median_pr_minutes": old_median,
+            "v27_nonoverlap_median_pr_minutes": new_median,
             "descriptive_relative_change_pct": round(100*(new_median/old_median-1), 2)
                 if eligible and old_median > 0 else None,
             "sufficient_matched_samples": eligible,
@@ -109,9 +152,25 @@ def summarize(data):
     return {
         "metric": "PR_OPEN_TO_MERGE_WALL_CLOCK_PROXY",
         "total_observations": len(items),
-        "cohorts": {key: {"n": len(values),
-                         "median_pr_minutes": round(statistics.median(values), 2)}
-                    for key, values in sorted(cohorts.items())},
+        "cohorts": {key: {
+            "n": len(rows),
+            "raw_pr_elapsed_median_minutes_not_active_time": round(
+                statistics.median(x["pr_to_merge_minutes"] for x in rows), 2),
+            "observed_parallel_window_pr_n": sum(
+                x["observed_overlapping_prs"] > 0 for x in rows)
+            } for key, rows in sorted(cohorts.items())},
+        "per_repo": [{
+            "repo": repo,
+            "pre_v27_n": sum(x["cohort"] == "pre_v27" for x in rows),
+            "pre_v27_overlapping_pr_windows_n": sum(
+                x["cohort"] == "pre_v27" and x["observed_overlapping_prs"] > 0
+                for x in rows),
+            "pre_v27_raw_pr_elapsed_median_minutes_not_active_time": (
+                round(statistics.median(
+                    x["pr_to_merge_minutes"] for x in rows if x["cohort"] == "pre_v27"), 2)
+                if any(x["cohort"] == "pre_v27" for x in rows) else None),
+            "can_infer_active_development_time": False
+        } for repo, rows in sorted(by_repo.items())],
         "comparable_groups": group_summaries,
         "v27_request_to_first_edit_n": len(first_edit),
         "v27_request_to_first_edit_median_minutes": round(statistics.median(first_edit), 2)
@@ -121,6 +180,8 @@ def summarize(data):
         "notes": [
             "Pre-v27 includes mixed v26.x; do not label it a pure v26.8 baseline.",
             "PR wall-clock includes reviews, idle time, async waits and CI.",
+            "Open-window overlaps are detected by repository; overlapping PRs are excluded from independent PR-duration comparisons.",
+            "No overlap in the ledger is not proof of isolated work; the PR sample can omit other concurrent PRs.",
             "Classification by repository+category is a first approximation; scope sizes still vary.",
             "Do not infer a ChatGPT model speedup from shorter PR durations.",
             "v27 attribution requires pinned baseline and evidence URI, not date alone.",
@@ -139,8 +200,15 @@ def main():
     else:
         print("Factory delivery evidence:", result["total_observations"], "merged PR records")
         for cohort, metrics in result["cohorts"].items():
-            print(f"{cohort}: n={metrics['n']}, median PR-open->merge "
-                  f"{metrics['median_pr_minutes']:.2f} min")
+            print(f"{cohort}: n={metrics['n']}, observed parallel windows="
+                  f"{metrics['observed_parallel_window_pr_n']}; "
+                  f"RAW PR elapsed median={metrics['raw_pr_elapsed_median_minutes_not_active_time']:.2f} min"
+                  " (NOT active development time)")
+        for r in result["per_repo"]:
+            if r["pre_v27_n"]:
+                print(f"APP {r['repo']}: {r['pre_v27_overlapping_pr_windows_n']}/"
+                      f"{r['pre_v27_n']} pre-v27 PRs have overlapping open windows; "
+                      "no GitHub-only estimate of hours worked.")
         for x in result["comparable_groups"]:
             if x["sufficient_matched_samples"]:
                 print(f"MATCHED {x['repo']}/{x['category']}: change "
