@@ -34,3 +34,12 @@ The script does not run any generative model. Its --score operation is evidence-
 The evaluation can be run only on explicit manual workflow dispatch: [v27D2 Real Paired Model Eval](https://github.com/riccardopinato/App-Factory-Core/actions/workflows/v27d2-real-paired-eval.yml). An OpenAI API key must be configured by the repository owner as an Actions secret named `OPENAI_API_KEY`. The user must type `RUN_32_PAID_REQUESTS` to initiate the paid 16 x 2 API calls and choose an accessible model and reasoning effort. Do not paste the key into source code or conversation; do not assume ChatGPT plan access equals API entitlement.
 
 The workflow uses immutable action revisions, read-only repository permissions, exact source checks and a 7-day evidence artifact. The runner writes real response IDs, model identity, prompt SHA-256, provider input/output token counts, observed elapsed time and unmodified model response text. It never awards itself an independent PASS. Review the 16 pairs separately against the protected decision gates before providing `independent_reviews` and running the separate --score step. API usage is billed, and model availability and actual price depend on the connected project. Workflow dispatch is not automatic and is not part of required PR CI.
+
+
+## Release authority revision — 2026-10-29
+
+This original D2 protocol is preserved as **OPTIONAL** research. It is **not**
+the sole activation pathway. The owner requires zero additional spending.
+See `../ACTIVATION_CONTRACT.md` for the controlled zero-cost release gate
+with strict exact-head CI, source-level safety checks, fail-closed fallback,
+explicit non-certification and rollback. No API run was conducted.
