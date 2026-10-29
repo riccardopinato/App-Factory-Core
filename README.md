@@ -19,7 +19,7 @@ Do not refresh it between consecutive steps unless the central framework changes
 
 ## Current versions
 
-- Master Prompt: **v26.8 FULL**
+- Master Prompt: **v27 modular Core** (controlled/preliminary activation; model-behavior and real-time speedup not independently certified)
 - Golden Components Index: **v23**
 - Golden registry: **v2**
 - Semantic validator: **v7**
