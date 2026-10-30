@@ -1,5 +1,5 @@
 registry_version: 2
-updated_at: 2026-10-28
+updated_at: 2026-10-30
 master_version: "27"
 index_version: 23
 goldens:
@@ -183,12 +183,12 @@ goldens:
     freshness_status: CURRENT
   - id: applab_qa_certification
     title: "AppLab QA / Certification Adapter"
-    version: "1"
+    version: "1.2"
     status: "CERTIFIED PROCESS"
     category: release
     path: golden/release/GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-15
+    last_content_reviewed_at: 2026-10-30
     last_provider_verified_at: 2026-10-14
     provider_sensitive: false
     freshness_status: CURRENT
