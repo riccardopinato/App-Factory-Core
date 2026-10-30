@@ -18,14 +18,36 @@ class DeliveryMetricsTests(unittest.TestCase):
     def setUpClass(cls):
         cls.source = json.loads(LEDGER.read_text(encoding="utf-8"))
 
-    def test_real_historical_source_is_consistent_and_not_attributed_to_v27(self):
+    def test_cumulative_source_is_consistent_without_causal_attribution(self):
         summary = m.summarize(self.source)
         self.assertGreaterEqual(summary["cohorts"]["pre_v27"]["n"], 30)
-        self.assertEqual(summary["cohorts"]["v27_confirmed"]["n"] if
-                         "v27_confirmed" in summary["cohorts"] else 0, 0)
+        self.assertEqual(summary["total_observations"], len(self.source["records"]))
         self.assertEqual(summary["causal_attribution"], "NOT_VERIFIED")
-        self.assertTrue(all(not r["sufficient_matched_samples"] for r in
-                            summary["comparable_groups"]))
+        self.assertEqual(summary["actual_active_development_time"], "NOT_MEASURED")
+        # As new evidence arrives, v27_confirmed may legitimately become >0.
+        # A descriptive comparison is allowed only with matched independent samples.
+        self.assertTrue(all(r["descriptive_relative_change_pct"] is None or
+                            r["sufficient_matched_samples"]
+                            for r in summary["comparable_groups"]))
+
+    def test_optional_final_head_ci_evidence_is_scoped(self):
+        for row in self.source["records"]:
+            ids = row.get("ci_observed_run_ids")
+            if ids is None:
+                continue
+            self.assertTrue(ids)
+            self.assertEqual(len(ids), len(set(ids)))
+            self.assertTrue(all(isinstance(x, int) and x > 0 for x in ids))
+            sha = row["ci_observed_final_head_sha"]
+            self.assertEqual(len(sha), 40)
+            self.assertTrue(all(ch in "0123456789abcdef" for ch in sha))
+            self.assertGreaterEqual(row["ci_observed_final_head_rerun_attempts"], 0)
+            self.assertLessEqual(m.parse_time(row["ci_observed_last_success_at"]),
+                                 m.parse_time(row["merged_at"]))
+            # Final-head run_attempt=1 does not prove the entire PR had no retries.
+            # Full-history retries, if separately evidenced later, may be non-null.
+            if row["ci_retries"] is not None:
+                self.assertGreaterEqual(row["ci_retries"], 0)
 
     def test_anna_parallel_prs_are_not_counted_as_independent_work_time(self):
         summary = m.summarize(self.source)

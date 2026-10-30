@@ -104,6 +104,33 @@ After each meaningful merged PR or completed roadmap step:
 For speed, batch new records into a single evidence-only PR at review time;
 do **not** open an App-Factory-Core PR for every app fix.
 
+## Daily collection: scoped final-head CI observations (30 October 2026)
+
+The first daily increment appends **12 merged PRs** to the existing 40:
+3 Anna, 3 AppLab, 6 Cooking Anime (including one activation-crossing
+transition PR). Cooking Anime is the repository
+`riccardopinato/In-Cucina-con-gli-Anime`. CamperBoss and TrailPath had
+no new merged PRs in this observation window.
+
+For these 12 PRs, **41 sampled pull_request workflow runs** were verified
+on each PR's final head SHA; all returned `conclusion=success` and
+`run_attempt=1`. Optional record fields:
+- `ci_observed_final_head_sha`: SHA used for this limited CI sample;
+- `ci_observed_run_ids`: actual GitHub Actions run IDs;
+- `ci_observed_final_head_rerun_attempts`: sum of observed
+  `run_attempt - 1` for those sampled runs, **not all retries in the PR**;
+- `ci_observed_last_success_at`: latest observed successful workflow
+  update timestamp for that final head, **not proof of all required checks**.
+
+Keep `ci_retries` and `ci_green_at` null until the **complete PR
+history**, including earlier head SHAs, required status contexts and
+reruns, has been verified. A zero in the scoped final-head field does
+not establish zero failed attempts or reruns over the PR lifecycle.
+PR description pinning of a Factory SHA is a contemporaneous **declared
+task baseline**, not proof of model obedience or a speedup. For a
+documentation-only PR which merely records adoption, do not assume
+that Factory v27 was used in the actual development task.
+
 ## Decision criteria for a real time-saving claim
 
 Compare **within the same app and scope category** (bugfix, feature,
@@ -139,8 +166,8 @@ when genuinely known, linked PR outliers, and a verdict:
 `NOT_ENOUGH_DATA`, `EARLY_INDICATION`, or
 `REAL_TIME_SAVING_VERIFIED` only with appropriate supporting evidence.
 
-Recommended cadence: aggregate once a week, plus a short update when the
-user asks. This is telemetry on **existing GitHub evidence**, not monitoring
+Recommended cadence: collect and aggregate once per day, with a concise
+update only when evidence materially changes, plus a report when the user asks. This is telemetry on **existing GitHub evidence**, not monitoring
 ChatGPT invisibly between chats. The central ledger can be updated as new
 source-backed data becomes available; do not treat scheduled summary text
 as a substitute for a persisted PR record.
