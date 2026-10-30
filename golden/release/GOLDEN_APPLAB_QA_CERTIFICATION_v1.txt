@@ -1,5 +1,5 @@
 GOLDEN APPLAB QA & CERTIFICATION ADAPTER
-Versione: 1.1 — 15/10/2026
+Versione: 1.2 — 30/10/2026
 Stato: CERTIFIED PROCESS
 Certified under Master: v26.5 FULL
 Current Master: resolve via CURRENT.yaml
@@ -42,8 +42,8 @@ autorizza cache/promotion di TRUSTED RUNTIME PASS, CERTIFIED o STORE READY.
 I workflow automatici di ogni repository vanno allineati esplicitamente:
 modificare solo il Watcher centrale non disabilita altri build job locali.
 
-Fonte di implementazione: AppLab PR #214, 30/10/2026. Finché la PR non è
-mergiata e validata, considerare il rollout centrale NON ANCORA ATTIVO.
+Fonte di implementazione da validare: AppLab PR #214, 30/10/2026.
+L'attivazione dipende dal merge e dai gate exact-head della PR AppLab.
 
 ======================================================================
 1. SCOPO
