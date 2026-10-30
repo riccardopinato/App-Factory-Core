@@ -20,6 +20,32 @@ Baseline capabilities già osservate nel donor:
 - autonomous review workflows.
 
 ======================================================================
+0. DEFAULT DI SVILUPPO — SOURCE-FIRST (30/10/2026)
+======================================================================
+
+Per TUTTE le app App Factory, la verifica AppLab automatica/ordinaria durante
+gli step e l'aggiornamento delle PR è SOURCE-ONLY per impostazione predefinita.
+Non deve generare né analizzare APK, avviare emulatori o Maestro implicitamente.
+
+AppLab Source Gate centrale (watchlist) verifica struttura/identità sorgente,
+non compilazione né runtime. Ogni app mantiene i propri analyze/lint, test e
+gate di codice pertinenti: SOURCE_OK da solo NON significa test PASS/CI GREEN.
+
+APK, runtime Android, analisi FAST/FULL, Maestro e verifica trusted sono
+ON-DEMAND, cioè azioni esplicite, oppure gate necessari per accettazione
+release, certificazione, firma, dispositivi fisici e casi nativi ad alto
+rischio. Una modifica a codice nativo/sensori/permessi può richiedere un test
+APK anche prima della release: il requisito va motivato, non ignorato.
+
+La source evidence e la runtime evidence rimangono separate: SOURCE_OK non
+autorizza cache/promotion di TRUSTED RUNTIME PASS, CERTIFIED o STORE READY.
+I workflow automatici di ogni repository vanno allineati esplicitamente:
+modificare solo il Watcher centrale non disabilita altri build job locali.
+
+Fonte di implementazione: AppLab PR #214, 30/10/2026. Finché la PR non è
+mergiata e validata, considerare il rollout centrale NON ANCORA ATTIVO.
+
+======================================================================
 1. SCOPO
 ======================================================================
 
@@ -76,6 +102,9 @@ primaryJourney:
 physicalValidationRequired:
 physicalCapabilities:
 ```
+
+Esempio storico di workflow APK/runtime ESPLICITO, non più default di sviluppo
+(l'adozione SOURCE-ONLY sopra prevale sullo scheduling di ogni PR):
 
 Baseline reusable workflow validata nel pilot 14/10/2026:
 
