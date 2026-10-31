@@ -515,6 +515,15 @@
         "delivery-verification"
       ],
       "scope": "approved internal release only"
+    },
+    {
+      "id": "interactive_mockup_visual",
+      "trigger": "Mock-up interattivi Anna's Diary: voglio vedere e premere i bottoni per valutare 1/10",
+      "expected": "DIRECT",
+      "modules": [
+        "experience"
+      ],
+      "scope": "render one actual clickable visual prototype, never text-only; user approval required before moving to 2/10"
     }
   ],
   "policy_updates": [
@@ -772,12 +781,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "78e517226a5a3895d9fa5e7f733a032bb10b9895",
+    "git_blob_sha": "dea7e1b23389bc66e810a768f93c7fcbcbba245b",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "51a2e06f51ad9f44cf43660b3b3bf84f27256cad",
+    "core": "41916a723b52cbe7a6d4063406e68efb8c58433b",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -787,6 +796,6 @@
     "delivery-verification": "8e1cac8a0e587d4ed73179427d3fa2b3e8ea88ff",
     "audit-roadmap": "daada6c5059a5de30e901e273fa3486666b0f36f",
     "factory-policy-sync": "cd3243eef4e9af507b3347baa95b59e6a7f8efc1",
-    "interactive-mockup-review": "58fa5104ae547f7becb8f6a55b4fd6d4305eb469"
+    "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c"
   }
 }
