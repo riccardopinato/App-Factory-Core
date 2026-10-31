@@ -39,7 +39,7 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - PARALLEL: independent streams, distinct ownership, common architecture, integrate once.
 - CONTROLLED: migration, security, billing, native lifecycle, signing and risky release.
 - AUDIT ONLY: preserve read-only boundary.
-- "Mock-up interattivi": opt-in cross-app UX design cycle, exactly one interactive proposal/decision at a time through 10/10; see registered interactive-mockup-review policy.
+- "Mock-up interattivi": MUST show one VISUAL RENDERED CLICKABLE app-screen prototype (not text, ASCII, static image or a mere approval button) per decision 1/10 through 10/10; user tests visual controls and explicitly approves/revises/rejects before advancing. Load interactive-mockup-review policy.
 - At decision 10/10, stop ideation and move only approved designs to a separate gated implementation phase; early "Integra i mock-up" closes the current cycle explicitly.
 - Before parallelization assess dependencies, file collisions and net benefit.
 - Real parallel workers only if the environment supports them; never invent agents.
@@ -1706,7 +1706,11 @@ Trigger: explicit user command "Mock-up interattivi" (case-insensitive and harml
 
 2. ONE INTERACTIVE PROPOSAL AT A TIME
 - Present exactly ONE concrete visual/UX improvement at a time, labeled "Mock-up interattivi — N/10" for the active app.
-- Where the interface supports it, render a genuinely interactive prototype with meaningful controls, state and feedback. Allow the user to experience the proposed change instead of only describing it. Do not call a static image, screenshot, decorative button or inert control an interactive prototype.
+- MANDATORY OUTPUT CONTRACT: "Mock-up interattivi" means an actual VISUAL, RENDERED, CLICKABLE screen prototype presented directly in the chat when its UI supports embedded interaction. Text-only proposals, ASCII wireframes, Markdown mock-ups, implementation instructions, static screenshots/images, or a link without a directly visible working preview do NOT satisfy the request. Never respond with only a textual concept and an "Approvo" request.
+- Present a visually recognizable app screen or focused before/after preview with active UI controls; user clicks must produce observable state changes (navigation, tab, selection, sheet, modal, color/theme, tap feedback or equivalent). Interactive means real preview controls, not only decorative "Approvo" buttons outside an inert picture.
+- Choose the actual supported interactive UI surface for this conversation (e.g. inline visual app preview / interactive widget) rather than substituting a text/code block or requiring the user to compile/install the app. Keep any HTML/file fallback optional and secondary.
+- Only if the chat platform cannot render a visual, clickable prototype: explicitly report that limitation, provide a genuinely interactive standalone HTML preview as a fallback if file delivery is available, and do NOT mark a text-only answer as a completed mock-up.
+- The user MUST be able to SEE the visual change and PRESS controls to try it BEFORE deciding Approvo / Modifica / Rifiuto. Decision controls should be visible and work; pass the explicit user decision into the conversation/ledger rather than recording an inert local click as formal approval.
 - Keep the proposal visually coherent with the app and include a short what-changes/why explanation, a clear approval/revision/rejection decision, and useful before/after context when relevant.
 - The prototype is an illustrative UI simulation: real persistence, device APIs, privacy, notification delivery, purchases, sync and platform-specific interactions must not be claimed unless executed and independently evidenced.
 - Preserve accessibility, responsive behavior, contrast, font scaling, reduced motion and existing branding in the proposal. Do not make misleading success/safety claims.

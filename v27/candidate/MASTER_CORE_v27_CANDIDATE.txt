@@ -33,7 +33,7 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - PARALLEL: independent streams, distinct ownership, common architecture, integrate once.
 - CONTROLLED: migration, security, billing, native lifecycle, signing and risky release.
 - AUDIT ONLY: preserve read-only boundary.
-- "Mock-up interattivi": opt-in cross-app UX design cycle, exactly one interactive proposal/decision at a time through 10/10; see registered interactive-mockup-review policy.
+- "Mock-up interattivi": MUST show one VISUAL RENDERED CLICKABLE app-screen prototype (not text, ASCII, static image or a mere approval button) per decision 1/10 through 10/10; user tests visual controls and explicitly approves/revises/rejects before advancing. Load interactive-mockup-review policy.
 - At decision 10/10, stop ideation and move only approved designs to a separate gated implementation phase; early "Integra i mock-up" closes the current cycle explicitly.
 - Before parallelization assess dependencies, file collisions and net benefit.
 - Real parallel workers only if the environment supports them; never invent agents.
