@@ -525,9 +525,36 @@
         "master prompt",
         "app factory core"
       ]
+    },
+    {
+      "id": "interactive-mockup-review",
+      "path": "v27/candidate/modules/81-interactive-mockup-review.txt",
+      "selectors": [
+        "mock-up interattivi",
+        "interactive mockups",
+        "visual design review"
+      ]
     }
   ],
   "task_routes": [
+    {
+      "id": "mockup_interactive",
+      "terms": [
+        "mock-up interattivi",
+        "mockup interattivi",
+        "mock up interattivi",
+        "interactive mockups",
+        "integra i mock-up",
+        "integra i mockup"
+      ],
+      "modules": [
+        "experience",
+        "interactive-mockup-review"
+      ],
+      "golden_ids": [
+        "app_shell_responsive_visual_qa"
+      ]
+    },
     {
       "id": "factory_update",
       "terms": [
@@ -745,12 +772,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "92d666213648cca010381a71b2fb83a44be296f3",
+    "git_blob_sha": "78e517226a5a3895d9fa5e7f733a032bb10b9895",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "272de7bb29ed2b13b277364f5fd2872f66bb115e",
+    "core": "51a2e06f51ad9f44cf43660b3b3bf84f27256cad",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -759,6 +786,7 @@
     "monetization-ai": "12b306d487cfe077bb6f3b3cd1b172fa7deace39",
     "delivery-verification": "8e1cac8a0e587d4ed73179427d3fa2b3e8ea88ff",
     "audit-roadmap": "daada6c5059a5de30e901e273fa3486666b0f36f",
-    "factory-policy-sync": "cd3243eef4e9af507b3347baa95b59e6a7f8efc1"
+    "factory-policy-sync": "cd3243eef4e9af507b3347baa95b59e6a7f8efc1",
+    "interactive-mockup-review": "58fa5104ae547f7becb8f6a55b4fd6d4305eb469"
   }
 }

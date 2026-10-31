@@ -39,6 +39,8 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - PARALLEL: independent streams, distinct ownership, common architecture, integrate once.
 - CONTROLLED: migration, security, billing, native lifecycle, signing and risky release.
 - AUDIT ONLY: preserve read-only boundary.
+- "Mock-up interattivi": opt-in cross-app UX design cycle, exactly one interactive proposal/decision at a time through 10/10; see registered interactive-mockup-review policy.
+- At decision 10/10, stop ideation and move only approved designs to a separate gated implementation phase; early "Integra i mock-up" closes the current cycle explicitly.
 - Before parallelization assess dependencies, file collisions and net benefit.
 - Real parallel workers only if the environment supports them; never invent agents.
 - Serial execution is preferable when coupling or coordination cost dominates.
@@ -1690,8 +1692,63 @@ For any authorized request to update the Master Prompt, App Factory Core or Fact
 
 The operative fallback is living and synchronized. The historical snapshot is immutable.
 
+
+===== V27 POLICY UPDATE: interactive-mockup-review =====
+APP FACTORY v27 — INTERACTIVE MOCK-UPS / TEN-DECISION DESIGN CYCLE
+Policy status: cross-app design workflow, not a production Flutter component.
+Trigger: explicit user command "Mock-up interattivi" (case-insensitive and harmless spacing/hyphen variants) within a specific app project; "Integra i mock-up" requests early closure/implementation where explicitly authorized.
+
+1. PRODUCT CONTEXT AND ENTRY
+- Resolve the current App Factory baseline once as usual. Identify the single app from the active chat/project and use its actual Product Bible, design system, approved UI and current roadmap; do not apply app-specific changes to other repositories.
+- If the app is already clear, start with proposal 1/10 without asking for a new design brief. If the app cannot be determined, ask which app, then start.
+- This mode is opt-in on user trigger. Do not launch ten mock-ups unprompted during ordinary development or audit.
+- Visual appearance, UX structure, typography, layout, color, navigation feel and micro-interactions are in scope. Do not silently add product features, permission requirements, billing, AI, network integrations or data schema changes.
+
+2. ONE INTERACTIVE PROPOSAL AT A TIME
+- Present exactly ONE concrete visual/UX improvement at a time, labeled "Mock-up interattivi — N/10" for the active app.
+- Where the interface supports it, render a genuinely interactive prototype with meaningful controls, state and feedback. Allow the user to experience the proposed change instead of only describing it. Do not call a static image, screenshot, decorative button or inert control an interactive prototype.
+- Keep the proposal visually coherent with the app and include a short what-changes/why explanation, a clear approval/revision/rejection decision, and useful before/after context when relevant.
+- The prototype is an illustrative UI simulation: real persistence, device APIs, privacy, notification delivery, purchases, sync and platform-specific interactions must not be claimed unless executed and independently evidenced.
+- Preserve accessibility, responsive behavior, contrast, font scaling, reduced motion and existing branding in the proposal. Do not make misleading success/safety claims.
+
+3. APPROVAL LEDGER AND TEN-STEP LIMIT
+- Do not advance to the next numbered proposal before the user approves, requests changes, or explicitly rejects the current one. Iterate revisions within the SAME slot until a final decision.
+- Maintain a per-app, numbered decision ledger: 1..10; scope/screen; selected variant; final decision APPROVED or REJECTED; required constraints/notes. Only APPROVED proposals enter implementation.
+- Continue sequentially through 10 decided slots, always one at a time; do not generate, decide or automatically approve remaining slots on the user's behalf. If the user stops early, retain confirmed decisions and resume from the next undecided slot if reliable context is available.
+- If previously agreed choices cannot be recovered, do not invent decisions or progress; recover the approved record or request only the missing specific decision.
+
+4. EXACT HANDOFF AT 10/10
+- As soon as decision 10/10 is complete, STOP proposing new mock-ups. Freeze the approved/rejected decisions, deduplicate overlap, present the final design contract and map approved changes to app screens/components.
+- The user's standing authorization for this mode is: after the 10th decision, proceed to integrate the APPROVED designs as the next separate implementation phase, without requesting another general "procedi" merely to begin. The user may request "Integra i mock-up" earlier; in that case, integrate only already approved decisions and stop the design cycle.
+- For implementation, first update the app's Product Bible/roadmap or equivalent approved design contract, then execute bounded work on its own branch(es)/PR(s), with normal code review, exact-head CI, regression tests, and merge protections. No bypass of independent approval gates, tool permissions, physical validation or signing rules.
+- If only source-design tools are available, deliver the best bounded implementation artifacts possible and state any execution limitations; never falsely claim code integrated, APK produced or physical QA verified.
+- Preserve existing records and app state. Avoid disruptive refactors unrelated to approved proposals. Respect existing Flutter/Kotlin/Compose architecture rather than replacing an app stack for mock-up convenience.
+
+5. DISTINCTIONS AND REPORTING
+- Use separate status labels: MOCK-UP PROPOSED, USER APPROVED, IMPLEMENTED IN SOURCE, MERGED, BUILT, PHYSICALLY VERIFIED. Do not promote an earlier state into a later one without evidence.
+- After integration, provide a concise per-proposal coverage matrix referencing concrete source commits, tests and remaining visual/device verification.
+- Do not claim the workflow is automatically installed in existing app repositories; central App Factory Core defines behavior for future sessions that resolve CURRENT, while any app-specific AGENTS/roadmap changes require a real repository edit.
+
 ===== V27 TASK ROUTES (SYNCED CANDIDATE METADATA) =====
 [
+  {
+    "id": "mockup_interactive",
+    "terms": [
+      "mock-up interattivi",
+      "mockup interattivi",
+      "mock up interattivi",
+      "interactive mockups",
+      "integra i mock-up",
+      "integra i mockup"
+    ],
+    "modules": [
+      "experience",
+      "interactive-mockup-review"
+    ],
+    "golden_ids": [
+      "app_shell_responsive_visual_qa"
+    ]
+  },
   {
     "id": "factory_update",
     "terms": [
