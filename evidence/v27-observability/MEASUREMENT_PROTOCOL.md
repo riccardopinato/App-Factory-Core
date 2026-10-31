@@ -131,6 +131,19 @@ task baseline**, not proof of model obedience or a speedup. For a
 documentation-only PR which merely records adoption, do not assume
 that Factory v27 was used in the actual development task.
 
+## Daily collection: 31 October 2026 (UTC source timestamps)
+
+Append **22** deduplicated merged PRs to the previous 52 (total **74**):
+- Anna's Diary: 7 (#154, #156, #157, #159–#162), including UI5 and v1.08 motion.
+- AppLab: 2 (#213–#214), FULL shadow pilot and source-only watcher.
+- Cooking Anime: 6 (#47–#52), Quality Engine v2.1–v2.4-B.
+- Design-App: 7 (#3–#7, #9–#10), reusable design-toolkit components; **not** a deployed app and never a direct app-runtime comparison.
+- CamperBoss and TrailPath: no newly merged PRs in this window; their source-gate PRs remain open.
+
+Of the 22: **12 v27_confirmed** by a contemporaneous PR description with exact pinned Factory SHA, **10 post_v27_unverified**. This proves only declared task baselines, not actual model behavior. **72** final-head pull-request workflow runs were sampled by GitHub API with matching head SHA, `conclusion=success`, `run_attempt=1`; zero *observed final-head reruns*, **not** zero failures or retries over complete PR histories. Anna #162 explicitly reports failed CI on an earlier head. Do not replace `ci_retries=null` with zero. No active-time, request-to-first-edit, or causal speedup data became available.
+
+Historical Anna baseline remains **ACTIVE_WORK_BASELINE_NOT_MEASURED**. Open-window overlap detection is per repo and counts only sampled ledger records; avoid conflating PR wait time with effort or treating 22 additional PRs as independent active-work sessions. Exclude documentation-only and toolkit work from consumer-feature productivity claims. Repo `Idee-app-Archivi-riferimenti` and central `App-Factory-Core` changes are governance/ideas, not shipped app-development PRs, and are not added to this app ledger.
+
 ## Decision criteria for a real time-saving claim
 
 Compare **within the same app and scope category** (bugfix, feature,
