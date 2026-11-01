@@ -144,6 +144,48 @@ Of the 22: **12 v27_confirmed** by a contemporaneous PR description with exact p
 
 Historical Anna baseline remains **ACTIVE_WORK_BASELINE_NOT_MEASURED**. Open-window overlap detection is per repo and counts only sampled ledger records; avoid conflating PR wait time with effort or treating 22 additional PRs as independent active-work sessions. Exclude documentation-only and toolkit work from consumer-feature productivity claims. Repo `Idee-app-Archivi-riferimenti` and central `App-Factory-Core` changes are governance/ideas, not shipped app-development PRs, and are not added to this app ledger.
 
+## Daily collection: 1 November 2026 (UTC source timestamps)
+
+Append **33** new, deduplicated, merged PRs to the previous **74**
+(total **107**), all in `riccardopinato/Agenda-per-Anna` (#163–#198,
+excluding #165, #181 and #182 which were not merged in this sample).
+Of these, **12 feature**, **7 bugfix**, **8 QA/release** and
+**6 governance/docs**. No newly merged app PRs were found for AppLab,
+CamperBoss, TrailPath, Cooking Anime or Design-App in the GitHub search
+window; App-Factory-Core and Idee-app-Archivi-riferimenti are excluded
+as central Factory/governance rather than app delivery.
+
+**3 feature PRs (#191, #193, #195) explicitly pin the contemporaneous
+Factory v27 task baseline** `632a66dce4aa00e8e1700b0a3e4dfc7ea008197c`;
+the other **30** are `post_v27_unverified`. #185 references a Factory
+SHA in a documentation-only planning PR; this is **not** enough to
+attribute actual development to v27. A pinned PR description indicates
+declared usage, not independent proof of agent behavior.
+
+**91 final-head pull_request workflow runs** were inspected via GitHub
+REST using exact head SHA; all were `completed/success`, each
+`run_attempt=1`. Thus **0 observed reruns on sampled final heads**,
+NOT zero failed earlier revisions or zero full-PR retries.
+Keep `ci_retries` and `ci_green_at` null because full CI lifecycle
+and required-check set were not independently audited. Source PR #165
+was closed without merge and is excluded from delivery counts.
+
+Of the 33 newly appended Anna PRs, **15 have overlapping PR-open
+windows** with another merged Anna PR in the cumulative ledger. The
+raw median opening→merge duration for this new group is **8.00 minutes**,
+which is **NOT active coding time**. By category the raw medians are:
+feature 9.85 min (n=12), bugfix 7.98 min (n=7), QA/release 6.42 min
+(n=8), governance/docs 4.75 min (n=6). Do not infer a model or Factory
+speedup: the source scope and parallelism differ, and no comparable
+pre-v27/v27 independent groups reach the protocol's minimum sample size.
+Historical Anna baseline stays `ACTIVE_WORK_BASELINE_NOT_MEASURED`.
+
+The report describes observed GitHub delivery latency only, not user
+request→first edit, active effort, end-to-end QA, model equivalence or
+causal savings. Prioritize timestamped task-start/first-meaningful-edit
+evidence and comparable CI durations (cold/warm cache), with source
+links, before claiming an improvement.
+
 ## Decision criteria for a real time-saving claim
 
 Compare **within the same app and scope category** (bugfix, feature,
