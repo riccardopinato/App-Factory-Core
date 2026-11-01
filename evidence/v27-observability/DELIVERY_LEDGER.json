@@ -1581,10 +1581,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "d9a63806ae7e3523b589a7be9086c3375f056207",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41231068172,
+        41231068225,
+        41231068165
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T18:52:02Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1602,10 +1606,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "0161c5af76f0d2c4d6282f943196b8f712fa1ee3",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41232894382,
+        41232894370,
+        41232894384
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T19:14:00Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1623,10 +1631,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "a880d411d3e2749627b9dcb416aec929d50e9170",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41233951652,
+        41233951556,
+        41233951680
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T19:27:15Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1644,10 +1656,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "d08a9bd3808e75dee696e5c42d88a9c1e624f7ce",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41235112933,
+        41235113046,
+        41235112886
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T19:41:32Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1665,10 +1681,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "d0005222f3416b183dd5eb5b5411b4a2db9838eb",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41236532032,
+        41236532011,
+        41236532001
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T20:00:40Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1686,10 +1706,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "7e1567ff912fe95dc3a97dab8d3768594c072ed3",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41240534802,
+        41240534907,
+        41240534804
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T20:50:53Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1707,10 +1731,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "a60c0b11554755c076cca07742768bf0c4327699",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41240224448,
+        41240224491,
+        41240224436
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T20:47:36Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1728,10 +1756,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "59228e33661d3b792757d6d85c0a8f42b41e04a1",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41241046892,
+        41241046924,
+        41241046895
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T20:58:22Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1749,10 +1781,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "47d7f659912b5c3e43e469bbec9ca44cf6d22976",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41244767243,
+        41244767248,
+        41244767249
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T21:45:57Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1770,10 +1806,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "f7655fb03692a5af209044b1d14df4f3eab920b1",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41245235141,
+        41245235129,
+        41245235175
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T21:53:40Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -1791,10 +1831,14 @@
       "ci_green_at": null,
       "ci_retries": null,
       "ci_observed_final_head_sha": "e86f0c1eeba453dcc280e87966849d03a01f9f08",
-      "ci_observed_run_ids": [],
+      "ci_observed_run_ids": [
+        41245709585,
+        41245709588,
+        41245709591
+      ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": null,
-      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-activation date does not prove v27 use. No exact-final-head pull_request workflows returned; CI not established. No active work-time evidence."
+      "ci_observed_last_success_at": "2026-10-31T21:59:43Z",
+      "remarks": "No contemporaneous task-pinned Factory SHA in PR description; post-v27 date alone does not establish v27 use. Sampled 3 final-head pull_request runs (3 success, 0 completed non-success); earlier-head failures and full PR retries not audited. Active development time not measured."
     }
   ]
 }
