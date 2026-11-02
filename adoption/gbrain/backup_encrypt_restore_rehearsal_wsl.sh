@@ -77,7 +77,12 @@ echo "Restarting existing GBrain service before encryption..."
 systemctl --user start "$SERVICE"
 SERVICE_MAY_BE_STOPPED=0
 systemctl --user is-active --quiet "$SERVICE" || { echo "GBrain failed to restart." >&2; exit 1; }
-curl --fail --silent --show-error "http://127.0.0.1:3131/health" >/dev/null
+HEALTH_OK=0
+for _attempt in 1 2 3 4 5; do
+  if curl --fail --silent "http://127.0.0.1:3131/health" >/dev/null; then HEALTH_OK=1; break; fi
+  sleep 1
+done
+(( HEALTH_OK )) || { echo "GBrain restarted but health is not yet available; check status." >&2; exit 1; }
 echo
 echo "Encrypting the backup with age passphrase mode. Choose a LONG unique passphrase."
 echo "Do not paste the passphrase in ChatGPT or put it in a script. Losing it makes recovery impossible."
