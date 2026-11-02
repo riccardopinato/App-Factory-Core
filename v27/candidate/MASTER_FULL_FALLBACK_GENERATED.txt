@@ -75,6 +75,8 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Preserve valid Kotlin/Compose apps without unneeded rewrites.
 - REUSE-FIRST, EXTEND BEFORE DUPLICATE, least architecture for present need.
 - Prefer existing production-safe Golden/donor before new dependencies.
+- A verified capability in ONE donor app can be registered as scoped CERTIFIED DONOR with immutable source, relevant tests and exact-SHA evidence; a second app is not required before reuse.
+- CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
 - Add packages only when benefits justify permissions, footprint and maintenance.
 - Favor coherent Material/iOS design depending on product requirements.
 - Localize every target surface affected by the feature, including native text.
@@ -1691,6 +1693,19 @@ For any authorized request to update the Master Prompt, App Factory Core or Fact
   not claim to change the currently active app rules.
 
 The operative fallback is living and synchronized. The historical snapshot is immutable.
+
+V27 SINGLE-DONOR HARVEST POLICY — 2026-11-02
+- Harvest at capability-level and pin source SHA, path, tests, actual CI/runtime
+  evidence, portability limits and consumer checks.
+- One app with genuinely verified behavior is enough for scoped CERTIFIED DONOR;
+  never demand a second unrelated app solely to register or copy that donor.
+- COPY-READY extraction need not create new package/framework; reuse source first.
+- Do not promote the full native/billing/cloud service on one helper's CI proof.
+- CERTIFIED GOLDEN retains its independent higher reuse standard, not an
+  admission condition for verified donor components.
+- Integrating target must run affected unit/integration and real platform-specific
+  safety/release checks. No green UI claims without runtime or provider evidence.
+- See GOLDEN_SINGLE_DONOR_CAPABILITY_ADMISSION_v1.txt and the scoped catalog.
 
 
 ===== V27 POLICY UPDATE: interactive-mockup-review =====

@@ -69,6 +69,8 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Preserve valid Kotlin/Compose apps without unneeded rewrites.
 - REUSE-FIRST, EXTEND BEFORE DUPLICATE, least architecture for present need.
 - Prefer existing production-safe Golden/donor before new dependencies.
+- A verified capability in ONE donor app can be registered as scoped CERTIFIED DONOR with immutable source, relevant tests and exact-SHA evidence; a second app is not required before reuse.
+- CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
 - Add packages only when benefits justify permissions, footprint and maintenance.
 - Favor coherent Material/iOS design depending on product requirements.
 - Localize every target surface affected by the feature, including native text.

@@ -15,3 +15,16 @@ For any authorized request to update the Master Prompt, App Factory Core or Fact
   not claim to change the currently active app rules.
 
 The operative fallback is living and synchronized. The historical snapshot is immutable.
+
+V27 SINGLE-DONOR HARVEST POLICY — 2026-11-02
+- Harvest at capability-level and pin source SHA, path, tests, actual CI/runtime
+  evidence, portability limits and consumer checks.
+- One app with genuinely verified behavior is enough for scoped CERTIFIED DONOR;
+  never demand a second unrelated app solely to register or copy that donor.
+- COPY-READY extraction need not create new package/framework; reuse source first.
+- Do not promote the full native/billing/cloud service on one helper's CI proof.
+- CERTIFIED GOLDEN retains its independent higher reuse standard, not an
+  admission condition for verified donor components.
+- Integrating target must run affected unit/integration and real platform-specific
+  safety/release checks. No green UI claims without runtime or provider evidence.
+- See GOLDEN_SINGLE_DONOR_CAPABILITY_ADMISSION_v1.txt and the scoped catalog.
