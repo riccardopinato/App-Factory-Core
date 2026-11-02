@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 23.0 — 27/10/2026
+Versione: 24.0 — 02/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1347,3 +1347,31 @@ REGOLE v23 / Master v26.6
 33. Versioned Editorial Catalog e Offline Content Packs restano contratti separati.
 34. Resumable transfer non dichiara completed prima del final integrity/visibility gate.
 35. Similarity score non autorizza auto-delete/overwrite: exact proof o review policy restano necessari.
+
+======================================================================
+SINGLE-DONOR CAPABILITY HARVEST — v24
+======================================================================
+
+47. SINGLE-DONOR CAPABILITY ADMISSION
+
+File:
+GOLDEN_SINGLE_DONOR_CAPABILITY_ADMISSION_v1.txt
+
+Stato:
+COPY-READY PROCESS
+
+Scope:
+Pinned source/test/CI and consumer validation bounds in the referenced Golden.
+
+48. SCOPED VERIFIED CAPABILITY DONOR CATALOG
+
+File:
+GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1.txt
+
+Stato:
+CERTIFIED DONOR — SCOPED CI/TOOL EVIDENCE
+
+Scope:
+Pinned source/test/CI and consumer validation bounds in the referenced Golden.
+
+Audit: audits/TRANSVERSAL_GOLDEN_HARVEST_2026-11-02.md

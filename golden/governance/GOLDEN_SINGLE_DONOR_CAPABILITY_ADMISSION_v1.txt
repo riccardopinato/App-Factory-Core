@@ -1,0 +1,42 @@
+GOLDEN SINGLE-DONOR CAPABILITY ADMISSION
+Versione: 1.0 — 2026-11-02
+Stato: COPY-READY PROCESS
+
+GOAL
+A reusable internal capability can be registered as CERTIFIED DONOR after
+one app proves that specific capability. It does NOT need certification
+in a second app as a prerequisite for use.
+
+EVIDENCE GRADES
+E0 idea only => backlog.
+E1 pinned source SHA + file => CANDIDATE.
+E2 tests present => SOURCE-VERIFIED CANDIDATE; presence is not execution.
+E3 relevant direct tests + exact-source green CI/runtime proof =>
+   CERTIFIED DONOR for only that demonstrated functionality.
+E4 physical/device/provider/store proof => annotate exact covered boundary.
+E5 independent successful consumer => candidate for higher CERTIFIED GOLDEN.
+A second app is NOT required for E3 or a Golden copy-ready extraction.
+
+REQUIRED RECORD
+Capability ID; donor repo/40-character commit SHA; source and test paths;
+reusable behavior and dependencies; actual test/CI evidence URLs;
+platform/license/freshness restrictions; known failure paths; extraction
+or adaptation delta; consumer test checklist; optional replacement.
+
+REUSE EXECUTION
+Resolve Registry, select the smallest donor capability, copy only relevant
+policies/files or reimplement contracts with provenance; adapt owner, imports,
+storage, UI, platform and permissions; remove superseded duplicates.
+Run relevant consumer tests and independent physical/Play/provider gates
+only where they apply. No second-app proof to justify initial registration.
+
+CRITICAL DISTINCTIONS
+CI green != protected hardware runtime; device/emulator != all-OEM behavior;
+payment state != provider verified; chunk written != fully received file;
+web working != Android/iOS native. A verified pure function cannot promote a
+whole compound feature. CERTIFIED DONOR != CERTIFIED GOLDEN != STORE READY.
+
+No new cross-app runtime dependency or shared package is required just to
+catalog proven code. Prefer a stable source link and focused consumer delta.
+
+END GOLDEN SINGLE-DONOR ADMISSION

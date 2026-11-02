@@ -1,0 +1,119 @@
+GOLDEN VERIFIED CAPABILITY DONORS — CROSS-APP HARVEST
+Versione: 1.0 — 2026-11-02
+Stato: CERTIFIED DONOR — SCOPED CI/TOOL EVIDENCE
+DO NOT treat the entire catalog as a universal runtime library.
+Pinned donor code is reusable without a second-app certificate; consumer
+integration and hardware/provider-specific tests remain independent.
+
+ANNA'S DIARY: LOCAL STATE / MEDIA / TRASH
+Donor: riccardopinato/Agenda-per-Anna@827bb61620960d8867eb03e453d142013aada786
+Code: lib/local_state_store.dart; lib/media_asset_store.dart;
+lib/local_state_backend_io.dart; lib/local_state_backend_web.dart.
+Tests: test/v045_lifecycle_recovery_test.dart;
+test/media_asset_store_test.dart; test/local_state_store_test.dart.
+CI: https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41458618496 SUCCESS exact head.
+Harvest: Sembast structured state, media SHA-256 addressing, bounded cache,
+corruption tracking, restore staging, recoverable Trash, reference integrity.
+Exact minimal asset-ID expression (requires crypto and Uint8List):
+```dart
+String contentAssetId(Uint8List bytes) => 'sha256_${sha256.convert(bytes)}';
+```
+Scope: Dart/local data policy. No automatic PWA/native physical backup,
+vault, account sync or platform storage certification.
+
+PHONE GUARD: SENSOR / PIN / ALARM POLICY
+Donor: riccardopinato/Phone-Guard@ba377aa0fadbe2d7e5ec603f5abd4b69d411ed3c
+Code: app/src/main/java/com/riccardopinato/phoneguard/
+protection/ProtectionPolicy.kt;
+pocket/detection/SmartProtectionEngine.kt;
+data/SecurityRepository.kt; data/IncidentSessionEngine.kt;
+quick/QuickSurfaceStatus.kt; alarm/FlashStrobeController.kt.
+Tests: SmartProtectionEngineTest, ProtectionPolicyTest,
+PinRateLimitPolicyTest, IncidentSessionEngineTest, AlarmOutput instrumented.
+CI: https://github.com/riccardopinato/Phone-Guard/actions/runs/40700256048 SUCCESS exact head.
+Signed internal: https://github.com/riccardopinato/Phone-Guard/actions/runs/40838158408 SUCCESS.
+Harvest: sensor admission by real capability; state machine and owner-check;
+PIN Keystore verifier + throttle; incident aggregation; Quick Tile truth;
+generation-token strobe cancellation and one alarm output owner.
+Donor PIN test behavior: first 4 failures no cooldown, 5th 15 seconds,
+6th 30, 7th 60, 8th+ capped 300. Do not hardcode as universal security law.
+Scope: policy/tested CI; actual OEM sensor/torch/FGS/DND physical test pending.
+
+SEND-TO-PC: TRANSFER VALIDATION AND RECOVERY
+Donor current source:
+riccardopinato/Send-to-pc@bd271cb96b565e4b937f0e7cfe14058759f830b3
+Code: app/src/main/java/com/riccardopinato/inviaalpc/transfer/
+TransferReliabilityPolicy.kt; ResumableUploadStore.kt;
+HttpRequestSecurityPolicy.kt; NetworkRecoveryPolicy.kt.
+Tests: TransferReliabilityPolicyTest, HttpRequestSecurityPolicyTest,
+HttpRangeTest, NetworkRecoveryPolicyTest, CoreSafetyTest.
+Earlier candidate CI 76f96e598897858d434cfb3e5a8c3c307a9282f8:
+https://github.com/riccardopinato/Send-to-pc/actions/runs/38707454590 SUCCESS.
+Pure Kotlin extract adapted from TransferReliabilityPolicy:
+```kotlin
+fun validChunk(total: Long, offset: Long, length: Long, maxFile: Long): Boolean {
+  if (maxFile <= 0 || total !in 1..maxFile) return false
+  if (offset < 0 || length <= 0 || offset > total) return false
+  return length <= total - offset
+}
+fun hasHeadroom(available: Long, incoming: Long, reserve: Long): Boolean {
+  if (available < 0 || incoming <= 0 || reserve < 0) return false
+  if (incoming > Long.MAX_VALUE - reserve) return false
+  return available >= incoming + reserve
+}
+```
+Harvest: safe bounded upload IDs/chunks, overflow-safe capacity headroom,
+partial-staging, authoritative resume offset, final hash before visibility.
+Host and Sec-Fetch-Site checks alone are NOT authentication.
+Scope: bounded policy donor; full resumable transfer remains DRAFT until
+physical LAN interruption and main exact-head proof. Do not misattribute
+candidate workflow to current main.
+
+COOKING ANIME: VERSIONED CATALOG / EDITORIAL QA
+Donor:
+riccardopinato/In-Cucina-con-gli-Anime@478f6db6d6cdcfe9adcbddacfe834cb7fbc345e7
+Code: tool/quality_engine_v24b_official.py;
+tool/f3l_translation_gate.py; tool/compile_recipe_catalog.py;
+lib/features/recipes/data/versioned_recipe_catalog_repository.dart.
+Tests: tool/tests/test_quality_engine_v24b_official.py;
+test/versioned_recipe_catalog_repository_test.dart.
+Official analyzer evidence workflow main:
+https://github.com/riccardopinato/In-Cucina-con-gli-Anime/actions/runs/41315652426 SUCCESS.
+Harvest: bounded `dart analyze --format=json` normalization, reject source
+paths escaping checkout, pinned toolchain, stable IDs across revisions,
+locale fallback, translation source SHA fingerprint and placeholder gate.
+Scope: tool workflow verified; NOT editorial truth, license/rights clearance
+or all-languages semantic correctness. Build-time tools not runtime SDK.
+
+WORLD DAYS: VERSIONED OFFLINE CONTENT PACK
+Donor: riccardopinato/World-Days@622e5c2f00c08b0905207c6765c9b51e199e706f
+Code: lib/core/content_pack/content_pack_manager.dart;
+lib/core/content_pack/content_pack_models.dart;
+lib/core/content_pack/file_content_pack_storage.dart.
+Test: test/core/content_pack_manager_test.dart.
+CI: https://github.com/riccardopinato/World-Days/actions/runs/39257087707 SUCCESS exact head.
+Harvest: bounded HTTPS manifest, SHA-256 verified content bytes, staged
+activation, active/previous pointers, network-failure retention, rollback
+and bundled fallback; version equality is no-op.
+Scope: content pack logic; donor host/path/packId/5MiB size cap MUST be
+made target-specific. No Play/provider or actual OTA device certification.
+
+APPLAB EVIDENCE: EXISTING CERTIFIED PROCESS — DO NOT DUPLICATE
+Donor: riccardopinato/AppLab@58cb25070b80673f1e9d12593bceb496b83bc6f0
+Code: scripts/trusted_evidence_manifest.py;
+scripts/verify_repair_loop_v60d.py.
+Reuse the existing GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt, not a parallel
+trusted evidence owner. Note: External Review Watchdog scheduled FAIL
+observed 01–02 Nov; a scheduled workflow's green is not all-gates-green.
+
+REUSE TARGETS
+Anna local data -> Notes/Wonderlog/CamperBoss.
+Phone Guard policy -> Pocket/Tabletop/180FlipCharge/Luminous Circle.
+Transfer bounds -> Notes/backup/desktop companion.
+Editorial -> FrameLab/World Days/educational and content-based apps.
+World Days packs -> Cooking Anime/FrameLab/CamperBoss/offline data packs.
+
+Each consumer must check its own environment, provider, platform permissions
+and migrations. This catalog alone is NOT cross-app test evidence.
+
+END GOLDEN SCOPED DONOR CATALOG

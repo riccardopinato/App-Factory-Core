@@ -1,7 +1,7 @@
 registry_version: 2
-updated_at: 2026-10-30
+updated_at: 2026-11-02
 master_version: "27"
-index_version: 23
+index_version: 24
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -531,3 +531,27 @@ goldens:
     last_provider_verified_at: null
     provider_sensitive: true
     freshness_status: NEEDS_REVIEW
+
+  - id: single_donor_capability_admission
+    title: "Single-Donor Capability Admission"
+    version: "1"
+    status: "COPY-READY PROCESS"
+    category: governance
+    path: golden/governance/GOLDEN_SINGLE_DONOR_CAPABILITY_ADMISSION_v1.txt
+    migrated_at: 2026-11-02
+    last_content_reviewed_at: 2026-11-02
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: scoped_donor_capability_catalog
+    title: "Scoped Verified Capability Donor Catalog"
+    version: "1"
+    status: "CERTIFIED DONOR — SCOPED CI/TOOL EVIDENCE"
+    category: governance
+    path: golden/governance/GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1.txt
+    migrated_at: 2026-11-02
+    last_content_reviewed_at: 2026-11-02
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
