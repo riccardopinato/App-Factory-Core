@@ -34,3 +34,11 @@ Seed source: `adoption/gbrain/APP_FACTORY_SEED_INDEX_2026-11-02.md` in this cand
 The operator returned from the WSL restart test with `gbrain mcp expose --status` reporting all five checks `ok` (receipt, Funnel mapping, user service, local health, tailnet HTTPS health). In the same Chat, `mcp__GBrain__recall` returned imported `app_factory_seed_index_2026-11-02` and retained test fact #1 from the read-only source `default`. **Observed readback PASS, persistent data PASS, connectivity PASS.** Actual `wsl --shutdown` execution is asserted by the surrounding user workflow, not verified from an independent shell transcript. This is not a Windows OS reboot or sleep/resume reliability result.
 
 No MCP write permission was granted, no automatic memory writeback enabled, and no GitHub code/CI governance modified by the memory import.
+
+## First encrypted backup attempt (2026-11-03, reported by operator)
+
+- Operator used external-mounted Windows SSD folder at `/mnt/d/GBrainBackup` and explicitly confirmed the backup rehearsal.
+- New native local GBrain archive reported created; GBrain user service restarted before encryption.
+- `age -p` then reported `passphrases didn't match`. The `tar` writer reported broken pipe/exit 141 after the reader exited. **No successful encrypted backup was proven, no isolated restore was executed, and off-host backup status remains NOT VERIFIED.**
+- Improved the rehearsal script to explain automatic passphrase generation and remove only its own incomplete ciphertext on nonzero encryption exit. Operator must re-download reviewed pinned revision; first downloaded script is unchanged on their machine.
+- No passphrase/credentials are included in this evidence record.
