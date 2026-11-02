@@ -1,0 +1,100 @@
+GOLDEN — TRAILPATH + FRAMELAB SCOPED VERIFIED SOURCE DONORS
+Version: 1.0 — 2026-11-02
+Status: CERTIFIED DONOR — EXACT PINNED SOURCE TESTS
+Scope: pure Dart / Flutter source-tested capabilities only.
+Master: App Factory v27; single-donor E3 admission.
+
+TRAILPATH
+Original source: riccardopinato/TrailPath@3f44ab37c0881e4315033797c451cec723e23cd2
+CI workflow run: https://github.com/riccardopinato/TrailPath/actions/runs/41536514653
+Workflow commit: 6be4ba3be606dfd56dbe692954bd8ed2e7012451
+Test workflow explicitly runs actions/checkout ref to ORIGINAL SOURCE
+3f44ab37c0881e4315033797c451cec723e23cd2 and asserts
+git rev-parse HEAD equals that SHA before executing. Test workflow commit
+only introduces .github/workflows/golden-v25-pinned-source.yml.
+RESULT: SUCCESS; toolchain Flutter 3.47.5; dependency resolution;
+Drift build_runner generation; flutter analyze; targeted flutter test;
+full flutter test.
+
+Tested source and tests:
+lib/core/domain/geo_math.dart
+lib/core/domain/elevation_math.dart
+lib/core/domain/navigation_math.dart
+lib/core/domain/battery_policy.dart
+lib/infrastructure/routing/openstreetmap_routing_engine.dart
+lib/infrastructure/navigation/route_navigation_engine.dart
+test/core/domain/geo_math_test.dart
+test/core/domain/battery_policy_test.dart
+test/infrastructure/routing/openstreetmap_routing_engine_test.dart
+test/infrastructure/routing/fallback_routing_engine_test.dart
+test/infrastructure/navigation/route_navigation_engine_test.dart
+test/infrastructure/elevation/elevation_profile_test.dart
+
+SCOPED PROMOTION
+1. Haversine distances, bearings and route length/distance-to-polyline.
+2. Polyline simplification preserving bends, route waypoint cap and chunk
+   overlap without dropping seam endpoints.
+3. Elevation gain/descent filtering with missing-elevation handling.
+4. Deterministic route projection/navigation progression under test fixtures.
+5. GPS sampling/battery mode selection policy (not hardware telemetry).
+6. HTTP mock-tested transient retry, explicit provider snapping failures;
+   routing fallback must NOT fabricate a snapped-road path on network failure.
+   Straight-line option must be explicitly permitted and labeled.
+
+NON-CERTIFIED
+Live OSM/geocoding/network reliability; shortest-road correctness;
+gesture-to-road matching; phone GPS accuracy, power and background tracking;
+MapLibre rendering, offline regions, Play billing/Pro. The user previously
+reported real-world precision problems. CI GREEN does NOT resolve them.
+
+FRAMELAB
+Original source: riccardopinato/app-fotografia@e7538d7dfc484f81f37a8e4363cd56a5b742e804
+CI workflow run: https://github.com/riccardopinato/app-fotografia/actions/runs/41536521211
+Workflow commit: 0d94a7ff06789da1f7d08b2fa0516047b5bb1c85
+Workflow explicitly checks out ORIGINAL SOURCE
+e7538d7dfc484f81f37a8e4363cd56a5b742e804 and asserts
+git rev-parse HEAD. Only the temporary CI workflow was added on QA branch.
+RESULT: SUCCESS; Flutter 3.47.5; flutter pub get, flutter analyze,
+targeted flutter test and full flutter test.
+
+Tested source and tests:
+lib/features/editorial/data/editorial_importer.dart
+lib/features/editorial/domain/editorial_validation.dart
+lib/features/editorial/domain/catalog_quality_validation.dart
+lib/features/editorial/data/bundled_catalog_bootstrap.dart
+lib/features/editorial_workspace/data/editorial_workspace.dart
+lib/features/home/domain/recommendation_engine.dart
+test/step_9a_editorial_pipeline_test.dart
+test/step_9b_multilingual_catalog_test.dart
+test/step_9d_editorial_workspace_test.dart
+test/step_6_recommendation_engine_test.dart
+
+SCOPED PROMOTION
+1. Structured deterministic validation report: severity, code, path,
+   actionable fix suggestion; tests of invalid versions and assets.
+2. Versioned editorial import and locale/translation validation,
+   stable content IDs, source/asset provenance, checksum/rights gates.
+3. Drift transaction updates catalog domain without silently deleting or
+   overwriting personal user tables; tests guard compatibility and fallback.
+4. SQLite workspace with idempotent ingestion, review queues, staged
+   publication approval and rights metadata gating.
+5. Deterministic local recommendations excluding unpublished/unpublishable
+   content. Profile weights are FrameLab product-specific, not universal.
+
+NON-CERTIFIED
+Human confirmation of rights accuracy and originality; truth of editorial
+claims and translations; large catalog real-device performance; runtime
+store/platform packaging; a complete consumer-independent generic API.
+Existing GOLDEN_VERSIONED_EDITORIAL_CATALOG_FLUTTER_v1_DRAFT.txt
+remains canonical generalized contract — this donor is code + test evidence,
+not a competing catalog standard.
+
+EVIDENCE GRADING / CONSUMER GATE
+Both donors meet E3 only for source-executed, tested pure behavior.
+No second app is required. A future consumer must port/import exact
+capability with license/provenance and re-run focused consumer tests.
+Keep provider, device, store and human editorial approval as separate gates.
+Temporary test PRs were used only to launch Actions; source is immutable,
+not the PR merge ref. No claim of physical runtime certification.
+
+END TRAILPATH / FRAMELAB VERIFIED DONORS

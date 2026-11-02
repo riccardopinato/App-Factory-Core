@@ -1,7 +1,7 @@
 registry_version: 2
 updated_at: 2026-11-02
 master_version: "27"
-index_version: 25
+index_version: 26
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -571,9 +571,21 @@ goldens:
   - id: wave2_source_candidates
     title: "Wave 2 TrailPath / FrameLab Source Candidates"
     version: "1"
-    status: "CANDIDATE — EXACT-SOURCE CI NOT VERIFIED"
+    status: "DEPRECATED"
     category: governance
     path: golden/governance/GOLDEN_WAVE2_SOURCE_CANDIDATES_v1.txt
+    migrated_at: 2026-11-02
+    last_content_reviewed_at: 2026-11-02
+    last_provider_verified_at: null
+    provider_sensitive: false
+    freshness_status: CURRENT
+
+  - id: trailpath_framelab_pinned_source_donors
+    title: "TrailPath / FrameLab Pinned-Source Verified Donors"
+    version: "1"
+    status: "CERTIFIED DONOR — EXACT PINNED SOURCE TESTS"
+    category: data
+    path: golden/data/GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1.txt
     migrated_at: 2026-11-02
     last_content_reviewed_at: 2026-11-02
     last_provider_verified_at: null

@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 25.0 — 02/11/2026
+Versione: 26.0 — 02/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1390,16 +1390,34 @@ Scope:
 Pinned donor code, tests and evidence/limits. See wave 2 audit.
 
 ======================================================================
-50. WAVE 2 TRAILPATH / FRAMELAB SOURCE CANDIDATES
+50. WAVE 2 SOURCE CANDIDATES — SUPERSEDED
 ======================================================================
 
 File:
 GOLDEN_WAVE2_SOURCE_CANDIDATES_v1.txt
 
 Stato:
-CANDIDATE — EXACT-SOURCE CI NOT VERIFIED
+DEPRECATED
 
 Scope:
 Pinned donor code, tests and evidence/limits. See wave 2 audit.
 
 Audit: audits/TRANSVERSAL_GOLDEN_HARVEST_WAVE2_2026-11-02.md
+
+======================================================================
+51. TRAILPATH / FRAMELAB — PINNED SOURCE TESTED DONORS
+======================================================================
+
+File:
+GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1.txt
+
+Stato:
+CERTIFIED DONOR — EXACT PINNED SOURCE TESTS
+
+Donor:
+TrailPath + FrameLab (app-fotografia). Original source SHA, direct tests,
+GitHub Actions exact-source checkout assertion and CI success recorded.
+Physical provider/navigation and editorial rights review excluded.
+
+Evidence:
+audits/PINNED_CI_TRAILPATH_FRAMELAB_2026-11-02.md

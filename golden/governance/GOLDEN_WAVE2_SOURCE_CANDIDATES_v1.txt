@@ -1,3 +1,12 @@
+SUPERSEDED HISTORICAL CANDIDATE RECORD — 2026-11-02
+Registry status: DEPRECATED (archive only).
+This earlier file documented missing exact-source CI; the gap was closed.
+Active replacements:
+golden/data/GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1.txt
+audits/PINNED_CI_TRAILPATH_FRAMELAB_2026-11-02.md
+The original observations are preserved below for audit history.
+============================================================
+
 GOLDEN SOURCE-VERIFIED CANDIDATES — WAVE 2
 Versione: 1.0 — 02/11/2026
 Stato: CANDIDATE — EXACT-SOURCE CI NOT VERIFIED
