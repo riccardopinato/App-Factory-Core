@@ -30,7 +30,7 @@ Download the exact reviewed script from its immutable **commit SHA** (not a movi
 
 ```bash
 curl -fLsS --proto '=https' --tlsv1.2 \
-  'https://raw.githubusercontent.com/riccardopinato/App-Factory-Core/REPLACE_WITH_REVIEWED_SCRIPT_COMMIT/adoption/gbrain/backup_encrypt_restore_rehearsal_wsl.sh' \
+  'https://raw.githubusercontent.com/riccardopinato/App-Factory-Core/68cc0fb7601e6cbccb76b69100a07fe0e0f3cfa2/adoption/gbrain/backup_encrypt_restore_rehearsal_wsl.sh' \
   -o "$HOME/gbrain-backup-rehearsal.sh"
 bash -n "$HOME/gbrain-backup-rehearsal.sh"
 bash "$HOME/gbrain-backup-rehearsal.sh"
