@@ -1,0 +1,53 @@
+GOLDEN SOURCE-VERIFIED CANDIDATES — WAVE 2
+Versione: 1.0 — 02/11/2026
+Stato: CANDIDATE — EXACT-SOURCE CI NOT VERIFIED
+
+TRAILPATH
+Source: riccardopinato/TrailPath@3f44ab37c0881e4315033797c451cec723e23cd2
+Paths:
+lib/core/domain/geo_math.dart
+lib/core/domain/elevation_math.dart
+lib/core/domain/navigation_math.dart
+lib/core/domain/battery_policy.dart
+lib/infrastructure/routing/openstreetmap_routing_engine.dart
+lib/infrastructure/navigation/route_navigation_engine.dart
+Tests: test/core/domain/geo_math_test.dart;
+test/infrastructure/routing/openstreetmap_routing_engine_test.dart;
+test/infrastructure/routing/fallback_routing_engine_test.dart.
+Source features: Haversine and bearings; route distance; Douglas–Peucker
+polyline simplification; limited/chunked waypoints with seam overlap;
+elevation/noise thresholds; route progress projection; low-power location
+sampling policy; explicit network routing error instead of fake snapped road.
+EVIDENCE GAP: observed green CI head 9a0e3baf... ahead of inspected
+main, and earlier green 6679b1ef... diverged materially from inspected main.
+No exact-source CI established on pinned main. Tests PRESENT != PASS.
+The user-reported route precision/gesture defects further exclude live
+routing/device certification. Candidate pure geometry only after pinned
+Flutter test/analyze; provider map matching requires actual external/physical QA.
+
+FRAMELAB
+Source: riccardopinato/app-fotografia@e7538d7dfc484f81f37a8e4363cd56a5b742e804
+Paths:
+lib/features/editorial/data/editorial_importer.dart
+lib/features/editorial/domain/editorial_validation.dart
+lib/features/editorial/domain/catalog_quality_validation.dart
+lib/features/editorial/data/bundled_catalog_bootstrap.dart
+lib/features/editorial_workspace/data/editorial_workspace.dart
+lib/features/home/domain/recommendation_engine.dart
+Tests: test/step_9a_editorial_pipeline_test.dart;
+test/step_9b_multilingual_catalog_test.dart;
+test/step_9d_editorial_workspace_test.dart;
+test/step_6_recommendation_engine_test.dart.
+Source features: structured deterministic errors/warnings and fix hints;
+stable ID, locale and rights/attribution/asset checksum validation;
+catalog-only Drift transaction preserving user tables; bundled install
+cache; offline editorial SQLite review queue and rights-controlled export;
+deterministic recommendation of published material.
+EVIDENCE GAP: no relevant successful FrameLab source CI was found in
+sampled GitHub Actions. Recorded failed EasyDebloat temporary workflows
+are not evidence about FrameLab Flutter code. Tests PRESENT != PASS.
+Do not duplicate canonical GOLDEN_VERSIONED_EDITORIAL_CATALOG_FLUTTER.
+Promote only after exact-source Flutter analyze/test and relevant 9A/9B/9D
+regression on rollback, assets, legal rights and user-owned data.
+
+END WAVE2 CANDIDATES
