@@ -120,7 +120,7 @@ on each PR's final head SHA; all returned `conclusion=success` and
 - `ci_observed_final_head_rerun_attempts`: sum of observed
   `run_attempt - 1` for those sampled runs, **not all retries in the PR**;
 - `ci_observed_last_success_at`: latest observed successful workflow
-  update timestamp for that final head, **not proof of all required checks**.
+  update timestamp for that final head **at or before merge**, **not proof of all required checks**. If a final-head workflow finishes after merge, preserve its ID separately as `ci_observed_post_merge_run_ids` and do not treat it as a pre-merge gate.
 
 Keep `ci_retries` and `ci_green_at` null until the **complete PR
 history**, including earlier head SHAs, required status contexts and
@@ -185,6 +185,48 @@ request→first edit, active effort, end-to-end QA, model equivalence or
 causal savings. Prioritize timestamped task-start/first-meaningful-edit
 evidence and comparable CI durations (cold/warm cache), with source
 links, before claiming an improvement.
+
+## Daily collection: 2 November 2026 (UTC source timestamps)
+
+Append **7** deduplicated merged PRs to the previous **107** (total
+**114**), all in `riccardopinato/Agenda-per-Anna` (#201–#207):
+**4 feature**, **2 QA/release**, **1 governance/docs**.
+No new merged PRs were returned by GitHub's merged-PR search for
+AppLab, CamperBoss, TrailPath, Cooking Anime
+(`In-Cucina-con-gli-Anime`) or Design-App for the period since
+1 November UTC. The global author search likewise showed only
+Anna app PRs plus governance/capability-catalog PRs, which are
+excluded from this app-delivery ledger.
+
+**All 7 are `post_v27_unverified`.** Neither the PR descriptions nor
+sampled PR discussion comments contained a contemporaneous,
+task-specific Factory baseline SHA. Date of work alone cannot prove
+Factory usage. Aggregate cohorts after append: **37 pre_v27**,
+**3 transition_excluded**, **22 v27_confirmed** (previously documented),
+and **52 post_v27_unverified**.
+
+**22 final-head `pull_request` workflow runs** were sampled using
+the exact PR head SHA; all reported `completed/success` and
+`run_attempt=1`. **Important:** the Android native compile run on
+#205 and on #207 finished **after their PR merge timestamps**.
+Thus the 22 successes do not establish that every check was green
+*before* merge, nor that the full PR lifecycle had no failed earlier
+head/retries. For #205 and #207, `ci_observed_last_success_at` records
+the last **pre-merge** success; `ci_observed_post_merge_run_ids`
+preserves the later native-compile workflow ID. This retains the
+observatory's strict test invariant that a pre-merge CI timestamp
+must not occur after the merge. Keep `ci_green_at=null` and `ci_retries=null`; the
+observed-final-head rerun count is **0**, narrowly scoped.
+
+The new raw PR open→merge median is **9.85 minutes** (7 PRs).
+#203 and #204 have overlapping PR-open windows; this is evidence
+of non-independent elapsed PR windows, **not** of concurrent active
+coding. Exclude them as independent comparison samples. The
+new entries have no verified request→first-edit timestamps or
+active-work measurements. Anna's historical baseline remains
+`ACTIVE_WORK_BASELINE_NOT_MEASURED`; no causal v27 speedup can
+be claimed. Open staging PRs #199 and #200 are not counted as
+merged delivery.
 
 ## Decision criteria for a real time-saving claim
 

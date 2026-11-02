@@ -2384,6 +2384,188 @@
       "ci_observed_final_head_rerun_attempts": 0,
       "ci_observed_last_success_at": "2026-11-01T03:48:38Z",
       "remarks": "No contemporaneous task-specific Factory SHA in PR description; v27 usage unverified. Sampled 2 final-head pull_request runs (2 success, 0 non-success); earlier-head CI and full retries not audited. Active development time not measured."
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr_number": 201,
+      "title": "CAP-0111: Weekly Review 10/10 in Today with archive and reminders",
+      "category": "feature",
+      "cohort": "post_v27_unverified",
+      "opened_at": "2026-11-01T14:15:07Z",
+      "merged_at": "2026-11-01T14:34:28Z",
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/201",
+      "source": "github_pr_metadata",
+      "factory_baseline_sha": null,
+      "request_at": null,
+      "first_edit_at": null,
+      "ci_green_at": null,
+      "ci_retries": null,
+      "ci_observed_final_head_sha": "44b891b4cadf23b709904e5621dbd0c0b9e080c3",
+      "ci_observed_run_ids": [
+        41316223721,
+        41316223719,
+        41316223758,
+        41316223729
+      ],
+      "ci_observed_final_head_rerun_attempts": 0,
+      "ci_observed_last_success_at": "2026-11-01T14:34:06Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 4 final-head pull_request runs (4 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Active development time not measured."
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr_number": 202,
+      "title": "docs: close CAP-0111 and update post-+118 Anna roadmap",
+      "category": "governance_docs",
+      "cohort": "post_v27_unverified",
+      "opened_at": "2026-11-01T22:35:16Z",
+      "merged_at": "2026-11-01T22:39:41Z",
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/202",
+      "source": "github_pr_metadata",
+      "factory_baseline_sha": null,
+      "request_at": null,
+      "first_edit_at": null,
+      "ci_green_at": null,
+      "ci_retries": null,
+      "ci_observed_final_head_sha": "633749ea117373d13bc6b1e0dc708cbb763a4662",
+      "ci_observed_run_ids": [
+        41357886351,
+        41357886315
+      ],
+      "ci_observed_final_head_rerun_attempts": 0,
+      "ci_observed_last_success_at": "2026-11-01T22:39:21Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 2 final-head pull_request runs (2 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Active development time not measured."
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr_number": 203,
+      "title": "v1.07-C1: truthful capability health diagnostics (CAP-0077)",
+      "category": "feature",
+      "cohort": "post_v27_unverified",
+      "opened_at": "2026-11-01T23:20:39Z",
+      "merged_at": "2026-11-01T23:33:37Z",
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/203",
+      "source": "github_pr_metadata",
+      "factory_baseline_sha": null,
+      "request_at": null,
+      "first_edit_at": null,
+      "ci_green_at": null,
+      "ci_retries": null,
+      "ci_observed_final_head_sha": "8e5282bdafd6f9fab219669e8d76ee4ffc61b7c8",
+      "ci_observed_run_ids": [
+        41362196500,
+        41362196451,
+        41362196509
+      ],
+      "ci_observed_final_head_rerun_attempts": 0,
+      "ci_observed_last_success_at": "2026-11-01T23:33:22Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 3 final-head pull_request runs (3 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Active development time not measured."
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr_number": 204,
+      "title": "v1.07-C2: safe visual regression matrix and pixel comparator (CAP-0069)",
+      "category": "feature",
+      "cohort": "post_v27_unverified",
+      "opened_at": "2026-11-01T23:24:17Z",
+      "merged_at": "2026-11-01T23:34:08Z",
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/204",
+      "source": "github_pr_metadata",
+      "factory_baseline_sha": null,
+      "request_at": null,
+      "first_edit_at": null,
+      "ci_green_at": null,
+      "ci_retries": null,
+      "ci_observed_final_head_sha": "8068b1d095768fb8f8745b7dbb3c504a01b1054b",
+      "ci_observed_run_ids": [
+        41362318141,
+        41362318124
+      ],
+      "ci_observed_final_head_rerun_attempts": 0,
+      "ci_observed_last_success_at": "2026-11-01T23:33:42Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 2 final-head pull_request runs (2 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Active development time not measured."
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr_number": 205,
+      "title": "release: v1.07-C1/C2 signed Android candidate +119 and roadmap truth",
+      "category": "qa_release",
+      "cohort": "post_v27_unverified",
+      "opened_at": "2026-11-01T23:35:41Z",
+      "merged_at": "2026-11-01T23:40:36Z",
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/205",
+      "source": "github_pr_metadata",
+      "factory_baseline_sha": null,
+      "request_at": null,
+      "first_edit_at": null,
+      "ci_green_at": null,
+      "ci_retries": null,
+      "ci_observed_final_head_sha": "82046ad639b59b14de8b4ae16c5ebe71f94e9d1e",
+      "ci_observed_run_ids": [
+        41362874550,
+        41362874509,
+        41362874538,
+        41362874527
+      ],
+      "ci_observed_final_head_rerun_attempts": 0,
+      "ci_observed_last_success_at": "2026-11-01T23:40:11Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 4 final-head pull_request runs (4 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Final-head CI run(s) 41362874527 completed after the PR merge; do not infer all CI was green at merge. Active development time not measured.",
+      "ci_observed_post_merge_run_ids": [
+        41362874527
+      ]
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr_number": 206,
+      "title": "v1.07: Daily agenda quick wins",
+      "category": "feature",
+      "cohort": "post_v27_unverified",
+      "opened_at": "2026-11-02T00:11:45Z",
+      "merged_at": "2026-11-02T00:23:58Z",
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/206",
+      "source": "github_pr_metadata",
+      "factory_baseline_sha": null,
+      "request_at": null,
+      "first_edit_at": null,
+      "ci_green_at": null,
+      "ci_retries": null,
+      "ci_observed_final_head_sha": "b8dfabcc10f4c75d0979e965fec91d1b6df961bb",
+      "ci_observed_run_ids": [
+        41366462397,
+        41366462184,
+        41366462196
+      ],
+      "ci_observed_final_head_rerun_attempts": 0,
+      "ci_observed_last_success_at": "2026-11-02T00:23:31Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 3 final-head pull_request runs (3 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Active development time not measured."
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr_number": 207,
+      "title": "release: signed Android candidate +120 for agenda quick wins",
+      "category": "qa_release",
+      "cohort": "post_v27_unverified",
+      "opened_at": "2026-11-02T00:25:22Z",
+      "merged_at": "2026-11-02T00:30:24Z",
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/207",
+      "source": "github_pr_metadata",
+      "factory_baseline_sha": null,
+      "request_at": null,
+      "first_edit_at": null,
+      "ci_green_at": null,
+      "ci_retries": null,
+      "ci_observed_final_head_sha": "8f506b9ebe8fd7925728432593e948f0b7fa6fd0",
+      "ci_observed_run_ids": [
+        41367063472,
+        41367063479,
+        41367063585,
+        41367063652
+      ],
+      "ci_observed_final_head_rerun_attempts": 0,
+      "ci_observed_last_success_at": "2026-11-02T00:29:57Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 4 final-head pull_request runs (4 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Final-head CI run(s) 41367063652 completed after the PR merge; do not infer all CI was green at merge. Active development time not measured.",
+      "ci_observed_post_merge_run_ids": [
+        41367063652
+      ]
     }
   ]
 }
