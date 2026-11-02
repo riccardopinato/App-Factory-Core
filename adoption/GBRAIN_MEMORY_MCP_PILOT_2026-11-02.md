@@ -1,7 +1,17 @@
 # GBrain MCP — App Factory memory pilot (candidate)
 
-Date: 2026-11-02. Status: **DOCUMENTATION / SETUP PREPARED — NOT DEPLOYED, NOT CONNECTED, NOT TESTED LIVE**.
+Date: 2026-11-02. Status: **LIVE MCP READ-ONLY CONNECTION VERIFIED; CURATED SEED PREPARED; IMPORT, BACKUP AND REBOOT TEST PENDING**.
 Scope: optional external memory service for ChatGPT, in **Chat** (not Work). No change to the App Factory governance, Master, Golden, application repositories, CI, background execution, or current baseline.
+
+## Current execution evidence (2026-11-02)
+
+- Live operator logs: WSL2 Ubuntu systemd, Bun 1.4.4, GBrain 0.60.554.0, local PGLite keyless, initial doctor 100/100, explicit remember/recall fact #1 PASS.
+- Automatic event extraction and ambient memory writeback explicitly disabled. No paid embedding provider configured.
+- Tailscale Funnel exposure and HTTPS health PASS; user-service status ACTIVE, no exact personal endpoint or credentials reproduced in this public document.
+- Native ChatGPT OAuth public-PKCE registration with **read-only** grant on source `default`; owner approval completed.
+- Real Chat-mode GBrain connector call to `recall` returned fact #1 with `install-check` provenance: **MCP READ E2E PASS**.
+- Pending: secure local backup, staged import of reviewed App Factory memory seed, post-import MCP readback, restart/reboot/sleep recovery, negative permission checks, source freshness audits, final pilot review. Live proof of these is NOT VERIFIED.
+- The curated, source-pinned first seed is `adoption/gbrain/APP_FACTORY_SEED_INDEX_2026-11-02.md`; a guarded manual WSL import helper is `adoption/gbrain/import_seed_wsl.sh`. The helper stops the GBrain PGLite service briefly, attempts private backup before importing, and restarts it. **Neither has been run on the operator host.** Import is not a background or automatic update.
 
 ## 0. Decision and authority
 
@@ -104,7 +114,7 @@ Use the real setup output and enter the MCP URL and OAuth client metadata in Cha
 
 ## 5. Acceptance tests, to be executed from real ChatGPT Chat
 
-Gates are **NOT VERIFIED** until observed, with timestamp and evidence.
+Each gate remains **NOT VERIFIED** until observed, with timestamp and evidence. On 2026-11-02, gate 1 (custom MCP UI), 2 (Chat-native tool call), and 3 (read-only recall of fact #1 with provenance) were observed as PASS. Gates 4–8 remain NOT VERIFIED.
 
 1. Plugin creation available to the actual user account. If unavailable, mark **BLOCKED: PLAN/ACCOUNT GATE** and keep this candidate documentation only.
 2. Authenticated MCP call from a fresh ChatGPT **Chat** conversation using `@GBrain` or selection supported by that UI; if supported only in Work, mark **BLOCKED: CHAT-ONLY REQUIREMENT**.
