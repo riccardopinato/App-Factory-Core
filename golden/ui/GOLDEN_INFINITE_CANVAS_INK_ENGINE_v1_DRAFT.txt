@@ -1,0 +1,48 @@
+GOLDEN INFINITE CANVAS AND INK ENGINE
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+OWNER: Flutter logical canvas transforms, drawing primitives, node interaction,
+bounded reversible operations and versioned scene codec.
+NOT OWNER: app note lifecycle, storage, native sharing or universal accessibility.
+
+DONOR SOURCE (PINNED)
+Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c:
+flutter_app/lib/src/domain/visual_documents.dart;
+flutter_app/lib/src/screens/whiteboard_screen.dart;
+flutter_app/test/whiteboard_viewport_test.dart;
+flutter_app/test/whiteboard_stress_test.dart;
+flutter_app/test/visual_ink_shared_test.dart
+Flutter Port CI SUCCESS https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169
+
+PORT CONTRACT
+CanvasScene(version, camera, strokes, shapes, texts, nodes, edges).
+CanvasCamera(x, y, zoom) transforms viewport<->world.
+InkStroke(points, tool, width, color); tool distinguishes pen/highlighter/eraser.
+SceneOps: insert/remove/update/translate/duplicate/lasso, undo/redo immutable
+commands with bounded history. Codec: version, migration, max bytes, geometry
+integrity and stable object IDs.
+
+INVARIANTS
+- World (0,0) centers in initial viewport, not pixel-coordinate origin.
+- Drag, pinch, lasso and hit-testing apply inverse zoom/translation accurately.
+- Dynamic canvas growth preserves camera target and world object positions.
+- Stylus and finger navigation modes are distinguishable; pinch must not ink.
+- Undo/redo restores exact prior strokes/nodes and selected state safely.
+- Scene validation enforces bounded element/point count; Notes donor limits:
+  50k whiteboard points, 3000 strokes, 1200 nodes, 3600 edges, 1200 shapes.
+  These are donor guardrails, not fixed universal app limits.
+- Ink wire representation shared by Sketch/Whiteboard, codecs remain versioned.
+- Referential links to notes/tasks survive layout and visibility changes.
+- Export raster/PNG/PDF and on-device memory are separate physical gates.
+
+CONSUMER TEST MATRIX
+Initial center; zoom=2x node drag; camera after growth; pen input vs pan;
+stylus input, lasso selection, undo/redo, duplicate/resize post-it; corrupted
+JSON; legacy codec; 20k strokes/points stress, near 50k point ceiling;
+multi-touch and low-end memory/FPS requires physical validation.
+
+EXTRACTION
+Do not transplant Notes' large monolithic whiteboard screen wholesale.
+First extract coordinate math + bounded scene ops/codec, then optional Flutter
+widgets. Own persistence, app theme and accessibility remain consumer adapters.
+END GOLDEN INFINITE CANVAS INK ENGINE v1 DRAFT

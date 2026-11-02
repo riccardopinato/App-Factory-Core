@@ -1,0 +1,44 @@
+GOLDEN SPATIAL CLUSTERING ENGINE
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+OWNER: reproducible grouping of geolocated items by zoom grid or meter radius.
+NOT OWNER: map tiles, routing, GPS permission or live provider response.
+
+DONOR SOURCE (PINNED)
+Wonderlog@5e07317571df85fbda770583cc3d56cb3aa85040:
+flutter/lib/features/map_memories/domain/map_cluster_engine.dart;
+flutter/test/map_memories_core_test.dart
+Flutter Foundation SUCCESS on source-equivalent head (web preview changed):
+https://github.com/riccardopinato/Wonderlog/actions/runs/37625261077
+CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4:
+lib/features/map/domain/maplibre_poi_clusterer.dart;
+test/performance_baseline_test.dart
+exact-main CI SUCCESS https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+
+PORT CONTRACT
+GeoItem(stableId, lat, lon, timestamp?, type?, metadata?).
+ClusterPolicy = radiusMeters(radius, chainingRule) OR gridZoom(cellByZoom).
+cluster(GeoItems, policy, zoom?, viewport?) -> ordered clusters with stable
+member IDs, centroid, count, algorithm identity.
+
+INVARIANTS
+- Reject invalid lat/lon, NaN and missing coordinates (never map missing to 0,0).
+- Radius in meters uses geodesic model; do not compare raw degrees to meters.
+- Grid scaling must respond deterministically to zoom; no implicit map state.
+- Radius transitive expansion is distinct from pairwise/complete-link clustering;
+  choose and document policy, because chained clusters can span >radius.
+- Anti-meridian and high-latitude boundary cases must not split near neighbors.
+- Stable member IDs, canonical sorted set, deterministic cluster ID and order.
+- Bound worst-case complexity (grid/buckets for large n).
+- Clustering is derived; must not overwrite original user POI/visit IDs.
+
+CONSUMER TEST MATRIX
+Same location, threshold +/- epsilon, shuffle identical output, duplicate IDs,
+two zoom levels, anti-meridian 179.9/-179.9, high latitude, invalid coords,
+stable cluster hash, 10k POI broad CI regression, map FPS physical gate.
+
+EXTRACTION
+Keep CamperBoss grid mode and Wonderlog geographic radius mode as separately
+selectable strategies under one small interface. Do not choose algorithm
+implicitly by donor name, and do not silently claim equal clustering semantics.
+END GOLDEN SPATIAL CLUSTERING ENGINE v1 DRAFT

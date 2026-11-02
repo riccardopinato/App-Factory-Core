@@ -179,3 +179,32 @@ Model/map/large file pack richiede physical/distribution validation quando il
 meccanismo reale dipende da Play delivery, filesystem, device RAM o background.
 
 END GOLDEN OFFLINE CONTENT PACKS v0.1 DRAFT
+
+======================================================================
+INTEGRAZIONE 03/11/2026 — REAL POI PACKAGE ACTIVATION
+======================================================================
+
+CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4
+lib/core/services/poi_package_installer.dart
+lib/core/services/download_file_verifier.dart
+lib/core/services/offline_package_installer.dart
+test/poi_package_installer_test.dart; test/download_manager_test.dart
+Exact-main CI https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+
+IMPORTANT: NoopOfflinePackageInstaller is a do-nothing placeholder and is NOT
+evidence of installed packages. PoiPackageInstaller is a distinct concrete
+implementation, whose tests cover verified POI activation, stored provenance,
+manifest destination traversal/collision rejection, legacy missing checksum,
+and failed update preserving previous active pack.
+
+Required apply protocol:
+manifest validate -> staging/download -> streaming SHA-256 and size check ->
+POI structure/schema verification -> atomic activation -> persist provenance
+-> reconcile installed resource state. On invalid update retain prior pack.
+No executable/path escape from offline root; no claiming READY on downloaded
+bytes alone; user data remains separated from package resources.
+
+FrameLab editorial catalog governs VERSION/RIGHTS/CONTENT semantics, not the
+transport/store lifecycle; TrailPath offline map activation and Notes on-demand
+model packs need independent provider/platform physical gates. Do not declare
+Play Asset Delivery or Needle model pack working based solely on POI tests.

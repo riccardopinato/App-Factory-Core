@@ -40,3 +40,25 @@ No new cross-app runtime dependency or shared package is required just to
 catalog proven code. Prefer a stable source link and focused consumer delta.
 
 END GOLDEN SINGLE-DONOR ADMISSION
+
+E3 EXECUTION RECIPE — EXACT REGISTERED SOURCE, 03/11/2026
+A PR may introduce a workflow on a temporary branch while actual checkout is
+explicitly pinned to the original immutable SOURCE_SHA. The workflow MUST
+assert git rev-parse HEAD == SOURCE_SHA before analyze/tests. Record BOTH the
+workflow commit/head and actual checkout SHA, plus full GitHub run URL.
+Examples:
+- TrailPath source 3f44ab37c0881e4315033797c451cec723e23cd2;
+  workflow head 6be4ba3be606dfd56dbe692954bd8ed2e7012451;
+  https://github.com/riccardopinato/TrailPath/actions/runs/41536514653
+- FrameLab source e7538d7dfc484f81f37a8e4363cd56a5b742e804;
+  workflow head 0d94a7ff06789da1f7d08b2fa0516047b5bb1c85;
+  https://github.com/riccardopinato/app-fotografia/actions/runs/41536521211
+Both exact-source analyze, targeted tests and full suite were SUCCESS.
+The temporary test-only PRs were closed WITHOUT merge; no app code changed.
+
+Never mislabel PR workflow head as donor source, and do not count presence of
+tests as execution. E3 scoped donor != new generalized Golden COPY-READY.
+For eight 03/11/2026 engine extraction contracts, existing donor CI and test
+paths do NOT certify an assembled cross-app package; consumer integration
+must be separately tested and provenance retained. No second app required to
+register E3; E5 remains a separate independent consumer evidence level.

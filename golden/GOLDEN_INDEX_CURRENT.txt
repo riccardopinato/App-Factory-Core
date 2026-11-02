@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 26.0 — 02/11/2026
+Versione: 27.0 — 03/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1421,3 +1421,109 @@ Physical provider/navigation and editorial rights review excluded.
 
 Evidence:
 audits/PINNED_CI_TRAILPATH_FRAMELAB_2026-11-02.md
+
+======================================================================
+ENGINE HARVEST — v27 / 03-11-2026
+======================================================================
+
+52. GPX INTEROPERABILITY ENGINE
+
+File:
+GOLDEN_GPX_INTEROPERABILITY_ENGINE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+53. HYBRID LOCAL SEARCH ENGINE
+
+File:
+GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+54. CIVIL DATE RECURRENCE ENGINE
+
+File:
+GOLDEN_CIVIL_DATE_RECURRENCE_ENGINE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+55. LOCAL RULES AUTOMATION ENGINE
+
+File:
+GOLDEN_LOCAL_RULES_AUTOMATION_ENGINE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+56. INFINITE CANVAS / INK ENGINE
+
+File:
+GOLDEN_INFINITE_CANVAS_INK_ENGINE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+57. SPATIAL CLUSTERING ENGINE
+
+File:
+GOLDEN_SPATIAL_CLUSTERING_ENGINE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+58. EXPLAINABLE RECOMMENDATION ENGINE
+
+File:
+GOLDEN_EXPLAINABLE_RECOMMENDATION_ENGINE_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+59. PERFORMANCE REGRESSION FIXTURES
+
+File:
+GOLDEN_PERFORMANCE_REGRESSION_FIXTURES_v1_DRAFT.txt
+
+Stato:
+DRAFT / PROCESS CANDIDATE — CROSS-APP HARNESS PENDING
+
+Scope:
+Source-pinned reusable engine contract, integration and consumer test gates.
+Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
+
+CONSOLIDAMENTO v27: six lanes / seven existing Golden files updated in place:
+Import/Export, Offline Packs, Backup/Recovery, Editorial Catalog, Incremental
+Indexing, and exact-source test/donor evidence. No duplicate ownership.
+Portable top-four acceptance vectors: contracts/engine_reuse_acceptance_v1.json.
+The new 8 entries are DRAFT contracts: no consumer code proven by this merge.

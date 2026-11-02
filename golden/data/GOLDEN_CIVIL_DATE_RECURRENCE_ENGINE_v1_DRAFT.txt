@@ -1,0 +1,46 @@
+GOLDEN CIVIL DATE RECURRENCE ENGINE
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+OWNER: Gregorian date-only rule resolution, overrides and occurrence identity.
+NOT OWNER: notification permission/delivery, scheduler or app storage.
+
+DONOR SOURCE (PINNED)
+World-Days@622e5c2f00c08b0905207c6765c9b51e199e706f:
+lib/domain/recurrence_engine.dart; test/domain/recurrence_engine_test.dart
+Anna's Diary@827bb61620960d8867eb03e453d142013aada786:
+lib/main.dart recurrenceDateForRule; test/v053_recurring_life_engine_test.dart
+Anna exact-head CI SUCCESS https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41458618496
+World Days tests inspected, matching-source CI not asserted here.
+
+PORT CONTRACT
+CivilDate(year,month,day); ordered DateSpan(start,end).
+RecurrenceRule: weekly, monthly(day, overflow), yearly(month,day,leapPolicy),
+fixedDate, nthWeekday, lastWeekday, lastDayOfMonth, fixedRange, oneOff,
+authorityDefined and lunar/opaqueExternal.
+resolve(rule, interval, overrides) -> spans, resolved flag, unresolvedReason.
+SeriesOccurrenceId = seriesId + civil day + exceptionRevision.
+Timezone is a scheduling adapter input, not a hidden date arithmetic default.
+
+INVARIANTS
+- No silent rollover: Jan31->Feb28/29 only under explicit CLAMP policy.
+- Feb29 yearly: explicit Feb28, Mar1 or SKIP; no implicit guess.
+- Reject invalid month/day, nonexistent 5th weekday, invalid interval.
+- Correct last weekday, nth weekday and inclusive/exclusive range semantics.
+- DST/timezone change must not shift civil all-day event.
+- Unresolved lunar/authority date without trusted override remains UNRESOLVED.
+- Stable recurrence series identity and no duplicates on reprocessing.
+- Preserve legacy nonrecurring event serialization and edited exceptions.
+- Product-owned notification logic stays outside engine.
+
+CONSUMER TEST MATRIX
+2027 Jan31->Feb28; leap Feb29 2028; first Saturday July 2026-07-04;
+last Thursday Sep 2026-09-24; last day Feb 2027/2028;
+one-off crossing 2026-12-31 to 2027-01-02; missing lunar year;
+DST Europe/Rome; legacy JSON; duplicate series; detached instance;
+invalid 5th weekday, unknown authority or invalid period.
+
+EXTRACTION
+Prefer immutable pure CivilDate types. Combine World Days rule classes with
+Anna series and overflow logic behind a single versioned recurrence contract.
+GOLDEN_NOTIFICATION_RELIABILITY remains authoritative for actual reminders.
+END GOLDEN CIVIL DATE RECURRENCE ENGINE v1 DRAFT
