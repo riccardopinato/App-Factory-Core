@@ -90,12 +90,18 @@ chmod 600 -- "$ENCRYPTED" || true
 )
 echo "Encrypted archive and local ciphertext hash created; verifying actual decryption and restore..."
 age -d -o "$WORK/bundle-decrypted.tar.gz" "$ENCRYPTED"
-# Reject paths outside our two expected bundle entries before extraction.
-if tar -tzf "$WORK/bundle-decrypted.tar.gz" | grep -Ev '^(brain\.gbrain-backup|canonical-content(/[^.]([^/]*|[.][^./][^/]*)?)*/*)$' >/dev/null; then
-  echo "Unexpected path in archive; refusing extraction." >&2; exit 1
-fi
+# Extract only the one, specifically named native GBrain archive. Canonical source
+# files are retained inside the encrypted bundle but are not written into scratch.
+# This prevents path traversal or symlink extraction from any other tar members.
+tar -tzf "$WORK/bundle-decrypted.tar.gz" > "$WORK/bundle-file-list.txt"
+grep -Fxq "brain.gbrain-backup" "$WORK/bundle-file-list.txt" || {
+  echo "Bundle lacks the expected native GBrain archive." >&2; exit 1;
+}
+grep -Eq '^canonical-content(/|$)' "$WORK/bundle-file-list.txt" || {
+  echo "Bundle lacks the separately captured canonical content root." >&2; exit 1;
+}
 mkdir -p -- "$WORK/unpacked"
-tar -xzf "$WORK/bundle-decrypted.tar.gz" -C "$WORK/unpacked" --no-same-owner --no-same-permissions
+tar -xzf "$WORK/bundle-decrypted.tar.gz" -C "$WORK/unpacked" --no-same-owner --no-same-permissions -- brain.gbrain-backup
 [[ -s "$WORK/unpacked/brain.gbrain-backup" ]] || { echo "Missing restored archive." >&2; exit 1; }
 
 RESTORED="$WORK/restore-parent/restored-brain"
