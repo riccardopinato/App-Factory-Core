@@ -11,6 +11,9 @@ STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 BUNDLE_NAME="gbrain-appfactory-postimport-${STAMP}.tar.gz.age"
 WORK=""
 SERVICE_MAY_BE_STOPPED=0
+AGE_ENCRYPTION_STARTED=0
+AGE_ENCRYPTION_COMPLETE=0
+ENCRYPTED=""
 
 cleanup() {
   rc=$?
@@ -20,6 +23,14 @@ cleanup() {
     if ! systemctl --user start "$SERVICE"; then
       echo "ERROR: GBrain service restart failed. Inspect systemctl --user status $SERVICE" >&2
       rc=1
+    fi
+  fi
+  if (( rc != 0 && AGE_ENCRYPTION_STARTED && ! AGE_ENCRYPTION_COMPLETE )); then
+    # age may create an empty or partial output before a passphrase mismatch.
+    # Only clean up the exact ciphertext started by this run; never touch other backups.
+    if [[ -n "$ENCRYPTED" && -f "$ENCRYPTED" ]]; then
+      rm -f -- "$ENCRYPTED"
+      echo "Incomplete encrypted output from this failed attempt removed." >&2
     fi
   fi
   if [[ -n "$WORK" && -d "$WORK" ]]; then rm -rf -- "$WORK"; fi
@@ -86,7 +97,11 @@ done
 echo
 echo "Encrypting the backup with age passphrase mode. Choose a LONG unique passphrase."
 echo "Do not paste the passphrase in ChatGPT or put it in a script. Losing it makes recovery impossible."
+echo "At age's first passphrase prompt, just press ENTER to generate a secure one."
+echo "Save the generated passphrase privately; you will enter it again when verifying decryption."
+AGE_ENCRYPTION_STARTED=1
 tar -czf - -C "$WORK/bundle" brain.gbrain-backup canonical-content | age -p -o "$ENCRYPTED"
+AGE_ENCRYPTION_COMPLETE=1
 chmod 600 -- "$ENCRYPTED" || true
 (
   cd -- "$DEST"
