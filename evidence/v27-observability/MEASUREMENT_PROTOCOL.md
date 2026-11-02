@@ -120,7 +120,7 @@ on each PR's final head SHA; all returned `conclusion=success` and
 - `ci_observed_final_head_rerun_attempts`: sum of observed
   `run_attempt - 1` for those sampled runs, **not all retries in the PR**;
 - `ci_observed_last_success_at`: latest observed successful workflow
-  update timestamp for that final head, **not proof of all required checks**.
+  update timestamp for that final head **at or before merge**, **not proof of all required checks**. If a final-head workflow finishes after merge, preserve its ID separately as `ci_observed_post_merge_run_ids` and do not treat it as a pre-merge gate.
 
 Keep `ci_retries` and `ci_green_at` null until the **complete PR
 history**, including earlier head SHAs, required status contexts and
@@ -211,7 +211,11 @@ the exact PR head SHA; all reported `completed/success` and
 #205 and on #207 finished **after their PR merge timestamps**.
 Thus the 22 successes do not establish that every check was green
 *before* merge, nor that the full PR lifecycle had no failed earlier
-head/retries. Keep `ci_green_at=null` and `ci_retries=null`; the
+head/retries. For #205 and #207, `ci_observed_last_success_at` records
+the last **pre-merge** success; `ci_observed_post_merge_run_ids`
+preserves the later native-compile workflow ID. This retains the
+observatory's strict test invariant that a pre-merge CI timestamp
+must not occur after the merge. Keep `ci_green_at=null` and `ci_retries=null`; the
 observed-final-head rerun count is **0**, narrowly scoped.
 
 The new raw PR open→merge median is **9.85 minutes** (7 PRs).
