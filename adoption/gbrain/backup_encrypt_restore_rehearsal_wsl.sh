@@ -110,11 +110,11 @@ echo "Restoring from ciphertext into an ABSENT, isolated new-brain root (never o
 gbrain backup restore "$WORK/unpacked/brain.gbrain-backup" --into "$RESTORED" --mode new-brain --json > "$WORK/restore-report.json"
 [[ -f "$RESTORED/restore-receipt.json" ]] || { echo "Restore did not create a receipt." >&2; exit 1; }
 echo "Testing keyword recall inside the restored brain, not the live service..."
-GBRAIN_HOME="$RESTORED" gbrain recall --query "APP_FACTORY_AUTHORITY" --source default > "$WORK/recall.txt"
+GBRAIN_HOME="$RESTORED" gbrain recall --query "APP_FACTORY_AUTHORITY" --source default --json > "$WORK/recall.txt"
 grep -q "app_factory_seed_index_2026-11-02" "$WORK/recall.txt" || {
   echo "Restored brain is missing the App Factory seed search result; test NOT VERIFIED." >&2; exit 1;
 }
-GBRAIN_HOME="$RESTORED" gbrain recall --query "App Factory test memoria persistente" > "$WORK/recall-fact.txt"
+GBRAIN_HOME="$RESTORED" gbrain recall --query "App Factory test memoria persistente" --json > "$WORK/recall-fact.txt"
 grep -q "App Factory test memoria persistente" "$WORK/recall-fact.txt" || {
   echo "Restored brain is missing the original test fact; test NOT VERIFIED." >&2; exit 1;
 }
