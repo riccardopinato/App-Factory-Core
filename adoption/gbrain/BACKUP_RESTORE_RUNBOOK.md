@@ -30,7 +30,7 @@ Download the exact reviewed script from its immutable **commit SHA** (not a movi
 
 ```bash
 curl -fLsS --proto '=https' --tlsv1.2 \
-  'https://raw.githubusercontent.com/riccardopinato/App-Factory-Core/68cc0fb7601e6cbccb76b69100a07fe0e0f3cfa2/adoption/gbrain/backup_encrypt_restore_rehearsal_wsl.sh' \
+  'https://raw.githubusercontent.com/riccardopinato/App-Factory-Core/dc3a5a952e5ca60b53cb9efb64c831873ea388a5/adoption/gbrain/backup_encrypt_restore_rehearsal_wsl.sh' \
   -o "$HOME/gbrain-backup-rehearsal.sh"
 bash -n "$HOME/gbrain-backup-rehearsal.sh"
 bash "$HOME/gbrain-backup-rehearsal.sh"
@@ -52,3 +52,9 @@ The script is intended for the Ubuntu WSL owner terminal, **not PowerShell**. Be
 Until the user shares terminal results, **NOT VERIFIED**: new ciphertext created, readback decryption, isolated restore, post-restore fact/seed retrieval, actual off-device transfer/cloud sync. GitHub CI success validates repository consistency only; it cannot see the user's WSL host.
 
 Do not mark off-host backup as PASS until a physically separate medium, or the actual cloud provider's completed remote-sync evidence, has been checked.
+
+### Passphrase mismatch recovery (first operator attempt)
+
+An operator run reached `age -p` and stopped with `age: error: passphrases didn't match`. Downstream `tar` write/exit 141 is a broken pipe after age terminated, **not evidence of a broken GBrain database**. In that run, GBrain had already restarted, but no encrypted backup or restored-memory check was verified. The follow-up script cleans up the single incomplete `.age` file created during a failed encryption attempt (it does not touch other backup files). A previously created plaintext local backup remains separate.
+
+When rerunning, press **Enter** at `Enter passphrase (leave empty to autogenerate a secure one):`, save the automatically generated passphrase in an offline vault, and enter it once during the later `age -d` readback prompt. The generated passphrase must not be pasted into chat. Re-download and run this page's pinned script revision, not the previously downloaded local script.
