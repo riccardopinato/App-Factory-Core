@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 24.0 — 02/11/2026
+Versione: 25.0 — 02/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1375,3 +1375,31 @@ Scope:
 Pinned source/test/CI and consumer validation bounds in the referenced Golden.
 
 Audit: audits/TRANSVERSAL_GOLDEN_HARVEST_2026-11-02.md
+
+======================================================================
+49. WAVE 2 VERIFIED CAPABILITY DONORS
+======================================================================
+
+File:
+GOLDEN_WAVE2_VERIFIED_DONORS_v1.txt
+
+Stato:
+CERTIFIED DONOR — SCOPED TEST/CI EVIDENCE
+
+Scope:
+Pinned donor code, tests and evidence/limits. See wave 2 audit.
+
+======================================================================
+50. WAVE 2 TRAILPATH / FRAMELAB SOURCE CANDIDATES
+======================================================================
+
+File:
+GOLDEN_WAVE2_SOURCE_CANDIDATES_v1.txt
+
+Stato:
+CANDIDATE — EXACT-SOURCE CI NOT VERIFIED
+
+Scope:
+Pinned donor code, tests and evidence/limits. See wave 2 audit.
+
+Audit: audits/TRANSVERSAL_GOLDEN_HARVEST_WAVE2_2026-11-02.md

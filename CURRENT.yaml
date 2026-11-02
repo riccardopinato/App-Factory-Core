@@ -10,10 +10,10 @@ master:
   modular_manifest: v27/candidate/MODULE_MAP.json
 
 golden_index:
-  version: 24
+  version: 25
   status: CURRENT
   path: golden/GOLDEN_INDEX_CURRENT.txt
-  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v24.txt
+  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v25.txt
 
 golden_registry:
   version: 2

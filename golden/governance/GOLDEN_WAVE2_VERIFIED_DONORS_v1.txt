@@ -1,0 +1,87 @@
+GOLDEN VERIFIED CAPABILITY DONORS — WAVE 2
+Versione: 1.0 — 02/11/2026
+Stato: CERTIFIED DONOR — SCOPED TEST/CI EVIDENCE
+This is a set of source-linked donors, not a shared runtime package.
+
+NOTES-ECOSISTEMA
+Source: riccardopinato/Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c
+- flutter_app/lib/src/domain/reference_lifecycle.dart
+- flutter_app/lib/src/domain/stable_links.dart
+- flutter_app/lib/src/domain/disaster_recovery.dart
+Tests: flutter_app/test/reference_lifecycle_test.dart;
+flutter_app/test/disaster_recovery_test.dart.
+Exact-source CI: https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169
+Reusable: RESOLVED/SOURCE_MISSING/DELETED/STALE/AMBIGUOUS reference states,
+stable-ID rename-safe links, explicit trash/missing distinction, bounded URI
+parsing, archive-sidecar validation and unsafe archive rejection.
+Boundary: in-memory roundtrip/tested Dart logic != physical crash-safe restore.
+Native Needle runtime and untested multi-store import are excluded.
+
+WONDERLOG
+Source: riccardopinato/Wonderlog@5e07317571df85fbda770583cc3d56cb3aa85040
+- flutter/lib/features/cloud/domain/cloud_merge_engine.dart
+- flutter/lib/features/cloud/domain/cloud_sync_guard.dart
+- flutter/lib/core/media/content_addressed_media_asset_store.dart
+- flutter/lib/features/smart_journey/domain/geo_photo_clusterer.dart
+- flutter/lib/features/smart_journey/domain/temporal_photo_grouper.dart
+Tests: flutter/test/cloud_core_test.dart; flutter/test/media_asset_store_test.dart;
+flutter/test/smart_journey_engine_test.dart.
+Flutter Foundation CI SUCCESS at prior bc009ed478...:
+https://github.com/riccardopinato/Wonderlog/actions/runs/37625261077
+Compare to pinned main: only web-preview workflow changed, not selected Dart code.
+Reusable: dirty local sync records are not overwritten silently; conflicting
+remote revision generates conflict; content-addressed media dedupe and
+read-time corruption detection; prune only unreferenced media; basic photo
+temporal/geographic grouping.
+Boundary: source-equivalent CI, NOT exact main Flutter Foundation. No provider
+cloud roundtrip, EXIF field verification, physical storage guarantee. Shared
+Ecosystem Core v1 stays owned by existing bridge Golden.
+
+CAMPERBOSS
+Source: riccardopinato/CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4
+- lib/core/services/data_backup_service.dart
+- lib/core/services/download_file_verifier.dart
+- lib/core/services/app_download_manager.dart
+- lib/core/services/local_search_service.dart
+Tests: test/data_backup_service_test.dart; test/download_manager_test.dart;
+test/offline_system_coordinator_test.dart; test/local_search_freshness_test.dart.
+Exact-main Flutter CI SUCCESS:
+https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+Reusable: versioned backup manifest; inspect-before-restore; physical file
+staging, safety snapshot and rollback on failure; merge conflict preservation;
+streaming file SHA-256 and size validation before READY; download lifecycle and
+derived local search freshness.
+Reusable Dart digest extract (dart:io and package:crypto/crypto.dart):
+```dart
+Future<String> sha256ForFile(File file) async =>
+    (await sha256.bind(file.openRead()).first).toString();
+```
+Important: NoopOfflinePackageInstaller is empty and is NOT evidence of
+real pack installation. Real device interrupted restore/background download
+remain unverified.
+
+BATTERY_GUARD
+Source: riccardopinato/Battery_Guard@d8cf237ab2df2daf427b87ca057871e3143bccc7
+- lib/services/battery_intelligence_engine.dart
+- lib/services/charging_intelligence_engine.dart
+- lib/services/charge_test_group.dart
+Tests: test/battery_intelligence_test.dart;
+test/charging_intelligence_test.dart; test/charge_test_group_test.dart.
+Exact-main Battery Guard CI SUCCESS:
+https://github.com/riccardopinato/Battery_Guard/actions/runs/40368962341
+Reusable: ETA unavailable when not actively charging; stable valid historical
+cohorts; robustMedian/clampFinite; same charger+cable baseline; explainable
+speed, thermal and stability anomalies; normalized group display keys that
+retain non-ASCII/source distinction. Group key is NOT destructive entity ID.
+Boundary: unit-tested estimation algorithm != calibrated native hardware
+telemetry, charge cutoff capability or Play billing verification.
+
+GENERAL CONSUMER RULE
+One source app with relevant tests and matching CI is enough for scoped donor
+registration. Any consumer must still test its adaptation and physical/
+provider limits. Existing Backup/Recovery, Media Assets, Offline Content and
+Ecosystem Bridge Golden contracts remain authoritative for general interfaces.
+No duplication of an app-wide service owner and no automatic second-app
+certification requirement.
+
+END WAVE 2 VERIFIED DONORS
