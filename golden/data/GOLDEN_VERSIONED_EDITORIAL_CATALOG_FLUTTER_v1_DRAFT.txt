@@ -139,3 +139,37 @@ rollback + user-state preservation.
 CERTIFIED dopo secondo riuso del Golden generalizzato o harness indipendente.
 
 END GOLDEN VERSIONED EDITORIAL CATALOG v1 DRAFT
+
+======================================================================
+INTEGRAZIONE 03/11/2026 — EXACT FRAME LAB + CONTENT QUALITY GATES
+======================================================================
+
+FrameLab exact original donor:
+riccardopinato/app-fotografia@e7538d7dfc484f81f37a8e4363cd56a5b742e804
+lib/features/editorial/data/editorial_importer.dart;
+lib/features/editorial/domain/editorial_validation.dart;
+lib/features/editorial/domain/catalog_quality_validation.dart;
+lib/features/editorial_workspace/data/editorial_workspace.dart;
+test/step_9a_editorial_pipeline_test.dart;
+test/step_9b_multilingual_catalog_test.dart;
+test/step_9d_editorial_workspace_test.dart.
+EXACT SOURCE CI SUCCESS https://github.com/riccardopinato/app-fotografia/actions/runs/41536521211
+
+Additional editorial process donors, without new runtime certification:
+World-Days@622e5c2f00c08b0905207c6765c9b51e199e706f
+  tool/validate_editorial.py; tool/validate_editorial_locales.py
+In-Cucina-con-gli-Anime@478f6db6d6cdcfe9adcbddacfe834cb7fbc345e7
+  tool/f3l_editorial_audit.py; tool/f3g_editorial_gate.py;
+  tool/quality_engine_v24b_official.py
+  tool/tests/test_quality_engine_v24b_official.py.
+
+Separate four gates:
+A. machine schema/version/stable IDs and locale coverage;
+B. source+license+asset provenance and checksum;
+C. editor/human rights/accuracy/translation signoff (cannot auto-certify);
+D. atomic catalog-only import preserving saved, notes and user-owned state.
+
+Existing Golden remains the single generalization authority. Recommended
+Golden EXPLAINABLE RECOMMENDATION only ranks already published/eligible items;
+it must not bypass A/B/C/D or show a draft via personalization.
+Do not treat a linter or successful source CI as a human copyright review.

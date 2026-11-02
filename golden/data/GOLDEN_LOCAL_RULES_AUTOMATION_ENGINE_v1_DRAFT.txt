@@ -1,0 +1,44 @@
+GOLDEN LOCAL RULES AND AUTOMATION ENGINE
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+OWNER: offline pure domain rules and deterministic proposed changes.
+NOT OWNER: remote CI orchestration, platform background jobs or SQL transactions.
+
+DONOR SOURCE (PINNED)
+Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c:
+flutter_app/lib/src/domain/workflow_automation.dart;
+flutter_app/test/workflow_automation_test.dart
+Flutter Port CI SUCCESS https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169
+
+PORT CONTRACT
+Rule(id, schemaVersion, enabled, order, trigger, subject, predicates, action).
+Trigger: itemCreated, itemUpdated, taskCompleted (extensible by version).
+Action: addTag, moveToCollection, pin, setPriority (app-specific adapters).
+evaluate(before?,incoming,rules,clock,scope)->proposedChange,appliedRuleIds,
+rejectedRuleIds,causationId,structured errors. Pure function; no I/O.
+Optional Executor verifies capability/permissions, persists change and audit
+with durable idempotency key when app persistence is introduced.
+
+INVARIANTS
+- Deterministic rule order, one action per rule, idempotent repeated events.
+- Disabled rules and already-satisfied actions are safe no-ops.
+- A rule-applied mutation does NOT trigger infinite recursive re-evaluation.
+- Deleted content, missing target collection or forbidden scope never mutated.
+- Bound rule count, chain depth, log count and input lengths.
+- Unrecognized action/schema/trigger fail closed; no arbitrary user code.
+- Execution log/fingerprint must survive restart if durable side effects exist.
+- Remote orchestration/replay remains under GOLDEN_EVENT_DRIVEN_RECONCILIATION.
+- No cloud service or AI requirement.
+
+CONSUMER TEST MATRIX
+Creation tags exactly once; completion priority no recursion; update no change;
+two rules in stable order; missing collection no-op; deleted item ignored;
+disabled rule; malformed serialization; different scope blocked; duplicate
+event replay; commit fail; interrupted execution and outbox recovery ONLY when
+consumer implements a durable executor.
+
+EXTRACTION
+Use Notes WorkflowAutomations evaluation core; inject domain entity/action
+mapping. Do not imply that pure evaluation tests certify background execution,
+shared-account synchronization or recovery.
+END GOLDEN LOCAL RULES AUTOMATION ENGINE v1 DRAFT

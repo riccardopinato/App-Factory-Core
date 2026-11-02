@@ -401,3 +401,34 @@ Evidence:
 evidence/indexing-hashing/ANDROID_OMNI_CLEANER_STEP97_2026-10-15.md
 
 END GOLDEN INCREMENTAL PERSISTENT INDEXING v1.1 DRAFT
+
+======================================================================
+INTEGRAZIONE 03/11/2026 — REVISION + SEMANTIC INDEX DONORS
+======================================================================
+
+CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4:
+lib/core/services/local_search_service.dart;
+lib/data/database/data_revision_store.dart;
+test/local_search_freshness_test.dart
+Exact-main CI SUCCESS https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+Search rebuild automatically after the authoritative source revision changes.
+
+Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c:
+flutter_app/lib/src/data/semantic_index_store.dart;
+flutter_app/lib/src/domain/semantic_embeddings.dart
+flutter_app/test/semantic_embeddings_test.dart;
+flutter_app/test/semantic_retrieval_integration_test.dart
+CI https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169
+
+Owner split: this Golden defines revision fingerprint, invalidation, delta,
+missing-file/deletion reconciliation and fresh index lifecycle. Hybrid Local
+Search Golden defines query scoring, lexical/semantic ranking and recall/MRR.
+Index fingerprint must include source revision, source instance, engine ID,
+embedding dimensions/model revision and schema version. Change invalidates
+vectors/cached hits; access permission change invalidates visibility early.
+
+New tests: edit document then next query fresh; same-size overwrite with stale
+mtime; source deletion reflected in index; engine dimension/schema changed;
+corrupt persisted vector -> safe rebuild; old cache cannot expose deleted/
+private document. Android Omni physical evidence remains separate from Flutter
+search donor unit tests; no physical speedup claim for Flutter consumers.

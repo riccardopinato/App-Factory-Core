@@ -1,0 +1,48 @@
+GOLDEN GPX INTEROPERABILITY ENGINE
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+OWNER: GPX 1.0/1.1 interchange parsing, validation, serializing and optional simplification.
+NOT OWNER: network route snapping, map providers, persistence commit or geometry domain.
+
+DONOR SOURCE (PINNED)
+TrailPath@3f44ab37c0881e4315033797c451cec723e23cd2
+lib/infrastructure/gpx/xml_gpx_service.dart
+test/infrastructure/gpx/xml_gpx_service_test.dart
+Exact-source Flutter analyze/test SUCCESS: https://github.com/riccardopinato/TrailPath/actions/runs/41536514653
+CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4
+lib/core/services/gpx_service.dart
+test/gpx_service_test.dart; test/performance_baseline_test.dart
+Exact-main Flutter CI SUCCESS: https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+
+PORT CONTRACT
+parse(UTF8 XML, limits) -> ParseResult(document, warnings, originalPointCount)
+export(GpxDocument, options) -> UTF8 XML
+simplify(points, toleranceMeters, protectedIndices) -> ordered points
+Document: tracks/segments, routes, waypoints, metadata, source provenance.
+Point: WGS84 lat/lon, optional altitudeMeters, optional UTC timestamp, name.
+Explicit distinction: raw routes are NOT verified routable road paths.
+
+INVARIANTS
+- Namespace-aware GPX recognition; reject wrong root and malformed XML.
+- Reject non-finite/out-of-range latitude [-90,90] / longitude [-180,180].
+- No DTD/external entity resolution, network, path expansion or unbounded inputs.
+- Bound file bytes, number of points and parsing work (CamperBoss 5MB/10k points donor policy).
+- Preserve point order, segment boundaries, start/end and optional elevation/time.
+- GPX UTC/offset round-trip stable at declared precision, missing fields remain missing.
+- XML escaping, stable format version, no fabrication of routes on invalid input.
+- Simplification is OPT-IN and must preserve protected waypoints and segments.
+- Unsupported extensions and lossy fields reported, not silently accepted.
+
+CONSUMER TEST MATRIX
+Valid namespaced track; multi-segment; route-only fallback; waypoints; empty;
+invalid root/XML/coordinates; NaN; date with timezone; XML escaping; oversized;
+external entity attack; export->parse roundtrip; 5000-point simplification; endpoints;
+10k-point ceiling; cancellation; no persistence on failure.
+
+INTEGRATION
+Use adapter to app GeoPoint and storage model. GOLDEN_IMPORT_EXPORT_PORTABILITY
+owns staging, external identity, conflict handling and atomic commit.
+Preserve one shared GPX contract, not two incompatible per-app implementations.
+Physical device/exporter compatibility is NOT certified.
+PROMOTION: implement generic adapter and execute focused consumer suite on pinned SHA.
+END GOLDEN GPX INTEROPERABILITY ENGINE v1 DRAFT

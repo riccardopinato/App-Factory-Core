@@ -1,0 +1,53 @@
+GOLDEN HYBRID LOCAL SEARCH ENGINE
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+OWNER: stable lexical + optional semantic ranking of local documents.
+NOT OWNER: canonical data persistence, privacy policy, full-text provider or cloud AI.
+
+DONOR SOURCE (PINNED)
+Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c:
+flutter_app/lib/src/domain/semantic_embeddings.dart
+flutter_app/lib/src/data/unified_retrieval_service.dart
+flutter_app/lib/src/data/semantic_index_store.dart
+flutter_app/lib/src/domain/retrieval_quality.dart
+flutter_app/test/semantic_embeddings_test.dart
+flutter_app/test/semantic_retrieval_integration_test.dart
+Flutter Port CI SUCCESS https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169
+CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4:
+lib/core/services/local_search_service.dart
+test/local_search_freshness_test.dart; test/performance_baseline_test.dart
+Exact-main CI SUCCESS https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+
+PORT CONTRACT
+SearchDocument(id, sourceRevision, type, text, tags, visibility, locale).
+LexicalRetriever.query(query, filters, maxResults) -> scored candidate IDs.
+EmbeddingEngine(id, dimensions).embed(text) -> finite fixed-size vector.
+SemanticIndex.upsert/remove/rebuild; search(queryVector); stats().
+HybridSearch.search -> ordered hits with excerpt, score and matching reasons.
+RetrievalQuality.evaluate(labeledQueries,k) -> Recall@K and MRR.
+
+INVARIANTS
+- Auth/visibility filters apply BEFORE returning cached semantic or lexical hits.
+- Delete, content edit and source revision invalidate the derived index.
+- Embedding engine id or dimension mismatch requires rebuild, never stale decode.
+- Lexical path works independently when embedding engine is unavailable.
+- Stable input ordering/ties, duplicate IDs fused once, bounded query length.
+- Explain lexical/semantic contributions; deterministic ranking with finite scores.
+- LocalHashEmbeddingEngine uses 192-dimensional deterministic FEATURE HASHING;
+  this is NOT a trained neural LLM and no external model download is implied.
+- No hidden network calls, persisted prompt text or out-of-scope user content.
+- GOLDEN_INCREMENTAL_PERSISTENT_INDEXING owns revision/invalidation policy.
+
+CONSUMER TEST MATRIX
+Exact keyword; semantic-only synonym; multilingual alias; no hits; filter isolation;
+deleted item absent; engine/dimension mismatch; stale revision; 0/NaN vector;
+stable ties under document shuffle; duplicate ID; lexical-only fallback;
+curated Recall@K/MRR corpus with published fixture; 5000 documents CI benchmark.
+Notes curated test has Recall@K=1 and MRR >=0.66 for ITS OWN fixture only.
+Do not generalize to other data sets.
+
+EXTRACTION
+Build framework-neutral retrieval interface first. Keep persistent index and
+semantic engine optional. Consumer must validate data isolation, real corpus
+quality and memory/performance independently.
+END GOLDEN HYBRID LOCAL SEARCH ENGINE v1 DRAFT

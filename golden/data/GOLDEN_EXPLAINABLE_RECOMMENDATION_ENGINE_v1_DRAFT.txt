@@ -1,0 +1,49 @@
+GOLDEN EXPLAINABLE RECOMMENDATION ENGINE
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+OWNER: deterministic offline item ranking with reason codes and diversity caps.
+NOT OWNER: editorial quality, recommendation accuracy statistics, retention
+claims or hidden AI personalization.
+
+DONOR SOURCE (PINNED)
+FrameLab@e7538d7dfc484f81f37a8e4363cd56a5b742e804:
+lib/features/home/domain/recommendation_engine.dart
+test/step_6_recommendation_engine_test.dart
+Exact-source CI SUCCESS https://github.com/riccardopinato/app-fotografia/actions/runs/41536521211
+Wonderlog@5e07317571df85fbda770583cc3d56cb3aa85040:
+flutter/lib/features/rediscover/domain/rediscover_engine.dart;
+flutter/lib/features/rediscover/domain/rediscover_selection_engine.dart;
+flutter/test/rediscover_core_test.dart
+source-equivalent CI SUCCESS https://github.com/riccardopinato/Wonderlog/actions/runs/37625261077
+
+PORT CONTRACT
+Candidate(id, domain, groupId, features, locale, visibility, eligible).
+Context(userApprovedPreferences, civilDate?, excludeIds, limit, seed).
+RankRule(id, weight, predicate, reasonCode, version).
+rank(eligibleCandidates,context,rules)->ordered SuggestedItem(id,score,reasons).
+Eligibility/permission/editing rights provider is an injected mandatory gate.
+
+INVARIANTS
+- Filter unpublished, non-reviewed, disallowed-license and private sources
+  BEFORE ranking; only expose material that requester may access.
+- Identical inputs/seed/rules yield stable tie ordering (ID comparator).
+- Deduplicate by source canonical ID and respect per-group/source caps.
+- Explain recommendations via explicit rule reason codes, no opaque AI claim.
+- Time-based events use civil recurrence rules; prior-year anniversaries only.
+- Only photos explicitly linked to a memory may be surfaced in that memory.
+- Empty pool yields honest empty list, not fabricated output.
+- Store minimal preferences locally where possible; no implicit telemetry.
+- The scoring policy for photography and the rediscovery narrative remain
+  domain plugins, not universal weights.
+
+CONSUMER TEST MATRIX
+Interest scoring, stable ties, input shuffle, duplicate IDs, empty feed,
+exclude hidden/draft/unlicensed content, mixed locale/permission filtering,
+per-trip cap, anniversary in previous year, photos linked vs unrelated,
+exact seed replay and ranked reason code snapshot.
+
+EXTRACTION
+Extract eligibility -> scoring -> diversity/dedup -> stable sort.
+FrameLab recommendation and Wonderlog Rediscover are distinct vertical uses.
+No production uplift or independent consumer performance is asserted.
+END GOLDEN EXPLAINABLE RECOMMENDATION ENGINE v1 DRAFT

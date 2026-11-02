@@ -347,3 +347,34 @@ Test fisici aggiunti:
 [ ] exact restored artifact/reference parity
 
 END DRAFT
+
+======================================================================
+INTEGRAZIONE 03/11/2026 — CROSS-DONOR RECOVERY HARVEST
+======================================================================
+
+CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4
+lib/core/services/data_backup_service.dart
+test/data_backup_service_test.dart
+Exact-main CI SUCCESS https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+Evidence: archive validation, inspection, staged restore, safety snapshot,
+failed restore rollback and multiple negative archive cases.
+
+Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c
+flutter_app/lib/src/domain/disaster_recovery.dart;
+flutter_app/test/disaster_recovery_test.dart
+Flutter Port CI https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169
+Anna's Diary@827bb61620960d8867eb03e453d142013aada786
+lib/local_state_store.dart; test/v045_lifecycle_recovery_test.dart;
+CI https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41458618496
+
+Reusable contract: DRY RUN -> archive/schema/assets VALIDATE -> isolated stage
+-> validate cross-entity references -> durable recovery marker -> safety snapshot
+-> commit -> media activation -> integrity recheck -> mark successful.
+If either domain or filesystem activation fails, preserve snapshot and retain
+recoverable marker, never surface restored=true before matching media exist.
+
+Additional edge tests: partial ZIP, corrupt media hash, missing reference,
+truncated file copy, interrupted promotion, restart resume/rollback, already
+existing user data, schema downgrade, duplicate source and snapshot replay.
+Existing physical validation requirements remain UNMET: donor unit tests
+alone cannot guarantee recovery after device crash at filesystem boundary.

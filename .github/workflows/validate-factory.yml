@@ -23,6 +23,9 @@ jobs:
       - name: Validate Factory resolver, registry and supply chain
         run: python3 scripts/validate_factory.py
 
+      - name: Validate harvested engine contracts and portable fixture definitions
+        run: python3 scripts/validate_engine_harvest.py
+
       - name: Validate v27 section coverage and synchronized fallback
         run: python3 scripts/validate_v27_candidate.py --self-test
 

@@ -1,0 +1,45 @@
+GOLDEN PERFORMANCE REGRESSION FIXTURES
+Versione: 1.0 — 03/11/2026
+Stato: DRAFT / PROCESS CANDIDATE — CROSS-APP HARNESS PENDING
+OWNER: deterministic synthetic workloads and bounded CI performance alerts.
+NOT OWNER: mobile thermal, GPU/UI FPS, battery autonomy or lab certification.
+
+DONOR SOURCE (PINNED)
+CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4:
+test/performance_baseline_test.dart
+Exact-main CI SUCCESS https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c:
+flutter_app/test/whiteboard_stress_test.dart
+Flutter Port CI SUCCESS https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169
+
+PORT CONTRACT
+Fixture(id, generatorVersion, seed, count, distribution, expectedIntegrity).
+Workload(revision, cold/warm/hot, operation, iteration, runnerProfile).
+Result(sourceSHA, runner, toolchain, wallMs, outputCount, integrityDigest,
+optionalPeakMemory, p50/p95, thresholdPolicy, runURL).
+Persist machine-readable evidence per immutable source/build contract.
+
+RULES
+- Assert output correctness and reference identity before elapsed time.
+- No magic tiny thresholds: warm-up, repetition, percentile and variance.
+- Distinguish cold/rebuild from warm index and hot in-memory cache.
+- Deterministic input generation, no remote network, time or random entropy.
+- Compare measurements only with compatible runners/toolchains.
+- No cross-run speedup claims without controlled environment or normalization.
+- Keep fixtures small enough for CI budgets, and avoid accidental OOM.
+
+DONOR-SPECIFIC BROAD TEST BUDGETS (NOT UNIVERSAL)
+CamperBoss 10k POI clustering <5s; 5k GPX parse/simplify <15s;
+5k document search rebuild <10s, query <5s, under original CI fixture.
+Notes whiteboard stress at 20k points and near 50k-point validation limit.
+Port these as scale categories, remeasure for each app and runner.
+
+TEST MATRIX
+Empty, small, representative, large, adversarial same-location clusters,
+very long strings, corrupted inputs; cold/warm/hot; identical identity/record
+count under replay; repeated latency percentiles; low-end real phone separately.
+
+PROMOTION
+Create reusable fixture generator and at least one independent consumer with
+repeatable machine-readable results before COPY-READY. CI stress != device QA.
+END GOLDEN PERFORMANCE REGRESSION FIXTURES v1 DRAFT

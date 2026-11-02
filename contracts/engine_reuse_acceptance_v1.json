@@ -1,0 +1,385 @@
+{
+  "schemaVersion": 1,
+  "status": "CONSUMER_ACCEPTANCE_VECTORS_NOT_IMPLEMENTATION_TESTS",
+  "generated": "2026-11-03",
+  "description": "Language-neutral test vectors for consumer adapters. Validation verifies fixture shape only, never Dart engine semantics.",
+  "contracts": [
+    {
+      "id": "gpx_interoperability_engine",
+      "donor": "TrailPath",
+      "cases": [
+        {
+          "id": "gpx.track.valid",
+          "kind": "success",
+          "input": {
+            "xml": "<gpx version=\"1.1\"><trk><trkseg><trkpt lat=\"45\" lon=\"10\"/><trkpt lat=\"46\" lon=\"11\"/></trkseg></trk></gpx>"
+          },
+          "expected": {
+            "trackCount": 1,
+            "pointCount": 2
+          }
+        },
+        {
+          "id": "gpx.invalid.lat",
+          "kind": "reject",
+          "input": {
+            "xml": "<gpx version=\"1.1\"><trk><trkseg><trkpt lat=\"91\" lon=\"10\"/></trkseg></trk></gpx>"
+          },
+          "expected": {
+            "errorCode": "INVALID_COORDINATE"
+          }
+        },
+        {
+          "id": "gpx.wrong.root",
+          "kind": "reject",
+          "input": {
+            "xml": "<html><trkpt lat=\"45\" lon=\"10\"/></html>"
+          },
+          "expected": {
+            "errorCode": "NOT_GPX"
+          }
+        },
+        {
+          "id": "gpx.external.entity",
+          "kind": "reject",
+          "input": {
+            "xml": "<!DOCTYPE gpx [<!ENTITY x SYSTEM \"file:///etc/passwd\">]><gpx>&x;</gpx>"
+          },
+          "expected": {
+            "errorCode": "UNSAFE_XML"
+          }
+        },
+        {
+          "id": "gpx.export.roundtrip",
+          "kind": "success",
+          "input": {
+            "operation": "exportThenParse",
+            "points": [
+              {
+                "lat": 45,
+                "lon": 10,
+                "utc": "2026-11-03T08:00:00Z"
+              },
+              {
+                "lat": 46,
+                "lon": 11,
+                "utc": null
+              }
+            ]
+          },
+          "expected": {
+            "pointCount": 2,
+            "stableOrder": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "hybrid_local_search_engine",
+      "donor": "Notes-Ecosistema",
+      "cases": [
+        {
+          "id": "search.lexical.hit",
+          "kind": "success",
+          "input": {
+            "query": "montagna",
+            "documents": [
+              {
+                "id": "a",
+                "text": "Escursione in montagna",
+                "revision": 1,
+                "visible": true
+              }
+            ]
+          },
+          "expected": {
+            "ids": [
+              "a"
+            ]
+          }
+        },
+        {
+          "id": "search.permissions",
+          "kind": "success",
+          "input": {
+            "query": "segreto",
+            "documents": [
+              {
+                "id": "a",
+                "text": "segreto",
+                "visible": false
+              },
+              {
+                "id": "b",
+                "text": "segreto pubblico",
+                "visible": true
+              }
+            ]
+          },
+          "expected": {
+            "ids": [
+              "b"
+            ]
+          }
+        },
+        {
+          "id": "search.deleted",
+          "kind": "success",
+          "input": {
+            "query": "cache",
+            "documents": [
+              {
+                "id": "a",
+                "text": "cache",
+                "deleted": true
+              },
+              {
+                "id": "b",
+                "text": "cache",
+                "deleted": false
+              }
+            ]
+          },
+          "expected": {
+            "ids": [
+              "b"
+            ]
+          }
+        },
+        {
+          "id": "search.lexical.fallback",
+          "kind": "success",
+          "input": {
+            "query": "viaggio",
+            "semanticAvailable": false,
+            "documents": [
+              {
+                "id": "t",
+                "text": "viaggio"
+              }
+            ]
+          },
+          "expected": {
+            "ids": [
+              "t"
+            ],
+            "mode": "lexical"
+          }
+        },
+        {
+          "id": "search.engine.mismatch",
+          "kind": "reject",
+          "input": {
+            "storedEngineId": "hash-v1",
+            "requestedEngineId": "hash-v2",
+            "storedDimensions": 192
+          },
+          "expected": {
+            "errorCode": "INDEX_REBUILD_REQUIRED"
+          }
+        }
+      ]
+    },
+    {
+      "id": "civil_date_recurrence_engine",
+      "donor": "World-Days",
+      "cases": [
+        {
+          "id": "civil.month.clamp",
+          "kind": "success",
+          "input": {
+            "date": "2027-01-31",
+            "rule": "monthly",
+            "overflow": "clamp"
+          },
+          "expected": {
+            "next": "2027-02-28"
+          }
+        },
+        {
+          "id": "civil.leap",
+          "kind": "success",
+          "input": {
+            "date": "2028-02-29",
+            "rule": "yearly",
+            "leapPolicy": "feb28"
+          },
+          "expected": {
+            "next": "2029-02-28"
+          }
+        },
+        {
+          "id": "civil.nth.weekday",
+          "kind": "success",
+          "input": {
+            "year": 2026,
+            "month": 7,
+            "weekday": "sat",
+            "ordinal": 1
+          },
+          "expected": {
+            "date": "2026-07-04"
+          }
+        },
+        {
+          "id": "civil.last.weekday",
+          "kind": "success",
+          "input": {
+            "year": 2026,
+            "month": 9,
+            "weekday": "thu",
+            "ordinal": "last"
+          },
+          "expected": {
+            "date": "2026-09-24"
+          }
+        },
+        {
+          "id": "civil.lunar.unknown",
+          "kind": "success",
+          "input": {
+            "year": 2027,
+            "rule": "lunar",
+            "authorityOverride": null
+          },
+          "expected": {
+            "resolved": false,
+            "occurrences": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local_rules_automation_engine",
+      "donor": "Notes-Ecosistema",
+      "cases": [
+        {
+          "id": "rules.create.tag",
+          "kind": "success",
+          "input": {
+            "before": null,
+            "after": {
+              "id": "n",
+              "tags": [],
+              "deleted": false
+            },
+            "rules": [
+              {
+                "id": "r",
+                "trigger": "itemCreated",
+                "action": "addTag",
+                "value": "work"
+              }
+            ]
+          },
+          "expected": {
+            "tags": [
+              "work"
+            ],
+            "appliedRules": [
+              "r"
+            ]
+          }
+        },
+        {
+          "id": "rules.duplicate.noop",
+          "kind": "success",
+          "input": {
+            "before": {
+              "id": "n",
+              "tags": [
+                "work"
+              ]
+            },
+            "after": {
+              "id": "n",
+              "tags": [
+                "work"
+              ]
+            },
+            "rules": [
+              {
+                "id": "r",
+                "trigger": "itemUpdated",
+                "action": "addTag",
+                "value": "work"
+              }
+            ]
+          },
+          "expected": {
+            "appliedRules": []
+          }
+        },
+        {
+          "id": "rules.deleted.noop",
+          "kind": "success",
+          "input": {
+            "before": null,
+            "after": {
+              "id": "n",
+              "tags": [],
+              "deleted": true
+            },
+            "rules": [
+              {
+                "id": "r",
+                "trigger": "itemCreated",
+                "action": "pin"
+              }
+            ]
+          },
+          "expected": {
+            "appliedRules": []
+          }
+        },
+        {
+          "id": "rules.missing.target",
+          "kind": "success",
+          "input": {
+            "before": null,
+            "after": {
+              "id": "n",
+              "collectionId": "old"
+            },
+            "collections": [
+              "old"
+            ],
+            "rules": [
+              {
+                "id": "r",
+                "trigger": "itemCreated",
+                "action": "moveToCollection",
+                "value": "missing"
+              }
+            ]
+          },
+          "expected": {
+            "collectionId": "old",
+            "appliedRules": []
+          }
+        },
+        {
+          "id": "rules.invalid.action",
+          "kind": "reject",
+          "input": {
+            "before": null,
+            "after": {
+              "id": "n"
+            },
+            "rules": [
+              {
+                "id": "r",
+                "trigger": "itemCreated",
+                "action": "runShell",
+                "value": "anything"
+              }
+            ]
+          },
+          "expected": {
+            "errorCode": "UNSUPPORTED_ACTION"
+          }
+        }
+      ]
+    }
+  ]
+}

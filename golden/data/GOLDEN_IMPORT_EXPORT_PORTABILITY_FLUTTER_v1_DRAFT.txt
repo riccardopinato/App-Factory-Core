@@ -172,3 +172,33 @@ promette.
 [ ] legacy adapter version
 
 END GOLDEN IMPORT / EXPORT / PORTABILITY v0.1 DRAFT
+
+======================================================================
+INTEGRAZIONE 03/11/2026 — GPX + MARKDOWN DONORS
+======================================================================
+
+Ownership: this Golden is the ONLY cross-format staging/validation/conflict/
+atomic-commit lifecycle owner. GPX format parsing belongs to
+GOLDEN_GPX_INTEROPERABILITY_ENGINE_v1_DRAFT.txt; do not duplicate parser.
+
+Verified concrete GPX donors:
+- TrailPath@3f44ab37c0881e4315033797c451cec723e23cd2
+  lib/infrastructure/gpx/xml_gpx_service.dart
+  test/infrastructure/gpx/xml_gpx_service_test.dart
+  exact pinned CI https://github.com/riccardopinato/TrailPath/actions/runs/41536514653
+- CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4
+  lib/core/services/gpx_service.dart; test/gpx_service_test.dart
+  main CI https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742
+
+Additional Markdown portability donor:
+- Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c
+  flutter_app/lib/src/domain/markdown_interop.dart
+  flutter_app/test/interoperability_research_test.dart
+  Explicit dirty-local preservation, external merge choice and portable ZIP.
+
+Add acceptance: GPX exported/reimported with declared lossiness; multiple
+tracks/segments retain identity and sequence; zip entries cannot escape root;
+external file change cannot silently overwrite dirty local record; same-source
+idempotence remains distinct from same-content different-source detection.
+Keep import as finite operation; never turn it into background sync implicitly.
+These donor CI runs validate donor scope, not consumer staging after extraction.

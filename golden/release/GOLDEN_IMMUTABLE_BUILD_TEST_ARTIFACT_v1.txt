@@ -34,3 +34,22 @@ playbooks/BUILD_ONCE_VERIFY_MANY.json
 7. PROMOZIONE
 COPY-READY: AppLab canonical runtime fixture + Factory build-once pattern.
 CERTIFIED: secondo progetto indipendente con artifact riusato da più consumer.
+
+8. EXACT SOURCE TEST-WORKFLOW PATTERN — 03/11/2026
+Workflow commit SHA and tested source SHA are distinct artifact identities.
+For source verification via temporary CI PR:
+1. Fetch registered original SOURCE_SHA and verify its immutable Git commit.
+2. On a temporary branch add QA-only workflow; checkout ref=SOURCE_SHA.
+3. Assert git rev-parse HEAD equals SOURCE_SHA before dependency resolution.
+4. Run targeted tests AND full source suite, capture toolchain and run URL.
+5. Record {repository, sourceSHA, workflowHeadSHA, runURL, tests, conclusion}.
+6. Do not merge temporary workflow if not needed; preserve immutable run link.
+7. New consumer source requires its OWN exact-head tests after integration.
+
+Validated examples:
+TrailPath https://github.com/riccardopinato/TrailPath/actions/runs/41536514653
+FrameLab https://github.com/riccardopinato/app-fotografia/actions/runs/41536521211
+These are test evidences, not downloadable reusable build artifacts, signed
+APK certification or physical device proof. Do not confuse Git SHA with built
+artifact checksum or test-run upload. The original immutable artifact manifest
+requirements in sections 2–5 remain binding.
