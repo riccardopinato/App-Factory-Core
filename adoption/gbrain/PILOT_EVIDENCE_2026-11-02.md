@@ -23,10 +23,14 @@ Seed source: `adoption/gbrain/APP_FACTORY_SEED_INDEX_2026-11-02.md` in this cand
 
 ## Unverified gates and next steps
 
-1. **NOT VERIFIED:** WSL2/Windows shutdown → service auto-restart → tailnet/Funnel/HTTP reachability → new Chat-only MCP readback.
+1. **PASS (user-reported shutdown flow + observed post-restart readback):** after the earlier instructed WSL shutdown/restart sequence, the user shared `gbrain mcp expose --status` showing systemd active, Tailscale Funnel published, local and HTTPS tailnet health `ok`. A separate real Chat MCP `recall` immediately afterward returned the previously imported seed page and the install-check fact. The Chat assistant cannot independently verify that `wsl --shutdown` actually executed; Windows sleep/reboot recovery remains NOT VERIFIED.
 2. **NOT VERIFIED:** Restore rehearsal in an isolated root and validated content/root inventory. Do not restore over the live brain.
 3. **NOT VERIFIED:** Encrypted off-host backup and documented retention/recovery controls. The local archive alone is a single-host copy.
 4. **NOT VERIFIED:** Negative authorization tests for read-only client and private source; current `read` grant was verified at registration and successful read, but denials were not safely exercised.
 5. **NOT VERIFIED:** 20-query usefulness/freshness trial, corrections, revoked-access test, and readiness to merge this PR.
+
+## Post-restart test (user output plus real Chat connector read, 2026-11-02)
+
+The operator returned from the WSL restart test with `gbrain mcp expose --status` reporting all five checks `ok` (receipt, Funnel mapping, user service, local health, tailnet HTTPS health). In the same Chat, `mcp__GBrain__recall` returned imported `app_factory_seed_index_2026-11-02` and retained test fact #1 from the read-only source `default`. **Observed readback PASS, persistent data PASS, connectivity PASS.** Actual `wsl --shutdown` execution is asserted by the surrounding user workflow, not verified from an independent shell transcript. This is not a Windows OS reboot or sleep/resume reliability result.
 
 No MCP write permission was granted, no automatic memory writeback enabled, and no GitHub code/CI governance modified by the memory import.
