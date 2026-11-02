@@ -2507,8 +2507,11 @@
         41362874527
       ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": "2026-11-01T23:43:08Z",
-      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 4 final-head pull_request runs (4 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Final-head CI run(s) 41362874527 completed after the PR merge; do not infer all CI was green at merge. Active development time not measured."
+      "ci_observed_last_success_at": "2026-11-01T23:40:11Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 4 final-head pull_request runs (4 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Final-head CI run(s) 41362874527 completed after the PR merge; do not infer all CI was green at merge. Active development time not measured.",
+      "ci_observed_post_merge_run_ids": [
+        41362874527
+      ]
     },
     {
       "repo": "riccardopinato/Agenda-per-Anna",
@@ -2558,8 +2561,11 @@
         41367063652
       ],
       "ci_observed_final_head_rerun_attempts": 0,
-      "ci_observed_last_success_at": "2026-11-02T00:31:11Z",
-      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 4 final-head pull_request runs (4 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Final-head CI run(s) 41367063652 completed after the PR merge; do not infer all CI was green at merge. Active development time not measured."
+      "ci_observed_last_success_at": "2026-11-02T00:29:57Z",
+      "remarks": "No contemporaneous task-specific Factory SHA in PR description or sampled PR comments; v27 usage unverified. Sampled 4 final-head pull_request runs (4 success, 0 non-success), all run_attempt=1; earlier-head CI and full retries not audited. Final-head CI run(s) 41367063652 completed after the PR merge; do not infer all CI was green at merge. Active development time not measured.",
+      "ci_observed_post_merge_run_ids": [
+        41367063652
+      ]
     }
   ]
 }
