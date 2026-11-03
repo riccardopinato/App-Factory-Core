@@ -1,6 +1,6 @@
 GOLDEN CIVIL DATE RECURRENCE ENGINE
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+Stato: COPY-READY GOLDEN — PURE DART REFERENCE + DONOR CONSUMER CI
 OWNER: Gregorian date-only rule resolution, overrides and occurrence identity.
 NOT OWNER: notification permission/delivery, scheduler or app storage.
 
@@ -44,3 +44,28 @@ Prefer immutable pure CivilDate types. Combine World Days rule classes with
 Anna series and overflow logic behind a single versioned recurrence contract.
 GOLDEN_NOTIFICATION_RELIABILITY remains authoritative for actual reminders.
 END GOLDEN CIVIL DATE RECURRENCE ENGINE v1 DRAFT
+
+REFERENCE IMPLEMENTATION / ADOPTION — 03/11/2026
+Code: reference_engines/lib/src/civil_date.dart
+Reference source: App-Factory-Core@ce3d0c743a0b2cee3ac26fbc72023e479b178837
+Immutable source blob: bc85a8848dc563ea148ec979f05b1a7bc72816e3
+Reference harness: Dart analyze, regression suite and 5 portable Civil vectors
+https://github.com/riccardopinato/App-Factory-Core/actions/runs/41553706803 (SUCCESS)
+
+FIRST SOURCE-INTEGRATED CONSUMER PILOT
+World-Days@474fdc405217bf05ab28bd250b2e613c86e0506e
+Merged PR https://github.com/riccardopinato/World-Days/pull/38
+Exact PR tested head 4d5e4c8ff218a729e62f060f5dcd9422d90a10cb
+Development CI SUCCESS: https://github.com/riccardopinato/World-Days/actions/runs/41554690827
+Source byte-identical vendor: lib/domain/golden_civil_date.dart
+Real production call-site adaptation: lib/domain/recurrence_engine.dart
+Parity tests: test/domain/golden_civil_reference_adapter_test.dart
+No storage format or user-owned state changes; public RecurrenceEngine API preserved.
+The World-Days consumer is ALSO an original donor; this is proven extraction/
+reintegration but NOT E5 independent-consumer certification.
+
+PROMOTION BOUNDARY
+COPY-READY only for date-only Gregorian algorithms/rules under tested ports.
+No notification, physical device, timezone scheduler, complex recurrence sync,
+retention improvement, Play Store or independent second consumer certification.
+Master v27 and separate native notification Golden remain authoritative.

@@ -1,6 +1,6 @@
 GOLDEN GPX INTEROPERABILITY ENGINE
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+Stato: DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 OWNER: GPX 1.0/1.1 interchange parsing, validation, serializing and optional simplification.
 NOT OWNER: network route snapping, map providers, persistence commit or geometry domain.
 
@@ -46,3 +46,19 @@ Preserve one shared GPX contract, not two incompatible per-app implementations.
 Physical device/exporter compatibility is NOT certified.
 PROMOTION: implement generic adapter and execute focused consumer suite on pinned SHA.
 END GOLDEN GPX INTEROPERABILITY ENGINE v1 DRAFT
+
+REFERENCE IMPLEMENTATION — 03/11/2026
+Source: reference_engines/lib/src/gpx.dart
+Package: reference_engines/ (pure Dart, xml parser); source commit
+App-Factory-Core@ce3d0c743a0b2cee3ac26fbc72023e479b178837.
+Source blob 970b0555ab905655be4f6d221522b18cb37cc212.
+Dart analyze + full reference tests + portable GPX vectors SUCCESS
+https://github.com/riccardopinato/App-Factory-Core/actions/runs/41553706803
+Factory postmerge SUCCESS
+https://github.com/riccardopinato/App-Factory-Core/actions/runs/41553706786
+Covered: bounded GPX XML parse/export, track segments/routes/waypoints,
+WGS84 validation, explicit parse errors, time/UTF-8, round-trip, opt-in
+Ramer-Douglas-Peucker simplification preserving endpoints/protected indices.
+Not covered: provider routes/map matching, arbitrary GPX extensions,
+large third-party exports, physical-device memory, app-level import staging.
+No consumer app integrated this reference GPX engine yet; keep DRAFT.
