@@ -61,3 +61,6 @@ all 20 GPX, CivilDate, Search and Automation vectors execute against reference s
 ## Grid + deterministic performance fixtures (v28 tranche)
 - `SpatialReferenceClustering.clusterGrid` uses zoom-scaled latitude/longitude cells with an anti-meridian seam merge. This is distinct from O(n²) radius transitive grouping; grid is bounded at 10k points and does not claim point clustering within a physical meter radius.
 - `SyntheticGeoFixture` generates deterministic uniform, repeated-location, or anti-meridian data. `ReferencePerformanceHarness.measure` verifies output digest across warmup and repetitions, reports p50/p95 and immutable source SHA. These CI-run elapsed times are *not* mobile thermal, fps, battery or provider measurements.
+
+## Infinite Canvas / Ink — bounded foundation only
+- `lib/src/canvas_ink.dart`: framework-independent camera transforms, anchor-preserving zoom/pan, bounded ink and sticky-node scene codec, immutable undo/redo history. Derives geometry/ink contracts from Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c. No Flutter widgets, lasso, full note-link ownership, eraser gestures, stylus input or physical-device tests. These omissions prevent full COPY-READY classification.
