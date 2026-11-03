@@ -1,6 +1,6 @@
 GOLDEN EXPLAINABLE RECOMMENDATION ENGINE
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+Stato: DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 OWNER: deterministic offline item ranking with reason codes and diversity caps.
 NOT OWNER: editorial quality, recommendation accuracy statistics, retention
 claims or hidden AI personalization.
@@ -47,3 +47,9 @@ Extract eligibility -> scoring -> diversity/dedup -> stable sort.
 FrameLab recommendation and Wonderlog Rediscover are distinct vertical uses.
 No production uplift or independent consumer performance is asserted.
 END GOLDEN EXPLAINABLE RECOMMENDATION ENGINE v1 DRAFT
+
+REFERENCE IMPLEMENTATION / TEST EVIDENCE — 03/11/2026
+Source: reference_engines/lib/src/explainable_recommendation.dart on App-Factory-Core@a9a051d2dbb1a89ad7eacad8a3d7d293087fe182
+Exact-main Dart analyze / unit / contract regression CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41558127847 (SUCCESS)
+Verified offline eligibility filtering, explicit reason codes, stable ties and diversity caps. NOT editorial licensing authority, anniversary constraints, or independent app result quality.
+Promotion boundary: retains DRAFT until consumer call sites, adapter checks and relevant exact-head tests demonstrate real integration; an app donor's original tests are not E5 evidence.

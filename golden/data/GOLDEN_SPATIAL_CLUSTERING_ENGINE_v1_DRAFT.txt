@@ -1,6 +1,6 @@
 GOLDEN SPATIAL CLUSTERING ENGINE
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+Stato: DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 OWNER: reproducible grouping of geolocated items by zoom grid or meter radius.
 NOT OWNER: map tiles, routing, GPS permission or live provider response.
 
@@ -42,3 +42,9 @@ Keep CamperBoss grid mode and Wonderlog geographic radius mode as separately
 selectable strategies under one small interface. Do not choose algorithm
 implicitly by donor name, and do not silently claim equal clustering semantics.
 END GOLDEN SPATIAL CLUSTERING ENGINE v1 DRAFT
+
+REFERENCE IMPLEMENTATION / TEST EVIDENCE — 03/11/2026
+Source: reference_engines/lib/src/spatial_clustering.dart on App-Factory-Core@a9a051d2dbb1a89ad7eacad8a3d7d293087fe182
+Exact-main Dart analyze / unit / contract regression CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41578714172 (SUCCESS)
+Verified deterministic distance-radius connected components with anti-meridian and invalid-coordinate tests. Zoom-dependent grid strategy, map UI, large-data performance, consumer integration remain pending.
+Promotion boundary: retains DRAFT until consumer call sites, adapter checks and relevant exact-head tests demonstrate real integration; an app donor's original tests are not E5 evidence.

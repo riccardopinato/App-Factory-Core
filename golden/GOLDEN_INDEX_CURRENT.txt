@@ -1444,7 +1444,7 @@ File:
 GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt
 
 Stato:
-DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1468,7 +1468,7 @@ File:
 GOLDEN_LOCAL_RULES_AUTOMATION_ENGINE_v1_DRAFT.txt
 
 Stato:
-DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1492,7 +1492,7 @@ File:
 GOLDEN_SPATIAL_CLUSTERING_ENGINE_v1_DRAFT.txt
 
 Stato:
-DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1504,7 +1504,7 @@ File:
 GOLDEN_EXPLAINABLE_RECOMMENDATION_ENGINE_v1_DRAFT.txt
 
 Stato:
-DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1542,3 +1542,12 @@ Reference package: reference_engines/ (Dart, no Flutter UI, no network calls).
 Evidence: audits/GOLDEN_REFERENCE_ENGINES_V28_2026-11-03.md.
 Source CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41553706803
 Consumer CI: https://github.com/riccardopinato/World-Days/actions/runs/41554690827
+
+
+REFERENCE EVIDENCE RECONCILIATION — 03/11/2026
+Hybrid Local Search, Local Rules Automation, Explainable Recommendation, and
+Spatial Clustering reference implementations were verified by exact-head and
+postmerge Dart CI; Registry states updated to REFERENCE IMPLEMENTED while
+remaining DRAFT. GPX CamperBoss PR #29 adds donor-specific negative cases,
+not independent E5 reference reuse. No new COPY-READY/E5 states awarded.
+Audit: audits/REFERENCE_ENGINE_RECONCILIATION_2026-11-03.md
