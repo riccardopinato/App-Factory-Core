@@ -110,3 +110,7 @@ CAUTION: remote/cloud replication has NOT been verified; check destination sync/
 **PENDING, not yet an 8/8 recovered-memory PASS:** the standard backup script only checks the old `app_factory_seed_index_2026-11-02` and installation fact, not the eight new operational page slugs. Added `adoption/gbrain/verify_operational_backup_wsl.sh` for an isolated **re-restore of the existing encrypted file** that confirms all eight exact slugs through `GBRAIN_HOME` without modifying the live GBrain service or creating another backup. Keep this status as pending until its results arrive.
 
 **Independent off-host proof also PENDING:** operator has not yet demonstrated that D: is a detachable SSD physically stored separately from the PC, or that any cloud copy is fully synchronized. Passphrase must be kept separate from the SSD. No secret/password or plaintext archive uploaded to GitHub.
+
+## 2026-11-03 — eight-page restore follow-up
+
+The user confirmed the additional verification procedure works. Status: **USER-ATTESTED PASS**, without captured individual result lines. The test targeted the refreshed 20261103T004259Z encrypted SSD archive and was designed to restore into a separate temporary brain and recall all eight operational memory pages. Previous direct Chat MCP reads independently found the eight pages in the live database. External media detachment, post-reboot resilience, negative OAuth tests and usefulness evaluation remain pending. This follow-up does not expand runtime grants.
