@@ -73,3 +73,7 @@ bash "$HOME/gbrain-verify-operational-backup.sh" \
 At the `VERIFICA_8` prompt, enter that exact confirmation. Enter the backup's existing passphrase **only at the age terminal prompt**; do not send it to ChatGPT/GitHub. A passing run prints eight individual `PASS: restored GBrain page` lines followed by `PASS: 8/8 operational App Factory pages restored...`. This verifies those eight **database pages**, not separately reconstitution of native runtime packages, external credentials, or whole off-host disaster recovery.
 
 Caution: scratch plaintext exists briefly under `~/gbrain-private-backups/.verify-operational-backup-*`; clean up orphan temporary folders only after verifying that no current verification process is running. Confirm whether D: is physically detachable and stored apart from the PC, and retain the secret in a separate password vault. Previous encrypted copies should not be deleted before successful confirmation of the replacement.
+
+## Additional recovery result (2026-11-03)
+
+The operator confirmed the eight-page recovery script worked for the fresh encrypted SSD archive. Classification: **user-attested test success**; the eight individual terminal test lines were not supplied. The eight live GBrain pages were separately observed in Chat before this. For more granular technical acceptance, keep original terminal logs or rerun this exact test as needed. Physical SSD separation and full-device disaster recovery remain distinct gates.
