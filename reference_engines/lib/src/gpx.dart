@@ -85,7 +85,7 @@ abstract final class GpxReferenceEngine {
     late XmlDocument xml;
     try {
       xml = XmlDocument.parse(input);
-    } on XmlParserException catch (_) {
+    } on Exception catch (_) {
       throw const GpxFormatException('MALFORMED_XML', 'Malformed GPX XML');
     }
     final root = xml.rootElement;
