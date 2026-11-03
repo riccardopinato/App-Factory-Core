@@ -1,6 +1,6 @@
 GOLDEN PERFORMANCE REGRESSION FIXTURES
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / PROCESS CANDIDATE — CROSS-APP HARNESS PENDING
+Stato: DRAFT / PROCESS CANDIDATE — FIXTURE HARNESS IMPLEMENTED, CONSUMER PENDING
 OWNER: deterministic synthetic workloads and bounded CI performance alerts.
 NOT OWNER: mobile thermal, GPU/UI FPS, battery autonomy or lab certification.
 
@@ -43,3 +43,14 @@ PROMOTION
 Create reusable fixture generator and at least one independent consumer with
 repeatable machine-readable results before COPY-READY. CI stress != device QA.
 END GOLDEN PERFORMANCE REGRESSION FIXTURES v1 DRAFT
+
+PARTIAL REFERENCE HARNESS — 03/11/2026
+Source: reference_engines/lib/src/performance_fixtures.dart,
+App-Factory-Core@be73f82f3006687340b6078e18035722b0e968c4
+PR #52: https://github.com/riccardopinato/App-Factory-Core/pull/52
+Exact postmerge Dart regression: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41612802131 SUCCESS
+Tests: reference_engines/test/performance_fixtures_test.dart.
+Seeded uniform, same-location and antimeridian 0..10k geo fixtures; repeated
+measures with reference integrity digest, p50/p95; no universal thresholds.
+No independently executed external consumer/runner normalization or physical
+thermal/FPS proof. Retain DRAFT / PROCESS CANDIDATE.
