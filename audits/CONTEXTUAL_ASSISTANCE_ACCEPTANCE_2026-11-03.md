@@ -28,9 +28,39 @@ CERTIFIED GOLDEN promotion.
    Independent successful consumer evidence is E5 and does not by itself
    certify device or Store behavior.
 
-## Evidence to fill
-- Factory reference-engine exact-head CI: PENDING
-- Notes consumers exact-head and merged-main CI: PENDING
-- Anna consumers exact-head and merged-main CI: PENDING
-- Device / tablet / offline long-run proof: NOT VERIFIED
-- Public release and retention impact: NOT VERIFIED
+## Source-CI evidence verified on 4 November 2026
+
+The following evidence reconciles GitHub's completed Actions runs. It proves
+only the checks actually included in those workflows; it is not device or
+customer effectiveness evidence.
+
+| Surface | Immutable source / workflow | Result |
+| --- | --- | --- |
+| Factory main | `5ef3f121c2376450ba8f942a05dd0a9ae0316940` — [Factory validation](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41733571498), [reference-engine Dart CI](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41733571483) | SUCCESS / SUCCESS |
+| Factory PR #60 exact head | `7c6cbc26104f66d6ff4357642d934924286d0af7` — [Factory validation](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41733426848), [Dart CI](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41733426390) | SUCCESS / SUCCESS |
+| Notes main | `5845e7335ddbdad588affc4ea8f9059fcc5281f9` — [Flutter Port CI](https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41738362996), [Web Preview](https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41738362958) | SUCCESS / SUCCESS |
+| Notes PR #41 exact head | `4102fc84898bf61af4385acc1d9579ab7ff78ede` — [Flutter CI](https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41736569912), [Web Preview](https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41736569771) | SUCCESS / SUCCESS |
+| Anna main | `a383c1674365813a468a3ef2d34be27f2d6558a0` — [Development checks](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41739763949), [Web](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41739763876) | SUCCESS / SUCCESS |
+| Anna PR #221 exact head | `a870cee2557b627b073f049edfebe37cd3ead49a` — [Development](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41739215313), [Web](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41739215355), [AppLab Source Gate](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41739215308) | SUCCESS / SUCCESS / SUCCESS |
+
+Factory PR #58 (engine), Notes PRs #39 (Next Action/Inbox) and #40 (Study),
+and Anna PR #220 (realistic day/preparation) were also merged. Their follow-up
+hardening PRs #41 and #221 are included in the integrated main evidence above.
+
+The [Anna automatic signed-release workflow](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41740305682)
+concluded SUCCESS on the preflight, but its `signed-apk` job was SKIPPED.
+It supplied no release artifact and must not be reported as a fresh signed APK.
+
+## Open certification and effectiveness evidence
+
+- Factory's synthetic suggestion-quality metrics are fixture-relative only.
+  Real user precision, usefulness, retention and false-positive rates: NOT VERIFIED.
+- Cross-repository source adaptation/provenance and independent consumer E5
+  evidence are not established merely by separately green workflows. No automatic
+  promotion to CERTIFIED DONOR or CERTIFIED GOLDEN.
+- Real Android/iPhone/tablet behavior, notification/calendar provider health,
+  offline long-run, account-switch journeys and physical performance: NOT VERIFIED.
+- Installation of an APK built from the latest Anna main, Play distribution
+  and real-world impact: NOT VERIFIED.
+- Keep the candidate Golden in its existing DRAFT status until all scoped
+  promotion evidence is explicitly assembled.
