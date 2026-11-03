@@ -93,3 +93,20 @@ Operator pasted `gbrain mcp expose --status` after the eight-page import sequenc
 The Factory page explicitly records **Golden Index v27 as-of 2026-11-03** and **Golden v24 in the prior seed as historical**. The initial test fact #1 also remains returned in the connector response. Keyword-only search is still intentional (`search_degraded: keyword_only_embedding_disabled`), not a missing import. No credential, raw chat, user data or paid embedding provider was imported by the assistant.
 
 **Still PENDING after 8/8 readback:** a *new* `age` encrypted SSD export with isolated restore **of the newly imported eight pages**, verification that D: is physically separate/detachable, optional Windows sleep/reboot durability, negative scope tests, 20-query usefulness/freshness audit, and PR review/merge gates. The earlier external SSD encrypted backup predates operational v1 and should be retained until refreshed successfully. Local backup existence for this specific run was not independently audited beyond the operator's status and GBrain readback.
+
+## Refreshed encrypted SSD backup after operational v1 import (2026-11-03)
+
+Operator supplied these terminal PASS lines after the eight-memory GBrain import:
+```text
+PASS: encrypted backup decrypted, independent new-brain restore completed, seed and test fact readable.
+PASS: original GBrain service was restarted and answered local HTTP health.
+Encrypted file: .../gbrain-appfactory-postimport-20261103T004259Z.tar.gz.age
+Ciphertext checksum: .../gbrain-appfactory-postimport-20261103T004259Z.tar.gz.age.sha256
+CAUTION: remote/cloud replication has NOT been verified; check destination sync/eject independently.
+```
+
+**PASS (operator script):** a *newer* age-encrypted archive was generated after the observed 8/8 operational memory import, ciphertext checksum checked, decrypted/read back, and native GBrain restored to a separate absent `new-brain` root. Initial test seed and fact #1 both recalled, original GBrain user service healthy. This supports fresh point-in-time database recovery and cryptographic archive readability.
+
+**PENDING, not yet an 8/8 recovered-memory PASS:** the standard backup script only checks the old `app_factory_seed_index_2026-11-02` and installation fact, not the eight new operational page slugs. Added `adoption/gbrain/verify_operational_backup_wsl.sh` for an isolated **re-restore of the existing encrypted file** that confirms all eight exact slugs through `GBRAIN_HOME` without modifying the live GBrain service or creating another backup. Keep this status as pending until its results arrive.
+
+**Independent off-host proof also PENDING:** operator has not yet demonstrated that D: is a detachable SSD physically stored separately from the PC, or that any cloud copy is fully synchronized. Passphrase must be kept separate from the SSD. No secret/password or plaintext archive uploaded to GitHub.
