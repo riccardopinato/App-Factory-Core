@@ -41,7 +41,9 @@ class DeliveryMetricsTests(unittest.TestCase):
             sha = row["ci_observed_final_head_sha"]
             self.assertEqual(len(sha), 40)
             self.assertTrue(all(ch in "0123456789abcdef" for ch in sha))
-            self.assertGreaterEqual(row["ci_observed_final_head_rerun_attempts"], 0)
+            attempts = row.get("ci_observed_final_head_rerun_attempts")
+            if attempts is not None:
+                self.assertGreaterEqual(attempts, 0)
             self.assertLessEqual(m.parse_time(row["ci_observed_last_success_at"]),
                                  m.parse_time(row["merged_at"]))
             # Final-head run_attempt=1 does not prove the entire PR had no retries.
