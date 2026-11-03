@@ -97,4 +97,65 @@ abstract final class SpatialReferenceClustering {
         .toList()..sort((a, b) => a.id.compareTo(b.id));
     return List<SpatialCluster>.unmodifiable(result);
   }
+
+  /// Deterministic zoom-dependent grid buckets, distinct from meter-radius
+  /// single-linkage clustering. Longitude wraps at the antimeridian.
+  /// A seam-adjacent pair of occupied buckets in the same latitude row is
+  /// merged if both contain points near the seam; no GPS/map provider needed.
+  /// Complexity O(n log n), max 10k inputs by default.
+  static List<SpatialCluster> clusterGrid(
+    Iterable<SpatialPoint> input, {
+    required double zoom,
+    int maxPoints = 10000,
+  }) {
+    if (!zoom.isFinite || zoom < 0 || zoom > 24 ||
+        maxPoints < 1 || maxPoints > 10000) {
+      throw const SpatialReferenceException('INVALID_CONFIGURATION');
+    }
+    final pts = <SpatialPoint>[];
+    for (final p in input) {
+      if (pts.length >= maxPoints) {
+        throw const SpatialReferenceException('TOO_MANY_POINTS');
+      }
+      pts.add(p);
+    }
+    pts.sort((a, b) => a.id.compareTo(b.id));
+    for (var i = 1; i < pts.length; i++) {
+      if (pts[i].id == pts[i - 1].id) {
+        throw const SpatialReferenceException('DUPLICATE_ID');
+      }
+    }
+    if (pts.isEmpty) return const [];
+    final normalized = (zoom - 8).clamp(0.0, 8.0);
+    final cell = (0.42 / math.pow(2, normalized))
+        .clamp(0.0025, 0.42).toDouble();
+    final columns = (360.0 / cell).ceil();
+    final buckets = <String, List<SpatialPoint>>{};
+    final rows = <int>{};
+    for (final p in pts) {
+      // 180 and -180 have the same topological longitude.
+      final col = (((p.longitude + 180.0) / cell).floor()) % columns;
+      final row = ((p.latitude + 90.0) / cell).floor();
+      rows.add(row);
+      buckets.putIfAbsent('$row:$col', () => []).add(p);
+    }
+    for (final row in rows) {
+      final left = buckets['$row:0'];
+      final right = buckets['$row:${columns - 1}'];
+      if (left == null || right == null || identical(left, right)) continue;
+      final leftNear = left.any((p) => (p.longitude + 180).abs() <= cell);
+      final rightNear = right.any((p) => (p.longitude - 180).abs() <= cell);
+      if (leftNear && rightNear) {
+        left.addAll(right);
+        buckets.remove('$row:${columns - 1}');
+      }
+    }
+    final output = <SpatialCluster>[];
+    for (final group in buckets.values) {
+      group.sort((a, b) => a.id.compareTo(b.id));
+      output.add(SpatialCluster(group.first.id, List.unmodifiable(group)));
+    }
+    output.sort((a, b) => a.id.compareTo(b.id));
+    return List.unmodifiable(output);
+  }
 }
