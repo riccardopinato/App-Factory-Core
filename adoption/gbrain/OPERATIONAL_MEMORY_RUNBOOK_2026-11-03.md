@@ -1,6 +1,6 @@
 # GBrain App Factory — operational memory expansion (2026-11-03)
 
-**Status:** eight curated GitHub seed pages committed; local GBrain import **PENDING operator execution**. GitHub is always authoritative; GBrain is an explicitly sourced, *secondary*, as-of index.
+**Status (2026-11-03):** eight curated GitHub seed pages committed; all **8/8 authenticated read-only Chat MCP readbacks PASS** after operator's local import. The original import instructions below remain useful for fresh installations, not evidence of unfinished import. GitHub is always authoritative; GBrain is an explicitly sourced, *secondary*, as-of index.
 
 ## Sources and evidence
 
@@ -41,7 +41,8 @@ bash "$HOME/gbrain-import-operational.sh"
 
 - **PASS:** GitHub seed curation with exact source pins and explicit evidence labels.
 - **PASS:** Local GBrain and remote MCP read-only operation prior to this phase, prior encrypted SSD backup/restoration drill.
-- **PENDING:** operator import of these eight new pages, local 8/8 count, Chat MCP query readback, supersession warning when asking for Golden index, post-import encrypted SSD backup and restore retest.
+- **PASS (real Chat MCP):** eight exact named pages recalled from the `default` source with `origin=managed_file_import`; updated Factory v27 resolves the old Golden v24 as historical. Operator status output independently shows MCP service/tailnet healthy.
+- **PENDING:** post-import encrypted SSD backup and isolated restore retest; detachable/off-host storage proof; additional negative authorization and usefulness/freshness tests. Local import output itself was not supplied, but real MCP content is present.
 - **NOT REQUESTED:** GitHub auto-sync, GBrain remote writes, schedule/cron, paid embedding models, unrestricted chat ingestion, automatic app mutation or release.
 
 Suggested read-only retrieval tests (after import):
