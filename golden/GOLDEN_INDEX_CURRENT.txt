@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 27.0 — 03/11/2026
+Versione: 28.0 — 03/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1432,7 +1432,7 @@ File:
 GOLDEN_GPX_INTEROPERABILITY_ENGINE_v1_DRAFT.txt
 
 Stato:
-DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1453,10 +1453,10 @@ Evidence: audits/GOLDEN_ENGINE_HARVEST_2026-11-03.md.
 54. CIVIL DATE RECURRENCE ENGINE
 
 File:
-GOLDEN_CIVIL_DATE_RECURRENCE_ENGINE_v1_DRAFT.txt
+GOLDEN_CIVIL_DATE_RECURRENCE_ENGINE_v1.txt
 
 Stato:
-DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+COPY-READY GOLDEN — PURE DART REFERENCE + DONOR CONSUMER CI
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1526,4 +1526,19 @@ CONSOLIDAMENTO v27: six lanes / seven existing Golden files updated in place:
 Import/Export, Offline Packs, Backup/Recovery, Editorial Catalog, Incremental
 Indexing, and exact-source test/donor evidence. No duplicate ownership.
 Portable top-four acceptance vectors: contracts/engine_reuse_acceptance_v1.json.
-The new 8 entries are DRAFT contracts: no consumer code proven by this merge.
+The 8 v27 additions now include 1 COPY-READY Civil Date reference with donor
+consumer pilot, 1 GPX Dart reference still DRAFT, and 6 other DRAFT contracts.
+
+======================================================================
+GOLDEN FACTORY v28 — REFERENCE ENGINES / 03-11-2026
+======================================================================
+Reference package: reference_engines/ (Dart, no Flutter UI, no network calls).
+- GPX: parser/exporter/simplifier with resource limits and negative tests.
+  REFERENCE IMPLEMENTED/CI GREEN; external consumer integration pending.
+- Civil Date: Gregorian recurrence/reference and World-Days integration.
+  COPY-READY (pure Dart logic only), independent E5 consumer pending.
+- Hybrid Search and Local Automation remain DRAFT, not shipped in v28.
+- Factory Master stays v27. Golden count remains 59.
+Evidence: audits/GOLDEN_REFERENCE_ENGINES_V28_2026-11-03.md.
+Source CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41553706803
+Consumer CI: https://github.com/riccardopinato/World-Days/actions/runs/41554690827

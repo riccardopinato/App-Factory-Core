@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 NEW = {
     "gpx_interoperability_engine": "golden/data/GOLDEN_GPX_INTEROPERABILITY_ENGINE_v1_DRAFT.txt",
     "hybrid_local_search_engine": "golden/data/GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt",
-    "civil_date_recurrence_engine": "golden/data/GOLDEN_CIVIL_DATE_RECURRENCE_ENGINE_v1_DRAFT.txt",
+    "civil_date_recurrence_engine": "golden/data/GOLDEN_CIVIL_DATE_RECURRENCE_ENGINE_v1.txt",
     "local_rules_automation_engine": "golden/data/GOLDEN_LOCAL_RULES_AUTOMATION_ENGINE_v1_DRAFT.txt",
     "infinite_canvas_ink_engine": "golden/ui/GOLDEN_INFINITE_CANVAS_INK_ENGINE_v1_DRAFT.txt",
     "spatial_clustering_engine": "golden/data/GOLDEN_SPATIAL_CLUSTERING_ENGINE_v1_DRAFT.txt",
@@ -45,8 +45,8 @@ def main() -> None:
     registry = yaml.safe_load((ROOT / "golden/GOLDEN_REGISTRY.yaml").read_text(encoding="utf-8"))
     current = yaml.safe_load((ROOT / "CURRENT.yaml").read_text(encoding="utf-8"))
     index = (ROOT / "golden/GOLDEN_INDEX_CURRENT.txt").read_text(encoding="utf-8")
-    assert current["golden_index"]["version"] == 27, "expected Golden v27"
-    assert registry["index_version"] == 27
+    assert current["golden_index"]["version"] == 28, "expected Golden v28"
+    assert registry["index_version"] == 28
     registered = {entry["id"]: entry for entry in registry["goldens"]}
     require(len(registered) == len(registry["goldens"]), "duplicate registry IDs")
     require(len(registered) == 59, "expected 51 + 8 Golden entries")
@@ -54,7 +54,10 @@ def main() -> None:
         require(ident in registered, "unregistered engine: " + ident)
         entry = registered[ident]
         require(entry["path"] == rel, "wrong path: " + ident)
-        require(entry["status"].startswith("DRAFT /"), "unearned certification: " + ident)
+        if ident == "civil_date_recurrence_engine":
+            require(entry["status"].startswith("COPY-READY GOLDEN"), "consumer pilot missing: " + ident)
+        else:
+            require(entry["status"].startswith("DRAFT /"), "unearned certification: " + ident)
         doc = (ROOT / rel).read_text(encoding="utf-8")
         require("DONOR SOURCE (PINNED)" in doc, "missing provenance: " + ident)
         require(re.search(r"@[0-9a-f]{40}", doc) is not None, "missing original SHA: " + ident)
@@ -86,6 +89,10 @@ def main() -> None:
                     "invalid test vector: " + case_id)
             require(bool(case["expected"]), "missing expected results: " + case_id)
             count += 1
+    for source in ("reference_engines/lib/src/gpx.dart",
+                   "reference_engines/lib/src/civil_date.dart",
+                   "reference_engines/test/acceptance_vectors_test.dart"):
+        require((ROOT / source).is_file(), "missing reference source: " + source)
     print(f"GOLDEN ENGINE CONTRACT SHAPE: PASS ({len(NEW)} specs, "
           f"{len(UPDATED)} extensions, {count} portable acceptance vectors)")
     print("IMPORTANT: structural/fixture validation only; not consumer Dart runtime tests.")
