@@ -1444,7 +1444,7 @@ File:
 GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt
 
 Stato:
-DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
+DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, LIMITED INDEPENDENT CONSUMER VERIFIED
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1562,3 +1562,15 @@ zoom/pan/anchor, ink codec, bounded scenes and undo/redo in pure Dart;
 Flutter gesture/lasso/stylus/physical runtime and consumer missing.
 Reference-only statuses remain DRAFT. No new COPY-READY/E5 promotion.
 Evidence: audits/GOLDEN_REFERENCE_HARNESS_EXTENSIONS_2026-11-03.md
+
+
+E5 LIMITED INDEPENDENT CONSUMER / LOCAL RULES PORT — 03/11/2026
+Hybrid Local Search in Wonderlog PR #21: full head Flutter Foundation and Apple
+Build Gate PASS, merged on main 5e6db031e300f09f5b64db3e1416c62c036907c9,
+postmerge Flutter Foundation/Web PASS. This demonstrates independent reuse
+of in-memory lexical / opt-in feature-hash search only; no persisted index,
+provider or trained AI. Golden overall remains DRAFT, not CERTIFIED GOLDEN.
+Local Rules PR #55: injected transactional commit port, replay/permission
+checks and fake rollback/restart tests; Dart CI PASS, but real persistent
+storage integration and E5 remain unproven.
+Audit: audits/GOLDEN_SCOPED_CONSUMER_AND_EXECUTOR_2026-11-03.md
