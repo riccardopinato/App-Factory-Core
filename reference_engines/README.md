@@ -1,6 +1,6 @@
 # Golden Reference Engines v28 — pure Dart harness
 
-Reference package for four independently reusable algorithms. No application,
+Reference package for five independently reusable algorithms. No application,
 Flutter widget, database, provider, network or device permission is required.
 
 - `lib/src/gpx.dart`: bounded offline GPX parser/exporter/simplifier.
@@ -55,3 +55,5 @@ all 20 GPX, CivilDate, Search and Automation vectors execute against reference s
 - Local rules reference selectively adapts Notes-Ecosistema `flutter_app/lib/src/domain/workflow_automation.dart`, source-pinned at the same SHA.
 - Search security filtering is applied to each canonical result before lexical/semantic scoring. The index identity is a caller-supplied snapshot; no durable index implementation is provided.
 - Automation is a pure evaluator. It does NOT certify exactly-once persisted delivery, cross-account permissions, outbox recovery or background platform execution.
+
+- `lib/src/explainable_recommendation.dart`: immutable eligible-only scorer and deterministic per-group diversity cap based on FrameLab and Wonderlog reference behavior; does not check legal rights or publish editorial content itself.
