@@ -31,6 +31,11 @@ abstract final class SpatialReferenceClustering {
   static const double earthRadiusMeters = 6371008.8;
 
   static double distanceMeters(SpatialPoint a, SpatialPoint b) {
+    // Equivalent antimeridian and pole coordinates must have exact zero distance.
+    if (a.latitude == b.latitude &&
+        (a.longitude == b.longitude ||
+         (a.longitude.abs() == 180 && b.longitude.abs() == 180) ||
+         a.latitude.abs() == 90)) return 0;
     const radians = math.pi / 180;
     final phiA = a.latitude * radians;
     final phiB = b.latitude * radians;
@@ -54,10 +59,14 @@ abstract final class SpatialReferenceClustering {
         maxPoints < 1 || maxPoints > 10000) {
       throw const SpatialReferenceException('INVALID_CONFIGURATION');
     }
-    final points = input.toList()..sort((a, b) => a.id.compareTo(b.id));
-    if (points.length > maxPoints) {
-      throw const SpatialReferenceException('TOO_MANY_POINTS');
+    final points = <SpatialPoint>[];
+    for (final point in input) {
+      if (points.length == maxPoints) {
+        throw const SpatialReferenceException('TOO_MANY_POINTS');
+      }
+      points.add(point);
     }
+    points.sort((a, b) => a.id.compareTo(b.id));
     for (var i = 1; i < points.length; i++) {
       if (points[i].id == points[i - 1].id) {
         throw const SpatialReferenceException('DUPLICATE_ID');
