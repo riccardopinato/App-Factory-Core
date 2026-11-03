@@ -70,3 +70,30 @@ Reject NaN and +/-Infinity in independent CamperBoss GPX parser; 12 negative tes
 Postmerge Flutter CI https://github.com/riccardopinato/CamperBoss/actions/runs/41596537929 SUCCESS
 This strengthens the existing CamperBoss donor, but it does NOT import the
 reference_engines/lib/src/gpx.dart source and is NOT independent E5 reuse.
+
+INDEPENDENT CONSUMER E5 — READ-ONLY PREVIEW ONLY — 03/11/2026
+Wonderlog PR #22 https://github.com/riccardopinato/Wonderlog/pull/22
+Source pinned at PR head 439a24e02952b351bb9c1f76528575ec1830e3f1
+Merged to main via squash commit 5c3fe1c626104fb7c80d57de6a7871b968ee499a.
+Independent consumer source:
+flutter/lib/features/gpx/domain/gpx_reference.dart
+Git blob 970b0555ab905655be4f6d221522b18cb37cc212 matches
+App-Factory-Core/reference_engines/lib/src/gpx.dart exactly.
+Real Journey Detail -> local .gpx file picker -> preview; no user-data write.
+Bounds: .gpx selected input, 5MiB byte cap, strict UTF-8 validation,
+track/segment/route/waypoint counts, parsing error handling.
+Consumer regression tests: flutter/test/gpx_preview_test.dart.
+Exact PR-head Flutter Foundation/verify SUCCESS:
+https://github.com/riccardopinato/Wonderlog/actions/runs/41616436051
+Exact PR-head Apple build (iOS/macOS compile) SUCCESS:
+https://github.com/riccardopinato/Wonderlog/actions/runs/41616436017
+Postmerge CI launched (do not mark PASS until concluded):
+Flutter: https://github.com/riccardopinato/Wonderlog/actions/runs/41619659329
+Web: https://github.com/riccardopinato/Wonderlog/actions/runs/41619659481
+Apple: https://github.com/riccardopinato/Wonderlog/actions/runs/41619659397
+E5 demonstrated for reference parser use in a distinct app at source/test/CI
+level, specifically local read/validate/preview only. This supersedes the
+earlier historical statement above that no consumer was integrated.
+The GPX Golden remains DRAFT globally: no full user import, export,
+persisted pipeline, map provider, physical picker/runtime, or device evidence.
+Evidence record: audits/GOLDEN_GPX_E5_PREVIEW_CONSUMER_2026-11-03.md
