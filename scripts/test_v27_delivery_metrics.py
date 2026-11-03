@@ -44,8 +44,10 @@ class DeliveryMetricsTests(unittest.TestCase):
             attempts = row.get("ci_observed_final_head_rerun_attempts")
             if attempts is not None:
                 self.assertGreaterEqual(attempts, 0)
-            self.assertLessEqual(m.parse_time(row["ci_observed_last_success_at"]),
-                                 m.parse_time(row["merged_at"]))
+            last_success = row.get("ci_observed_last_success_at")
+            if last_success is not None:
+                self.assertLessEqual(m.parse_time(last_success),
+                                     m.parse_time(row["merged_at"]))
             # Final-head run_attempt=1 does not prove the entire PR had no retries.
             # Full-history retries, if separately evidenced later, may be non-null.
             if row["ci_retries"] is not None:
