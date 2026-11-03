@@ -62,3 +62,11 @@ Ramer-Douglas-Peucker simplification preserving endpoints/protected indices.
 Not covered: provider routes/map matching, arbitrary GPX extensions,
 large third-party exports, physical-device memory, app-level import staging.
 No consumer app integrated this reference GPX engine yet; keep DRAFT.
+
+ADDITIONAL DONOR CONSUMER HARDENING — 03/11/2026
+CamperBoss PR #29 https://github.com/riccardopinato/CamperBoss/pull/29
+main@ae30d08f23aa7e8c835927bc98127f25662d2f6a
+Reject NaN and +/-Infinity in independent CamperBoss GPX parser; 12 negative tests.
+Postmerge Flutter CI https://github.com/riccardopinato/CamperBoss/actions/runs/41596537929 SUCCESS
+This strengthens the existing CamperBoss donor, but it does NOT import the
+reference_engines/lib/src/gpx.dart source and is NOT independent E5 reuse.

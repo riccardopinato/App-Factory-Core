@@ -89,6 +89,19 @@ def main() -> None:
                     "invalid test vector: " + case_id)
             require(bool(case["expected"]), "missing expected results: " + case_id)
             count += 1
+    reference_verified = {
+        "hybrid_local_search_engine": "reference_engines/lib/src/hybrid_search.dart",
+        "local_rules_automation_engine": "reference_engines/lib/src/local_rules.dart",
+        "explainable_recommendation_engine": "reference_engines/lib/src/explainable_recommendation.dart",
+        "spatial_clustering_engine": "reference_engines/lib/src/spatial_clustering.dart",
+    }
+    for ident, path in reference_verified.items():
+        entry = registered[ident]
+        require("REFERENCE IMPLEMENTED" in entry["status"],
+                "reference evidence not reflected in registry: " + ident)
+        require((ROOT / path).is_file(), "reference implementation missing: " + path)
+        require("REFERENCE IMPLEMENTATION / TEST EVIDENCE" in (ROOT / NEW[ident]).read_text(),
+                "reference evidence missing in Golden: " + ident)
     for source in ("reference_engines/lib/src/gpx.dart",
                    "reference_engines/lib/src/civil_date.dart",
                    "reference_engines/test/acceptance_vectors_test.dart"):

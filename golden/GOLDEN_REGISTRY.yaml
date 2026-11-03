@@ -607,7 +607,7 @@ goldens:
   - id: hybrid_local_search_engine
     title: "Hybrid Local Search Engine"
     version: "1"
-    status: "DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING"
+    status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING"
     category: data
     path: golden/data/GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -631,7 +631,7 @@ goldens:
   - id: local_rules_automation_engine
     title: "Local Rules Automation Engine"
     version: "1"
-    status: "DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING"
+    status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING"
     category: data
     path: golden/data/GOLDEN_LOCAL_RULES_AUTOMATION_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -655,7 +655,7 @@ goldens:
   - id: spatial_clustering_engine
     title: "Spatial Clustering Engine"
     version: "1"
-    status: "DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING"
+    status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING"
     category: data
     path: golden/data/GOLDEN_SPATIAL_CLUSTERING_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -667,7 +667,7 @@ goldens:
   - id: explainable_recommendation_engine
     title: "Explainable Recommendation Engine"
     version: "1"
-    status: "DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING"
+    status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING"
     category: data
     path: golden/data/GOLDEN_EXPLAINABLE_RECOMMENDATION_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03

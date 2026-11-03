@@ -1,6 +1,6 @@
 GOLDEN LOCAL RULES AND AUTOMATION ENGINE
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+Stato: DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
 OWNER: offline pure domain rules and deterministic proposed changes.
 NOT OWNER: remote CI orchestration, platform background jobs or SQL transactions.
 
@@ -42,3 +42,9 @@ Use Notes WorkflowAutomations evaluation core; inject domain entity/action
 mapping. Do not imply that pure evaluation tests certify background execution,
 shared-account synchronization or recovery.
 END GOLDEN LOCAL RULES AUTOMATION ENGINE v1 DRAFT
+
+REFERENCE IMPLEMENTATION / TEST EVIDENCE — 03/11/2026
+Source: reference_engines/lib/src/local_rules.dart on App-Factory-Core@a9a051d2dbb1a89ad7eacad8a3d7d293087fe182
+Exact-main Dart analyze / unit / contract regression CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41558127847 (SUCCESS)
+Verified pure local rule evaluator: deterministic rule ordering, bounded rules, no-op/invalid actions, scope isolation. NOT durable executor, crash replay, or app feature integration.
+Promotion boundary: retains DRAFT until consumer call sites, adapter checks and relevant exact-head tests demonstrate real integration; an app donor's original tests are not E5 evidence.
