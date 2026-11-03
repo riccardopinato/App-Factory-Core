@@ -12,4 +12,5 @@ export 'src/spatial_clustering.dart';
 export 'src/performance_fixtures.dart';
 export 'src/canvas_ink.dart';
 export 'src/local_rules_executor.dart';
+export 'src/contextual_suggestions.dart';
 export 'src/suggestion_quality_fixtures.dart';
