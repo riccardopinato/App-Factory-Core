@@ -65,10 +65,31 @@ CAUTION: the passphrase is required for recovery. No plaintext copy is uploaded 
 
 **Still NOT VERIFIED:** whether Windows D: is a physically separate *detachable* SSD rather than an internal SSD or logical partition; media unplug/eject and separate physical retention; copies outside this PC or independently completed cloud replication; operating-system full shutdown/sleep-resume reliability; read-only negative authorization; 20-query usefulness/freshness review. The script did not itself test whole native harness reinstallation, OAuth token reconnection, or loss of the live machine. No passphrase or key material was shared or committed. Earlier sections describe historical interim states (first failed encryption attempt) and should not be interpreted as current final state.
 
-## Operational memory v1 prepared, not imported (2026-11-03)
+## Operational memory v1 prepared for import (interim state, 2026-11-03)
 
 Eight small, source-pinned, operator-curated project/governance Markdown pages now live in `adoption/gbrain/operational-seed-2026-11-03/`, the contents pinned to commit `32f51cc184e991e93885e73692d9f944cc5bc551`. Coverage: live Factory resolver Golden v27 (prior GBrain Golden v24 now explicitly historical), Anna's Diary, TrailPath, Notes, CamperBoss, AppLab, capability catalog and Cooking Anime. The last was reconciled to the live PR states (#41 merged, #44 draft) rather than the old roadmap's snapshot.
 
 An explicit manual WSL script `adoption/gbrain/import_operational_seed_wsl.sh` was added, with preflight/download, GitHub commit pin, interactive `IMPORTA_8`, PGLite service quiescence and backup, separate canonical-content snapshot, `--no-embed` local import, restart/health check and one-shot marker. Full instructions: `adoption/gbrain/OPERATIONAL_MEMORY_RUNBOOK_2026-11-03.md`.
 
-**What is NOT verified yet:** these eight pages have **not** been imported into the operator's GBrain database; no new Chat MCP readback proves they can be found; no post-import external encrypted backup exists yet. Chat's grant remains read-only, with no unattended data ingestion or paid embedding provider. The earlier encrypted SSD backup and isolated restore success remain valid for the older brain snapshot, not yet this new content.
+**At this preparation stage (now superseded by the readback below):** these eight pages had not yet been imported into the operator's GBrain database; no new Chat MCP readback then proved they could be found; no post-import external encrypted backup existed. Chat's grant remains read-only, with no unattended data ingestion or paid embedding provider. The earlier encrypted SSD backup and isolated restore success remain valid for the older brain snapshot, not yet this new content.
+
+## Operational memory v1: all eight MCP readbacks PASS (2026-11-03)
+
+Operator pasted `gbrain mcp expose --status` after the eight-page import sequence: receipt/Funnel/service/local /health/tailnet HTTPS all reported `ok`. This status-only output does not independently attest that the local import command was run.
+
+**Independent direct ChatGPT connector proof**: eight distinct `mcp__GBrain__recall({query: GBRAIN_OP_*_2026_11_03, source_id:"default", limit:5, return_unit:"page"})` calls from this Chat returned exact page-title matches, every one with `source_id:"default"`, `origin:"managed_file_import"`, and `evidence:"keyword_exact"`:
+
+| Query topic | Returned GBrain slug | Result |
+| --- | --- | --- |
+| Factory authority | `00_factory_resolver` | PASS |
+| Anna's Diary | `10_annas_diary` | PASS |
+| TrailPath | `20_trailpath` | PASS |
+| Notes Ecosistema | `30_notes_ecosistema` | PASS |
+| CamperBoss | `40_camperboss` | PASS |
+| AppLab boundaries | `50_app_lab_gates` | PASS |
+| Capability archive | `60_capability_reuse` | PASS |
+| Cooking Anime | `70_cooking_anime` | PASS |
+
+The Factory page explicitly records **Golden Index v27 as-of 2026-11-03** and **Golden v24 in the prior seed as historical**. The initial test fact #1 also remains returned in the connector response. Keyword-only search is still intentional (`search_degraded: keyword_only_embedding_disabled`), not a missing import. No credential, raw chat, user data or paid embedding provider was imported by the assistant.
+
+**Still PENDING after 8/8 readback:** a *new* `age` encrypted SSD export with isolated restore **of the newly imported eight pages**, verification that D: is physically separate/detachable, optional Windows sleep/reboot durability, negative scope tests, 20-query usefulness/freshness audit, and PR review/merge gates. The earlier external SSD encrypted backup predates operational v1 and should be retained until refreshed successfully. Local backup existence for this specific run was not independently audited beyond the operator's status and GBrain readback.
