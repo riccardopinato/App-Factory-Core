@@ -32,4 +32,28 @@ void main() {
     expect(() => SpatialReferenceClustering.cluster([p('a',0,0),p('b',0,1)],
       radiusMeters:100,maxPoints:1), throwsA(isA<SpatialReferenceException>()));
   });
+  test('zero-radius seam and pole equivalence', () {
+    expect(SpatialReferenceClustering.distanceMeters(
+      p('a',0,180),p('b',0,-180)), 0);
+    expect(SpatialReferenceClustering.distanceMeters(
+      p('a',90,10),p('b',90,-120)), 0);
+    expect(SpatialReferenceClustering.cluster([
+      p('a',0,180),p('b',0,-180)],radiusMeters:0).single.points.length,2);
+    expect(SpatialReferenceClustering.cluster([
+      p('a',-90,0),p('b',-90,170)],radiusMeters:0).single.points.length,2);
+  });
+  test('lazy input stops after cap plus one, without exhausting generator', () {
+    var produced = 0;
+    Iterable<SpatialPoint> unbounded() sync* {
+      while (true) {
+        produced++;
+        yield p('point_$produced', 0, 0);
+      }
+    }
+    expect(() => SpatialReferenceClustering.cluster(unbounded(),
+      radiusMeters:0,maxPoints:3),
+      throwsA(isA<SpatialReferenceException>()
+        .having((e) => e.code,'code','TOO_MANY_POINTS')));
+    expect(produced,4);
+  });
 }
