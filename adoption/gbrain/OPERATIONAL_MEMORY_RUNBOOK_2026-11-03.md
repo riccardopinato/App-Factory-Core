@@ -53,3 +53,23 @@ Suggested read-only retrieval tests (after import):
 - `GBRAIN_OP_APP_LAB_GATES_2026_11_03` → SELF_CANARY, no implicit pilot promotion.
 
 When changing any project, **re-read live GitHub**. A hit in GBrain is a dated search aid, not proof of current app state.
+
+## Fresh SSD backup created, verify the eight new pages (2026-11-03)
+
+The owner ran the previously validated age backup rehearsal **again after** importing the eight technical pages. A new encrypted `.tar.gz.age` and SHA-256 sidecar were created on the D: SSD; age decryption, independent native restore to a new root, previous initial seed/fact checks, and restart of the live GBrain service all reported PASS. The standard backup script does **not** inspect the eight newer pages inside the recovered database, so do not prematurely claim 8/8 disaster-recovery acceptance.
+
+A separate **read-only-to-live-GBrain** verification is available in `adoption/gbrain/verify_operational_backup_wsl.sh` (pinned code revision `60f91a3d11cf2db54caa7f6d0d176b40cccceb50`). It reuses the *existing ciphertext*, validates the checksum, prompts locally for the age passphrase, extracts only the native archive member, restores into a new private scratch root using `new-brain`, checks all eight expected page slugs through JSON recall, and removes scratch plaintext on normal process exit. It does not stop/restart the live user service or require paid model APIs.
+
+```bash
+curl -fLsS --proto '=https' --tlsv1.2 \
+  'https://raw.githubusercontent.com/riccardopinato/App-Factory-Core/60f91a3d11cf2db54caa7f6d0d176b40cccceb50/adoption/gbrain/verify_operational_backup_wsl.sh' \
+  -o "$HOME/gbrain-verify-operational-backup.sh"
+
+bash -n "$HOME/gbrain-verify-operational-backup.sh" &&
+bash "$HOME/gbrain-verify-operational-backup.sh" \
+  "/mnt/d/GBrainBackup/gbrain-appfactory-postimport-20261103T004259Z.tar.gz.age"
+```
+
+At the `VERIFICA_8` prompt, enter that exact confirmation. Enter the backup's existing passphrase **only at the age terminal prompt**; do not send it to ChatGPT/GitHub. A passing run prints eight individual `PASS: restored GBrain page` lines followed by `PASS: 8/8 operational App Factory pages restored...`. This verifies those eight **database pages**, not separately reconstitution of native runtime packages, external credentials, or whole off-host disaster recovery.
+
+Caution: scratch plaintext exists briefly under `~/gbrain-private-backups/.verify-operational-backup-*`; clean up orphan temporary folders only after verifying that no current verification process is running. Confirm whether D: is physically detachable and stored apart from the PC, and retain the secret in a separate password vault. Previous encrypted copies should not be deleted before successful confirmation of the replacement.
