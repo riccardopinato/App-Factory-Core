@@ -2587,7 +2587,6 @@
         41426811096,
         41426811074
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 2 final-head workflow runs: 2 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2612,7 +2611,6 @@
         41426493023,
         41426493320
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 3 final-head workflow runs: 3 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2636,7 +2634,6 @@
         41429612563,
         41429612685
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 2 final-head workflow runs: 2 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2662,7 +2659,6 @@
         41442444533,
         41442444506
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "PR body pins Factory SHA; task-specific attribution from contemporaneous PR description. Sampled 3 final-head workflow runs: 3 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2686,7 +2682,6 @@
         41443273870,
         41443273850
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 2 final-head workflow runs: 2 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2712,7 +2707,6 @@
         41452333319,
         41452333300
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 4 final-head workflow runs: 4 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2738,7 +2732,6 @@
         41457668030,
         41457667888
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 4 final-head workflow runs: 4 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2764,7 +2757,6 @@
         41544635259,
         41544635160
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 4 final-head workflow runs: 4 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2789,7 +2781,6 @@
         41545782768,
         41545782802
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 3 final-head workflow runs: 3 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2814,7 +2805,6 @@
         41547912975,
         41547912963
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 3 final-head workflow runs: 3 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2840,7 +2830,6 @@
         41549717620,
         41549717623
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 4 final-head workflow runs: 4 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     },
@@ -2865,7 +2854,6 @@
         41586587166,
         41586586189
       ],
-      "ci_observed_final_head_rerun_attempts": null,
       "ci_observed_last_success_at": null,
       "remarks": "No task-specific Factory SHA proven in PR body; v27 usage unverified. Sampled 3 final-head workflow runs: 3 success; earlier-head CI, retries, and pre-merge completion not audited. Active development time not measured."
     }
