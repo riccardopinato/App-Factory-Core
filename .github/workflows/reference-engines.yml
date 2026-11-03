@@ -1,0 +1,44 @@
+name: Golden Reference Engines — Dart CI
+on:
+  push:
+    branches: [main, 'feat/**']
+    paths:
+      - "reference_engines/**"
+      - "contracts/engine_reuse_acceptance_v1.json"
+      - ".github/workflows/reference-engines.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "reference_engines/**"
+      - "contracts/engine_reuse_acceptance_v1.json"
+      - ".github/workflows/reference-engines.yml"
+permissions:
+  contents: read
+jobs:
+  reference-dart:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: reference_engines
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Show tested source identity
+        run: |
+          git rev-parse HEAD
+          git status --short
+      - name: Setup Flutter/Dart (pinned action)
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: "3.47.3"
+          channel: stable
+          cache: true
+      - name: Dart dependency resolution
+        run: dart pub get
+      - name: Dart static analysis
+        run: dart analyze --fatal-infos .
+      - name: Run full reference engine tests and portable vectors
+        run: dart test --reporter expanded

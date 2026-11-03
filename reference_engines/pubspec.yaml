@@ -1,0 +1,11 @@
+name: golden_reference_engines
+description: Pure Dart reference implementations for App Factory Golden engines.
+version: 0.1.0
+publish_to: none
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+dependencies:
+  xml: ^6.6.1
+dev_dependencies:
+  test: ^1.25.15
+  lints: ^5.1.1
