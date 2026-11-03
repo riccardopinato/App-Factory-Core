@@ -42,3 +42,25 @@ No MCP write permission was granted, no automatic memory writeback enabled, and 
 - `age -p` then reported `passphrases didn't match`. The `tar` writer reported broken pipe/exit 141 after the reader exited. **No successful encrypted backup was proven, no isolated restore was executed, and off-host backup status remains NOT VERIFIED.**
 - Improved the rehearsal script to explain automatic passphrase generation and remove only its own incomplete ciphertext on nonzero encryption exit. Operator must re-download reviewed pinned revision; first downloaded script is unchanged on their machine.
 - No passphrase/credentials are included in this evidence record.
+
+## Encrypted backup and isolated restore: PASS (2026-11-03, operator output)
+
+The operator subsequently reran the fixed, commit-pinned manual backup rehearsal script and shared its final, nonsecret terminal output:
+
+```text
+PASS: encrypted backup decrypted, independent new-brain restore completed, seed and test fact readable.
+PASS: original GBrain service was restarted and answered local HTTP health.
+Encrypted file: /mnt/d/GBrainBackup/gbrain-appfactory-postimport-20261103T001238Z.tar.gz.age
+Ciphertext checksum: /mnt/d/GBrainBackup/gbrain-appfactory-postimport-20261103T001238Z.tar.gz.age.sha256
+CAUTION: remote/cloud replication has NOT been verified; check destination sync/eject independently.
+CAUTION: the passphrase is required for recovery. No plaintext copy is uploaded by this script.
+```
+
+**Supported acceptance:**
+- PASS (operator-run script): a fresh native PGLite archive was encrypted with age and written to the selected SSD-backed Windows D: mount.
+- PASS (operator-run script): encrypted file was read back and successfully decrypted; ciphertext checksum generation/check were required by the script.
+- PASS (operator-run script): independent `gbrain backup restore --mode new-brain` to a new temporary root, isolated from the live database; CLI recall found the imported App Factory seed and installation test fact.
+- PASS (operator-run script): original systemd user service restarted and local HTTP health responded.
+- PASS (separate assistant action): GBrain Chat-only read-only MCP `recall` after this report again returned `app_factory_seed_index_2026-11-02` and fact #1 from source `default`.
+
+**Still NOT VERIFIED:** whether Windows D: is a physically separate *detachable* SSD rather than an internal SSD or logical partition; media unplug/eject and separate physical retention; copies outside this PC or independently completed cloud replication; operating-system full shutdown/sleep-resume reliability; read-only negative authorization; 20-query usefulness/freshness review. The script did not itself test whole native harness reinstallation, OAuth token reconnection, or loss of the live machine. No passphrase or key material was shared or committed. Earlier sections describe historical interim states (first failed encryption attempt) and should not be interpreted as current final state.
