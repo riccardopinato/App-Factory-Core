@@ -1480,7 +1480,7 @@ File:
 GOLDEN_INFINITE_CANVAS_INK_ENGINE_v1_DRAFT.txt
 
 Stato:
-DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+DRAFT / CANDIDATE — CORE VIEWPORT/INK IMPLEMENTED, UI + CONSUMER PENDING
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1516,7 +1516,7 @@ File:
 GOLDEN_PERFORMANCE_REGRESSION_FIXTURES_v1_DRAFT.txt
 
 Stato:
-DRAFT / PROCESS CANDIDATE — CROSS-APP HARNESS PENDING
+DRAFT / PROCESS CANDIDATE — FIXTURE HARNESS IMPLEMENTED, CONSUMER PENDING
 
 Scope:
 Source-pinned reusable engine contract, integration and consumer test gates.
@@ -1551,3 +1551,14 @@ postmerge Dart CI; Registry states updated to REFERENCE IMPLEMENTED while
 remaining DRAFT. GPX CamperBoss PR #29 adds donor-specific negative cases,
 not independent E5 reference reuse. No new COPY-READY/E5 states awarded.
 Audit: audits/REFERENCE_ENGINE_RECONCILIATION_2026-11-03.md
+
+
+GOLDEN v28 REFERENCE HARNESS EXTENSIONS — 03/11/2026
+Spatial Clustering: both transitive radius and zoom-grid strategies implemented
+and Dart tests PASS; no consumer yet. Performance Fixtures: deterministic seeded
+geo generator and integrity-checked p50/p95 benchmark evidence implemented;
+independent consumer/phone measurement missing. Infinite Canvas: camera,
+zoom/pan/anchor, ink codec, bounded scenes and undo/redo in pure Dart;
+Flutter gesture/lasso/stylus/physical runtime and consumer missing.
+Reference-only statuses remain DRAFT. No new COPY-READY/E5 promotion.
+Evidence: audits/GOLDEN_REFERENCE_HARNESS_EXTENSIONS_2026-11-03.md

@@ -1,6 +1,6 @@
 GOLDEN INFINITE CANVAS AND INK ENGINE
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / CANDIDATE — EXTRACTION + CONSUMER TEST PENDING
+Stato: DRAFT / CANDIDATE — CORE VIEWPORT/INK IMPLEMENTED, UI + CONSUMER PENDING
 OWNER: Flutter logical canvas transforms, drawing primitives, node interaction,
 bounded reversible operations and versioned scene codec.
 NOT OWNER: app note lifecycle, storage, native sharing or universal accessibility.
@@ -46,3 +46,13 @@ Do not transplant Notes' large monolithic whiteboard screen wholesale.
 First extract coordinate math + bounded scene ops/codec, then optional Flutter
 widgets. Own persistence, app theme and accessibility remain consumer adapters.
 END GOLDEN INFINITE CANVAS INK ENGINE v1 DRAFT
+
+PARTIAL REFERENCE EXTRACTION — 03/11/2026
+Source: reference_engines/lib/src/canvas_ink.dart, App-Factory-Core@9adf94ed73e17b88806bbf4ef1d0d976ba244ff4
+PR #53: https://github.com/riccardopinato/App-Factory-Core/pull/53
+Exact PR tests: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41613296577 SUCCESS
+Tests: reference_engines/test/canvas_ink_test.dart (camera center and
+inverse transform, anchored 2x pinch/pan, bounded 20k ink-point encode/decode,
+scene limit/fail closed, undo/redo). This is only the pure Dart scene core.
+Still missing: Flutter canvas widget/gesture pipeline, lasso, stylus, eraser,
+consumers, 50k point device stress, migration of actual Notes documents.

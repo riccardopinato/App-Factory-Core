@@ -102,6 +102,17 @@ def main() -> None:
         require((ROOT / path).is_file(), "reference implementation missing: " + path)
         require("REFERENCE IMPLEMENTATION / TEST EVIDENCE" in (ROOT / NEW[ident]).read_text(),
                 "reference evidence missing in Golden: " + ident)
+    partial_reference_verified = {
+        "infinite_canvas_ink_engine": "reference_engines/lib/src/canvas_ink.dart",
+        "performance_regression_fixtures": "reference_engines/lib/src/performance_fixtures.dart",
+    }
+    for ident, path in partial_reference_verified.items():
+        entry = registered[ident]
+        require("IMPLEMENTED" in entry["status"],
+                "reference implementation status stale: " + ident)
+        require((ROOT / path).is_file(), "missing reference module: " + path)
+        require("PARTIAL REFERENCE" in (ROOT / NEW[ident]).read_text(),
+                "missing scoped partial certification: " + ident)
     for source in ("reference_engines/lib/src/gpx.dart",
                    "reference_engines/lib/src/civil_date.dart",
                    "reference_engines/test/acceptance_vectors_test.dart"):
