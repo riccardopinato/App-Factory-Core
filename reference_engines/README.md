@@ -57,3 +57,7 @@ all 20 GPX, CivilDate, Search and Automation vectors execute against reference s
 - Automation is a pure evaluator. It does NOT certify exactly-once persisted delivery, cross-account permissions, outbox recovery or background platform execution.
 
 - `lib/src/explainable_recommendation.dart`: immutable eligible-only scorer and deterministic per-group diversity cap based on FrameLab and Wonderlog reference behavior; does not check legal rights or publish editorial content itself.
+
+## Grid + deterministic performance fixtures (v28 tranche)
+- `SpatialReferenceClustering.clusterGrid` uses zoom-scaled latitude/longitude cells with an anti-meridian seam merge. This is distinct from O(n²) radius transitive grouping; grid is bounded at 10k points and does not claim point clustering within a physical meter radius.
+- `SyntheticGeoFixture` generates deterministic uniform, repeated-location, or anti-meridian data. `ReferencePerformanceHarness.measure` verifies output digest across warmup and repetitions, reports p50/p95 and immutable source SHA. These CI-run elapsed times are *not* mobile thermal, fps, battery or provider measurements.
