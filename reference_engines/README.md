@@ -1,10 +1,12 @@
 # Golden Reference Engines v28 — pure Dart harness
 
-Reference package for two independently reusable algorithms. No application,
+Reference package for four independently reusable algorithms. No application,
 Flutter widget, database, provider, network or device permission is required.
 
 - `lib/src/gpx.dart`: bounded offline GPX parser/exporter/simplifier.
 - `lib/src/civil_date.dart`: Gregorian date-only recurrence and identity.
+- `lib/src/hybrid_search.dart` and `lib/src/semantic_embeddings.dart`: local lexical + optional deterministic feature-hash retrieval; no neural LLM.
+- `lib/src/local_rules.dart`: pure deterministic item mutation proposals; no background execution.
 - `test/`: positive/negative algorithm regression and portable consumer
   vectors from `../contracts/engine_reuse_acceptance_v1.json`.
 
@@ -46,5 +48,10 @@ platform/native behavior separately. These boundaries follow Master v27 and
 Golden E3/E5 donor policy.
 
 The `contracts/engine_reuse_acceptance_v1.json` file provides fixture vectors:
-only GPX and CivilDate are executed by this harness; Search/Automation remain
-unimplemented reference engines.
+all 20 GPX, CivilDate, Search and Automation vectors execute against reference sources. Search and automation are not yet integrated in consumer apps.
+
+## 2026-11-03 extension provenance
+- Hybrid search exact source embedding donor Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c `flutter_app/lib/src/domain/semantic_embeddings.dart`, byte-identical blob de96c2dbf0da2c0c4695308efd5b9bbab25b75f5; retrieval adapter inspired by Notes UnifiedRetrievalService and CamperBoss local search, but reimplemented as a pure no-I/O port.
+- Local rules reference selectively adapts Notes-Ecosistema `flutter_app/lib/src/domain/workflow_automation.dart`, source-pinned at the same SHA.
+- Search security filtering is applied to each canonical result before lexical/semantic scoring. The index identity is a caller-supplied snapshot; no durable index implementation is provided.
+- Automation is a pure evaluator. It does NOT certify exactly-once persisted delivery, cross-account permissions, outbox recovery or background platform execution.
