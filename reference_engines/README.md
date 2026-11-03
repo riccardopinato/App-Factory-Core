@@ -64,3 +64,7 @@ all 20 GPX, CivilDate, Search and Automation vectors execute against reference s
 
 ## Infinite Canvas / Ink — bounded foundation only
 - `lib/src/canvas_ink.dart`: framework-independent camera transforms, anchor-preserving zoom/pan, bounded ink and sticky-node scene codec, immutable undo/redo history. Derives geometry/ink contracts from Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c. No Flutter widgets, lasso, full note-link ownership, eraser gestures, stylus input or physical-device tests. These omissions prevent full COPY-READY classification.
+
+## Local Rules transactional port — 2026-11-03
+- `LocalRulesReferenceExecutor.execute` proposes and commits deterministic changes via an injected `LocalRuleCommitPort` that MUST atomically store state plus idempotency receipt. Tests simulate replay after a fresh executor/port, concurrent duplicate delivery, permission denial, fingerprint mismatch and failure-before-commit.
+- The test port is an in-memory transaction model only. The package intentionally ships NO SQLite/Drift implementation or native worker. No crash-durability or device-background claim without an independent app adapter and evidence.
