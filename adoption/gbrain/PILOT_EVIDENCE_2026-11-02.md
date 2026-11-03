@@ -64,3 +64,11 @@ CAUTION: the passphrase is required for recovery. No plaintext copy is uploaded 
 - PASS (separate assistant action): GBrain Chat-only read-only MCP `recall` after this report again returned `app_factory_seed_index_2026-11-02` and fact #1 from source `default`.
 
 **Still NOT VERIFIED:** whether Windows D: is a physically separate *detachable* SSD rather than an internal SSD or logical partition; media unplug/eject and separate physical retention; copies outside this PC or independently completed cloud replication; operating-system full shutdown/sleep-resume reliability; read-only negative authorization; 20-query usefulness/freshness review. The script did not itself test whole native harness reinstallation, OAuth token reconnection, or loss of the live machine. No passphrase or key material was shared or committed. Earlier sections describe historical interim states (first failed encryption attempt) and should not be interpreted as current final state.
+
+## Operational memory v1 prepared, not imported (2026-11-03)
+
+Eight small, source-pinned, operator-curated project/governance Markdown pages now live in `adoption/gbrain/operational-seed-2026-11-03/`, the contents pinned to commit `32f51cc184e991e93885e73692d9f944cc5bc551`. Coverage: live Factory resolver Golden v27 (prior GBrain Golden v24 now explicitly historical), Anna's Diary, TrailPath, Notes, CamperBoss, AppLab, capability catalog and Cooking Anime. The last was reconciled to the live PR states (#41 merged, #44 draft) rather than the old roadmap's snapshot.
+
+An explicit manual WSL script `adoption/gbrain/import_operational_seed_wsl.sh` was added, with preflight/download, GitHub commit pin, interactive `IMPORTA_8`, PGLite service quiescence and backup, separate canonical-content snapshot, `--no-embed` local import, restart/health check and one-shot marker. Full instructions: `adoption/gbrain/OPERATIONAL_MEMORY_RUNBOOK_2026-11-03.md`.
+
+**What is NOT verified yet:** these eight pages have **not** been imported into the operator's GBrain database; no new Chat MCP readback proves they can be found; no post-import external encrypted backup exists yet. Chat's grant remains read-only, with no unattended data ingestion or paid embedding provider. The earlier encrypted SSD backup and isolated restore success remain valid for the older brain snapshot, not yet this new content.
