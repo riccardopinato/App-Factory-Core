@@ -48,3 +48,16 @@ Source: reference_engines/lib/src/local_rules.dart on App-Factory-Core@a9a051d2d
 Exact-main Dart analyze / unit / contract regression CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41558127847 (SUCCESS)
 Verified pure local rule evaluator: deterministic rule ordering, bounded rules, no-op/invalid actions, scope isolation. NOT durable executor, crash replay, or app feature integration.
 Promotion boundary: retains DRAFT until consumer call sites, adapter checks and relevant exact-head tests demonstrate real integration; an app donor's original tests are not E5 evidence.
+
+OPTIONAL COMMIT PORT REFERENCE IMPLEMENTED — 03/11/2026
+Source: reference_engines/lib/src/local_rules_executor.dart
+Core PR https://github.com/riccardopinato/App-Factory-Core/pull/55
+Postmerge SHA 077172920a02cfe45a56d4eba9fa3077d36954e5
+Dart CI https://github.com/riccardopinato/App-Factory-Core/actions/runs/41617613583 SUCCESS
+Tests: reference_engines/test/local_rules_executor_test.dart
+Scoped: injected LocalRuleCommitPort contract, caller-provided SHA-256 event digest,
+authorized scope, durable idempotency receipt obligation; fake-memory
+transaction port tests replay after instance recreation, duplicates, rollback,
+permission denial and conflicting event revision. Real durable SQLite/Drift
+adapter, cross-process recovery and background executor NOT implemented.
+Retain DRAFT until app integration with an actually atomic persistent store.

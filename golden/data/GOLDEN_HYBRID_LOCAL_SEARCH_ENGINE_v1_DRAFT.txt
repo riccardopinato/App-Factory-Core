@@ -1,6 +1,6 @@
 GOLDEN HYBRID LOCAL SEARCH ENGINE
 Versione: 1.0 — 03/11/2026
-Stato: DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING
+Stato: DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, LIMITED INDEPENDENT CONSUMER VERIFIED
 OWNER: stable lexical + optional semantic ranking of local documents.
 NOT OWNER: canonical data persistence, privacy policy, full-text provider or cloud AI.
 
@@ -57,3 +57,22 @@ Source: reference_engines/lib/src/hybrid_search.dart and semantic_embeddings.dar
 Exact-main Dart analyze / unit / contract regression CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41558127847 (SUCCESS)
 Verified in-memory lexical + deterministic feature-hash ranking, visibility/deletion filters, source-revision mismatch rejection, and lexical fallback. NOT persistent indexing, trained NLP, or consumer integration.
 Promotion boundary: retains DRAFT until consumer call sites, adapter checks and relevant exact-head tests demonstrate real integration; an app donor's original tests are not E5 evidence.
+
+E5 SCOPED INDEPENDENT CONSUMER EVIDENCE — 03/11/2026
+Independent consumer: Wonderlog is NOT one of the source donors (Notes-Ecosistema and CamperBoss).
+Source vendor blobs: hybrid_search.dart 95de49c3e531451b8984461223a6a5fb1d9cc1f1 and
+semantic_embeddings.dart de96c2dbf0da2c0c4695308efd5b9bbab25b75f5 (byte-identical).
+Production calls: flutter/lib/features/search/domain/search_engine.dart,
+flutter/lib/features/search/presentation/global_search_page.dart
+Opt-in related terms in six locales; default partial/diacritic search unchanged.
+PR https://github.com/riccardopinato/Wonderlog/pull/21 (merged)
+Exact head 6ea8e43f1be3e07634c1e792e734f4af3704f476
+Head Flutter Foundation CI https://github.com/riccardopinato/Wonderlog/actions/runs/41612729813 SUCCESS
+Head Apple Build CI https://github.com/riccardopinato/Wonderlog/actions/runs/41612729810 SUCCESS
+Main commit 5e6db031e300f09f5b64db3e1416c62c036907c9
+Postmerge Flutter Foundation https://github.com/riccardopinato/Wonderlog/actions/runs/41615273697 SUCCESS
+Postmerge Web Preview https://github.com/riccardopinato/Wonderlog/actions/runs/41615273698 SUCCESS
+In-scope E5: ephemeral lexical / feature-hash search with native Journey/Memory adapter and UI;
+Out of scope: persistent index lifecycle, cross-account secure sharing, LLM model quality,
+large-scale recall/latency, physical phone/Play provider and Apple postmerge CI while pending.
+Keep global engine DRAFT until the complete port contract is demonstrated.
