@@ -8,3 +8,4 @@ export 'src/hybrid_search.dart';
 export 'src/local_rules.dart';
 export 'src/semantic_embeddings.dart';
 export 'src/explainable_recommendation.dart';
+export 'src/spatial_clustering.dart';
