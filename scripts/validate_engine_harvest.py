@@ -93,7 +93,7 @@ def main() -> None:
                    "reference_engines/lib/src/civil_date.dart",
                    "reference_engines/test/acceptance_vectors_test.dart"):
         require((ROOT / source).is_file(), "missing reference source: " + source)
-    print(f"GOLDEN ENGINE CONTRACT SHAPE: PASS ({len(NEW)} specs, 
+    print(f"GOLDEN ENGINE CONTRACT SHAPE: PASS ({len(NEW)} specs, "
           f"{len(UPDATED)} extensions, {count} portable acceptance vectors)")
     print("IMPORTANT: structural/fixture validation only; not consumer Dart runtime tests.")
 
