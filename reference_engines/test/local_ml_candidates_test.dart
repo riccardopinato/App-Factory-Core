@@ -57,7 +57,7 @@ void main() {
         authorizedCandidates: const [],
         minimumJaccard: double.nan,
       ), throwsA(isA<OnDeviceMathError>()));
-      expect(() => LocalMinHashLshReference.shingles('x' * 4001),
+      expect(() => LocalMinHashLshReference.shingles(List.filled(4001, 'x').join()),
           throwsA(isA<OnDeviceMathError>()));
     });
 
@@ -128,7 +128,7 @@ void main() {
         maxTrainingRows: 3,
       ), throwsA(isA<OnDeviceMathError>()));
       expect(() => LocalNaiveBayesReference.classify(
-        document: 'x' * 4001,
+        document: List.filled(4001, 'x').join(),
         authorizedTrainingRows: training,
       ), throwsA(isA<OnDeviceMathError>()));
     });
