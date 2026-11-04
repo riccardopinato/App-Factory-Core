@@ -76,3 +76,17 @@ In-scope E5: ephemeral lexical / feature-hash search with native Journey/Memory 
 Out of scope: persistent index lifecycle, cross-account secure sharing, LLM model quality,
 large-scale recall/latency, physical phone/Play provider and Apple postmerge CI while pending.
 Keep global engine DRAFT until the complete port contract is demonstrated.
+
+ML10 OPTIONAL DIMENSIONALITY / DEDUP BOUNDARY — 04/11/2026
+- Core@02f3cd94f0ee6f19bc06fc0cb329fdf5398a739b contains
+  centered PCA-like or uncentered TruncatedSVD-like low-rank power projection
+  in reference_engines/lib/src/lightweight_ml_p3.dart (<=400x24), with
+  https://github.com/riccardopinato/App-Factory-Core/actions/runs/41838055370 PASS.
+- Projection is OPTIONAL; not a trained semantic encoder, not ingredient
+  recognition and no verified 90% search speed improvement. Preserve lexical
+  baseline, model-version/feature validity, Recall@K and privacy index lifecycle.
+- MinHash/LSH for lexical duplicate review is separately referenced in
+  GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT; do not conflate it
+  with this Golden's retrieval ranking.
+- Current hybrid-search status and independent Wonderlog consumer E5
+  evidence remain unchanged. No full hybrid engine promotion.
