@@ -64,3 +64,37 @@ It supplied no release artifact and must not be reported as a fresh signed APK.
   and real-world impact: NOT VERIFIED.
 - Keep the candidate Golden in its existing DRAFT status until all scoped
   promotion evidence is explicitly assembled.
+
+## Evidence update — 4 November 2026 (post audit remediation)
+
+The preceding historical snapshot remains valid **for its pinned commits**, but
+the earlier signed-APK SKIPPED statement is superseded **for the newer Anna
+build +122 only**.
+
+- Factory main `0638862b92a4a64ae380d20a2ea6ba19a4bc76b2` includes
+  QA matrix [PR #62](https://github.com/riccardopinato/App-Factory-Core/pull/62):
+  50 IT/EN synthetic source gate scenarios, plus deterministic 500/5000-candidate
+  fixtures; pure Dart reference CI and Factory validation succeeded. No
+  device performance, product precision, independent E5 or E3 proof inferred.
+- Notes main `4ecc3e340b9ef94a872da48490f0d61c1adc3bdb` integrates
+  source lifecycle safety [#43](https://github.com/riccardopinato/Notes-Ecosistema/pull/43),
+  workload/WIP [#45](https://github.com/riccardopinato/Notes-Ecosistema/pull/45),
+  feedback-controlled Smart Inbox [#44](https://github.com/riccardopinato/Notes-Ecosistema/pull/44)
+  and explicit Markdown study Q/A [#52](https://github.com/riccardopinato/Notes-Ecosistema/pull/52),
+  with their exact-head Flutter + Web required checks successful before merge.
+  These are source/CI facts, not field-effectiveness receipts.
+- Anna main `ab5360b78187a643e2b101be21e6951441406059` from
+  [#223](https://github.com/riccardopinato/Agenda-per-Anna/pull/223) passed
+  Development, UI5, Web and Android Calendar bridge checks. Automatic
+  [signed ARM64 run 41755099241](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41755099241)
+  has **both release-preflight SUCCESS and signed-apk / build SUCCESS**.
+  Manifest records version `1.0.0-rc.6+122`, package
+  `com.riccardopinato.agenda_per_anna`, artifact SHA256
+  `1e3b81dc698f7cf4246b160a8f4d3372466eb0dc94c9a832edb0546c15fd8e9d`,
+  signing cert SHA256
+  `31BE63155C831F062238179EC9B8F19D1C16A925BED1D526BC7E6A4712C62DC3`.
+  This is **ARTIFACT_BUILT**, not PHYSICAL PASS.
+- Physical in-place installation/data continuity, multi-device authorization,
+  user-value measurement, E3 Donor and E5 independent-consumer reuse remain
+  **PENDING**. Privacy V2 PR #215 remains DRAFT/BLOCKED; Google Calendar #199
+  remains PAUSED. No Store deployment or Golden promotion authorized.
