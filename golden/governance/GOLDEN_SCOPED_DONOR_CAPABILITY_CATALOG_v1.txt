@@ -106,6 +106,33 @@ Reuse the existing GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt, not a parallel
 trusted evidence owner. Note: External Review Watchdog scheduled FAIL
 observed 01–02 Nov; a scheduled workflow's green is not all-gates-green.
 
+APP FACTORY CORE: BOUNDED ON-DEVICE CLASSICAL ML MATHEMATICS (E3 DONOR)
+Donor: riccardopinato/App-Factory-Core@ae76e4267b67fe0e913d650d8e89a010dd235a5c
+Code: reference_engines/lib/src/on_device_algorithms.dart
+Export: reference_engines/lib/golden_reference_engines.dart
+Direct tests: reference_engines/test/on_device_algorithms_test.dart
+Exact-main CI: https://github.com/riccardopinato/App-Factory-Core/commit/ae76e4267b67fe0e913d650d8e89a010dd235a5c/checks
+reference-dart SUCCESS; validate SUCCESS.
+HARVEST: three source-scoped, framework-independent, no-network mathematical
+routines with no new dependencies or bundled models:
+- CAP-0152: LocalFuzzyReference.distance/search, Levenshtein on Unicode code
+  points, at most 64 code points/token, bounded candidates, duplicate IDs
+  fail-closed, exclude marked hidden/deleted records before scoring. Caller
+  MUST enforce authoritative visibility and revision/ACL; no grapheme NFC.
+- CAP-0160: LocalTfidfReference.keywords, local sparse lexical TF-IDF with
+  caller-supplied authorized corpus, max 5000 docs and 20k chars/doc,
+  deterministic keyword scores. NOT trained semantic embeddings; no writes.
+- CAP-0158: LocalAdaptiveSignalReference.step, finite EWMA baseline,
+  upward-edge consecutive-sample activation and hysteresis reset. No
+  native listeners, binary proximity adaptation or low-power sampler.
+GRADE: E3 CERTIFIED SCOPED DONOR (source mathematics + direct tests + exact
+main CI). NOT a new copy-ready GOLDEN; no independent consumer E5, no
+hardware/OEM E4, no app feature, no Play release or battery-autonomy claim.
+Consumers: Notes for fuzzy/TF-IDF, Pocket Guard/Phone Guard/FocuSense for
+signal features; each needs pinned vendor file, its own exact-head tests,
+permission filtering and device sampling QA where applicable.
+Provenance: audits/ML23_PURE_REFERENCE_DONOR_CANDIDATES_2026-11-04.md
+
 REUSE TARGETS
 Anna local data -> Notes/Wonderlog/CamperBoss.
 Phone Guard policy -> Pocket/Tabletop/180FlipCharge/Luminous Circle.

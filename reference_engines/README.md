@@ -75,3 +75,6 @@ all 20 GPX, CivilDate, Search and Automation vectors execute against reference s
 - Tests: test/on_device_algorithms_test.dart, deterministic source vectors including hidden/deleted notes, duplicate IDs, Unicode and invalid sensor values.
 - Does not perform learned embeddings, TextRank, POS tagging, GPS processing, platform sampling, permission checks, app writes or binary model downloads. Code-point edit distance is NOT grapheme-aware normalization.
 - Reference source is a CANDIDATE pending exact-head Dart CI and independent consumer verification. The existing Golden Index/Registry and all DRAFT classifications remain unchanged; adoption requires separate scoped Golden admission.
+
+## 2026-11-04 verified direct donor scope
+- PR #67 merged at ae76e4267b67fe0e913d650d8e89a010dd235a5c; exact-source Dart tests and Factory validation succeeded. Reuse only CAP-0152, CAP-0160 and CAP-0158 mathematical contracts as scoped donor E3; independent consumer and OEM remain pending. Do not call any of the three Golden E5 or label them production app features.
