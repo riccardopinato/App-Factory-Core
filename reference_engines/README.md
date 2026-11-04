@@ -75,3 +75,14 @@ all 20 GPX, CivilDate, Search and Automation vectors execute against reference s
 - Tests: test/on_device_algorithms_test.dart, deterministic source vectors including hidden/deleted notes, duplicate IDs, Unicode and invalid sensor values.
 - Does not perform learned embeddings, TextRank, POS tagging, GPS processing, platform sampling, permission checks, app writes or binary model downloads. Code-point edit distance is NOT grapheme-aware normalization.
 - Reference source is a CANDIDATE pending exact-head Dart CI and independent consumer verification. The existing Golden Index/Registry and all DRAFT classifications remain unchanged; adoption requires separate scoped Golden admission.
+
+## ML10 second intake — bounded candidate engines (04/11/2026)
+
+- `lib/src/local_ml_candidates.dart`: first-party pure Dart **MinHash + 16x4-band LSH** candidate shortlist for two-token shingles, with exact Jaccard reranking and deterministic ID ties. Candidate CAP-0116 (duplicate review); no note merge, index persistence or embedding.
+- Same file: **Multinomial Naive Bayes** on explicit pre-labeled authorized text examples, Laplace smoothed class log scores and abstention if classes or recognized vocabulary are insufficient. Candidate note/task labels (CAP-0160/CAP-0092); not a certified sentiment, emotion or health model.
+- `test/local_ml_candidates_test.dart`: same-text ties, Unicode normalization, hidden/deleted exclusion, duplicate IDs, bounded candidate/training/document rejection, class prediction and abstention.
+- Both require the caller to enforce account ACL, approved source snapshot, role/revision checks, consent and final save. An exposed `visible` boolean does not replace ACL.
+- Complexity: MinHash signatures computed on demand for <=500 candidate rows, <=300 tokens/document; LSH may omit valid similar documents. Naive Bayes uses <=300 training rows, <=300 tokens/document; log score margin **is not calibrated probability**.
+- No third-party weights, code, runtime, network or new packages. Derivation: original first-party reference implementations of established public algorithms, not a vendored sklearn/datasketch binary.
+- CI E3 is **not established until** the exact-head reference-dart workflow succeeds. A passing pure-Dart test does not certify Flutter UI integration, OEM, battery, real text quality, copyright/license status of any future model or Golden promotion.
+- Future evaluation: 0/1/100/500 candidate performance, p50/p95, exact Jaccard recall baseline, adversarial short text, multilingual tagged confusion matrix and optional consumer with explicit user review.
