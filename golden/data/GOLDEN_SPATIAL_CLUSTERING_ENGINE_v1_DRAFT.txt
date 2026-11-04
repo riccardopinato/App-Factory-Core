@@ -57,3 +57,14 @@ Zoom-scaled deterministic grid bucketing with anti-meridian seam merge,
 invalid/duplicate guard, stable IDs, 10,000-POI test. Both grid and radius
 strategy implemented. No map UI, independent app integration, real GPS
 or physical FPS proof. Retains DRAFT / CONSUMER PENDING.
+
+ML10 P3 HIERARCHICAL CLUSTERING CROSSWALK — 04/11/2026
+- Core reference_engines/lib/src/lightweight_ml_p3.dart at
+  02f3cd94f0ee6f19bc06fc0cb329fdf5398a739b provides <=80 item
+  average-linkage agglomerative clustering on approved numeric feature vectors;
+  main Dart CI https://github.com/riccardopinato/App-Factory-Core/actions/runs/41838055370 PASS.
+- This is NOT a replacement for geodesic radius or 10k-POI zoom grid source.
+  HAC does NOT own map tile interactions, GPS updates, or anti-meridian math.
+  Prefer existing grid/radius modes for actual maps; consider HAC only for
+  a small bounded content/topic grouping after real product/UX proof.
+- Retains DRAFT / CONSUMER PENDING; no phone map FPS or Golden E5 evidence.

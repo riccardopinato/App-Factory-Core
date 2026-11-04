@@ -53,3 +53,17 @@ Source: reference_engines/lib/src/explainable_recommendation.dart on App-Factory
 Exact-main Dart analyze / unit / contract regression CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41558127847 (SUCCESS)
 Verified offline eligibility filtering, explicit reason codes, stable ties and diversity caps. NOT editorial licensing authority, anniversary constraints, or independent app result quality.
 Promotion boundary: retains DRAFT until consumer call sites, adapter checks and relevant exact-head tests demonstrate real integration; an app donor's original tests are not E5 evidence.
+
+ML10 P2 OPTIONAL NUMERIC REFERENCES — 04/11/2026 (DRAFT UNCHANGED)
+- Core@02f3cd94f0ee6f19bc06fc0cb329fdf5398a739b:
+  reference_engines/lib/src/lightweight_ml_p1_p2.dart, Euclidean kNN on
+  normalized allowed numeric features (<=1000x32), plus fitted binary logistic
+  reference requiring 10–2000 labeled examples. Exact-main Dart CI:
+  https://github.com/riccardopinato/App-Factory-Core/actions/runs/41838055370 PASS.
+- The deterministic rule-based recommendation Golden continues to own
+  eligibility, explanations, forbidden ingredient exclusions and diversity.
+  kNN is an OPTIONAL candidate ordering subscore, NOT a substitute for
+  source licensing, allergies, canonical ingredient constraints or role ACL.
+  Logistic sigmoid output is NOT a valid user-facing risk percentage
+  without real outcome labels and independent calibration.
+- No app consumer or quality uplift certified by this new math. Keep DRAFT.
