@@ -1,0 +1,39 @@
+# ML10 — portfolio score reconciliation and scoped donor evidence
+Date: 2026-11-04
+Authority: CURRENT.yaml Master v27 / Golden Index v28 / Registry v2.
+Factory baseline after reference implementation: riccardopinato/App-Factory-Core@02f3cd94f0ee6f19bc06fc0cb329fdf5398a739b
+State: **reference mathematics verified at exact-source E3; app consumer and physical E4/E5 pending unless explicitly identified. No new certified Golden.**
+
+## Core immutable source and proof
+- ML10 MinHash+LSH and Multinomial NB reference: Core main `f5dad948dcc1096864cd4b9db84b9f0d86c9cb03`, `reference_engines/lib/src/local_ml_candidates.dart`, tests `reference_engines/test/local_ml_candidates_test.dart`, [merged PR #71](https://github.com/riccardopinato/App-Factory-Core/pull/71), [Dart main CI PASS](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41833497699), [Factory validation PASS](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41833497896). Candidate mapping CAP-0116 notes lexical duplicate reviewer and CAP-0160/CAP-0092 explicit labels; NB log margin is **not** calibrated probability or mood measurement.
+- Core P1/P2/P3 references: main `02f3cd94f0ee6f19bc06fc0cb329fdf5398a739b`, `reference_engines/lib/src/lightweight_ml_p1_p2.dart`, `reference_engines/lib/src/lightweight_ml_p3.dart`; direct test `reference_engines/test/lightweight_ml_p1_p3_test.dart`; [merged PR #73](https://github.com/riccardopinato/App-Factory-Core/pull/73), [Dart main CI PASS](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41838055370), [Factory validation PASS](https://github.com/riccardopinato/App-Factory-Core/actions/runs/41838055475).
+- P1 EWMA, Holt, Holt-Winters; P2 kNN and binary logistic; P3 bounded LOF, seeded isolation-path proxy, supplied-parameters HMM Viterbi, <=80 HAC, power-iteration PCA/uncentered SVD projection. All run without a new runtime package, network or model weights. They are **reference functions**, not validated trained models or app product functions.
+- Older CAP-0158 `reference_engines/lib/src/on_device_algorithms.dart` EWMA+hysteresis was reused, not replaced; Pocket-Guard [PR #6](https://github.com/riccardopinato/Pocket-Guard/pull/6) introduced *shadow observation only*, [PR #7](https://github.com/riccardopinato/Pocket-Guard/pull/7) physical QA protocol (not device test), [postmerge CI PASS](https://github.com/riccardopinato/Pocket-Guard/actions/runs/41822147632). Never promote the math reference to the alarm owner.
+
+## Portfolio-wide audit source of truth
+- Catalog repository: [Idee-app-Archivi-riferimenti PR #37](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/pull/37), merged main `9aa5296218f79bc4072a70028ffcb718fe7f2902`.
+- [Complete audit](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/blob/9aa5296218f79bc4072a70028ffcb718fe7f2902/12-CAPABILITY-E-IMPLEMENTAZIONI/AUDIT_COMPLETO_ML10_2026-11-04.md); [all CAP CSV](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/blob/9aa5296218f79bc4072a70028ffcb718fe7f2902/12-CAPABILITY-E-IMPLEMENTAZIONI/AUDIT_COMPLETO_CAP_ML10_2026-11-04.csv); [all app-CAP CSV](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/blob/9aa5296218f79bc4072a70028ffcb718fe7f2902/12-CAPABILITY-E-IMPLEMENTAZIONI/AUDIT_COMPLETO_APP_ML10_2026-11-04.csv); [canonical registry](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/blob/9aa5296218f79bc4072a70028ffcb718fe7f2902/12-CAPABILITY-E-IMPLEMENTAZIONI/REGISTRO_CAPABILITY.json).
+- **160/160** CAP score recomputed, **385/385** app-CAP effort estimates recomputed for 48 app/idea names. Changes: **4 scores** (`CAP-0046` 78→74, `CAP-0116` 79→83, `CAP-0132` 69→65, `CAP-0153` 78→80), **20 effort estimates**, **3 partial source states** (Notes CAP-0152/CAP-0160, Pocket CAP-0158). Other values unchanged for lack of new attributable evidence.
+- Live repository HEAD inventory compared 31/31 previously listed repositories; 17 of 48 app/idea names outside repo inventory **not source audited**. No claim of 48 code/runtime audits. The catalogue score is a heuristic **priority**, and integration ease is an estimate, not probability or measured speed.
+- [Exact PR-head catalogue validation PASS](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/actions/runs/41839891607), source `31de155cfd678d5b7919e3433b455e9087336bda`. Postmerge main [run](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/actions/runs/41840018450) verify its actual result independently.
+- The catalogue is the owner of app-CAP scores and individual source-state classifications. This Core ledger is evidence/provenance, **not** a second scoring SSOT.
+
+## Consumer scope (source-specific)
+- Notes existing fuzzy CAP-0152 and TF-IDF CAP-0160 were merged in [Notes PR #56](https://github.com/riccardopinato/Notes-Ecosistema/pull/56) and subsequently checked in combined Notes main [Flutter CI PASS](https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41822558551). They do not constitute end-to-end E5 for ACL/source-revision/write safety.
+- [Notes PR #57](https://github.com/riccardopinato/Notes-Ecosistema/pull/57) is a prospective scoped *read-only* MinHash duplicate preview, current integration and exact-head CI are independent gates. **Do not call CAP-0116 complete:** full merge, attachment references, rollback, role/account switching and saved write safety remain open.
+- Pocket signal is SHADOW ONLY, never a certified alarm decision. Hardware OEM, sampling and false positives remain unverified.
+- Vision and audio LiteRT/CoreML are **not implemented or admitted**: no specific model checkpoint/license, weights, preprocessing, Android ABI/Apple runtime and real-device latency/quality. Avoid unlicensed package/model copying and no claim of <1 MB.
+
+## Admittance and Golden boundaries
+- E0: conceptual capability; E1: source pinned; E2: tests present; E3: tested *scope only* on exact source. Pure function CI E3 does **not** certify a built-in product feature or physical sensors.
+- E4: native/OEM/thermal/battery, permission/provider and store conditions, where applicable, must be tested on target devices.
+- E5: independent successful consumer with ACL, user approval, write/replay/undo where relevant, quality/latency and exact-head CI. Golden promotion requires its own focused PR and gate; no automatic registry/index update.
+- Relevant DRAFT Golden to extend only when justified: `golden/data/GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt`, `golden/data/GOLDEN_EXPLAINABLE_RECOMMENDATION_ENGINE_v1_DRAFT.txt`, `golden/data/GOLDEN_SPATIAL_CLUSTERING_ENGINE_v1_DRAFT.txt`, `golden/native/GOLDEN_SENSOR_FUSION_ANDROID_v1_DRAFT.txt`. Hybrid Search stays independently scoped; preserve existing consumer evidence.
+- Tracking: [Core issue #72](https://github.com/riccardopinato/App-Factory-Core/issues/72). No Golden Index/Registry/Current version change; Master remains v27. No app release, no auto writes, no new cloud/model dependency.
+
+## Deferred verification
+1. Check PR #57 Flutter exact-head APK/AAB/Web CI and review before merging, then main CI; register only observed user-triggered duplicate preview, not the reversible merge.
+2. Compare MinHash/LSH versus full Jaccard recall and false positives for 100/300/500 authorized docs; report CPU p50/p95 and memory by device. Current bounded consumer is <=300 rows, not 5000.
+3. Labeled out-of-sample NB/kNN/logistic/HMM classification metrics; no automatic mood or context labeling without permission and consent.
+4. For Holt-Winters and anomaly scores compare baseline and real series/drift. Sensor LOF/Isolation/HMM must not change alarm policy without OEM E4.
+5. For model-based vision/audio use exact model-card/checksum/license and on-device QA before any release; prohibit invented model size or accuracy.
