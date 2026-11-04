@@ -66,4 +66,10 @@ ML10 P2 OPTIONAL NUMERIC REFERENCES — 04/11/2026 (DRAFT UNCHANGED)
   source licensing, allergies, canonical ingredient constraints or role ACL.
   Logistic sigmoid output is NOT a valid user-facing risk percentage
   without real outcome labels and independent calibration.
-- No app consumer or quality uplift certified by this new math. Keep DRAFT.
+- Scoped numeric kNN consumer: TasteAI PR #2 merged
+  https://github.com/riccardopinato/TasteAI/pull/2;
+  main fc2f80e43f91b441863f8e3a77ae7196251979cf;
+  exact-head Flutter and Apple CI https://github.com/riccardopinato/TasteAI/actions/runs/41842952989 PASS.
+  Read-only related recipes from canonical catalog with hard Premium eligibility,
+  a shared-ingredient/recipe-time reason; NOT a full generalized Golden E5,
+  NOT allergen or anti-waste accuracy proof. Keep DRAFT.
