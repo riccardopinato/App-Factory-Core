@@ -305,10 +305,13 @@ ML10 REFERENCE EVIDENCE — 04/11/2026 (NO STATUS PROMOTION)
   Core@f5dad948dcc1096864cd4b9db84b9f0d86c9cb03; direct test file
   reference_engines/test/local_ml_candidates_test.dart; exact-main
   https://github.com/riccardopinato/App-Factory-Core/actions/runs/41833497699 PASS.
-- Scoped app integration candidate: Notes-Ecosistema PR #57
-  https://github.com/riccardopinato/Notes-Ecosistema/pull/57, ephemeral
-  300-note source-authorized review / two-note preview / open-editor only.
-  This PR is NOT an end-to-end working merge/undo gate or E5 certification.
+- Scoped app consumer merged: Notes-Ecosistema PR #57
+  https://github.com/riccardopinato/Notes-Ecosistema/pull/57,
+  source e10b058a43e3b238e59eb946138540287756d784;
+  exact-head CI https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41840769025 PASS;
+  main CI https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41842795654 PASS.
+  <=300 filtered authorized notes; two-source read-only preview/open-editor.
+  No diff/keep-variant/merge/undo, no final writer ACL or E5 certification.
 - Under the current design, approximate LSH may miss candidates and lexical
   Jaccard may mistake boilerplate for identity. Display explicit source fields,
   never auto-delete/replace/merge, and do not infer personal-note equivalence.
