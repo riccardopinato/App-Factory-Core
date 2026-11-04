@@ -1,6 +1,6 @@
 # ML23 — immutable source and consumer evidence ledger
 Date: 2026-11-04
-Status: E3 Core verified; independent consumer gates pending exact-head completion.
+Status: E3 Core verified; Pocket exact-head/postmerge SUCCESS; Notes exact-head analyze/unit SUCCESS and artifact pipeline pending. Full E5/hardware gates remain open.
 Authority: App Factory Master v27 / Golden Index v28 / Single-Donor Capability Admission.
 
 ## Canonical source (immutable)
@@ -30,7 +30,7 @@ Production call: flutter_app/lib/src/data/unified_retrieval_service.dart
 Tests: flutter_app/test/ml23_local_text_consumer_test.dart
 Adaptation: only text classes extracted; native sensor portion omitted; bounded read-only active-note projection; typo results supplement existing canonical lexical/semantic retrieval, not a new search index.
 Limitations: caller owns account ACL, text authorization, source revision, visibility; algorithm is codepoint-based, not grapheme-normalized. Only one token query >=4 runes; 5000-note cap; no new persisted index. Existing broader semantic matching remains separate.
-Consumer exact-head test: PENDING. E5: NOT YET VERIFIED.
+Notes head: b620e103ec47d534b98d75eb0e49fdfc84972803. Flutter analyze and unit tests PASS within https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41819248489; full artifact CI pipeline pending. Full E5: NOT YET VERIFIED.
 
 ## CAP-0160 — sparse lexical TF-IDF reference
 
@@ -43,7 +43,7 @@ UI call: flutter_app/lib/src/screens/editor_screen.dart (canonical tag editor).
 Tests: flutter_app/test/ml23_local_text_consumer_test.dart
 Adaptation: small multilingual stopword set; proposals exclude already assigned tags; user selects chip, then confirms through the existing editor Save; no auto-writer.
 Limits: caller must supply only visible/authorized corpus; suggestions are lexical, not user intent and never an authority to mutate data. Source revision/ACL at final Save remains the canonical writer's responsibility.
-Consumer exact-head test: PENDING. E5: NOT YET VERIFIED.
+Notes head: b620e103ec47d534b98d75eb0e49fdfc84972803. Flutter analyze and unit tests PASS within https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/41819248489; full artifact CI pipeline pending. Full E5: NOT YET VERIFIED.
 
 ## CAP-0158 — EWMA/hysteresis sensor transition math
 
@@ -57,14 +57,16 @@ Production adapter: app/src/main/java/com/riccardopinato/pocketguard/detection/S
 Tests: AdaptiveSignalMathTest.kt; SmartProtectionEngineTest.kt
 Adaptation: Kotlin translation of the scalar state transition; live protected-session motion samples observed in diagnostic shadow mode; resets on owner verification, forceState or config changes.
 Limits: NOT in alarm decision path. No false-positive, OEM, low-power or lifecycle certification. Existing alert behavior remains untouched.
-Consumer exact-head test: PENDING. E5 for math consumption: NOT YET VERIFIED; E4 physical: BLOCKED PENDING USER DEVICE.
+Consumer head: 5025e4e77cb3d3ffe973ea9f072fd1965cbd6455; exact-head https://github.com/riccardopinato/Pocket-Guard/actions/runs/41818870618 SUCCESS.
+Merged Pocket main: 1b10e39801190c3356cc5077973b2c6c96b9c8e0; postmerge https://github.com/riccardopinato/Pocket-Guard/actions/runs/41819397260 SUCCESS.
+Scoped math-only shadow consumer evidence: code + unit + production call PASS. Generic protection E5 and E4 physical: NOT VERIFIED.
 
 ## Evidence acceptance matrix
 
 | Gate | Core | Notes | Pockara |
 |---|---|---|---|
 | E1 immutable source | PASS | proposal pinned above | proposal pinned above |
-| E3 direct source tests + CI | PASS | exact-head pending | exact-head pending |
+| E3 direct source tests + CI | PASS | analyze/unit PASS; full artifact CI pending | PR and postmerge SUCCESS |
 | E5 independent production call + tests | not applicable | pending | pending, shadow only |
 | Hardware / OEM / battery | not claimed | device UI pending | multi-OEM field matrix pending |
 | Store/release certified | not claimed | no | no |
