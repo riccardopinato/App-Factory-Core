@@ -16,3 +16,5 @@ export 'src/contextual_suggestions.dart';
 export 'src/suggestion_quality_fixtures.dart';
 export 'src/on_device_algorithms.dart';
 export 'src/local_ml_candidates.dart';
+export 'src/lightweight_ml_p1_p2.dart';
+export 'src/lightweight_ml_p3.dart';
