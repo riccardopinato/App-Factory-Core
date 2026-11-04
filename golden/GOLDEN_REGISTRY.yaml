@@ -1,5 +1,5 @@
 registry_version: 2
-updated_at: 2026-11-03
+updated_at: 2026-11-04
 master_version: "27"
 index_version: 28
 goldens:
@@ -443,7 +443,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt
     migrated_at: 2026-10-22
-    last_content_reviewed_at: 2026-10-22
+    last_content_reviewed_at: 2026-11-04
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -503,7 +503,7 @@ goldens:
     category: native
     path: golden/native/GOLDEN_SENSOR_FUSION_ANDROID_v1_DRAFT.txt
     migrated_at: 2026-10-27
-    last_content_reviewed_at: 2026-10-27
+    last_content_reviewed_at: 2026-11-04
     last_provider_verified_at: null
     provider_sensitive: true
     freshness_status: NEEDS_REVIEW
@@ -611,7 +611,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
-    last_content_reviewed_at: 2026-11-03
+    last_content_reviewed_at: 2026-11-04
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -659,7 +659,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_SPATIAL_CLUSTERING_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
-    last_content_reviewed_at: 2026-11-03
+    last_content_reviewed_at: 2026-11-04
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
@@ -671,7 +671,7 @@ goldens:
     category: data
     path: golden/data/GOLDEN_EXPLAINABLE_RECOMMENDATION_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
-    last_content_reviewed_at: 2026-11-03
+    last_content_reviewed_at: 2026-11-04
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
