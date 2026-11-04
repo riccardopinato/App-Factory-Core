@@ -68,3 +68,10 @@ all 20 GPX, CivilDate, Search and Automation vectors execute against reference s
 ## Local Rules transactional port — 2026-11-03
 - `LocalRulesReferenceExecutor.execute` proposes and commits deterministic changes via an injected `LocalRuleCommitPort` that MUST atomically store state plus idempotency receipt. Tests simulate replay after a fresh executor/port, concurrent duplicate delivery, permission denial, fingerprint mismatch and failure-before-commit.
 - The test port is an in-memory transaction model only. The package intentionally ships NO SQLite/Drift implementation or native worker. No crash-durability or device-background claim without an independent app adapter and evidence.
+
+## Candidate ML23 reusable math — 04/11/2026
+
+- src/on_device_algorithms.dart: bounded Unicode-codepoint Levenshtein and read-only filtered fuzzy token ranking (candidate CAP-0152); corpus-local sparse TF-IDF keyword suggestions (CAP-0160); bounded EWMA+hysteresis upward signal transition (CAP-0158).
+- Tests: test/on_device_algorithms_test.dart, deterministic source vectors including hidden/deleted notes, duplicate IDs, Unicode and invalid sensor values.
+- Does not perform learned embeddings, TextRank, POS tagging, GPS processing, platform sampling, permission checks, app writes or binary model downloads. Code-point edit distance is NOT grapheme-aware normalization.
+- Reference source is a CANDIDATE pending exact-head Dart CI and independent consumer verification. The existing Golden Index/Registry and all DRAFT classifications remain unchanged; adoption requires separate scoped Golden admission.
