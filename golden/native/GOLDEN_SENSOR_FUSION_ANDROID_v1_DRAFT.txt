@@ -181,3 +181,22 @@ COPY-READY richiede almeno due device families e one full app integration with
 green CI + false-positive matrix.
 
 END GOLDEN SENSOR FUSION ANDROID v0.1 DRAFT
+
+ML10 / ML23 SENSOR REFERENCE EVIDENCE — 04/11/2026 (DRAFT UNCHANGED)
+- CAP-0158 adaptive EWMA+hysteresis mathematical reference remains the
+  shadow-only Pocket-Guard PR #6 implementation; PR #7 records 15-scenario
+  physical QA protocol but no executed OEM device test.
+  https://github.com/riccardopinato/Pocket-Guard/pull/6
+  https://github.com/riccardopinato/Pocket-Guard/pull/7
+  https://github.com/riccardopinato/Pocket-Guard/actions/runs/41822147632 PASS.
+- Core@02f3cd94f0ee6f19bc06fc0cb329fdf5398a739b adds bounded LOF
+  cohort outlier scoring, seeded isolation-path proxy and HMM Viterbi decoder:
+  reference_engines/lib/src/lightweight_ml_p3.dart;
+  https://github.com/riccardopinato/App-Factory-Core/actions/runs/41838055370 PASS.
+- LOF/Isolation outlier score MUST NOT suppress a genuine tamper/removal spike.
+  HMM is NOT user activity recognition until independently labeled transition
+  and emission tables and OEM confusion/battery/failure tests exist.
+- NEVER activate these algorithms as alarm triggers or change sensor sampling
+  from the mere existence of math reference CI. E4 battery/false positive/
+  crash/lifecycle on at least two device families and non-authorized source
+  controls remain mandatory. No global or platform promotion.
