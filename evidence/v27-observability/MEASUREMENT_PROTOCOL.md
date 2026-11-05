@@ -268,3 +268,26 @@ update only when evidence materially changes, plus a report when the user asks. 
 ChatGPT invisibly between chats. The central ledger can be updated as new
 source-backed data becomes available; do not treat scheduled summary text
 as a substitute for a persisted PR record.
+
+## Daily collection: 5 November 2026 (UTC source timestamps)
+
+Append **14** previously unrecorded merged Anna's Diary PRs (#228–#244,
+excluding numbers with no merged PR in this observation window) to the
+previous **137** (total **151**). The other six monitored app/tool repos
+(AppLab, CamperBoss, TrailPath, Cooking Anime, Design-App, World Days)
+showed no new merged PRs since the previous ledger cutoff.
+
+Only Anna #228 contains a full pinned Factory SHA and a contemporaneous
+implementation-task PR description sufficient for **declared** v27 adoption;
+the other 13 are conservatively `post_v27_unverified`. A shortened Factory
+SHA, documentation/release-only baseline or date alone is insufficient.
+The sampled **43** final-head workflow runs reported success; this does not
+establish that all required checks finished before merge, or that there
+were no failed earlier revisions, re-runs or other CI. Full-lifecycle
+`ci_retries` and `ci_green_at` remain null.
+
+The four CAP implementation PRs #229/#230/#231/#232 have overlapping
+open-to-merge windows, and #233 overlaps #234/#235. Parallel PR windows
+must not be counted as independent active-work samples. Historic Anna
+active time remains `ACTIVE_WORK_BASELINE_NOT_MEASURED`. No causal v27
+speedup is demonstrated.
