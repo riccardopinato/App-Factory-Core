@@ -562,6 +562,34 @@
         "command directory",
         "available commands"
       ]
+    },
+    {
+      "id": "portfolio-commands",
+      "path": "v27/candidate/modules/84-portfolio-commands.txt",
+      "selectors": [
+        "stato",
+        "prossimo",
+        "allinea",
+        "roadmap",
+        "backlog",
+        "riprendi",
+        "golden",
+        "donor",
+        "factory",
+        "adotta factory",
+        "nuova app",
+        "ci",
+        "test",
+        "ripara",
+        "apk",
+        "store",
+        "peso",
+        "sicurezza",
+        "ux",
+        "monetizzazione",
+        "mercato",
+        "idee"
+      ]
     }
   ],
   "task_routes": [
@@ -575,7 +603,8 @@
       "modules": [
         "command-legend"
       ],
-      "public_command": true
+      "public_command": true,
+      "command_trigger": "Legenda"
     },
     {
       "id": "mockup_interactive",
@@ -594,7 +623,11 @@
       "golden_ids": [
         "app_shell_responsive_visual_qa"
       ],
-      "public_command": true
+      "public_command": true,
+      "command_aliases": [
+        "Mock-up interattivi",
+        "Integra i mock-up"
+      ]
     },
     {
       "id": "factory_update",
@@ -621,7 +654,8 @@
       "modules": [
         "audit-roadmap"
       ],
-      "public_command": true
+      "public_command": true,
+      "command_trigger": "Audit"
     },
     {
       "id": "capability_sync",
@@ -642,7 +676,8 @@
         "scoped_donor_capability_catalog",
         "roadmap_fast_continuous_maintenance"
       ],
-      "public_command": true
+      "public_command": true,
+      "command_trigger": "Capability"
     },
     {
       "id": "roadmap",
@@ -821,6 +856,283 @@
       "golden_ids": [
         "immutable_build_test_artifact"
       ]
+    },
+    {
+      "id": "cmd_stato",
+      "terms": [
+        "stato"
+      ],
+      "modules": [
+        "audit-roadmap",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Stato",
+      "public_command": true
+    },
+    {
+      "id": "cmd_prossimo",
+      "terms": [
+        "prossimo"
+      ],
+      "modules": [
+        "audit-roadmap",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Prossimo",
+      "public_command": true
+    },
+    {
+      "id": "cmd_allinea",
+      "terms": [
+        "allinea"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Allinea",
+      "public_command": true
+    },
+    {
+      "id": "cmd_roadmap",
+      "terms": [
+        "roadmap"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Roadmap",
+      "public_command": true
+    },
+    {
+      "id": "cmd_backlog",
+      "terms": [
+        "backlog"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Backlog",
+      "public_command": true
+    },
+    {
+      "id": "cmd_riprendi",
+      "terms": [
+        "riprendi"
+      ],
+      "modules": [
+        "audit-roadmap",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Riprendi",
+      "public_command": true
+    },
+    {
+      "id": "cmd_golden",
+      "terms": [
+        "golden"
+      ],
+      "modules": [
+        "foundation-reuse",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Golden",
+      "public_command": true
+    },
+    {
+      "id": "cmd_donor",
+      "terms": [
+        "donor"
+      ],
+      "modules": [
+        "foundation-reuse",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Donor",
+      "public_command": true
+    },
+    {
+      "id": "cmd_factory",
+      "terms": [
+        "factory"
+      ],
+      "modules": [
+        "authority-execution",
+        "factory-policy-sync",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Factory",
+      "public_command": true
+    },
+    {
+      "id": "cmd_adotta_factory",
+      "terms": [
+        "adotta factory"
+      ],
+      "modules": [
+        "authority-execution",
+        "foundation-reuse",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Adotta Factory",
+      "public_command": true
+    },
+    {
+      "id": "cmd_nuova_app",
+      "terms": [
+        "nuova app"
+      ],
+      "modules": [
+        "authority-execution",
+        "foundation-reuse",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Nuova app",
+      "public_command": true
+    },
+    {
+      "id": "cmd_ci",
+      "terms": [
+        "ci"
+      ],
+      "modules": [
+        "delivery-verification",
+        "portfolio-commands"
+      ],
+      "command_trigger": "CI",
+      "public_command": true
+    },
+    {
+      "id": "cmd_test",
+      "terms": [
+        "test"
+      ],
+      "modules": [
+        "delivery-verification",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Test",
+      "public_command": true
+    },
+    {
+      "id": "cmd_ripara",
+      "terms": [
+        "ripara"
+      ],
+      "modules": [
+        "authority-execution",
+        "delivery-verification",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Ripara",
+      "public_command": true
+    },
+    {
+      "id": "cmd_apk",
+      "terms": [
+        "apk"
+      ],
+      "modules": [
+        "authority-execution",
+        "delivery-verification",
+        "portfolio-commands"
+      ],
+      "command_trigger": "APK",
+      "public_command": true
+    },
+    {
+      "id": "cmd_store",
+      "terms": [
+        "store"
+      ],
+      "modules": [
+        "delivery-verification",
+        "monetization-ai",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Store",
+      "public_command": true
+    },
+    {
+      "id": "cmd_peso",
+      "terms": [
+        "peso"
+      ],
+      "modules": [
+        "experience",
+        "delivery-verification",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Peso",
+      "public_command": true
+    },
+    {
+      "id": "cmd_sicurezza",
+      "terms": [
+        "sicurezza"
+      ],
+      "modules": [
+        "identity-native",
+        "data-offline",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Sicurezza",
+      "public_command": true
+    },
+    {
+      "id": "cmd_ux",
+      "terms": [
+        "ux"
+      ],
+      "modules": [
+        "experience",
+        "portfolio-commands"
+      ],
+      "command_trigger": "UX",
+      "public_command": true
+    },
+    {
+      "id": "cmd_monetizzazione",
+      "terms": [
+        "monetizzazione"
+      ],
+      "modules": [
+        "monetization-ai",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Monetizzazione",
+      "public_command": true
+    },
+    {
+      "id": "cmd_mercato",
+      "terms": [
+        "mercato"
+      ],
+      "modules": [
+        "audit-roadmap",
+        "monetization-ai",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Mercato",
+      "public_command": true
+    },
+    {
+      "id": "cmd_idee",
+      "terms": [
+        "idee"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Idee",
+      "public_command": true
     }
   ],
   "router": {
