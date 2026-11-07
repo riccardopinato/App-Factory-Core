@@ -1767,6 +1767,7 @@ Preserve separate technical evidence app_states and product decision (approved/d
 Diff incrementally against pinned repo HEAD, do not re-audit unchanged sources without reason, preserve all other app-CAP links, no-op if nothing changed. Invalid generator/CI or missing GitHub access is BLOCKED, never fabricated success.
 END CAPABILITY SYNC ROUTER
 
+
 ===== V27 POLICY UPDATE: command-legend =====
 V27 LEGGENDA — PUBLIC COMMAND INDEX (2026-11-07)
 Exact command "Legenda" (case-insensitive, whitespace-trimmed) is READ_ONLY and shows every registered App Factory public command with meaning, side effects, variants and canonical source. "Legenda <term>" filters ONLY the displayed register entries, and must never execute the named command. Show all if exact "Legenda".
