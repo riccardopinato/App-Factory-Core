@@ -16,6 +16,10 @@ La legenda non inventa macro non configurate e non esegue azioni. I comandi già
 
 App-Factory-Core resta proprietario del registro dei COMANDI. Il registro DATI delle capability resta in Idee-app-Archivi-riferimenti.
 
-## 22 ulteriori comandi approvati (28 totali)
+## Comandi operativi App Factory (29 totali)
 
-Ogni comando dispone di route pubblica dedicata, un contratto individuale in `commands/specs/<ID>.md` e relativo `spec_blob_sha` nel registro. `Legenda` legge le 28 voci. Il resolver seleziona un solo comando per prefisso esatto, carica la specifica verificata e blocca la richiesta quando la specifica non corrisponde all'hash. Modifiche ai repository richiedono scope autorizzato e branch/PR/CI exact-head; Test/APK non pubblicano sullo Store. Questa installazione non esegue nessun workflow applicativo.
+Ogni comando dispone di route pubblica dedicata, un contratto individuale in `commands/specs/<ID>.md` e relativo `spec_blob_sha` nel registro. `Legenda` legge le 29 voci. Il resolver seleziona un solo comando per prefisso esatto, carica la specifica verificata e blocca la richiesta quando la specifica non corrisponde all'hash. Modifiche ai repository richiedono scope autorizzato e branch/PR/CI exact-head; Test/APK non pubblicano sullo Store. Questa installazione non esegue nessun workflow applicativo.
+
+## APK e Deploy
+
+In `Legenda` la sezione **APK e Deploy** comprende solo `APK` (Android) e `Deploy` (Web/PWA), ciascuno con specifica e SHA diversi. `Deploy <app>` è limitato a preview/staging reali; `Deploy produzione <app>` è un'intenzione pubblica esplicita, con workflow/provider già predisposti e verifica del sito online. `CI`, `Test`, `Store`, `Peso` restano in Delivery. Non parte alcuna pubblicazione durante l'installazione.
