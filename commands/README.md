@@ -15,3 +15,7 @@ Quando in futuro nasce un nuovo comando, aggiungi il contratto operativo canonic
 La legenda non inventa macro non configurate e non esegue azioni. I comandi già esistenti hanno effetti diversi: `Audit` = sola lettura; `Capability` = scritture limitate al catalogo; `Procedi` = scope di implementazione autorizzato; `Mock-up interattivi` = iterazione design; `Integra i mock-up` = implementazione dei design approvati.
 
 App-Factory-Core resta proprietario del registro dei COMANDI. Il registro DATI delle capability resta in Idee-app-Archivi-riferimenti.
+
+## 22 ulteriori comandi approvati (28 totali)
+
+Ogni comando dispone di route pubblica dedicata, un contratto individuale in `commands/specs/<ID>.md` e relativo `spec_blob_sha` nel registro. `Legenda` legge le 28 voci. Il resolver seleziona un solo comando per prefisso esatto, carica la specifica verificata e blocca la richiesta quando la specifica non corrisponde all'hash. Modifiche ai repository richiedono scope autorizzato e branch/PR/CI exact-head; Test/APK non pubblicano sullo Store. Questa installazione non esegue nessun workflow applicativo.

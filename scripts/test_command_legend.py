@@ -19,6 +19,25 @@ class LegendTests(unittest.TestCase):
         for phrase in ("Legenda", "Audit tutte le app", "Capability priorità",
                        "Capability Notes-Ecosistema", "Procedi", "Mock-up interattivi"):
             self.assertIn(phrase, rendered)
+    def test_22_approved_commands_and_pins(self):
+        approved=("Stato","Prossimo","Allinea","Roadmap","Backlog","Riprendi",
+                  "Golden","Donor","Factory","Adotta Factory","Nuova app",
+                  "CI","Test","Ripara","APK","Store","Peso","Sicurezza",
+                  "UX","Monetizzazione","Mercato","Idee")
+        self.assertEqual(len(R["commands"]),28)
+        for name in approved:
+            with self.subTest(name=name):
+                item=next(x for x in R["commands"] if x["trigger"]==name)
+                self.assertEqual(item["contract_version"],1)
+                self.assertEqual(len(item["spec_blob_sha"]),40)
+
+    def test_corrupt_contract_hash_rejected(self):
+        broken=copy.deepcopy(R)
+        item=next(x for x in broken["commands"] if x["id"]=="apk")
+        item["spec_blob_sha"]="0"*40
+        with self.assertRaises(ValueError):
+            legend.validate(broken,M)
+
     def test_duplicate_public_command_rejected(self):
         bad = copy.deepcopy(R)
         bad["commands"].append(copy.deepcopy(bad["commands"][0]))

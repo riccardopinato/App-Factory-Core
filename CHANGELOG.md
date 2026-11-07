@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-07 — 22 nuovi comandi rapidi App Factory
+
+- Registrati 22 comandi operativi con contratti indipendenti SHA-pinned e route esclusive; legenda derivata aggiornata a 28 comandi.
+- Aggiunti tests di isolamento comandi, selezione longest-prefix e drift delle specifiche. Il router blocca specifiche mancanti/corrotte senza estendere permessi via fallback.
+- Sincronizzati Core, mirror, fallback generato, pointer/bootstrap e CI. Nessuna app, catalogo CAP, Golden, runner, artifact o release modificata dalla sola installazione dei comandi.
+
+
 ## 2026-10-29 — v27 controlled zero-cost promotion protocol
 
 - The owner explicitly requires zero additional API expense; normal App Factory work uses ChatGPT Plus/Chat only.

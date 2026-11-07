@@ -36,6 +36,7 @@ jobs:
         run: |
           python3 scripts/build_command_legend.py --check
           python3 scripts/test_command_legend.py
+          python3 scripts/test_portfolio_commands.py
 
       - name: Test v27C resolver, lazy routing and fail closed
         run: python3 scripts/test_v27_resolver.py

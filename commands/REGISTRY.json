@@ -152,6 +152,512 @@
         }
       ],
       "notes": "Richiede scelte effettivamente approvate e rispetta roadmap, test e branch protection."
+    },
+    {
+      "id": "stato",
+      "group": "Consultazione",
+      "trigger": "Stato",
+      "title": "Stato",
+      "description": "Mostra commit, PR, check, release e blocchi reali per app o portafoglio.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/STATO.md",
+      "route_id": "cmd_stato",
+      "examples": [
+        {
+          "text": "Stato",
+          "description": "Mostra commit, PR, check, release e blocchi reali per app o portafoglio."
+        },
+        {
+          "text": "Stato tutte le app",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "85bdbf3f4ef778be28bf8a8dddd44fd468bd0df4"
+    },
+    {
+      "id": "prossimo",
+      "group": "Consultazione",
+      "trigger": "Prossimo",
+      "title": "Prossimo",
+      "description": "Ordina i 5 prossimi maxi-step per impatto, urgenza, facilità, blocchi e riuso.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/PROSSIMO.md",
+      "route_id": "cmd_prossimo",
+      "examples": [
+        {
+          "text": "Prossimo",
+          "description": "Ordina i 5 prossimi maxi-step per impatto, urgenza, facilità, blocchi e riuso."
+        },
+        {
+          "text": "Prossimo tutte le app",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "74037c0bba9127727899b7bbb60459abee0dae5c"
+    },
+    {
+      "id": "allinea",
+      "group": "Esecuzione",
+      "trigger": "Allinea",
+      "title": "Allinea",
+      "description": "Riconcilia repository e documentazione, correggendo soltanto divergenze evidence-based.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/ALLINEA.md",
+      "route_id": "cmd_allinea",
+      "examples": [
+        {
+          "text": "Allinea",
+          "description": "Riconcilia repository e documentazione, correggendo soltanto divergenze evidence-based."
+        },
+        {
+          "text": "Allinea Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
+      "contract_version": 1,
+      "spec_blob_sha": "0cb776d76a6f09a6697cd256b6552d555a3432d2"
+    },
+    {
+      "id": "roadmap",
+      "group": "Esecuzione",
+      "trigger": "Roadmap",
+      "title": "Roadmap",
+      "description": "Riconcilia roadmap, completamenti reali, dipendenze e prossimi maxi-step.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/ROADMAP.md",
+      "route_id": "cmd_roadmap",
+      "examples": [
+        {
+          "text": "Roadmap",
+          "description": "Riconcilia roadmap, completamenti reali, dipendenze e prossimi maxi-step."
+        },
+        {
+          "text": "Roadmap Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
+      "contract_version": 1,
+      "spec_blob_sha": "577b6f0cd501d9d12e5411c6c79092176ac37b7a"
+    },
+    {
+      "id": "backlog",
+      "group": "Catalogo",
+      "trigger": "Backlog",
+      "title": "Backlog",
+      "description": "Riordina candidate, integrate, rinviate e scartate senza perdere storia delle decisioni.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/BACKLOG.md",
+      "route_id": "cmd_backlog",
+      "examples": [
+        {
+          "text": "Backlog",
+          "description": "Riordina candidate, integrate, rinviate e scartate senza perdere storia delle decisioni."
+        },
+        {
+          "text": "Backlog tutte le app",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
+      "contract_version": 1,
+      "spec_blob_sha": "2016f5181f9ebc612ba0bd480032b2146808c4c9"
+    },
+    {
+      "id": "riprendi",
+      "group": "Consultazione",
+      "trigger": "Riprendi",
+      "title": "Riprendi",
+      "description": "Recupera checkpoint, lavori incompleti, PR aperte e ultimo HEAD verificabile.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/RIPRENDI.md",
+      "route_id": "cmd_riprendi",
+      "examples": [
+        {
+          "text": "Riprendi",
+          "description": "Recupera checkpoint, lavori incompleti, PR aperte e ultimo HEAD verificabile."
+        },
+        {
+          "text": "Riprendi Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "fb8b0c783d6184a1812428cb6dc4d660dbc1be77"
+    },
+    {
+      "id": "golden",
+      "group": "Factory",
+      "trigger": "Golden",
+      "title": "Golden",
+      "description": "Verifica Registry/Index, freshness, donor, Golden candidate e gap di prova.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/GOLDEN.md",
+      "route_id": "cmd_golden",
+      "examples": [
+        {
+          "text": "Golden",
+          "description": "Verifica Registry/Index, freshness, donor, Golden candidate e gap di prova."
+        },
+        {
+          "text": "Golden Google Auth",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "bf6fd8eb8798f5b60320ae3500e6a7399dbd3510"
+    },
+    {
+      "id": "donor",
+      "group": "Factory",
+      "trigger": "Donor",
+      "title": "Donor",
+      "description": "Trova e classifica implementazioni riusabili con SHA, licenza, test e delta.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/DONOR.md",
+      "route_id": "cmd_donor",
+      "examples": [
+        {
+          "text": "Donor",
+          "description": "Trova e classifica implementazioni riusabili con SHA, licenza, test e delta."
+        },
+        {
+          "text": "Donor Google Auth",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "81f0f9beab80c64fa57054165c823752c00360d2"
+    },
+    {
+      "id": "factory",
+      "group": "Factory",
+      "trigger": "Factory",
+      "title": "Factory",
+      "description": "Verifica CURRENT, Master, Registry, moduli, fallback e drift centrale.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/FACTORY.md",
+      "route_id": "cmd_factory",
+      "examples": [
+        {
+          "text": "Factory",
+          "description": "Verifica CURRENT, Master, Registry, moduli, fallback e drift centrale."
+        },
+        {
+          "text": "Factory Golden",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "c1cec5082dbcc38e3afae470437b8dbc6abdee29"
+    },
+    {
+      "id": "adotta_factory",
+      "group": "Factory",
+      "trigger": "Adotta Factory",
+      "title": "Adotta Factory",
+      "description": "Adotta standard Factory minimali preservando i workflow personalizzati.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/ADOTTA_FACTORY.md",
+      "route_id": "cmd_adotta_factory",
+      "examples": [
+        {
+          "text": "Adotta Factory",
+          "description": "Adotta standard Factory minimali preservando i workflow personalizzati."
+        },
+        {
+          "text": "Adotta Factory Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
+      "contract_version": 1,
+      "spec_blob_sha": "9bce90c9a5bafea8e8afefa2f6757968ac6b168a"
+    },
+    {
+      "id": "nuova_app",
+      "group": "Esecuzione",
+      "trigger": "Nuova app",
+      "title": "Nuova app",
+      "description": "Assembla bootstrap Flutter con Product Bible, roadmap, AGENTS, CI e Golden pertinenti.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/NUOVA_APP.md",
+      "route_id": "cmd_nuova_app",
+      "examples": [
+        {
+          "text": "Nuova app",
+          "description": "Assembla bootstrap Flutter con Product Bible, roadmap, AGENTS, CI e Golden pertinenti."
+        },
+        {
+          "text": "Nuova app Habit Tracker",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
+      "contract_version": 1,
+      "spec_blob_sha": "3bf325b61dde81f058d7c037a2e83b4f89f7a7a1"
+    },
+    {
+      "id": "ci",
+      "group": "Delivery",
+      "trigger": "CI",
+      "title": "CI",
+      "description": "Controlla GitHub Actions, job logs, commit SHA e causa dei fallimenti.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/CI.md",
+      "route_id": "cmd_ci",
+      "examples": [
+        {
+          "text": "CI",
+          "description": "Controlla GitHub Actions, job logs, commit SHA e causa dei fallimenti."
+        },
+        {
+          "text": "CI tutte le app",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "e90726e7aea3252e19a4d4ea8c3b3e3be0af5828"
+    },
+    {
+      "id": "test",
+      "group": "Delivery",
+      "trigger": "Test",
+      "title": "Test",
+      "description": "Pianifica e avvia, solo se autorizzato, test reali con le pipeline disponibili.",
+      "effect": "ESECUZIONE CI SENZA MODIFICHE ALLA CODEBASE",
+      "entrypoint": "commands/specs/TEST.md",
+      "route_id": "cmd_test",
+      "examples": [
+        {
+          "text": "Test",
+          "description": "Pianifica e avvia, solo se autorizzato, test reali con le pipeline disponibili."
+        },
+        {
+          "text": "Test Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Eseguire soltanto test autorizzati con dispatcher, head e costo noti. CI/source-only non prova fisico o store.",
+      "contract_version": 1,
+      "spec_blob_sha": "db74864313187f98874938a9c58b00835e4de885"
+    },
+    {
+      "id": "ripara",
+      "group": "Esecuzione",
+      "trigger": "Ripara",
+      "title": "Ripara",
+      "description": "Individua la causa di un bug riproducibile e prepara PR minima con test.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/RIPARA.md",
+      "route_id": "cmd_ripara",
+      "examples": [
+        {
+          "text": "Ripara",
+          "description": "Individua la causa di un bug riproducibile e prepara PR minima con test."
+        },
+        {
+          "text": "Ripara Anna's Diary issue 42",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
+      "contract_version": 1,
+      "spec_blob_sha": "25c5ce57a5582eaba0fe3ae3e50b470c6b0a338f"
+    },
+    {
+      "id": "apk",
+      "group": "Delivery",
+      "trigger": "APK",
+      "title": "APK",
+      "description": "Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati.",
+      "effect": "BUILD/ARTIFACT SENZA PUBBLICAZIONE",
+      "entrypoint": "commands/specs/APK.md",
+      "route_id": "cmd_apk",
+      "examples": [
+        {
+          "text": "APK",
+          "description": "Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati."
+        },
+        {
+          "text": "APK Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Non creare segreti o firmare falsamente, non pubblicare su Store; fornire link solo dopo verifica artifact e firma.",
+      "contract_version": 1,
+      "spec_blob_sha": "b65ecf3d96fd39d4a5e3745a210bf4ebc66cfcec"
+    },
+    {
+      "id": "store",
+      "group": "Delivery",
+      "trigger": "Store",
+      "title": "Store",
+      "description": "Controlla readiness Play: firma, privacy, asset, versioni, test e policy.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/STORE.md",
+      "route_id": "cmd_store",
+      "examples": [
+        {
+          "text": "Store",
+          "description": "Controlla readiness Play: firma, privacy, asset, versioni, test e policy."
+        },
+        {
+          "text": "Store Cooking Anime",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "29e3c8d0e71a0e9bd3ee84a0c7c591a8d133b1f6"
+    },
+    {
+      "id": "peso",
+      "group": "Delivery",
+      "trigger": "Peso",
+      "title": "Peso",
+      "description": "Analizza APK/AAB, asset, dipendenze e ottimizzazioni misurabili.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/PESO.md",
+      "route_id": "cmd_peso",
+      "examples": [
+        {
+          "text": "Peso",
+          "description": "Analizza APK/AAB, asset, dipendenze e ottimizzazioni misurabili."
+        },
+        {
+          "text": "Peso Battery Guard",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "f01e465ee14906184bfcdd1bdd7dac297e565b9e"
+    },
+    {
+      "id": "sicurezza",
+      "group": "Verifica",
+      "trigger": "Sicurezza",
+      "title": "Sicurezza",
+      "description": "Verifica permessi, auth, segreti, backup, dati e confini di fiducia.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/SICUREZZA.md",
+      "route_id": "cmd_sicurezza",
+      "examples": [
+        {
+          "text": "Sicurezza",
+          "description": "Verifica permessi, auth, segreti, backup, dati e confini di fiducia."
+        },
+        {
+          "text": "Sicurezza Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "41702c2bf7fd179f059b73b9119ed2a4b40f5e9c"
+    },
+    {
+      "id": "ux",
+      "group": "Design",
+      "trigger": "UX",
+      "title": "UX",
+      "description": "Analizza schermate, accessibilità, navigazione, responsive e design system.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/UX.md",
+      "route_id": "cmd_ux",
+      "examples": [
+        {
+          "text": "UX",
+          "description": "Analizza schermate, accessibilità, navigazione, responsive e design system."
+        },
+        {
+          "text": "UX Anna's Diary",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "3387be148832bc98c5d8e7344f5759f5539db6dc"
+    },
+    {
+      "id": "monetizzazione",
+      "group": "Business",
+      "trigger": "Monetizzazione",
+      "title": "Monetizzazione",
+      "description": "Analizza AdMob, Premium, lifetime, ricavi ipotizzati e policy.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/MONETIZZAZIONE.md",
+      "route_id": "cmd_monetizzazione",
+      "examples": [
+        {
+          "text": "Monetizzazione",
+          "description": "Analizza AdMob, Premium, lifetime, ricavi ipotizzati e policy."
+        },
+        {
+          "text": "Monetizzazione World Days",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "1a47bf0a87b3fb28a76497d87d4b81bf3ca348c0"
+    },
+    {
+      "id": "mercato",
+      "group": "Business",
+      "trigger": "Mercato",
+      "title": "Mercato",
+      "description": "Confronta concorrenti, recensioni, prezzi e opportunità da fonti attuali.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/specs/MERCATO.md",
+      "route_id": "cmd_mercato",
+      "examples": [
+        {
+          "text": "Mercato",
+          "description": "Confronta concorrenti, recensioni, prezzi e opportunità da fonti attuali."
+        },
+        {
+          "text": "Mercato Cooking Anime",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.",
+      "contract_version": 1,
+      "spec_blob_sha": "a9ad6fef1df47288d301f86d9229cc244cfaad03"
+    },
+    {
+      "id": "idee",
+      "group": "Catalogo",
+      "trigger": "Idee",
+      "title": "Idee",
+      "description": "Deduplica idee e inserisce nuove proposte soltanto nell'inbox canonica.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/IDEE.md",
+      "route_id": "cmd_idee",
+      "examples": [
+        {
+          "text": "Idee",
+          "description": "Deduplica idee e inserisce nuove proposte soltanto nell'inbox canonica."
+        },
+        {
+          "text": "Idee aggiungi utility per parcheggi",
+          "description": "Variante mirata con ambito esplicito."
+        }
+      ],
+      "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
+      "contract_version": 1,
+      "spec_blob_sha": "493f45fe7f54577d0dbb88e28ebbb90df9b35e6e"
     }
   ]
 }

@@ -21,6 +21,10 @@ Do not refresh it between consecutive steps unless the central framework changes
 
 Scrivi `Legenda` nelle chat del Project: legge `commands/REGISTRY.json` e `commands/LEGGENDA.md` per mostrare gli shortcut aggiornati. `Audit` avvia il 360° in sola lettura; `Capability` aggiorna il catalogo con PR e gate. Per aggiungere un comando pubblico: route + registro canonico + generatore `scripts/build_command_legend.py --write`; CI verifica la sincronizzazione.
 
+## Comandi operativi App Factory
+
+`Legenda` ora elenca 28 comandi (6 precedenti e 22 approvati), con 22 specifiche SHA-verificate in `commands/specs/`, instradamento pubblico esatto e CI. I comandi consultivi sono sola lettura; modifiche, Test e APK operano nei limiti dichiarati e non autorizzano rilasci pubblici. Nessun worker permanente viene creato dal comando.
+
 ## Current versions
 
 - Master Prompt: **v27 modular Core** (controlled/preliminary activation; model-behavior and real-time speedup not independently certified)
