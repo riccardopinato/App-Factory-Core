@@ -1147,12 +1147,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "d30d1776960abcb404e869204955ef902ed02ae0",
+    "git_blob_sha": "5ba05718d0292b41c93a66e0f0b6e30ced105d70",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "a933de65bc8c454c28064ce4d6c492fbd1364a17",
+    "core": "7690dd21689d30c76eb229e573daad114e9acbf6",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -1164,6 +1164,7 @@
     "factory-policy-sync": "5efa4194650f68e2570ee5c450dceda15a834c92",
     "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c",
     "capability-sync": "e6beae3d0b5ca2e09a7091dc348324c4c6893ada",
-    "command-legend": "0ac7f7a74c70887d402aa1c206c048f0a2befc1f"
+    "command-legend": "0ac7f7a74c70887d402aa1c206c048f0a2befc1f",
+    "portfolio-commands": "54de9ccecf08647b9abdf08874a6f6c8270a7e7f"
   }
 }
