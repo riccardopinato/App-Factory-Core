@@ -1754,6 +1754,7 @@ Trigger: explicit user command "Mock-up interattivi" (case-insensitive and harml
 - After integration, provide a concise per-proposal coverage matrix referencing concrete source commits, tests and remaining visual/device verification.
 - Do not claim the workflow is automatically installed in existing app repositories; central App Factory Core defines behavior for future sessions that resolve CURRENT, while any app-specific AGENTS/roadmap changes require a real repository edit.
 
+
 ===== V27 POLICY UPDATE: capability-sync =====
 V27 CAPABILITY SYNC — SHORT COMMAND ROUTER (2026-11-07)
 Exact user command "Capability" (case-insensitive, whitespace-trimmed) dispatches the GLOBAL incremental capability catalog reconciliation workflow, not an ordinary read-only Audit. "Capability <app>" scopes to that app; "Capability tutte le app" is global; "Capability priorità" reconciles before proposing executable next items.
