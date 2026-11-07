@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-07",
+  "authority": "App Factory Core command index; CURRENT.yaml, Master and Product Bible remain authoritative for behavior.",
+  "commands": [
+    {
+      "id": "legenda",
+      "group": "Consultazione",
+      "trigger": "Legenda",
+      "title": "Legenda dei comandi",
+      "description": "Mostra tutti i comandi disponibili in App Factory Core, con spiegazioni ed esempi; puoi filtrare per nome.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "commands/REGISTRY.json",
+      "route_id": "legend",
+      "examples": [
+        {
+          "text": "Legenda",
+          "description": "Elenco completo e aggiornato dei comandi."
+        },
+        {
+          "text": "Legenda Audit",
+          "description": "Mostra soltanto i comandi relativi ad Audit."
+        },
+        {
+          "text": "Legenda Capability",
+          "description": "Mostra soltanto i comandi relativi a Capability."
+        }
+      ],
+      "notes": "Non esegue i comandi che elenca e non modifica repository o dati."
+    },
+    {
+      "id": "audit",
+      "group": "Verifica",
+      "trigger": "Audit",
+      "title": "Audit 360 App Factory",
+      "description": "Analizza lo stato reale dell'app individuata dalla chat, confrontando codice, roadmap, test, UX, sicurezza e opportunità.",
+      "effect": "SOLA LETTURA",
+      "entrypoint": "audit/MASTER_AUDIT_360_APP_FACTORY_v1.txt",
+      "route_id": "audit",
+      "examples": [
+        {
+          "text": "Audit",
+          "description": "Audit dell'app identificabile nella chat corrente."
+        },
+        {
+          "text": "Audit Anna's Diary",
+          "description": "Audit mirato ad Anna's Diary."
+        },
+        {
+          "text": "Audit Notes-Ecosistema",
+          "description": "Audit mirato a Notes-Ecosistema."
+        },
+        {
+          "text": "Audit tutte le app",
+          "description": "Audit trasversale del portafoglio e dei repository accessibili."
+        }
+      ],
+      "notes": "Non autorizza modifiche a codice, roadmap, issue o release."
+    },
+    {
+      "id": "capability",
+      "group": "Catalogo",
+      "trigger": "Capability",
+      "title": "Sincronizzazione capability",
+      "description": "Riconcilia incrementi di codice ed evidenze per aggiornare il catalogo delle capability e le priorità per app.",
+      "effect": "SCRITTURA SOLO CATALOGO (PR + CI)",
+      "entrypoint": "capability/MASTER_CAPABILITY_SYNC_v1.txt",
+      "route_id": "capability_sync",
+      "examples": [
+        {
+          "text": "Capability",
+          "description": "Aggiornamento incrementale globale di tutte le app."
+        },
+        {
+          "text": "Capability Anna's Diary",
+          "description": "Aggiornamento delle sole associazioni di Anna's Diary."
+        },
+        {
+          "text": "Capability Agenda-per-Anna",
+          "description": "Variante che usa il nome del repository di Anna."
+        },
+        {
+          "text": "Capability Notes-Ecosistema",
+          "description": "Aggiornamento delle capability di Notes-Ecosistema."
+        },
+        {
+          "text": "Capability tutte le app",
+          "description": "Aggiornamento esplicitamente globale del registro."
+        },
+        {
+          "text": "Capability priorità",
+          "description": "Riconcilia le evidenze e mostra la prossima coda operativa."
+        }
+      ],
+      "notes": "La fonte dati resta Idee-app-Archivi-riferimenti. Non modifica le singole app né promuove Golden."
+    },
+    {
+      "id": "procedi",
+      "group": "Esecuzione",
+      "trigger": "Procedi",
+      "title": "Prosegui il lavoro approvato",
+      "description": "Prosegue la roadmap/il task già noto, applicando modalità diretta, parallela o controllata secondo rischio e autorizzazioni.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "v27/candidate/MASTER_CORE_v27_CANDIDATE.txt",
+      "route_id": null,
+      "examples": [
+        {
+          "text": "Procedi",
+          "description": "Continua il lavoro corrente se il contesto e la roadmap sono identificabili."
+        },
+        {
+          "text": "Procedi con la roadmap",
+          "description": "Prosegue i prossimi step della roadmap effettivamente autorizzata."
+        },
+        {
+          "text": "Continua",
+          "description": "Sinonimo contestuale di Procedi."
+        }
+      ],
+      "notes": "Non è un audit: può effettuare implementazioni solo nel perimetro già approvato, rispettando i gate GitHub."
+    },
+    {
+      "id": "mockup",
+      "group": "Design",
+      "trigger": "Mock-up interattivi",
+      "title": "Revisione visiva interattiva",
+      "description": "Avvia un ciclo di massimo dieci proposte di UI realmente cliccabili, una per volta con approvazione esplicita.",
+      "effect": "DESIGN INTERATTIVO; NON IMPLEMENTA IL CODICE",
+      "entrypoint": "v27/candidate/modules/81-interactive-mockup-review.txt",
+      "route_id": "mockup_interactive",
+      "examples": [
+        {
+          "text": "Mock-up interattivi",
+          "description": "Mostra il primo prototipo visivo cliccabile 1/10 dell'app corrente."
+        }
+      ],
+      "notes": "Ogni slot richiede approvazione, modifica o rifiuto; le dieci scelte non sono approvate automaticamente."
+    },
+    {
+      "id": "integra_mockup",
+      "group": "Design",
+      "trigger": "Integra i mock-up",
+      "title": "Integra i design approvati",
+      "description": "Chiude il ciclo di revisione e richiede l'implementazione separata delle sole modifiche di design approvate.",
+      "effect": "IMPLEMENTAZIONE CON GATE",
+      "entrypoint": "v27/candidate/modules/81-interactive-mockup-review.txt",
+      "route_id": "mockup_interactive",
+      "examples": [
+        {
+          "text": "Integra i mock-up",
+          "description": "Termina la revisione e avvia la fase controllata di implementazione dei design approvati."
+        }
+      ],
+      "notes": "Richiede scelte effettivamente approvate e rispetta roadmap, test e branch protection."
+    }
+  ]
+}

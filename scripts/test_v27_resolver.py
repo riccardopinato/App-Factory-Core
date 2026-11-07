@@ -56,6 +56,26 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(audit["selection"],"MODULES",audit)
         self.assertNotIn("capability-sync",audit["modules"])
 
+    def test_legend_is_read_only_even_with_capability_context(self):
+        r=resolver.resolve("Legenda", "Audit Capability Notes-Ecosistema")
+        self.assertEqual(r["selection"], "MODULES", r)
+        self.assertIn("command-legend", r["modules"])
+        self.assertNotIn("capability-sync", r["modules"])
+        self.assertNotIn("audit-roadmap", r["modules"])
+        self.assertEqual(r["route_rules"], ["legend"])
+
+    def test_legend_filter_never_dispatches_mentioned_command(self):
+        r=resolver.resolve("Legenda Capability", "integra i mock-up")
+        self.assertEqual(r["selection"], "MODULES", r)
+        self.assertIn("command-legend", r["modules"])
+        self.assertNotIn("capability-sync", r["modules"])
+
+    def test_exact_audit_capability_commands_ignore_unsafe_context(self):
+        audit=resolver.resolve("Audit", "Capability")
+        cap=resolver.resolve("Capability Notes-Ecosistema", "Audit di app")
+        self.assertEqual(audit["route_rules"], ["audit"])
+        self.assertEqual(cap["route_rules"], ["capability_sync"])
+
     def test_unknown_intent_uses_verified_operational_fallback(self):
         r=resolver.resolve("Procedi")
         self.assertEqual(r["selection"],"FALLBACK_BASELINE_USED",r)

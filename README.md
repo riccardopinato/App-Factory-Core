@@ -17,10 +17,14 @@ Resolve it deterministically:
 The commit SHA used for this read becomes the **Factory baseline** for the session.
 Do not refresh it between consecutive steps unless the central framework changes or a refresh is explicitly requested.
 
+## Commandi rapidi
+
+Scrivi `Legenda` nelle chat del Project: legge `commands/REGISTRY.json` e `commands/LEGGENDA.md` per mostrare gli shortcut aggiornati. `Audit` avvia il 360° in sola lettura; `Capability` aggiorna il catalogo con PR e gate. Per aggiungere un comando pubblico: route + registro canonico + generatore `scripts/build_command_legend.py --write`; CI verifica la sincronizzazione.
+
 ## Current versions
 
 - Master Prompt: **v27 modular Core** (controlled/preliminary activation; model-behavior and real-time speedup not independently certified)
-- Golden Components Index: **v23**
+- Golden Components Index: **v28**
 - Golden registry: **v2**
 - Semantic validator: **v7**
 
