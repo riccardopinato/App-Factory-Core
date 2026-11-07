@@ -38,6 +38,24 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(r["selection"],"MODULES",r)
         self.assertIn("factory-policy-sync",r["modules"])
 
+    def test_capability_global_command_routes_to_catalog_sync(self):
+        r=resolver.resolve("Capability",load_golden=True)
+        self.assertEqual(r["selection"],"MODULES",r)
+        self.assertIn("capability-sync",r["modules"])
+        self.assertIn("authority-execution",r["modules"])
+        self.assertIn("audit-roadmap",r["modules"])
+        self.assertIn("single_donor_capability_admission",
+                      [g["id"] for g in r["goldens"]])
+        self.assertNotIn("factory-policy-sync",r["modules"])
+
+    def test_capability_scoped_and_audit_stay_separate(self):
+        scoped=resolver.resolve("Capability Anna's Diary")
+        audit=resolver.resolve("Audit")
+        self.assertEqual(scoped["selection"],"MODULES",scoped)
+        self.assertIn("capability-sync",scoped["modules"])
+        self.assertEqual(audit["selection"],"MODULES",audit)
+        self.assertNotIn("capability-sync",audit["modules"])
+
     def test_unknown_intent_uses_verified_operational_fallback(self):
         r=resolver.resolve("Procedi")
         self.assertEqual(r["selection"],"FALLBACK_BASELINE_USED",r)

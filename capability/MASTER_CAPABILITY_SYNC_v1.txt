@@ -1,0 +1,254 @@
+APP FACTORY — MASTER COMMAND CAPABILITY
+Version: 1.0 — 07/11/2026
+Mode: CATALOG_SYNC / EVIDENCE-GATED / INCREMENTAL / NO APP CODE CHANGES
+Trigger: Capability
+Canonical entrypoint: riccardopinato/App-Factory-Core/capability/MASTER_CAPABILITY_SYNC_v1.txt
+
+==============================================================================
+0. MISSIONE
+==============================================================================
+Quando l'utente scrive "Capability" (ignorando maiuscole e spazi esterni),
+AGGIORNA realmente e incrementalmente il catalogo delle capability della sua
+App Factory attraverso i repository GitHub autorizzati. Non limitarti a
+rispondere con una lista o a proporre un audit generico. Esegui le operazioni
+consentite e riporta ciò che è stato effettivamente salvato/validato.
+
+"Capability" da solo = portfolio completo, tutte le associazioni app-CAP e
+nuovi repository applicabili, con delta incrementale rispetto all'ultimo stato.
+"Capability <nome app>" = solo l'app esplicitamente indicata; non alterare
+gli stati delle altre app, ma preservare invariato il catalogo completo.
+"Capability tutte le app" = equivalente al comando globale.
+"Capability priorità" = aggiorna prima le evidenze rilevanti e poi restituisce
+la coda eseguibile per app e portfolio; non implementa alcuna funzione.
+
+Non chiedere conferme inutili, ma non fingere il completamento dei gate umani,
+fisici o dei servizi non disponibili. L'utente può invocare questo comando
+più volte: non deve duplicare record, amplificare punteggi o ripetere lavoro
+costoso sui repository che non sono cambiati.
+
+==============================================================================
+1. BASELINE E PRECEDENZA
+==============================================================================
+1) Leggi App-Factory-Core/CURRENT.yaml una volta per sessione e fissa il commit
+   completo; carica Master e MODULE_MAP, Golden Index e Registry e solo Golden
+   pertinenti, incluse Single-Donor Capability Admission, Scoped Donor
+   Capability Catalog e Provenance, senza promuoverne automaticamente lo stato.
+2) Rispetta Product Bible, roadmap e AGENTS per il singolo progetto.
+3) Il catalogo JSON canonico è:
+   riccardopinato/Idee-app-Archivi-riferimenti/
+   12-CAPABILITY-E-IMPLEMENTAZIONI/REGISTRO_CAPABILITY.json
+   NON App-Factory-Core. Core è il COMMAND/PROCESS OWNER; il repository
+   archivio è l'unico CATALOG DATA OWNER. Non creare un JSON parallelo in Core.
+4) Per ogni evidenza tecnica vale il repository reale della singola app.
+   Chat storiche, audit datati e README sono indizi, non prove di runtime.
+5) Catalogo di partenza storico: 160 CAP / 385 associazioni / 48 nomi app/idea.
+   NON presumere che questi conteggi siano ancora attuali: leggere il JSON live.
+
+==============================================================================
+2. AMBITO DI SCRITTURA E CONSENSO
+==============================================================================
+L'invocazione "Capability" autorizza esclusivamente il normale flusso
+branch/PR/check/merge del catalogo riccardopinato/Idee-app-Archivi-riferimenti,
+per i cambi verificati a record, inventario, report, score, viste DERIVATE,
+documentazione del catalogo e un'eventuale estensione COMPATIBILE dello schema
+di decisioni prodotto, se necessaria a rappresentare approvata/rinviata/
+scartata in modo distinto dagli stati tecnici.
+
+NON autorizza:
+- modificare source code, AGENTS, Product Bible, roadmap, issue o milestone
+  dei repository delle singole app;
+- cambiare Golden Registry/Index, CURRENT, Master, AppLab o promuovere Donor;
+- acquistare servizi, collegare provider, distribuire APK, attivare ads o AI;
+- scrivere dati di utenti, eseguire azioni distruttive o pubblicare nello Store;
+- mutare una scelta di prodotto soltanto perché l'algoritmo suggerisce
+  una priorità diversa.
+Una decisione esplicita già documentata può essere RISPECCHIATA nel catalogo,
+ma non inventata o revocata dal modello. Rimangono in vigore protezioni branch,
+review, exact-head tests e blocchi umani.
+
+==============================================================================
+3. INVENTARIO E DIFF INCREMENTALE
+==============================================================================
+A. Apri AGENTS.md e README catalogo, SOURCE_INVENTORY.json, registro JSON,
+   README/DA_VALUTARE/GIA_INTEGRATI per orientamento e ultime PR del catalogo.
+B. Individua repository installati/accessibili; verifica le nuove app rispetto
+   al catalogo e a 01-PORTAFOGLIO / 11-NUOVE-IDEE. Escludi dalla scansione del
+   codice app i repo infrastrutturali senza consumer, salvo donor pertinenti.
+C. Per ogni repository rilevante leggi default branch e SHA HEAD. Confronta
+   SHA e data dell'ultima verifica con l'inventario, e cerca variazioni nei
+   commit, PR merged, feature code, test, release evidence, documenti canonici.
+D. Se HEAD non è cambiato, riusa prove ancora applicabili e non ripetere
+   tutta la lettura file. Eccezioni: precedente verifica incompleta,
+   audit limitato, provider/policy staleness, nuovi CAP, dati incrociati o
+   cambiamenti di decisione indipendenti dal commit app.
+E. Se HEAD è cambiato, parti dal diff dall'ultimo SHA verificato e ispeziona
+   solo i moduli/feature/PR pertinenti, con escalation quando emergono
+   refactor, rimozioni, regressioni, cambi di schema o rami divergenti.
+F. Non dichiarare repository privati o PWA/device come verificati se i tool
+   non consentono accesso. Se mancano permessi, marca GAP/BLOCKED con scope.
+G. In una scansione globale non abbandonare app vecchie o candidate:
+   conserva tutte le associazioni, incluse le 17/48 nomi non mappati a
+   repo al precedente audit, come da verificare quando appropriato.
+
+==============================================================================
+4. MODELLO CAPABILITY
+==============================================================================
+L'unità canonica è CAP-NNNN, monotona e mai riusata. UNA responsabilità
+trasversale può avere molti consumer; niente duplicati terminologici.
+Per ogni CAP e per OGNI app distinguere tre assi:
+
+ASSI A — IMPLEMENTAZIONE / EVIDENZA (campo app_states attuale):
+- PROPOSTA: nessuna implementazione provata, idea ancora valutabile;
+- ROADMAP_STORICA: citata in roadmap/decisione ma stato corrente da verificare;
+- SOURCE_REPORTED / DONOR_REPORTED: fonte dichiarata, non prova CI/runtime;
+- SOURCE_CONFIRMED: codice preciso verificato al commit sorgente;
+- CI_VERIFIED: test pertinenti sullo SHA esatto, non prova device;
+- DEVICE_VERIFIED: scenario/prodotto e artifact/device realmente collaudati;
+- RELEASE: distribuzione verificata con canale e identificativo;
+- BLOCKED: impedimento tecnico documentato, non esclusione di prodotto.
+
+ASSI B — DECISIONE PRODOTTO (per app, separata da app_states):
+- DA_VALUTARE: proposta non ancora deliberata;
+- APPROVATA: ammessa nel perimetro prodotto; roadmap precisa ancora vincolante;
+- IN_ROADMAP: formalizzata nella roadmap attuale;
+- RINVIATA: sospesa con motivazione e condizione di riesame;
+- SCARTATA: decisione esplicita documentata che la esclude;
+- FUORI_SCOPE: incompatibile con Product Bible/limiti dichiarati.
+Non inferire APPROVATA, SCARTATA o RINVIATA dall'assenza di codice,
+da una vecchia wishlist o da un punteggio basso. Se c'è una scelta nuova,
+conservare ref, data, soggetto/autorità, motivo e condizione di riapertura.
+Se il catalogo non ha ancora il campo decisione per app, introdurre in PR
+una estensione COMPATIBILE (p.es. app_product_decisions) e aggiornare
+validatori/generatori/test prima di usarlo; non alterare l'evidence ladder
+per far passare SCARTATA come "non implementata".
+
+ASSI C — AVANZAMENTO REALE / COMPLETAMENTO:
+- NON_IMPLEMENTATA, PARZIALE, COMPLETA_PER_SCOPE, DA_VERIFICARE,
+  REGRESSIONE o NON_APPLICABILE come valutazione audit derivata;
+- descrivere il DELTA FUNZIONALE ancora aperto, non clonare la capability;
+- separare feature nel codice da workflow navigabile che salva, persiste,
+  riapre, sincronizza e si ripristina se pertinente;
+- versionare prove e ambito: il feature MVP può essere completa per un
+  sottoinsieme, senza esserlo per la promessa originale.
+
+Non appiattire tre assi in un solo flag booleano.
+
+==============================================================================
+5. REGOLE DI CAMBIO STATO / EVIDENCE LADDER
+==============================================================================
+E0 idea => catalogo/proposta.
+E1 donor/source SHA + file => candidatura documentata.
+E2 test presente => esistenza del test, NON la sua esecuzione.
+E3 test mirato + CI sul sorgente esatto => CERTIFIED DONOR scoped ove
+    ammesso, non necessariamente feature end-to-end.
+E4 prova fisica/provider/store sul device, scenario e artifact esatto.
+E5 consumer indipendente con integrazione e test di contratto.
+
+SOURCE_CONFIRMED richiede repo, 40-char SHA, path, funzione e prova visibile.
+CI_VERIFIED richiede execution/status/sha e copertura della capability.
+DEVICE_VERIFIED richiede artifact hash, build, device, OS e scenario PASS.
+RELEASE richiede canale e artefatto effettivamente disponibile.
+Il grado può regredire quando scopriamo bug/rimozioni/nuovo codice o prove
+non attribuibili. Non "progredire" automaticamente tutti i campi di una CAP.
+Una PR aperta non è merged; merged non è signed APK; signed APK non è installata;
+runtime avviato non è user journey corretto; catalogo aggiornato non è
+roadmap prodotto aggiornata.
+
+Per ogni transizione registra:
+  app + CAP, stato precedente/nuovo, decisione precedente/nuova,
+  commit app (prima/dopo), file/test/CI URL, scoperta, motivazione,
+  next_gate, confidence/gap e audit date. Non riscrivere storico distruttivamente.
+
+==============================================================================
+6. SCARTATE, RINVIATE, DOPPIONI, PRIORITÀ
+==============================================================================
+- SCARTATA/FUORI_SCOPE: conserva CAP, link, vecchia evidenza e motivazione,
+  escludi dalla coda di sviluppo per quella app; altra app non influenza.
+- RINVIATA: conserva nello storico/queue "Rinviate", non nella prossima
+  azione immediata; nessun riesame senza trigger/nuova decisione.
+- Parzialmente implementata: non proporre l'intera feature come nuova;
+  elenca SOLO quanto manca e cosa impedisce il completamento.
+- Già completamente implementata: in "Già integrati", esclusa dai nuovi
+  lavori per quella app (ma non da QA/maintenance).
+- Fonte riportata senza prova: "Da verificare", non "Da implementare".
+- Duplicata/superseded: usa stesso CAP o relazioni esplicite; non eliminare ID.
+- Blocchi tecnici e privacy P0/P1 sono una corsia distinta dal punteggio
+  di valore CAP P1/P2/P3.
+- Ordina le vere opportunità per valore, urgenza, dipendenze, facilità di
+  integrazione per app, riuso, rischio e costo di manutenzione.
+- Score 0–100 e facilità % sono stime euristiche, non probabilità né soldi.
+  Ricalcola solo con fattori aggiornati e rationale evidenziato.
+- Non introdurre filtri numerici predefiniti: mostra anche 90/82 o 82/95.
+- La "prossima capability" deve essere veramente non integrata, ammessa a
+  sviluppo e non bloccata da prerequisiti inesistenti.
+
+==============================================================================
+7. RECONCILIATION PIPELINE
+==============================================================================
+R1. Inventario/registry live; elenco delle variazioni scoped.
+R2. Product Bible/roadmap e decisioni della specifica app.
+R3. Diff e verifica evidence: sorgenti esatti, test, CI, release/physical.
+R4. CAP match/deduplicazione: nuova CAP solo responsabilità realmente nuova,
+    con ID max+1 e nuova scheda/kit previsti dal catalogo.
+R5. Modifiche minime a SOURCE_INVENTORY.json/REGISTRO_CAPABILITY.json,
+    score e app_product_decisions documentate; mantenere tutte le altre righe.
+R6. Rigenera viste derivate con:
+    python3 scripts/build_catalog.py
+    python3 scripts/build_catalog.py --check
+    e gli eventuali test/validatori del catalogo corrente.
+R7. Verifica che DA_VALUTARE, GIA_INTEGRATI, DA_VERIFICARE, SCARTATE/RINVIATE
+    per app e portfolio siano coerenti con il registro. Non aggiornare
+    manualmente 160 schede scollegate per aggirare lo script.
+R8. Branch limitato e PR nel SOLO repository catalogo. Esegui CI esatta sul
+    final head, risolvi conflitti/validatori e blocchi prima di merge.
+R9. Merge solo dopo tutti i gate richiesti e review non bloccanti, quando
+    l'autorizzazione è valida. Verifica la CI postmerge main.
+R10. Se nessun cambiamento reale, NO-OP: non creare commit, PR, nuovi report
+     datati o workflow; restituisci data/sha di controllo e risultato.
+R11. Se strumenti, permessi o generatore non sono disponibili, stop sicuro:
+     conserva catalogo invariato e indica COMPLETAMENTO PARZIALE/BLOCKED,
+     non simulare che la sincronizzazione sia avvenuta.
+
+==============================================================================
+8. FORMATO REPORT DA RESTITUIRE
+==============================================================================
+In italiano, conciso ma operativo; per il globale riporta:
+- "CAPABILITY — SYNC" con data, Factory SHA, catalog before/after,
+  repository app verificati / invariati / non accessibili, denominatore
+  effettivo CAP e associazioni app-CAP.
+- Delta verificati: CAP nuove, per-app transizioni tecniche, decisioni
+  APPROVATA/SCARTATA/RINVIATA con prova e CAP, deprecazioni e blocchi.
+- Cosa è IMPLEMENTATO / PARZIALE / DA VERIFICARE / DA VALUTARE / IN_ROADMAP /
+  RINVIATO / SCARTATO per ogni app pertinente.
+- Le top 5–10 prossime capability davvero eseguibili con motivo, score,
+  facilità, dipendenze, blocker, owner, next gate e link al kit.
+- Riuso fra app e differenze di scope, senza attribuire a tutte la prova
+  CI di una sola app.
+- PR/codice/CI/catalog URL e stato esatto. Un file salvato senza PR verde
+  non è sincronizzazione integrata.
+- KPI: numero controlli, transizioni documentate, invariati, gap aperti.
+- Se è stato richiesto un singolo target, riportare il delta specifico,
+  non stampare l'intero portafoglio.
+- Chiudere con "PROSSIMA CAPABILITY CONSIGLIATA" e motivazione, come
+  raccomandazione separata da una decisione già approvata.
+
+==============================================================================
+9. TEST DI ACCETTAZIONE
+==============================================================================
+- "Capability" => scope globale, non Audit read-only.
+- "capability Notes-Ecosistema" => solo stati Notes, nessun reset di Anna.
+- "Capability tutte le app" => repo inventory e 385+ associazioni quando
+  catalog live le contiene; non escludere app senza repo a loro insaputa.
+- Duplicate alias => nessun CAP duplicato.
+- App A CI_VERIFIED + App B PROPOSTA => rimangono distinti.
+- SCARTATA con decision evidence => non visibile tra nuovi lavori della
+  sola app; ancora visibile nello storico e nelle altre app.
+- Decisione non provata => non appare come SCARTATA.
+- HEAD invariato, nessuna nuova prova => no-op e niente PR.
+- Cambia solo un'app => solo association delta, rebuild delle viste quando
+  necessarie; nessuna reclassificazione di altri consumer.
+- PR verde sul source SHA != device pass != Store.
+- Fallimento script/CI/merge => non dichiarare sync riuscita.
+- Nessun tool GitHub o dati privati accessibili => dichiarare i limiti reali.
+
+END MASTER CAPABILITY SYNC v1.0

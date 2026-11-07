@@ -543,6 +543,16 @@
         "interactive mockups",
         "visual design review"
       ]
+    },
+    {
+      "id": "capability-sync",
+      "path": "v27/candidate/modules/82-capability-sync.txt",
+      "selectors": [
+        "capability",
+        "capabilities",
+        "capability registry",
+        "portfolio capability synchronization"
+      ]
     }
   ],
   "task_routes": [
@@ -588,6 +598,26 @@
       ],
       "modules": [
         "audit-roadmap"
+      ]
+    },
+    {
+      "id": "capability_sync",
+      "terms": [
+        "capability",
+        "capabilities",
+        "sincronizza capability",
+        "aggiorna capability",
+        "capability priorità"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "capability-sync"
+      ],
+      "golden_ids": [
+        "single_donor_capability_admission",
+        "scoped_donor_capability_catalog",
+        "roadmap_fast_continuous_maintenance"
       ]
     },
     {
@@ -781,12 +811,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "cf78844f8407d1b9204dfbe951df0d618fc8cb9d",
+    "git_blob_sha": "4bce5e72877c3bea19caef293a3d1e6a0a46022e",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "8bcc3cd048d7996c98db9f059ff0c05dd883f7cb",
+    "core": "2d4764e485cc659ca93b3c04d548bb8dbc67c671",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -796,6 +826,7 @@
     "delivery-verification": "8e1cac8a0e587d4ed73179427d3fa2b3e8ea88ff",
     "audit-roadmap": "daada6c5059a5de30e901e273fa3486666b0f36f",
     "factory-policy-sync": "5efa4194650f68e2570ee5c450dceda15a834c92",
-    "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c"
+    "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c",
+    "capability-sync": "e6beae3d0b5ca2e09a7091dc348324c4c6893ada"
   }
 }

@@ -1,0 +1,8 @@
+V27 CAPABILITY SYNC — SHORT COMMAND ROUTER (2026-11-07)
+Exact user command "Capability" (case-insensitive, whitespace-trimmed) dispatches the GLOBAL incremental capability catalog reconciliation workflow, not an ordinary read-only Audit. "Capability <app>" scopes to that app; "Capability tutte le app" is global; "Capability priorità" reconciles before proposing executable next items.
+Resolve App-Factory-Core/CURRENT.yaml once per session, then load the FULL canonical operational contract at capability/MASTER_CAPABILITY_SYNC_v1.txt. If that file is unavailable do not invent a shorter sync: report CAPABILITY COMMAND SPEC UNAVAILABLE.
+Catalog source of truth: riccardopinato/Idee-app-Archivi-riferimenti/12-CAPABILITY-E-IMPLEMENTAZIONI/REGISTRO_CAPABILITY.json; App Factory Core is command/policy owner, not second CAP data SSOT. Code/PR/physical evidence resides in source apps.
+Command authorizes scoped catalog data and generated-view updates through branch/PR/check/merge gates ONLY. It never authorizes modifying source apps, app roadmaps, Product Bibles, Golden/Factory baseline, AppLab, cloud, billing or release.
+Preserve separate technical evidence app_states and product decision (approved/deferred/rejected) with explicit provenance; rejected/deferred are historical retained, not inferred from missing code. No product approval or Golden promotion without appropriate authority.
+Diff incrementally against pinned repo HEAD, do not re-audit unchanged sources without reason, preserve all other app-CAP links, no-op if nothing changed. Invalid generator/CI or missing GitHub access is BLOCKED, never fabricated success.
+END CAPABILITY SYNC ROUTER
