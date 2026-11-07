@@ -23,9 +23,10 @@
 | `Idee` | Deduplica idee e inserisce nuove proposte soltanto nell'inbox canonica. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
 | `CI` | Controlla GitHub Actions, job logs, commit SHA e causa dei fallimenti. | SOLA LETTURA |
 | `Test` | Pianifica e avvia, solo se autorizzato, test reali con le pipeline disponibili. | ESECUZIONE CI SENZA MODIFICHE ALLA CODEBASE |
-| `APK` | Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati. | BUILD/ARTIFACT SENZA PUBBLICAZIONE |
 | `Store` | Controlla readiness Play: firma, privacy, asset, versioni, test e policy. | SOLA LETTURA |
 | `Peso` | Analizza APK/AAB, asset, dipendenze e ottimizzazioni misurabili. | SOLA LETTURA |
+| `APK` | Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati. | BUILD/ARTIFACT SENZA PUBBLICAZIONE |
+| `Deploy` | Compila e distribuisce la parte Web/PWA tramite pipeline già configurata, distinguendo preview e produzione e verificando il sito online. | WEB DEPLOY CONTROLLATO |
 | `Mock-up interattivi` | Avvia un ciclo di massimo dieci proposte di UI realmente cliccabili, una per volta con approvazione esplicita. | DESIGN INTERATTIVO; NON IMPLEMENTA IL CODICE |
 | `Integra i mock-up` | Chiude il ciclo di revisione e richiede l'implementazione separata delle sole modifiche di design approvate. | IMPLEMENTAZIONE CON GATE |
 | `UX` | Analizza schermate, accessibilità, navigazione, responsive e design system. | SOLA LETTURA |
@@ -191,15 +192,6 @@
 
 **Effetto:** ESECUZIONE CI SENZA MODIFICHE ALLA CODEBASE. Eseguire soltanto test autorizzati con dispatcher, head e costo noti. CI/source-only non prova fisico o store.
 
-**APK** — Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati.
-
-| Scrivi | Cosa succede |
-| --- | --- |
-| `APK` | Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati. |
-| `APK Anna's Diary` | Variante mirata con ambito esplicito. |
-
-**Effetto:** BUILD/ARTIFACT SENZA PUBBLICAZIONE. Non creare segreti o firmare falsamente, non pubblicare su Store; fornire link solo dopo verifica artifact e firma.
-
 **Store** — Controlla readiness Play: firma, privacy, asset, versioni, test e policy.
 
 | Scrivi | Cosa succede |
@@ -217,6 +209,28 @@
 | `Peso Battery Guard` | Variante mirata con ambito esplicito. |
 
 **Effetto:** SOLA LETTURA. Nessuna mutazione del repository, PR, release, cloud, billing o workflow da un comando di consultazione.
+
+### APK e Deploy
+
+**APK** — Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati.
+
+| Scrivi | Cosa succede |
+| --- | --- |
+| `APK` | Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati. |
+| `APK Anna's Diary` | Variante mirata con ambito esplicito. |
+
+**Effetto:** BUILD/ARTIFACT SENZA PUBBLICAZIONE. Non creare segreti o firmare falsamente, non pubblicare su Store; fornire link solo dopo verifica artifact e firma.
+
+**Deploy Web App / PWA** — Compila e distribuisce la parte Web/PWA tramite pipeline già configurata, distinguendo preview e produzione e verificando il sito online.
+
+| Scrivi | Cosa succede |
+| --- | --- |
+| `Deploy` | Verifica il deploy web della app corrente, senza produzione implicita. |
+| `Deploy Anna's Diary` | Controlla il deploy web di Anna's Diary e usa solo preview configurate. |
+| `Deploy anteprima Anna's Diary` | Avvia una preview esistente se autorizzata e supportata. |
+| `Deploy produzione Anna's Diary` | Avvia il rilascio Web pubblico solo con intent esplicito e tutti i gate. |
+
+**Effetto:** WEB DEPLOY CONTROLLATO. Il comando base non pubblica in produzione. Nessun provider, URL o release è presunto; produzione solo esplicita con permessi/CI/source/URL verificati.
 
 ### Design
 

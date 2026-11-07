@@ -477,7 +477,7 @@
     },
     {
       "id": "apk",
-      "group": "Delivery",
+      "group": "APK e Deploy",
       "trigger": "APK",
       "title": "APK",
       "description": "Verifica e, se autorizzato, produce APK con versionCode, firma e artifact controllati.",
@@ -497,6 +497,37 @@
       "notes": "Non creare segreti o firmare falsamente, non pubblicare su Store; fornire link solo dopo verifica artifact e firma.",
       "contract_version": 1,
       "spec_blob_sha": "b65ecf3d96fd39d4a5e3745a210bf4ebc66cfcec"
+    },
+    {
+      "id": "deploy",
+      "group": "APK e Deploy",
+      "trigger": "Deploy",
+      "title": "Deploy Web App / PWA",
+      "description": "Compila e distribuisce la parte Web/PWA tramite pipeline già configurata, distinguendo preview e produzione e verificando il sito online.",
+      "effect": "WEB DEPLOY CONTROLLATO",
+      "entrypoint": "commands/specs/DEPLOY.md",
+      "route_id": "cmd_deploy",
+      "examples": [
+        {
+          "text": "Deploy",
+          "description": "Verifica il deploy web della app corrente, senza produzione implicita."
+        },
+        {
+          "text": "Deploy Anna's Diary",
+          "description": "Controlla il deploy web di Anna's Diary e usa solo preview configurate."
+        },
+        {
+          "text": "Deploy anteprima Anna's Diary",
+          "description": "Avvia una preview esistente se autorizzata e supportata."
+        },
+        {
+          "text": "Deploy produzione Anna's Diary",
+          "description": "Avvia il rilascio Web pubblico solo con intent esplicito e tutti i gate."
+        }
+      ],
+      "notes": "Il comando base non pubblica in produzione. Nessun provider, URL o release è presunto; produzione solo esplicita con permessi/CI/source/URL verificati.",
+      "contract_version": 1,
+      "spec_blob_sha": "e85bccd81cf7bb22e1c44690323f509fac581b06"
     },
     {
       "id": "store",
