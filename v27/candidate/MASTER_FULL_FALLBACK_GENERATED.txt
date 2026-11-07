@@ -47,8 +47,9 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Compare repository HEAD and decision evidence incrementally, preserve all other app states, regenerate catalog views through its build script, and return NO-OP if unchanged; never claim success without catalog main/CI evidence.
 - Exact command "Legenda" (optional text filter, e.g. "Legenda Audit") is READ_ONLY: use the current Factory SHA to read `commands/REGISTRY.json` and generated `commands/LEGGENDA.md`, then SHOW all available public short commands, examples, effects, and relevant router topics. Listing commands never executes them or grants permissions.
 - Every new public command must be registered once in commands/REGISTRY.json and marked public_command=true in MODULE_MAP.json, with a canonical spec, generated legend updated and CI drift checks. If registry/docs cannot be verified, say COMMAND LEGEND UNAVAILABLE instead of using stale memory.
-- The approved 22 portfolio commands Stato, Prossimo, Allinea, Roadmap, Backlog, Riprendi, Golden, Donor, Factory, Adotta Factory, Nuova app, CI, Test, Ripara, APK, Store, Peso, Sicurezza, UX, Monetizzazione, Mercato and Idee use a longest-prefix public router and 22 individual SHA-pinned contracts in commands/specs/. Each invocation selects ONLY its own contract and ignores unrelated context keywords.
+- The approved 22 portfolio commands plus Deploy Stato, Prossimo, Allinea, Roadmap, Backlog, Riprendi, Golden, Donor, Factory, Adotta Factory, Nuova app, CI, Test, Ripara, APK, Store, Peso, Sicurezza, UX, Monetizzazione, Mercato Idee and Deploy use a longest-prefix public router and 23 individual SHA-pinned contracts in commands/specs/. Each invocation selects ONLY its own contract and ignores unrelated context keywords.
 - Read-only commands cannot mutate repositories; Test and APK may dispatch only a specifically authorized workflow with runner/source/permission proof, never publish to Store. Scoped-write commands require target/scope, PR and exact-head checks. If a contract is missing, corrupt or unregistered, BLOCKED_COMMAND_SPEC_UNAVAILABLE: no silent generic fallback that could grant greater power.
+- Under «APK e Deploy», APK builds Android artifacts only. Deploy is Web/PWA and defaults to configured preview; a production-only workflow remains blocked until explicit `Deploy produzione <app>`, existing hosting, reviewed CI/source/permission gates and live site verification. No new service, deployment URL, or publishing status is invented.
 - "Mock-up interattivi": MUST show one VISUAL RENDERED CLICKABLE app-screen prototype (not text, ASCII, static image or a mere approval button) per decision 1/10 through 10/10; user tests visual controls and explicitly approves/revises/rejects before advancing. Load interactive-mockup-review policy.
 - At decision 10/10, stop ideation and move only approved designs to a separate gated implementation phase; early "Integra i mock-up" closes the current cycle explicitly.
 - Before parallelization assess dependencies, file collisions and net benefit.
@@ -1780,14 +1781,15 @@ END LEGGENDA ROUTER
 
 
 ===== V27 POLICY UPDATE: portfolio-commands =====
-V27 PORTFOLIO COMMANDS — 22 OPERATIONAL SHORTCUTS (2026-11-07)
-These 22 user-approved commands are individual operational contracts, NOT permission to execute changes across all apps. Master, Golden, Product Bible, current roadmap, AGENTS and GitHub evidence remain authoritative.
+V27 PORTFOLIO COMMANDS — 23 OPERATIONAL SHORTCUTS (2026-11-07)
+These 22 user-approved commands plus Deploy are individual operational contracts, NOT permission to execute changes across all apps. Master, Golden, Product Bible, current roadmap, AGENTS and GitHub evidence remain authoritative.
 Read commands/REGISTRY.json and the single relevant commands/specs/<ID>.md on the fixed Factory SHA. Match longest registered public trigger at the beginning of actual user task; ambient chat context must not cause a second command to execute. Do not confuse Legenda Test with Test or Capability APK with APK.
 Use command spec blob SHA seals and public route in MODULE_MAP.json to validate executable contract. Invalid, missing or unsafe contract => BLOCKED_COMMAND_SPEC_UNAVAILABLE, no silent substitution of generic Master fallback for a new command.
 READ ONLY: Stato, Prossimo, Riprendi, Golden, Donor, Factory, CI, Store, Peso, Sicurezza, UX, Monetizzazione, Mercato. These do not modify repositories, launch jobs, or authorize a public release.
 SCOPED REPO WRITE: Allinea, Roadmap, Backlog, Adotta Factory, Nuova app, Ripara, Idee. They require clearly identified product/repo, bounded authorized scope, evidence and normal branch/PR/exact-head validation and review. Do not invent approval/scarto, cloud, new billing or destructive data action.
 WORKFLOW: Test can run existing authorized AppLab/repo tests only when target, source SHA, specific run scope, runner and permissions are known. APK can build a verified internal APK and report hash/signing/artifact only when truly available. Neither authorizes Play deployment nor device certification.
-Golden does not auto-promote an E3 donor to certified Golden; Factory is a consistency check and not automatic Master/Registry update. CI does not rerun failures without explicit additional request; Ideee do not auto-promote proposals to app roadmaps.
+Golden does not auto-promote an E3 donor to certified Golden; Factory is a consistency check and not automatic Master/Registry update. CI does not rerun failures without explicit additional request; Idee does not auto-promote proposals to app roadmaps.
+WEB DEPLOY: Deploy is an independent 23rd SHA-pinned command, displayed with APK under «APK e Deploy». Deploy targets configured Web/PWA preview only; if the sole pipeline publishes to production, block and require explicit `Deploy produzione <app>` with existing provider, environment, exact-source gates, permissions and live URL verification. AppLab web-preview is AppLab-only. No implicit new hosting, billing, DNS, backend, or Android/Store release.
 No background agent or cron is created by a shortcut. Workflows and timed automations are separate, require their real executor and appropriate user authorization.
 Installing these command contracts updates only Core; does not mutate app repositories, CAP data, Golden status, providers, store, APKs or user files.
 Update registry, specs/hashes, public routes, derived Legenda, Master/mirror/fallback, bootstrap/pointer and CI together. Fail closed on mismatch.
@@ -2245,6 +2247,19 @@ END PORTFOLIO COMMANDS ROUTER
       "portfolio-commands"
     ],
     "command_trigger": "APK",
+    "public_command": true
+  },
+  {
+    "id": "cmd_deploy",
+    "terms": [
+      "deploy"
+    ],
+    "modules": [
+      "authority-execution",
+      "delivery-verification",
+      "portfolio-commands"
+    ],
+    "command_trigger": "Deploy",
     "public_command": true
   },
   {

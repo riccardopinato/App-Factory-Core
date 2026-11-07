@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "commands/REGISTRY.json"
 MANIFEST = ROOT / "v27/candidate/MODULE_MAP.json"
 OUTPUT = ROOT / "commands/LEGGENDA.md"
-GROUPS = ["Consultazione", "Portafoglio", "Factory", "Verifica", "Catalogo", "Delivery", "Design", "Business", "Esecuzione"]
+GROUPS = ["Consultazione", "Portafoglio", "Factory", "Verifica", "Catalogo", "Delivery", "APK e Deploy", "Design", "Business", "Esecuzione"]
 EFFECTS = {
     "SOLA LETTURA",
     "SCRITTURA SOLO CATALOGO (PR + CI)",
@@ -20,6 +20,7 @@ EFFECTS = {
     "IMPLEMENTAZIONE CON GATE",
     "ESECUZIONE CI SENZA MODIFICHE ALLA CODEBASE",
     "BUILD/ARTIFACT SENZA PUBBLICAZIONE",
+    "WEB DEPLOY CONTROLLATO",
 }
 
 def normalize(text):

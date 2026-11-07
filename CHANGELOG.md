@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-07 — APK e Deploy / comando Web/PWA
+
+- Nuova sezione visiva `APK e Deploy` con comandi indipendenti per Android APK e Web/PWA Deploy; catalogo totale 29 comandi con 23 contratti individuali.
+- `Deploy` riusa solo il provider e le pipeline Web configurate nel repo target, default preview o BLOCKED, produzione soltanto con richiesta esplicita e gate/evidence live; nessun deploy lanciato in questa PR.
+- Registro, legenda derivata, route v27, Core/mirror/fallback e hash allineati; aggiunti test di separazione APK/Deploy e fail-closed del contratto Web.
+
+
 ## 2026-11-07 — 22 nuovi comandi rapidi App Factory
 
 - Registrati 22 comandi operativi con contratti indipendenti SHA-pinned e route esclusive; legenda derivata aggiornata a 28 comandi.

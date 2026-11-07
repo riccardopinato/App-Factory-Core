@@ -76,10 +76,10 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(audit["route_rules"], ["audit"])
         self.assertEqual(cap["route_rules"], ["capability_sync"])
 
-    def test_22_shortcuts_route_one_contract(self):
+    def test_23_shortcuts_route_one_contract(self):
         reg=json.loads((ROOT/"commands/REGISTRY.json").read_text(encoding="utf-8"))
         new=[c for c in reg["commands"] if c.get("contract_version")==1]
-        self.assertEqual(len(new),22)
+        self.assertEqual(len(new),23)
         for item in new:
             with self.subTest(trigger=item["trigger"]):
                 r=resolver.resolve(item["trigger"]+" AnnaDiary","Legenda Capability Audit")
@@ -90,6 +90,8 @@ class RouterTests(unittest.TestCase):
 
     def test_multiword_shortcuts_and_legacy_isolation(self):
         pairs=[("Adotta Factory AnnaDiary","cmd_adotta_factory"),
+               ("Deploy AnnaDiary","cmd_deploy"),
+               ("Deploy produzione AnnaDiary","cmd_deploy"),
                ("Factory Golden","cmd_factory"),
                ("Nuova app Test","cmd_nuova_app"),
                ("Roadmap Notes","cmd_roadmap"),

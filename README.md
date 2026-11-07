@@ -23,7 +23,11 @@ Scrivi `Legenda` nelle chat del Project: legge `commands/REGISTRY.json` e `comma
 
 ## Comandi operativi App Factory
 
-`Legenda` ora elenca 28 comandi (6 precedenti e 22 approvati), con 22 specifiche SHA-verificate in `commands/specs/`, instradamento pubblico esatto e CI. I comandi consultivi sono sola lettura; modifiche, Test e APK operano nei limiti dichiarati e non autorizzano rilasci pubblici. Nessun worker permanente viene creato dal comando.
+`Legenda` ora elenca 29 comandi (6 precedenti, 22 approvati e Deploy), con 23 specifiche SHA-verificate in `commands/specs/`, instradamento pubblico esatto e CI. I comandi consultivi sono sola lettura; modifiche, Test e APK operano nei limiti dichiarati e non autorizzano rilasci pubblici. Nessun worker permanente viene creato dal comando.
+
+## APK e Deploy
+
+La legenda raggruppa APK Android e Deploy Web/PWA. `Deploy <app>` utilizza soltanto una preview realmente configurata, senza pubblicazione pubblica automatica. `Deploy produzione <app>` avvia il flusso pubblico solo con intenzione esplicita, provider già presente, check e URL verificato. Nessun nuovo hosting, DNS, backend o segreto viene creato dall'installazione del comando.
 
 ## Current versions
 

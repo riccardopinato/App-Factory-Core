@@ -23,13 +23,23 @@ class LegendTests(unittest.TestCase):
         approved=("Stato","Prossimo","Allinea","Roadmap","Backlog","Riprendi",
                   "Golden","Donor","Factory","Adotta Factory","Nuova app",
                   "CI","Test","Ripara","APK","Store","Peso","Sicurezza",
-                  "UX","Monetizzazione","Mercato","Idee")
-        self.assertEqual(len(R["commands"]),28)
+                  "UX","Monetizzazione","Mercato","Idee","Deploy")
+        self.assertEqual(len(R["commands"]),29)
         for name in approved:
             with self.subTest(name=name):
                 item=next(x for x in R["commands"] if x["trigger"]==name)
                 self.assertEqual(item["contract_version"],1)
                 self.assertEqual(len(item["spec_blob_sha"]),40)
+
+    def test_apk_and_deploy_share_section_but_not_contract(self):
+        apk=next(x for x in R["commands"] if x["id"]=="apk")
+        deploy=next(x for x in R["commands"] if x["id"]=="deploy")
+        self.assertEqual(apk["group"], "APK e Deploy")
+        self.assertEqual(deploy["group"], "APK e Deploy")
+        self.assertNotEqual(apk["entrypoint"], deploy["entrypoint"])
+        self.assertNotEqual(apk["route_id"], deploy["route_id"])
+        self.assertIn("### APK e Deploy", legend.render(R, M))
+        self.assertIn("Deploy produzione Anna's Diary", legend.render(R, M))
 
     def test_corrupt_contract_hash_rejected(self):
         broken=copy.deepcopy(R)

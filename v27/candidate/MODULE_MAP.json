@@ -582,6 +582,7 @@
         "test",
         "ripara",
         "apk",
+        "deploy",
         "store",
         "peso",
         "sicurezza",
@@ -1046,6 +1047,19 @@
       "public_command": true
     },
     {
+      "id": "cmd_deploy",
+      "terms": [
+        "deploy"
+      ],
+      "modules": [
+        "authority-execution",
+        "delivery-verification",
+        "portfolio-commands"
+      ],
+      "command_trigger": "Deploy",
+      "public_command": true
+    },
+    {
       "id": "cmd_store",
       "terms": [
         "store"
@@ -1147,12 +1161,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "5ba05718d0292b41c93a66e0f0b6e30ced105d70",
+    "git_blob_sha": "06826572b60a68edac7f45ad82fc155357b66584",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "7690dd21689d30c76eb229e573daad114e9acbf6",
+    "core": "18652a58c9aa0f3de60065fd3b0faea73e5a5329",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -1165,6 +1179,6 @@
     "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c",
     "capability-sync": "e6beae3d0b5ca2e09a7091dc348324c4c6893ada",
     "command-legend": "0ac7f7a74c70887d402aa1c206c048f0a2befc1f",
-    "portfolio-commands": "54de9ccecf08647b9abdf08874a6f6c8270a7e7f"
+    "portfolio-commands": "c23cce6dc8104854ad7a557e32745bca9360b5e6"
   }
 }
