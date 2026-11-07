@@ -1,5 +1,5 @@
 APP FACTORY BOOTSTRAP — CANONICAL RESOLUTION FLOW
-Versione 3 — 28/10/2026
+Versione 4 — 07/11/2026
 
 SOURCE OF TRUTH
 https://github.com/riccardopinato/App-Factory-Core
@@ -8,11 +8,12 @@ https://github.com/riccardopinato/App-Factory-Core
 2. Con CURRENT.master.version = 27, leggi il Master Core da master.path e il manifest da master.modular_manifest.
 3. Verifica stato ACTIVE e integrità dei moduli e del fallback; carica solo i moduli pertinenti.
 4. Usa Golden Registry per path, stato e freshness, leggendo solo i Golden pertinenti; Golden Index su richiesta o necessità.
-5. Per «Procedi» riutilizza la roadmap e il Product Bible già noti; con contesto indisponibile, fallback completo verificato senza inventare lo scope.
-6. Se il modulo è corrotto/indisponibile, usa il fallback sincronizzato soltanto dopo il controllo hash e dichiara FALLBACK_BASELINE_USED. Se anche fallback non integro, blocca come FACTORY BASELINE UNVERIFIED.
-7. Aggiornamenti al Master/Core: modifica sorgenti modulari e rigenera il fallback completo nella stessa PR con CI exact-head; v26.8 storica resta immutabile.
-8. Se CURRENT risolve v26.8, usa invece il flusso legacy previsto.
-9. Non rileggere la Factory tra step consecutivi salvo aggiornamento centrale o richiesta esplicita.
-10. Product Bible e Roadmap delle app delimitano scope; AGENTS, Golden e gate di sicurezza/QA/merge restano vincolanti.
+5. Per il comando esatto «Audit» (anche «Audit <app>»), usa il route audit-roadmap e carica integralmente `audit/MASTER_AUDIT_360_APP_FACTORY_v1.txt` per l’audit 360° in sola lettura. Se non è identificabile un target, chiedi quale app; non inventare repository. Il comando non autorizza modifiche.
+6. Per «Procedi» riutilizza la roadmap e il Product Bible già noti; con contesto indisponibile, fallback completo verificato senza inventare lo scope.
+7. Se il modulo è corrotto/indisponibile, usa il fallback sincronizzato soltanto dopo il controllo hash e dichiara FALLBACK_BASELINE_USED. Se anche fallback non integro, blocca come FACTORY BASELINE UNVERIFIED.
+8. Aggiornamenti al Master/Core: modifica sorgenti modulari e rigenera il fallback completo nella stessa PR con CI exact-head; v26.8 storica resta immutabile.
+9. Se CURRENT risolve v26.8, usa invece il flusso legacy previsto.
+10. Non rileggere la Factory tra step consecutivi salvo aggiornamento centrale o richiesta esplicita.
+11. Product Bible e Roadmap delle app delimitano scope; AGENTS, Golden e gate di sicurezza/QA/merge restano vincolanti.
 
 Il GitHub repository non può aggiornare automaticamente le impostazioni ChatGPT Project già salvate. App-level regole GitHub restano in vigore.

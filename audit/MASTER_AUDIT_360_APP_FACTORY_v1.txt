@@ -1,0 +1,304 @@
+# APP FACTORY — MASTER AUDIT 360° UNIVERSALE
+## Prompt operativo riutilizzabile | v1.0 | 7 novembre 2026
+
+### ISTRUZIONE DI AVVIO
+Esegui un AUDIT TRASVERSALE PROFONDO, COMPLETO, CRITICO, COMPARATIVO E BASATO SU EVIDENZE dell'app/progetto di cui stiamo parlando in questa chat. Se il contesto identifica più app, analizzale separatamente e aggiungi una matrice trasversale; se l'utente indica «tutte le app», inventaria prima i repository del suo ecosistema. Non chiedere di ripetere nomi, scelte o vincoli già disponibili.
+
+PARAMETRI DI DEFAULT (modificali solo se l'utente lo richiede):
+- TARGET: app/progetto corrente nella chat; se nominato esplicitamente, quello indicato.
+- MODALITÀ: AUDIT_ONLY / SOLA LETTURA, nessuna modifica a codice, repository, roadmap, issue, dati, configurazioni, cloud, release o store.
+- PROFONDITÀ: MASSIMA UTILE, non semplice checklist formale.
+- PERIODO: stato verificabile ORA, confrontato con ultimo audit, decisioni recenti e roadmap.
+- AMBITO: prodotto + UX + dati + codice + sicurezza + CI + runtime + rilascio + crescita + App Factory.
+- METODO: evidence-first, reuse-first, risk-based, anti-duplicazione, anti-regressione.
+- OUTPUT: report in italiano, tabelle verificabili, matrice problemi/capability, priorità e 5 maxi-step motivati.
+- VINCOLI: solo Chat, non Work; nessuna API OpenAI a pagamento; nessuna assunzione di capacità operative non disponibili.
+
+OBIETTIVO: spiegarmi con precisione COSA È l'app oggi, COSA FA realmente, COSA DOVREBBE FARE secondo gli accordi, COSA NON FUNZIONA o non è provato, COSA È INCOMPLETO, COSA SI POTREBBE MIGLIORARE, COSA MANCA, COSA È SUPERFLUO, COSA POSSIAMO RIUSARE, QUANTO CONVIENE intervenire, IN CHE ORDINE e CON QUALI EVIDENZE considereremo ogni intervento concluso. Non confondere un'idea, una PR, un test superato, una release firmata e una funzionalità certificata.
+
+---
+
+## 0. REGOLE INDEROGABILI DI VERITÀ E AUTORITÀ
+
+0.1. Prima di un audit che dipenda dalla App Factory, risolvi UNA VOLTA per sessione la baseline centrale in `riccardopinato/App-Factory-Core`: leggi `CURRENT.yaml`, il file puntato da `master.path`, quello puntato da `golden_index.path`, `golden/GOLDEN_REGISTRY.yaml` e SOLO i Golden attinenti alle aree analizzate. Annota commit SHA esatto, versione Master, Index, date, eventuali anomalie. Non sostituire la baseline con memoria di chat o file vecchi e non rileggere il Core tra step consecutivi salvo aggiornamento centrale effettivo o richiesta esplicita. Applica le restrizioni di accesso ai repository di app stabilite dal Master corrente.
+
+0.2. Per ogni app: identifica repository GitHub reale, default branch, HEAD SHA, data commit; leggi AGENTS.md, Product Bible o documento di scope, roadmap, README, ADR/architettura, contratti di capability, issue/PR pertinenti, codice e test. Se un documento manca, segnalalo: non inventarlo. Se un repository non è accessibile, dichiara la limitazione e prosegui con le fonti disponibili.
+
+0.3. Gerarchia: Product Bible e decisioni approvate definiscono il PERIMETRO; roadmap approvata definisce DIPENDENZE e priorità operative; Master/Golden governano il processo; codice su HEAD, database e artefatti provano implementazione e comportamento osservato. Quando le fonti confliggono, indica esattamente il conflitto, le date e quale verifica è necessaria. Il codice non autorizza automaticamente una funzione fuori scope; una frase in README non prova il runtime.
+
+0.4. Recupera il contesto recente rilevante: due/tre audit precedenti, bug discussi, scelte approvate, rinvii, esclusioni, screenshot, feedback dell'utente, risultati di test, decisioni UI, richieste di non perdere dati, lavori paralleli, permessi e limiti di monetizzazione. Distingui sempre «decisione approvata», «proposta del modello», «ipotesi da validare». Non riproporre come novità ciò che è già implementato o scartato.
+
+0.5. Usa prove verificabili: URL GitHub/file/path/linee, commit, PR, issue, workflow run, test, artifact, hash, screenshot e data. Non inventare esiti, numeri, percentuali, file, tempi, benchmark, installazioni, test su telefono, stati di provider o attività svolte in background. Se non puoi eseguire una verifica: `NOT VERIFIED` con motivo, metodo e prova richiesta. Le stime devono essere dichiarate come stime.
+
+0.6. Non cambiare nulla durante l'audit: niente scritture, PR, merge, issue, deploy, test distruttivi, integrazioni cloud, modifica chiavi, cancellazioni o release, salvo esplicita richiesta separata. La possibilità di merge automatico in un progetto NON trasforma un audit descrittivo in autorizzazione a modificare.
+
+0.7. Lavora in modo efficiente: prima metadata, documenti canonici e inventario; poi codice e test mirati ai rischi più importanti. Evita ricerche ripetute e scansioni senza scopo. Non attribuire una falsa completezza a una scansione parziale. Se un repository è troppo grande, usa campionamento dichiarato e identifica le parti non coperte.
+
+0.8. Rispetta la differenziazione dei prodotti: Notes-Ecosistema è un workspace local-first per conoscenza, note, studio e produttività orientata all'azione; Anna's Diary è diario personale, agenda leggera, ricordi e condivisione selettiva. Riutilizzare contratti e codice non significa unificare dati, account, DB o UX. Per qualsiasi altra app ricostruisci la sua Product Bible prima di raccomandare feature.
+
+---
+
+## 1. FOTOGRAFIA INIZIALE: COSA ESISTE DAVVERO
+
+Costruisci un'identità di audit con: nome app; promessa del prodotto; utenti e casi d'uso; piattaforme promesse e realmente disponibili; stack (Flutter, Kotlin/Compose, Web/PWA, backend); repository, branch e SHA; versione dichiarata; ultima release compilata; ultimo artifact firmato; versione installata/confermata dall'utente, se nota; data ultimo deploy Web/PWA; stato store; CI e AppLab; fonti controllate; copertura dell'audit.
+
+Confronta esplicitamente le cinque identità spesso diverse: `versione descritta` / `source HEAD` / `commit del Web distribuito` / `APK-AAB costruito e firmato` / `versione provata su dispositivo`. Calcola l'allineamento soltanto dove le prove lo consentono. Un artifact generato da un commit vecchio non rappresenta l'ultimo codice. Mostra PR aperte, Draft, merge recenti, cambiamenti non rilasciati e loro dipendenze senza chiamarli «funzioni disponibili».
+
+Verifica drift fra README, Product Bible, ROADMAP, changelog, schermate reali, documentazione, workflow e codice; etichette di versione obsolete; TODO ancora descritti come completati; nuovi moduli non documentati; vecchie feature rimosse dalla UI ma ancora presenti; flag sperimentali attivi e feature dark-launched. Distingui regressione funzionale, errore documentale e incongruenza solo di naming.
+
+Produci una sintesi di 15–25 righe leggibile anche a chi non conosce il codice, senza anticipare PASS non dimostrati.
+
+## 2. INVENTARIO COMPLETO DI CAPABILITY, MODULI ED ENTITÀ
+
+Non fermarti alle feature principali. Mappa menu, schermate, tab, bottom sheet, shortcut, widget, Quick Settings, notifiche, deep link, flussi in background, pannelli Settings, funzionalità Premium, Web/PWA, moduli nascosti, funzioni condizionali e integrazioni.
+
+Per OGNI capability rilevante annota:
+`ID stabile | dominio | descrizione | utente/trigger | ingresso UI | servizi/modello dati | piattaforme | stato prodotto | evidenza tecnica | limiti | test | roadmap/issue | dipendenze | proposta`.
+
+Distingui lo STATO PRODOTTO: `IMPLEMENTATA E ACCESSIBILE`, `IMPLEMENTATA MA NASCOSTA/DISABILITATA`, `PARZIALE`, `IN SVILUPPO SU BRANCH/PR`, `IN ROADMAP APPROVATA`, `APPROVATA NON PIANIFICATA`, `DA VALUTARE`, `RIMANDATA`, `SCARTATA`, `NON APPLICABILE`, `NON VERIFICABILE`.
+
+Aggiungi in colonna separata il LIVELLO DI PROVA: `CODICE RILEVATO`, `TEST STATICI`, `TEST AUTOMATICI`, `CI EXACT-HEAD`, `ARTIFACT BUILD`, `RUNTIME AUTOMATIZZATO`, `DISPOSITIVO FISICO`, `DISTRIBUZIONE`, `STORE/PRODUZIONE`; livello superiore MAI dedotto automaticamente dal precedente. Per ogni stato segnala `confidence: alta/media/bassa` e fonte.
+
+Verifica se esistono capability doppie con nomi diversi, due editor per lo stesso oggetto, due schedulatori, due sistemi di ricerca, due archivi media, una vecchia schermata conservata, copy/link incoerenti, azioni simili che conducono a risultati diversi e codice non più utilizzato. Non proporre subito una riscrittura: cerca un owner canonico e bounded extraction.
+
+## 3. AUDIT END-TO-END DELLE AZIONI UTENTE
+
+Esegui mentalmente e, se possibile, con test/esecuzione osservabile il ciclo completo di ciascuna entità creabile:
+`scopri → apri → crea → modifica → salva → chiudi → riapri → cerca/filtra → collega → condividi/esporta → offline → sincronizza → archivia → cestina/elimina → ripristina → elimina definitivamente → backup/restore → cambio account/dispositivo`.
+
+Segnala per ciascun passaggio: pulsante esistente? visibile? attivo? collegato al writer canonico? conferma mostrata? validazione? feedback successo/errore? dato realmente persistito? navigazione di ritorno? test di restart? comportamenti su Web e Android? Che cosa succede con dati legacy o dopo aggiornamento?
+
+Esamina anche annulla, duplicazione, rinomina, spostamento, riordino, selezione multipla, trascinamento, allegati, permessi, link non validi, file non trovati, contenuti vuoti, errori di rete e sincronizzazione differita. Non imporre tutti questi comandi dove non hanno senso: giudica per dominio.
+
+Individua tutti i «falsi positivi UX»: pulsante che sembra funzionare ma non persiste, notifica dichiarata inviata ma non recapitata, download dichiarato completato ma file assente, pulsante Premium che abilita una simulazione, schermata che usa dati fittizi, errore silenziato, stato di sync «OK» non corroborato. Ogni affermazione di successo deve riferirsi all'evento effettivamente confermato.
+
+## 4. UNIVERSAL DELETE & ENTITY LIFECYCLE — AUDIT OBBLIGATORIO
+
+Inventaria TUTTE le entità che l'utente può creare/importare: note, blocchi, disegni/stroke, pagine, task/subtask, appuntamenti, ricorrenze, reminder, persone, progetti, template, tag, collezioni, foto, audio, file, allegati, thumbnail, esportazioni, backup, workspace, membri/inviti, commenti, record condivisi, contenuti Premium, account; aggiungi entità specifiche dell'app.
+
+Per ognuna controlla esplicitamente: possibilità di eliminare; archiviazione vs cestino vs soft delete vs purge; recuperabilità; retention; conferma proporzionata al rischio; `delete for me / remove from shared / delete for everyone / leave workspace` dove applicabile; ownership; permessi; sync tombstone; undo; perdita di riferimenti; cleanup delle ricorrenze e notifiche; media orfani; indici derivati; cache; backup; idempotenza; operazioni interrotte; conflitti offline e comportamento fra due account.
+
+Principio: contenuto normale → cestino recuperabile → ripristino → purge, salvo eccezioni motivate e privacy law. Non forzare «Elimina» sui dati di sistema/registri immutabili o imporre dialog superflui per piccole azioni reversibili. Nei progetti condivisi richiedi una policy esplicita per contenuti figli e revoca accessi. Disattivare un modulo nella UI NON deve cancellare i suoi dati.
+
+Per tutte le entità segnala se delete manca, è solo UI, lascia residui, rompe referenze, cancella altri utenti o elimina elementi senza via di recupero. Proponi test di create-delete-restore-purge e referential integrity. Il Golden Lifecycle/Trash resta utilizzabile solo nel suo stato reale (non promuovere un DRAFT a certificato).
+
+## 5. INTEGRITÀ DATI, STORAGE, BACKUP, IMPORT/EXPORT
+
+Identifica source of truth dei dati e contratti di persistenza. Verifica: migrazioni schema, compatibilità upgrade/downgrade supportati, local-first, transazioni, scritture atomiche, check checksum, revisione/versione, safety snapshot, rollback, collisioni ID, de-duplicazione, conflitti, dati orfani, media/metadata consistency, indici derivati ricostruibili, corruption recovery, limiti file e archivi, attraversamento path, zip bomb, file picker, permessi SAF/Storage e spazio esaurito.
+
+Per backup/restore richiedi un percorso reale: `crea → conserva file → valida → ispeziona → safety snapshot → staging → ripristina → verifica dati/media/riferimenti → rollback in caso di errore`. Controlla se backup include preferenze, contenuti Premium, impostazioni, riferimenti, allegati e credenziali nel modo corretto; se esclude materiale effimero; se l'account di destinazione è coerente; se la UI presenta chiaramente modalità merge/sostituzione.
+
+Per import/export valuta standard aperti e portabilità bidirezionale, fedeltà round-trip, caratteri multilingua, metadati e provenienza, date/fusi orari, conflitti, allegati grandi, conversione parziale, undo e nessuna eliminazione irreversibile durante anteprima. «Import supportato» non significa che un file reale sia stato importato con successo.
+
+Per media controlla ingest, dimensioni, codec, compressione, originali, miniature, cache, garbage collection reference-aware, storage locale/cloud, privacy EXIF, tempo di apertura, duplicati, backup, restore e condivisione sicura.
+
+## 6. ACCOUNT, IDENTITÀ, SYNC, MULTI-DISPOSITIVO E COLLABORAZIONE
+
+Verifica login opzionale/obbligatorio rispetto al prodotto, sessioni scadute, logout, cambio account, token refresh, profili e isolamento dati, offline edit, queue, retry, deduplica eventi, conflitti simultanei, ordine delle revisioni, stale write, revoche, RLS/autorizzazione server-side, ownership, guest e inviti, membership, link/codici QR, accesso di account diversi e workspace separati.
+
+Testa la differenza tra evento locale salvato, invio al backend, ACK, ricezione remota, materializzazione corretta e visualizzazione finale. Un token FCM registrato non prova che i messaggi arrivino, un invito creato non prova il join di un secondo telefono, un HTTP 200 non prova sync corretto. Nessun «cloud funziona» senza scenario end-to-end.
+
+Per bridge fra app: sorgente canonica, versioni, provenienza, `COPY != LINK`, esplicito consenso, destinazione autorizzata, retry/idempotenza, compatibilità, duplicazione, privacy. Non introdurre implicitamente database universale, sync bidirezionale silenzioso, account condiviso o proprietà ambigua.
+
+## 7. NOTIFICHE, REMINDER, CALENDARI, BACKGROUND, NATIVE/PWA
+
+Controlla permessi, canali Android, exact/inexact alarms, fusi e ora legale, eventi tutto il giorno o che attraversano mezzanotte, ricorrenze, deduplica degli ID, cancellazione/update, reboot, Doze/battery optimization, foreground service, cold start e tap routing. Distingui notifica locale, push backend, push ricevuta e elemento nel notification center.
+
+Per PWA iPhone/Web verifica installazione Home Screen, HTTPS, service worker, subscription/token, richiesta consenso, delivery backend, badge, tap/deep link, revoca permesso, browser supportato, cache/versioni offline e differenze Android/iOS. Non classificare parità PWA/iOS o Web Push sulla base dei soli test Android.
+
+Per calendari esterni verifica visibilità read-only, provenienza, permessi, duplicati, aggiornamenti e timezone. Una seconda fase di scrittura esplicita NON implica two-way sync. Testa staging OAuth e consenso reale separatamente; segreti e redirect devono rispettare i gate di sicurezza. Evento esterno ≠ ricordo automatico.
+
+Per capability native verifica se «permesso concesso» corrisponde davvero a «servizio funzionante», incluso sensore, overlay, location, background, fotocamera, biometria, Shizuku/ADB, file e notifiche. Escludi permessi non necessari.
+
+## 8. SICUREZZA, PRIVACY, COMPLIANCE E TRUST UX
+
+Fai threat modeling mirato: dati sensibili, segreti, Auth, accessi server, Supabase RLS/RPC, storage pubblico/privato, URL firmati, IDOR, XSS Web, injection nei parser, file non fidati, CSRF/state/PKCE OAuth, token logging, rate limit, dipendenze vulnerabili, supply chain, analytics e telemetria. Distingui vulnerabilità osservata da rischio teorico.
+
+Verifica cifratura e limiti effettivi di Android Keystore, biometric gate, secure screen, Vault, app switcher, cache e clipboard, lock timeout, backup dei dati cifrati, reset e recovery, accesso tramite ricerca globale, condivisione accidentale, screenshot e visibilità in notifiche. Non fare un test aggressivo su dati reali senza consenso.
+
+Richiedi trasparenza nelle promesse: nessun «protetto», «crittografato», «esportato», «condiviso solo con X», «cancellato definitivamente» o «privacy-first» se manca il contratto verificato. Controlla GDPR e Store disclosure laddove applicabili, distinguendo review legale da verifica tecnica.
+
+Le feature sperimentali Privacy V2, OAuth, monetizzazione o con privilegi elevati devono rimanere isolate se i loro gate non sono chiusi. Non pubblicare segreti nelle risposte, nei log o nel repository.
+
+## 9. QUALITÀ CODICE, ARCHITETTURA E MANUTENIBILITÀ
+
+Mappa per dominio: UI → state management → use case → repository → storage/provider; dipendenze fra moduli, duplicazioni, coupling, file enormi, cicli, error handling, servizi globali, testability e obsolescenza. Individua funzioni morte, TODO superati, vecchi router/store, moduli di compatibilità non più necessari, asset inutili, librerie duplicative, API deprecate e versioni disallineate.
+
+Preferisci `EXTEND BEFORE DUPLICATE`: rifattorizzazioni bounded e testabili, senza riscrivere un'app stabile o creare un nuovo DB, scheduler, sync engine, media owner o search index se esiste già un owner valido. Rispetta Flutter per nuovi progetti cross-platform e mantieni Kotlin/Compose dove è già corretto.
+
+Controlla aggiornabilità dipendenze, licenze e SBOM quando disponibile, warning lint, errori di build, soglie di test pertinenti, qualità dei test (non solo conteggio), fixture realistiche, property/metamorphic test per algoritmo, migrazioni e versioni del toolchain. Ogni pulizia collegata a un cambiamento va verificata sul codice finale, non solo sul preflight.
+
+## 10. PERFORMANCE, DIMENSIONI E COSTO DI ESERCIZIO
+
+Misura o richiedi prove per: cold/warm start, first usable frame, frame time/p95 e scroll jank, navigazione, ricerche su dataset 100/1.000/10.000 se pertinenti, timeline lunga, salvataggio note/immagini/audio, large canvas, PDF, storage, RAM/PSS, consumo CPU/batteria, network, offline, memoria al cambio schermata, crash/ANR, installazione e dimensioni APK/AAB/modelli.
+
+Non trasformare un'anomalia basata su un singolo frame in un problema prestazionale confermato. Distingui misurazioni da ipotesi. Preferisci baseline ripetibili su dispositivo rappresentativo e confronti prima/dopo. Leggerezza e reattività contano, ma non sacrificare funzionalità utili per una soglia arbitraria di MB.
+
+Stima costi ricorrenti, API e cloud, traffico, storage, AI inference, supporto, manutenzione e rischio lock-in. Valuta caching, batch, lazy loading e on-demand pack soltanto se hanno un guadagno concreto. Non attivare servizi a pagamento implicitamente.
+
+## 11. UI/UX, INFORMATION ARCHITECTURE E QUALITÀ VISIVA
+
+Valuta l'app come PRODOTTO e non solo come software compilabile. Analizza il percorso della persona alla prima apertura e nell'uso quotidiano: promessa immediata, onboarding, primo valore, navigazione, menu, numero di scelte contemporanee, scoperta delle feature, densità, gerarchia, leggibilità, coerenza dei termini, attrito della cattura, gestione errori, feedback, empty/loading/success/offline states, undo, tooltip, help, ricerca e velocità per completare i compiti più frequenti.
+
+Verifica se le schermate sembrano un sistema coerente o una raccolta di moduli; se le destinazioni principali riflettono l'identità del prodotto; se Home e altre schermate duplicano informazioni; se filtri/chip/card offuscano contenuti; se il principale CTA è evidente; se la personalizzazione nasconde funzioni senza cancellare dati; se si possono creare contenuti senza navigazioni superflue.
+
+Audita design tokens (colori, spacing, radius, typography, iconografia, contrasto, surfaces, shadows, elevation, motion/haptics), identità proprietaria, tema light/dark, densità, feedback premium sobrio. Non usare «Visual QA PASS» come sinonimo di estetica eccellente; controlla anche visual regression con baseline reali. Sui redesign rispetta mock-up approvati e non ridisegnare aree esplicitamente escluse.
+
+Richiedi screenshot o verifica runtime per: telefono piccolo/grande, tablet/desktop quando target, portrait/landscape, gesture area/safe area/edge-to-edge, keyboard/IME, bottom sheet/dialog, scroll, font 200%, high contrast, dark mode, PWA e Web responsive. Un layout largo non è necessariamente desktop-first; una preview Web non certifica Android.
+
+Esamina micro-interazioni e accessibilità: haptics appropriati, animazioni con reduced motion, focus visibile, semantics/screen reader, tap target, screen rotation, keyboard navigation, testi non tagliati, icone senza etichette, stato selezionato chiaramente percepibile. Non promuovere effetti decorativi che peggiorano performance o usabilità.
+
+## 12. LOCALIZZAZIONE, CULTURA E DATE
+
+Verifica copy completo su tutte le lingue abilitate, ARB/stringhe native, plurali, gender, truncation, RTL se previsto, formati numerici/valuta, date e ore locali, start of week, fusi/ora legale, calendario civile/ricorrenze e fallback. Testa stringhe molto lunghe, schermi piccoli e contenuti misti. Non chiamare «multilingua completa» un'interfaccia con funzioni recenti non tradotte.
+
+Per fonti dati multi-paese distingui `locale` da `market`: una traduzione non crea automaticamente supporto normativo/fiscale/geografico di un altro paese.
+
+## 13. RICERCA, AI, AUTOMAZIONI, RACCOMANDAZIONI E PROVENIENZA
+
+Verifica ricerca lessicale/semantica, filtri, ranking, zero risultati, permessi, note private/archiviate, query brevi, ordinamento, highlight, contenuti rimossi, indice derivato e privacy. Se esistono più motori, verifica coerenza e single source of truth, non sostituire quello esistente per principio.
+
+Per AI on-device controlla modello realmente scaricato, runtime/pesi separati, SKU/entitlement, compatibilità device, RAM/latency, qualità tool calling, validazione output, fallback, install/cancel/remove, licenza, nessun cloud fallback non dichiarato, test con input reali e azioni permesse. La presenza di codice JNI, un model pack e unit test NON equivale a AI locale certificata su telefono.
+
+Per suggerimenti deterministici: permessi prima del ranking, fonte visibile, reason code, ordinamento stabile, deduplica, spiegazioni, anteprima, conferma esplicita, ignora/snooze/disattiva, revalidation al salvataggio, nessuna mutazione automatica, casi di falsi positivi e misura di utilità. Se una feature è meglio realizzabile con regole, ricerca, parser o statistiche locali, preferisci questa via rispetto a un LLM obbligatorio.
+
+Per Study/riassunti/documenti: le risposte devono poter essere ricondotte alla sorgente, con validazione e invalidazione quando la fonte cambia; non inventare citazioni o risposte. Per duplicate review: presenta candidati, diff e conseguenze, mai merge/delete silenziosi.
+
+## 14. TEST, APP LAB, CI, RELEASE, SIGNING, DEPLOY
+
+Audit dell'evidence ladder reale:
+`IMPLEMENTED → STATICALLY CHECKED → TESTED → CI GREEN → ARTIFACT BUILT → TRUSTED RUNTIME VERIFIED → PHYSICAL DEVICE VERIFIED → DISTRIBUTION VERIFIED → STORE READY → PRODUCTION RELEASED`.
+
+Per ogni flusso verifica SHA del commit testato, test su HEAD finale, required checks, workflow riuscito/fallito, coverage significativa, review, mergeability, branch protection, AppLab source/runtime, visual baseline, screenshot, crash/logcat, firma persistente, package ID, versionCode monotono, min/target SDK, APK ARM64/universal/AAB, SHA-256 artifact, download effettivo, aggiornamento in-place senza perdita dati, deploy Web attuale, cache/service worker, installer Play/Test e distribuzione. Un link ad artifact scaduto o non scaricabile non è una consegna funzionante.
+
+Distingui `build disponibile`, `build installabile`, `stessa identità firma`, `installato`, `test utente PASS`, `Store Ready`, `pubblicato`. Il dato non verificato rimane NOT VERIFIED. Controlla eventuali run parziali, CI verde su SHA superato, screenshot senza baseline, Main davanti a branch non mergiati e differenza test debug/release.
+
+Crea checklist fisica minima per ogni flusso critico: clean install, update con dati esistenti, restart, offline-online, backup/restore, account switch, device pairing, permessi e revoche, notifiche, billing sandbox se presente, lock/biometria, file picker, deeplink, connettività e sessione prolungata. Non eseguire o attribuire test fisici non realmente svolti.
+
+## 15. MERCATO, CONCORRENTI, DIFFERENZIAZIONE E RITENZIONE
+
+Ricerca competitor contemporanei pertinenti quando la verifica esterna aggiunge valore. Distingui prova diretta/feature verificata da marketing, recensione e ipotesi. Confronta 3–5 prodotti realmente comparabili per compiti fondamentali, UX, monetizzazione, accessibilità, offline, privacy e qualità, senza proporre clonazioni non compatibili con la Product Bible.
+
+Identifica: il vantaggio distintivo attuale; ciò che manca all'esperienza principale; perché un utente tornerebbe; cosa rende il prodotto troppo complicato; quali feature aumentano utilità quotidiana; quali creano solo manutenzione; opportunità di acquisizione tramite import e condivisione; UX di Premium/ads non invasiva, trasparente e non ingannevole. Valuta se conviene migliorare un flusso esistente anziché costruire un nuovo modulo.
+
+Per ogni nuova idea indica: beneficio concreto, persona, problema, alternativa senza AI, dipendenze, owner dati, riuso interno, costo API, permessi, manutenzione, rischio privacy, impatto su dimensioni e performance, compatibilità store, monetizzazione ragionevole, facilità di distribuzione e condizioni di esclusione. Non chiamare «necessaria» una feature vista in un concorrente.
+
+## 16. APP FACTORY, DONOR, GOLDEN E CROSS-REPO AUDIT
+
+Confronta le capability già disponibili nell'app target con App-Factory-Core, Golden Registry, donor certificati, AppLab e repository delle altre app. Prima ricerca capability già in produzione e relative evidenze, poi Copy-ready Golden nel perimetro corretto, poi Draft come idea/pattern, infine OSS verificato. Non copiare codice da repo con licenza incompatibile o ignota. Non introdurre dipendenze grandi solo per una utility minore.
+
+Matrice per opportunità:
+`capability | owner canonico | implementazione nell'app | miglior donor/GOLDEN | stato riuso | gap per adattamento | compatibilità | test mancanti | beneficio | costo | candidata per altre app`.
+
+Se la stessa criticità appare in più app, classificala: `FIX APP-SPECIFIC`, `CERTIFIED DONOR CANDIDATE`, `GOLDEN CANDIDATE`, `FACTORY PROCESS`, `NON CONDIVIDERE`. Una Golden non è certificata perché il nome compare nell'indice; richiedi lo status reale del Registry, SHA e prove previste (E1/E3/E5 o gate correnti). La priorità è riuso mirato senza imporre UX uniforme o database comune.
+
+Verifica l'allineamento di `12-CAPABILITY-E-IMPLEMENTAZIONI`, backlog idee e classifiche, quando accessibili: capability duplicata, app destinataria corretta, stato aggiornato, vecchi suggerimenti già implementati, nuovo donor verificato, feature fuori prodotto, possibile aggiornamento Master/Golden. Suggerisci cambiamenti ma NON scrivere nei registri durante audit-only.
+
+## 17. TEST DI ADATTAMENTO SPECIFICO PER TIPO DI APP
+
+### Notes-Ecosistema — applicare solo se target Notes
+Verificare con prove attuali e non con supposizioni storiche: Smart Inbox source → reason → preview → azione → writer canonico → conferma, revalidation, undo e dismiss/snooze; Next Action Graph, durata/stima e budget, WIP/blockers/dipendenze, progetti senza prossima azione, scheduling realistico; Study e provenienza a livello Q/A/PDF/OCR; Duplicate Review e merge reversibile; JSON Canvas interop e strokes non round-trippable; Canvas/Sketchbook layer/pen/zoom/pan/selection, save/restart/export, conversione in task; Document Workspace/PDF Toolbox e abilitazione effettiva in release; Web Clipper/import/export e file associations quando in roadmap; Knowledge Graph, ranking search, privacy filter; Notes Plus, Needle 3 20L on-demand, Gemini Nano, hardware e billing reali; Project Intelligence, Web/PWA parity, cicli di vita di note, progetti, file e workspace. Verificare issue/PR attuali e 88 associazioni capability se ancora rilevanti, distinguendo non riconciliate da mancanti.
+
+### Anna's Diary — applicare solo se target Anna
+Verificare la promessa di diario/agendina personale e non una clone di Notes: `Oggi · Calendario · Ricordi · Altro`, Crea/Inbox/Search, navigazione e Editorial Hybrid/Classic, DS6 e decisioni mock-up approvate; palette rose/HSV, Manrope/Lora, tema dark, safe area, gerarchia editorial; Today real-data, salvataggi e day contexts, date/ore e ricorrenze; Ricordi, On This Day, Collections, Memory Map, Then & Now, Life Threads e Year in Review (senza duplicare DB); modulo Spazio condiviso/Noi ♡, QR/member/owner, permessi e sincronizzazione fra due dispositivi; private/Shared storage, Vault che NON va ridisegnato se escluso; backup e restore senza perdita dati; Shopping e Workout inclusi allegati foto/PDF se approvati; notifiche locali/push Android e PWA iPhone, FCM/service worker e recapitabilità reale; External Calendar overlay read-only vs Google OAuth Direct solo staging fino a gate; Privacy V2 e security gate separati; Web-first su due dispositivi come modalità d'uso attuale, APK soltanto occasionalmente senza dichiararlo collaudato automaticamente; corrispondenza Web/main e APK/signed build, update in-place, versionCode e Play.
+
+### Altre categorie, solo quando pertinenti
+Utility sensori/Android: permessi, foreground, batteria, boot, overlay, privacy Play, Shizuku, hardware.
+Navigazione/outdoor: qualità GPS, routing reale, map matching, mappe offline, elevation, safe UI e prove sul percorso.
+Foto/creative: integrità asset, colori, export fedeli, editing non distruttivo, prestazioni media.
+Finanza: dati corretti, privacy, conti, report, arrotondamenti, backup, policy monetizzazione.
+Cataloghi/editorial: provenienza contenuti, date, localizzazione, aggiornabilità, originalità, fonti e qualità informativa.
+Web utility: SEO/SSR/SSG, hreflang, locale vs market, licenze dati commerciali, aggiornamento API, analytics e Core Web Vitals.
+Gioco: performance, salvataggi, accessibilità, bilanciamento, crash, advertising sicuro, originalità e licenze.
+
+## 18. IDEE ULTERIORI: CHIEDITI COSA NON ABBIAMO ANCORA PENSATO
+
+Non limitarti a ripetere roadmap o competitor. Genera 5–15 opportunità originali e pertinenti, sempre da classificare «DA VALUTARE» finché non approvate. Considera in particolare:
+- journey e frizioni che l'utente subisce senza segnalarle;
+- differenza tra «potente» e «comprensibile in 15 secondi»;
+- dati già raccolti che potrebbero diventare viste contestuali utili senza AI;
+- collegamenti note ↔ task ↔ progetto e giornata ↔ persone ↔ ricordi senza duplicare record;
+- failure recovery, offline/degraded mode e diagnostica che non sia invasiva;
+- strumenti per migrare/uscire dall'app e mantenere fiducia;
+- accessibilità e localizzazione dei flussi secondari;
+- privacy per condivisione, suggerimenti e anteprime;
+- metrica di utilità reale anziché semplice numero di funzioni;
+- capacità di mantenere l'app a costi bassi e leggerezza nel lungo periodo.
+
+Per ogni idea indica esplicitamente anche il motivo per NON realizzarla ora. Se l'app è già carica, una proposta di semplificazione o rimozione può avere priorità maggiore di una feature.
+
+## 19. CALCOLO PRIORITÀ, RISCHIO, IMPEGNO E DIPENDENZE
+
+Distingui chiaramente le quattro lane:
+- `P0 / BLOCKING_NOW`: sicurezza, perdita dati, crash grave, funzionalità centrale rotta, blocco rilascio confermato.
+- `P1 / FIX_CURRENT_STEP`: frizione ricorrente significativa, incompleto percorso principale, difetto introdotto nella delivery corrente, regressione o gate obbligatorio mancante.
+- `P2 / BACKGROUND_MAINTENANCE`: esperienza migliorabile, debito tecnico bounded, QA aggiuntivo, performance/UX non bloccante.
+- `P3 / FUTURE`: opportunità, ricerca, redesign non approvato, innovazioni opzionali.
+
+Valuta per elemento in scala 1–5: valore utente, gravità/rischio, frequenza, urgenza, riduzione attrito, complessità, facilità d'integrazione, riuso in altre app, dipendenze, manutenzione, rischio regressione, qualità evidenza. Le scale sono giudizi ordinali motivati, NON metriche misurate. Aggiungi `quick win`, `high leverage`, `needs physical gate`, `needs user decision`, `defer/remove` quando pertinente.
+
+Non mettere automaticamente prima la feature più appariscente. Le priorità devono derivare da `impatto reale × rischio × fattibilità × prerequisiti`, spiegando perché un P0 precede una funzione nuova e perché alcuni P2 sono più efficienti di grandi progetti. Evidenzia dipendenze critiche, lavoro parallelizzabile davvero, rischio conflitti file/schema, bottleneck unico e feature che bloccano più app.
+
+## 20. FORMATO DEL RAPPORTO OBBLIGATORIO
+
+A. **Executive verdict (max 25 righe)**: maturità reale, promessa, tre punti più forti, tre debolezze principali, rischi immediati, cosa NON fare.
+
+B. **Audit baseline & fonte della verità**: data/ora, repo, HEAD, Factory SHA, Master/Index, documenti, PR e issue letti, CI/artifact verificati, scope non controllato. Collegamenti verificabili.
+
+C. **Scorecard 0–10, con confidence** per: product fit, completezza, usabilità, design/IA, accessibilità, localizzazione, integrità dati, privacy/security, offline/sync, codice/architettura, performance, QA automatizzato, prova fisica, distribuzione, monetizzazione, sostenibilità. Non assegnare un numero preciso quando non ci sono evidenze: usa `N/D` o stima qualitativa.
+
+D. **Stato capability 360°**: inventario raggruppato e tabella con `implementata | parziale | nascosta | roadmap | proposta | non verificata`; contatore solo sul perimetro effettivamente inventariato, mai percentuali di completezza inventate.
+
+E. **Audit delle singole schermate e dei journey**: schermata → obiettivo → elementi reali → frizioni → incoerenze → proposta → approvazioni/gate. Includi tutte le schermate principali e una sezione per i flussi secondari.
+
+F. **Universal Entity Lifecycle Matrix**: entità → create/edit → archive/trash/purge → restore → cascata/media/notifiche → multi-account/sync → evidenza → gap.
+
+G. **Issue register prioritizzato** con ID `AUD-0001...`: `titolo | osservazione verificata | impatto | riproducibilità | fonte | classe bug/gap/rischio/idea | P0-P3 | stato | soluzione minima | dipendenze | test di accettazione`. Se il problema è solo sospettato, scrivi `RISK/NEEDS TEST`, non BUG CONFERMATO.
+
+H. **Incongruenze** ChatGPT ↔ GitHub ↔ docs ↔ roadmap ↔ code ↔ Web ↔ APK ↔ test: per ogni discrepanza scrivi quale affermazione è vecchia e quale fonte aggiornata prevale.
+
+I. **Matrice qualità e collaudo**: test automatici presenti/mancanti; device/scenari; runtime/physical/Play; quali gate sono PASS, FAIL, BLOCKED, NOT VERIFIED e perché. Nessuna certificazione a parole.
+
+J. **Matrice Donor/Golden/Factory e riuso cross-app**: opportunità, stato esatto Registry, consumer, rischio duplicazione, estrazione proposta, prove necessarie; suggerimenti di aggiornamento non applicati.
+
+K. **Confronto competitor**: 3–5 riferimenti pertinenti e differenze importanti, fonti fresche dove disponibili, nessuna copia acritica.
+
+L. **Opportunity backlog** separando: fix immediati, rifiniture UX, capability mancanti già approvate, innovazioni da valutare, cose da NON implementare, semplificazioni/rimozioni.
+
+M. **Top 20 interventi**, ordinati con impatto, difficoltà (S/M/L), priorità, riuso, rischi, costo ricorrente ed evidenza. Se meno di 20 hanno utilità, non riempire artificialmente.
+
+N. **Roadmap dei 5 prossimi maxi-step**: obiettivo, bug/capability inclusi, prerequisiti, cosa lascia fuori, branch/PR solo come eventuale piano, ordine e parallellizzabilità, criteri di accettazione, test, gate utente, stima qualitativa. Evidenzia percorsi indipendenti: software, hardware, provider, release/store.
+
+O. **Decisioni necessarie dell'utente**, solo se strettamente indispensabili; per tutto il resto proponi default compatibili con decisioni già prese. Nessuna richiesta di ripetere ciò che è noto.
+
+P. **Decision log / delta dall'ultimo audit**: nuovo, risolto, peggiorato, ancora aperto, obsoleto, rinviato; non ripartire da zero ad ogni audit.
+
+Q. **Verdetto operativo finale**: «se oggi potessi fare solo una cosa, quale?», «qual è il miglior quick win?», «quale lavoro evita più futuri bug?», «quale funzionalità è pronta solo nel codice ma non nella vita reale?», «qual è il prossimo gate oggettivo?», «quali modifiche NON fare?». Chiudi con una frase che dichiari l'effettivo perimetro delle verifiche effettuate.
+
+## 21. STANDARD DELLE EVIDENZE E GATE DI CHIUSURA
+
+Per OGNI proposta implementativa suggerisci i criteri minimi di chiusura:
+- `Definition of Done`: comportamento e UX specifici, stati di errore, offline, accessibilità, l10n, privacy, backup/lifecycle e test pertinenti;
+- file o modulo owner, contratti toccati, migrazioni e backward compatibility;
+- test unit/integration/e2e e CI sul SHA finale, AppLab dove pertinente;
+- artifact firmato e install/update test solo se serve;
+- prove fisiche/due dispositivi/provider/store se la feature dipende da questi;
+- niente duplicazioni, nessuna regressione dei dati, misurazione quando appropriata;
+- report che distingua eseguito, verificato, non verificato.
+
+Non proporre cinque nuovi sistemi per risolvere un problema che richiede una correzione mirata. Non trasformare le proposte in impegni approvati senza richiesta. Un audit completo descrive cosa fare, non lo fa di nascosto.
+
+## 22. ESECUZIONE DEL LAVORO E LIMITAZIONI
+
+Procedi fino a produrre la migliore analisi possibile nella sessione corrente. Se una fonte non è disponibile, annota l'impatto dell'assenza e continua senza fabbricare contenuti. Non promettere lavoro in background, non dire di avere eseguito test che non puoi eseguire e non bloccare l'intero audit per una sola verifica manuale. Se la verifica dura molto, consegna risultati durevoli progressivamente.
+
+Se la richiesta futura è «PROCEDI CON LA ROADMAP», allora e SOLO allora rileggi le autorizzazioni e le condizioni correnti, definisci il perimetro di implementazione, applica il router di esecuzione del Master e rispetta branch/PR/check/review. `AUDIT_ONLY` rimane la modalità di questo prompt finché non ricevi una nuova autorizzazione esplicita. Il comando «mock-up interattivi» segue invece il workflow dedicato con prototipi cliccabili approvati uno per volta, senza integrare anticipatamente.
+
+NON CONSIDERARE CONCLUSO IL RAPPORTO se mancano: stato reale/HEAD, verifica scelte precedenti, capability matrix, 360° UX/tecnica, lifecycle, integrità/restore, evidenze runtime/release, disallineamenti, riuso App Factory, priorità, top interventi, cinque maxi-step e blocchi reali. Se qualche sezione è non applicabile, scrivilo e spiega il motivo. Se mancano prove, mostra come ottenerle.
+
+### COMANDO FINALE
+«Esegui ora questo MASTER AUDIT 360° sull'app di questa chat. Voglio un giudizio indipendente, non rassicurazioni né un elenco generico. Confronta tutto ciò che era stato detto, approvato, pianificato, integrato, testato e distribuito. Trova anche i problemi che non avevamo notato e le opportunità più concrete. Rimani in SOLA LETTURA. Consegna il report completo, la matrice delle evidenze, le priorità e i 5 maxi-step.»
+
+---
+
+FINE PROMPT — v1.0
