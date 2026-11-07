@@ -45,6 +45,8 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Exact command "Capability" (case-insensitive), "Capability <app>", or "Capability tutte le app": route through capability-sync and load the FULL `capability/MASTER_CAPABILITY_SYNC_v1.txt`; bare command runs GLOBAL incremental reconciliation. A missing spec blocks as CAPABILITY COMMAND SPEC UNAVAILABLE.
 - Capability updates only the canonical catalog in `riccardopinato/Idee-app-Archivi-riferimenti/12-CAPABILITY-E-IMPLEMENTAZIONI`, with branch/PR/exact-head gates. No app-code/roadmap/Golden/Factory, cloud or release mutations. A technical evidence state and a product decision (including SCARTATA/RINVIATA) are distinct, proven dimensions.
 - Compare repository HEAD and decision evidence incrementally, preserve all other app states, regenerate catalog views through its build script, and return NO-OP if unchanged; never claim success without catalog main/CI evidence.
+- Exact command "Legenda" (optional text filter, e.g. "Legenda Audit") is READ_ONLY: use the current Factory SHA to read `commands/REGISTRY.json` and generated `commands/LEGGENDA.md`, then SHOW all available public short commands, examples, effects, and relevant router topics. Listing commands never executes them or grants permissions.
+- Every new public command must be registered once in commands/REGISTRY.json and marked public_command=true in MODULE_MAP.json, with a canonical spec, generated legend updated and CI drift checks. If registry/docs cannot be verified, say COMMAND LEGEND UNAVAILABLE instead of using stale memory.
 - "Mock-up interattivi": MUST show one VISUAL RENDERED CLICKABLE app-screen prototype (not text, ASCII, static image or a mere approval button) per decision 1/10 through 10/10; user tests visual controls and explicitly approves/revises/rejects before advancing. Load interactive-mockup-review policy.
 - At decision 10/10, stop ideation and move only approved designs to a separate gated implementation phase; early "Integra i mock-up" closes the current cycle explicitly.
 - Before parallelization assess dependencies, file collisions and net benefit.
@@ -1765,8 +1767,28 @@ Preserve separate technical evidence app_states and product decision (approved/d
 Diff incrementally against pinned repo HEAD, do not re-audit unchanged sources without reason, preserve all other app-CAP links, no-op if nothing changed. Invalid generator/CI or missing GitHub access is BLOCKED, never fabricated success.
 END CAPABILITY SYNC ROUTER
 
+===== V27 POLICY UPDATE: command-legend =====
+V27 LEGGENDA — PUBLIC COMMAND INDEX (2026-11-07)
+Exact command "Legenda" (case-insensitive, whitespace-trimmed) is READ_ONLY and shows every registered App Factory public command with meaning, side effects, variants and canonical source. "Legenda <term>" filters ONLY the displayed register entries, and must never execute the named command. Show all if exact "Legenda".
+After fixing the current App Factory SHA once, read commands/REGISTRY.json and the generated commands/LEGGENDA.md from that SHA. Both must be available and internally consistent; show COMMAND LEGEND UNAVAILABLE rather than guessing or reconstructing a stale list. Do NOT execute Audit, Capability, Procedi or mock-up actions just because they appear as examples in the registry.
+The source of truth for command inventory is commands/REGISTRY.json; commands/LEGGENDA.md is a deterministic generated view. Every public short command MUST have a route in MODULE_MAP.json with public_command=true, a corresponding registry entry, stable canonical entrypoint and stated mutation contract.
+For future command additions, update the registry, routes and policy in a normal Factory PR; run scripts/build_command_legend.py --write plus --check and CI, keep full v27 fallback and integrity hashes synchronized. The legend itself never grants permissions beyond the underlying Master/Golden/Product Bible/AGENTS.
+END LEGGENDA ROUTER
+
 ===== V27 TASK ROUTES (SYNCED CANDIDATE METADATA) =====
 [
+  {
+    "id": "legend",
+    "terms": [
+      "legenda",
+      "legenda comandi",
+      "mostra comandi"
+    ],
+    "modules": [
+      "command-legend"
+    ],
+    "public_command": true
+  },
   {
     "id": "mockup_interactive",
     "terms": [
@@ -1783,7 +1805,8 @@ END CAPABILITY SYNC ROUTER
     ],
     "golden_ids": [
       "app_shell_responsive_visual_qa"
-    ]
+    ],
+    "public_command": true
   },
   {
     "id": "factory_update",
@@ -1809,7 +1832,8 @@ END CAPABILITY SYNC ROUTER
     ],
     "modules": [
       "audit-roadmap"
-    ]
+    ],
+    "public_command": true
   },
   {
     "id": "capability_sync",
@@ -1829,7 +1853,8 @@ END CAPABILITY SYNC ROUTER
       "single_donor_capability_admission",
       "scoped_donor_capability_catalog",
       "roadmap_fast_continuous_maintenance"
-    ]
+    ],
+    "public_command": true
   },
   {
     "id": "roadmap",

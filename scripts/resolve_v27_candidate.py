@@ -54,10 +54,24 @@ def git_sha(root:Path=ROOT)->str|None:
 
 def route(task:str,context:str,manifest:dict)->tuple[list[str],list[str],list[str]]:
     desc=normal(task+" "+context)
+    command_name=normal(task)
+    head=command_name.split(" ",1)[0] if command_name else ""
+    dedicated={"legenda":"legend", "audit":"audit", "capability":"capability_sync"}
+    if head in dedicated:
+        selected_route_id=dedicated[head]
+    elif command_name.startswith(("mock up interattivi", "integra i mock up")):
+        selected_route_id="mockup_interactive"
+    else:
+        selected_route_id=None
+    routes=manifest.get("task_routes",[])
+    if selected_route_id is not None:
+        routes=[r for r in routes if r["id"]==selected_route_id]
+        if len(routes)!=1:
+            raise ValueError("UNREGISTERED_DEDICATED_COMMAND")
     selected=[]
     goldens=[]
     labels=[]
-    for rule in manifest.get("task_routes",[]):
+    for rule in routes:
         if any(has_term(desc,term) for term in rule["terms"]):
             labels.append(rule["id"])
             selected.extend(rule["modules"])

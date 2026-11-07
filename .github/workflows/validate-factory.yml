@@ -32,6 +32,11 @@ jobs:
       - name: Check synchronized full fallback and modular hashes
         run: python3 scripts/build_v27_fallback.py --check
 
+      - name: Validate generated command legend and public command registry
+        run: |
+          python3 scripts/build_command_legend.py --check
+          python3 scripts/test_command_legend.py
+
       - name: Test v27C resolver, lazy routing and fail closed
         run: python3 scripts/test_v27_resolver.py
 
