@@ -55,19 +55,25 @@ def git_sha(root:Path=ROOT)->str|None:
 def route(task:str,context:str,manifest:dict)->tuple[list[str],list[str],list[str]]:
     desc=normal(task+" "+context)
     command_name=normal(task)
-    head=command_name.split(" ",1)[0] if command_name else ""
-    dedicated={"legenda":"legend", "audit":"audit", "capability":"capability_sync"}
-    if head in dedicated:
-        selected_route_id=dedicated[head]
-    elif command_name.startswith(("mock up interattivi", "integra i mock up")):
-        selected_route_id="mockup_interactive"
-    else:
-        selected_route_id=None
     routes=manifest.get("task_routes",[])
-    if selected_route_id is not None:
-        routes=[r for r in routes if r["id"]==selected_route_id]
-        if len(routes)!=1:
-            raise ValueError("UNREGISTERED_DEDICATED_COMMAND")
+    # Public shortcut dispatch depends only on the actual user task, never on
+    # incidental context. Select longest matching public command prefix.
+    matched_public=[]
+    for rule in routes:
+        if rule.get("public_command") is True:
+            aliases=([rule["command_trigger"]] if rule.get("command_trigger") else [])
+            aliases+=rule.get("command_aliases",[])
+            for alias in aliases:
+                trigger=normal(alias)
+                if trigger and (command_name==trigger or command_name.startswith(trigger+" ")):
+                    matched_public.append((len(trigger),rule["id"]))
+    if matched_public:
+        longest=max(size for size,_ in matched_public)
+        selected={rid for size,rid in matched_public if size==longest}
+        if len(selected)!=1:
+            raise ValueError("AMBIGUOUS_PUBLIC_COMMAND")
+        routes=[r for r in routes if r["id"] in selected]
+        desc=command_name
     selected=[]
     goldens=[]
     labels=[]
@@ -149,6 +155,24 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
         for entry in [*manifest["modules"],*manifest.get("policy_updates",[])]:
             if entry["id"] in names:
                 docs[entry["path"]]=read_checked(entry["path"],seals[entry["id"]],root)
+        # Load only the pinned contract for the one selected new shortcut.
+        if len(matched)==1 and matched[0].startswith("cmd_"):
+            reg=json.loads((root/"commands/REGISTRY.json").read_text(encoding="utf-8"))
+            items=[x for x in reg.get("commands",[])
+                   if x.get("route_id")==matched[0] and x.get("contract_version")==1]
+            if len(items)!=1:
+                raise ValueError("COMMAND_SPEC_REGISTRY_UNAVAILABLE")
+            item=items[0]
+            path=item.get("entrypoint","")
+            if not path.startswith("commands/specs/"):
+                raise ValueError("COMMAND_SPEC_UNSAFE_PATH")
+            spec=(root/path).resolve()
+            if not spec.is_relative_to(root.resolve()):
+                raise ValueError("COMMAND_SPEC_UNSAFE_PATH")
+            raw=spec.read_bytes()
+            if not re.fullmatch(r"[0-9a-f]{40}",item.get("spec_blob_sha","")) or digest(raw)!=item["spec_blob_sha"]:
+                raise ValueError("COMMAND_SPEC_INVALID_SEAL")
+            docs[path]=raw.decode("utf-8")
         result.update(selection="MODULES",reason="ROUTE_MATCHED",route_rules=matched,
                       modules=names,document_paths=list(docs),
                       loaded_bytes=sum(len(s.encode("utf-8")) for s in docs.values()))
@@ -188,8 +212,12 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
         return result
     except (KeyError,ValueError,OSError,UnicodeError,json.JSONDecodeError) as exc:
         cause=str(exc)
+        if cause.startswith("COMMAND_SPEC_") or (len(locals().get("matched",[]))==1
+                  and locals()["matched"][0].startswith("cmd_")):
+            return {**result,"selection":"BLOCKED_COMMAND_SPEC_UNAVAILABLE","reason":cause}
         try:
             manifest=json.loads((root/MANIFEST).read_text(encoding="utf-8"))
+
             fb=manifest["living_fallback"]
             content=read_checked(fb["path"],fb["git_blob_sha"],root)
             # No old baseline silently used: only synchronized v27 artifact.
@@ -214,7 +242,7 @@ def main()->None:
     args=p.parse_args()
     response=resolve(args.task,args.context,args.expected_sha,args.include_text,args.include_goldens)
     print(json.dumps(response,ensure_ascii=False,indent=2))
-    if response["selection"] in ("BLOCKED","BLOCKED_FACTORY_BASELINE_UNVERIFIED"):
+    if response["selection"] in ("BLOCKED","BLOCKED_FACTORY_BASELINE_UNVERIFIED","BLOCKED_COMMAND_SPEC_UNAVAILABLE"):
         raise SystemExit(2)
 
 if __name__=="__main__":

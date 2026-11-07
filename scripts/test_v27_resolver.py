@@ -76,6 +76,37 @@ class RouterTests(unittest.TestCase):
         self.assertEqual(audit["route_rules"], ["audit"])
         self.assertEqual(cap["route_rules"], ["capability_sync"])
 
+    def test_22_shortcuts_route_one_contract(self):
+        reg=json.loads((ROOT/"commands/REGISTRY.json").read_text(encoding="utf-8"))
+        new=[c for c in reg["commands"] if c.get("contract_version")==1]
+        self.assertEqual(len(new),22)
+        for item in new:
+            with self.subTest(trigger=item["trigger"]):
+                r=resolver.resolve(item["trigger"]+" AnnaDiary","Legenda Capability Audit")
+                self.assertEqual(r["selection"],"MODULES",r)
+                self.assertEqual(r["route_rules"],[item["route_id"]],r)
+                self.assertIn(item["entrypoint"],r["document_paths"])
+                self.assertNotIn("capability-sync",r["modules"])
+
+    def test_multiword_shortcuts_and_legacy_isolation(self):
+        pairs=[("Adotta Factory AnnaDiary","cmd_adotta_factory"),
+               ("Factory Golden","cmd_factory"),
+               ("Nuova app Test","cmd_nuova_app"),
+               ("Roadmap Notes","cmd_roadmap"),
+               ("Legenda APK","legend"),
+               ("Audit Test","audit"),
+               ("Capability Test","capability_sync"),
+               ("Mock-up interattivi","mockup_interactive"),
+               ("Integra i mock-up","mockup_interactive")]
+        for task,rid in pairs:
+            with self.subTest(task=task):
+                r=resolver.resolve(task,"Capability Audit CI")
+                self.assertEqual(r["route_rules"],[rid],r)
+
+    def test_procedi_uses_contextual_roadmap_not_shortcut(self):
+        r=resolver.resolve("Procedi con la roadmap","redesign Flutter")
+        self.assertNotIn("portfolio-commands",r["modules"])
+
     def test_unknown_intent_uses_verified_operational_fallback(self):
         r=resolver.resolve("Procedi")
         self.assertEqual(r["selection"],"FALLBACK_BASELINE_USED",r)

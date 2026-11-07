@@ -11,13 +11,15 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "commands/REGISTRY.json"
 MANIFEST = ROOT / "v27/candidate/MODULE_MAP.json"
 OUTPUT = ROOT / "commands/LEGGENDA.md"
-GROUPS = ["Consultazione", "Verifica", "Catalogo", "Esecuzione", "Design"]
+GROUPS = ["Consultazione", "Portafoglio", "Factory", "Verifica", "Catalogo", "Delivery", "Design", "Business", "Esecuzione"]
 EFFECTS = {
     "SOLA LETTURA",
     "SCRITTURA SOLO CATALOGO (PR + CI)",
     "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
     "DESIGN INTERATTIVO; NON IMPLEMENTA IL CODICE",
     "IMPLEMENTAZIONE CON GATE",
+    "ESECUZIONE CI SENZA MODIFICHE ALLA CODEBASE",
+    "BUILD/ARTIFACT SENZA PUBBLICAZIONE",
 }
 
 def normalize(text):
@@ -57,6 +59,23 @@ def validate(registry, manifest, root=ROOT):
             declared_routes.add(route_id)
         elif item["id"] != "procedi":
             raise ValueError("Only Procedi is a contextual Master command")
+        if item.get("contract_version") == 1:
+            if not str(item["route_id"]).startswith("cmd_"):
+                raise ValueError("New command without dedicated route")
+            route = routes[item["route_id"]]
+            if normalize(route.get("command_trigger", "")) != normalize(item["trigger"]):
+                raise ValueError("Public command trigger mismatches registered trigger")
+            if "portfolio-commands" not in route.get("modules", []):
+                raise ValueError("Missing portfolio command policy")
+            if not item["entrypoint"].startswith("commands/specs/"):
+                raise ValueError("Unsafe command contract path")
+            import hashlib
+            raw = (root / item["entrypoint"]).read_bytes()
+            seal = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+            if seal != item.get("spec_blob_sha"):
+                raise ValueError("Command contract SHA mismatch: " + item["id"])
+        elif str(item.get("route_id", "")).startswith("cmd_"):
+            raise ValueError("Missing contract_version for dedicated command")
         for example in item["examples"]:
             if not example.get("text") or not example.get("description"):
                 raise ValueError("Empty command example")
