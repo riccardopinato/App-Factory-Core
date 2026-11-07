@@ -74,6 +74,10 @@ def route(task:str,context:str,manifest:dict)->tuple[list[str],list[str],list[st
             raise ValueError("AMBIGUOUS_PUBLIC_COMMAND")
         routes=[r for r in routes if r["id"] in selected]
         desc=command_name
+    else:
+        # Generic topic lookup must NEVER load a public executable shortcut.
+        # E.g. "Procedi con la roadmap" remains the contextual roadmap lane.
+        routes=[r for r in routes if not r["id"].startswith("cmd_")]
     selected=[]
     goldens=[]
     labels=[]
