@@ -9,7 +9,7 @@ REG=json.loads((ROOT/"commands/REGISTRY.json").read_text(encoding="utf-8"))
 class PortfolioTests(unittest.TestCase):
     def test_all_23_stay_isolated(self):
         new=[x for x in REG["commands"] if x.get("contract_version")==1]
-        self.assertEqual(len(new),23)
+        self.assertEqual(len(new),24)
         for x in new:
             with self.subTest(name=x["trigger"]):
                 r=router.resolve(x["trigger"],"Legenda Audit Capability")

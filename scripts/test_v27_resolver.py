@@ -79,14 +79,17 @@ class RouterTests(unittest.TestCase):
     def test_23_shortcuts_route_one_contract(self):
         reg=json.loads((ROOT/"commands/REGISTRY.json").read_text(encoding="utf-8"))
         new=[c for c in reg["commands"] if c.get("contract_version")==1]
-        self.assertEqual(len(new),23)
+        self.assertEqual(len(new),24)
         for item in new:
             with self.subTest(trigger=item["trigger"]):
                 r=resolver.resolve(item["trigger"]+" AnnaDiary","Legenda Capability Audit")
                 self.assertEqual(r["selection"],"MODULES",r)
                 self.assertEqual(r["route_rules"],[item["route_id"]],r)
                 self.assertIn(item["entrypoint"],r["document_paths"])
-                self.assertNotIn("capability-sync",r["modules"])
+                if item["route_id"]=="cmd_stelle":
+                    self.assertIn("capability-sync",r["modules"])
+                else:
+                    self.assertNotIn("capability-sync",r["modules"])
 
     def test_multiword_shortcuts_and_legacy_isolation(self):
         pairs=[("Adotta Factory AnnaDiary","cmd_adotta_factory"),
@@ -98,6 +101,8 @@ class RouterTests(unittest.TestCase):
                ("Legenda APK","legend"),
                ("Audit Test","audit"),
                ("Capability Test","capability_sync"),
+               ("Stelle 95","cmd_stelle"),
+               ("Legenda Stelle","legend"),
                ("Mock-up interattivi","mockup_interactive"),
                ("Integra i mock-up","mockup_interactive")]
         for task,rid in pairs:
