@@ -43,6 +43,7 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Target: app in the present chat/Project unless explicitly named. "Audit tutte le app" requests a cross-repo inventory; if no app can be identified, ask only which app. Never select an arbitrary repo.
 - The Audit file refines reporting only, never overrides Product Bible, Master, Golden or repository authorization. An audit permits no repo/roadmap/cloud/PR/release changes; missing specification means AUDIT SPEC UNAVAILABLE, not fabricated completion.
 - Exact command "Capability" (case-insensitive), "Capability <app>", or "Capability tutte le app": route through capability-sync and load the FULL `capability/MASTER_CAPABILITY_SYNC_v1.txt`; bare command runs GLOBAL incremental reconciliation. A missing spec blocks as CAPABILITY COMMAND SPEC UNAVAILABLE.
+- Public command "Stelle" dispatches the SHA-pinned `commands/specs/STELLE.md`: one incremental workflow from authenticated GitHub Stars (or explicitly curated list) through per-repo OSS audits, CAP deduplication, E0 admission/kits, per-app product-admission recommendations and catalog-only PR/CI. Reuse the full Capability contract; never infer starred status, import code without license, approve app product scope, edit apps or create background jobs.
 - Capability updates only the canonical catalog in `riccardopinato/Idee-app-Archivi-riferimenti/12-CAPABILITY-E-IMPLEMENTAZIONI`, with branch/PR/exact-head gates. No app-code/roadmap/Golden/Factory, cloud or release mutations. A technical evidence state and a product decision (including SCARTATA/RINVIATA) are distinct, proven dimensions.
 - Compare repository HEAD and decision evidence incrementally, preserve all other app states, regenerate catalog views through its build script, and return NO-OP if unchanged; never claim success without catalog main/CI evidence.
 - Exact command "Legenda" (optional text filter, e.g. "Legenda Audit") is READ_ONLY: use the current Factory SHA to read `commands/REGISTRY.json` and generated `commands/LEGGENDA.md`, then SHOW all available public short commands, examples, effects, and relevant router topics. Listing commands never executes them or grants permissions.
@@ -1789,6 +1790,7 @@ READ ONLY: Stato, Prossimo, Riprendi, Golden, Donor, Factory, CI, Store, Peso, S
 SCOPED REPO WRITE: Allinea, Roadmap, Backlog, Adotta Factory, Nuova app, Ripara, Idee. They require clearly identified product/repo, bounded authorized scope, evidence and normal branch/PR/exact-head validation and review. Do not invent approval/scarto, cloud, new billing or destructive data action.
 WORKFLOW: Test can run existing authorized AppLab/repo tests only when target, source SHA, specific run scope, runner and permissions are known. APK can build a verified internal APK and report hash/signing/artifact only when truly available. Neither authorizes Play deployment nor device certification.
 Golden does not auto-promote an E3 donor to certified Golden; Factory is a consistency check and not automatic Master/Registry update. CI does not rerun failures without explicit additional request; Idee does not auto-promote proposals to app roadmaps.
+STARS CAPABILITY HARVEST: Stelle is a separate SHA-pinned command (24th independent contract) with scope catalog-only: authenticated Stars inventory or explicitly curated source → per-repo feature extraction → semantic dedup against registry/code → E0 CAP/kit admission → product-admission recommendations, generated views and CI. This shortcut delegates technical state rules to capability/MASTER_CAPABILITY_SYNC_v1.txt. No product auto-approval, user secrets, donor copy, app code, Golden, provider or release mutation. Unavailable Stars API must never be described as a verified live snapshot; a source repo may be researched without being starred.
 WEB DEPLOY: Deploy is an independent 23rd SHA-pinned command, displayed with APK under «APK e Deploy». Deploy targets configured Web/PWA preview only; if the sole pipeline publishes to production, block and require explicit `Deploy produzione <app>` with existing provider, environment, exact-source gates, permissions and live URL verification. AppLab web-preview is AppLab-only. No implicit new hosting, billing, DNS, backend, or Android/Store release.
 No background agent or cron is created by a shortcut. Workflows and timed automations are separate, require their real executor and appropriate user authorization.
 Installing these command contracts updates only Core; does not mutate app repositories, CAP data, Golden status, providers, store, APKs or user files.
@@ -1882,6 +1884,28 @@ END PORTFOLIO COMMANDS ROUTER
     ],
     "public_command": true,
     "command_trigger": "Capability"
+  },
+  {
+    "id": "cmd_stelle",
+    "terms": [
+      "stelle",
+      "stelle nuove",
+      "stelle 95",
+      "stelle priorità",
+      "stelle capability"
+    ],
+    "modules": [
+      "authority-execution",
+      "audit-roadmap",
+      "capability-sync",
+      "portfolio-commands"
+    ],
+    "golden_ids": [
+      "single_donor_capability_admission",
+      "scoped_donor_capability_catalog"
+    ],
+    "command_trigger": "Stelle",
+    "public_command": true
   },
   {
     "id": "roadmap",

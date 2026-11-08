@@ -1186,12 +1186,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "06826572b60a68edac7f45ad82fc155357b66584",
+    "git_blob_sha": "0189f6cf099c819db1a640d521337cd0067a90a9",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "18652a58c9aa0f3de60065fd3b0faea73e5a5329",
+    "core": "7f2119783acc8a41755e7862859d5bdaac7779ac",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -1204,6 +1204,6 @@
     "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c",
     "capability-sync": "e6beae3d0b5ca2e09a7091dc348324c4c6893ada",
     "command-legend": "0ac7f7a74c70887d402aa1c206c048f0a2befc1f",
-    "portfolio-commands": "c23cce6dc8104854ad7a557e32745bca9360b5e6"
+    "portfolio-commands": "46a09e68b75e6009c8c1694d123da2fa02ccdb77"
   }
 }

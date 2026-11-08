@@ -19,6 +19,7 @@
 | `Audit` | Analizza lo stato reale dell'app individuata dalla chat, confrontando codice, roadmap, test, UX, sicurezza e opportunità. | SOLA LETTURA |
 | `Sicurezza` | Verifica permessi, auth, segreti, backup, dati e confini di fiducia. | SOLA LETTURA |
 | `Capability` | Riconcilia incrementi di codice ed evidenze per aggiornare il catalogo delle capability e le priorità per app. | SCRITTURA SOLO CATALOGO (PR + CI) |
+| `Stelle` | Acquisisce nuove stelle GitHub, analizza ogni repository, estrae e deduplica funzioni, formalizza CAP E0 e kit, confronta Product Bible e produce raccomandazioni di ammissione. | SCRITTURA SOLO CATALOGO (PR + CI) |
 | `Backlog` | Riordina candidate, integrate, rinviate e scartate senza perdere storia delle decisioni. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
 | `Idee` | Deduplica idee e inserisce nuove proposte soltanto nell'inbox canonica. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
 | `CI` | Controlla GitHub Actions, job logs, commit SHA e causa dei fallimenti. | SOLA LETTURA |
@@ -153,6 +154,18 @@
 | `Capability priorità` | Riconcilia le evidenze e mostra la prossima coda operativa. |
 
 **Effetto:** SCRITTURA SOLO CATALOGO (PR + CI). La fonte dati resta Idee-app-Archivi-riferimenti. Non modifica le singole app né promuove Golden.
+
+**Stelle → Capability complete** — Acquisisce nuove stelle GitHub, analizza ogni repository, estrae e deduplica funzioni, formalizza CAP E0 e kit, confronta Product Bible e produce raccomandazioni di ammissione.
+
+| Scrivi | Cosa succede |
+| --- | --- |
+| `Stelle` | Esegui l'intera pipeline incrementale sulle stelle accessibili dell'account GitHub autorizzato. |
+| `Stelle nuove` | Controlla il delta dalle stelle precedentemente inventariate e aggiorna solo le novità. |
+| `Stelle 95` | Riconcilia il pacchetto storico di 95 OSS senza duplicare CAP o kit. |
+| `Stelle priorità` | Confronta le candidate col prodotto e restituisce la shortlist, senza approvarla automaticamente. |
+| `Stelle owner/repository` | Audit mirato a un repository indicato esplicitamente, senza presumere che sia starred. |
+
+**Effetto:** SCRITTURA SOLO CATALOGO (PR + CI). Riuso di Capability e atlas OSS. Ricerca ammessa per tutte le licenze; copia codice non automatica. Decisioni APPROVATA/IN_ROADMAP solo con prova owner. Non modifica app, Factory, Golden o release.
 
 **Backlog** — Riordina candidate, integrate, rinviate e scartate senza perdere storia delle decisioni.
 
