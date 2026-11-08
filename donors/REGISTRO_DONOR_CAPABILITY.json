@@ -224,7 +224,7 @@
       "source_path": "app/src/main/java/com/riccardopinato/phoneguard/protection/ProtectionPolicy.kt",
       "source_blob_sha": "0d3524ce28701f544381678c2ea1ce0c475c882b",
       "test_path": "app/src/test/java/com/riccardopinato/phoneguard/protection/ProtectionPolicyTest.kt",
-      "test_blob_sha": "14741978095a1c1d2fcc2b0f6cddbab3fb370c",
+      "test_blob_sha": "14741978095a1c1d2fccbc2b0f6cddbab3fb370c",
       "ci_url": "https://github.com/riccardopinato/Phone-Guard/actions/runs/40700256048",
       "scope": "Kotlin ProtectionPolicy: per-mode sensor capability admission, pending-trigger owner actions and journey time/deadline semantics proven by 16 unit cases",
       "evidence": "E3_EXACT_HEAD_TESTS",
@@ -246,7 +246,7 @@
         "source_blob_same_on_main": true,
         "test_blob_same_on_main": true,
         "source_file_sha1": "0d3524ce28701f544381678c2ea1ce0c475c882b",
-        "test_file_sha1": "14741978095a1c1d2fcc2b0f6cddbab3fb370c",
+        "test_file_sha1": "14741978095a1c1d2fccbc2b0f6cddbab3fb370c",
         "license": "USER_OWNED_INTERNAL_SOURCE_NOT_THIRD_PARTY",
         "consumer_e4": "NOT_VERIFIED",
         "scope_applies_to": "SINGLE_SCOPED_FUNCTION_NOT_WHOLE_APP"
