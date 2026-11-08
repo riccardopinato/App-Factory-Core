@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 28.0 — 03/11/2026
+Versione: 29.0 — 08/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1574,3 +1574,41 @@ Local Rules PR #55: injected transactional commit port, replay/permission
 checks and fake rollback/restart tests; Dart CI PASS, but real persistent
 storage integration and E5 remain unproven.
 Audit: audits/GOLDEN_SCOPED_CONSUMER_AND_EXECUTOR_2026-11-03.md
+
+
+======================================================================
+60. HYBRID LOCAL SEARCH — EPHEMERAL CORE ONLY (E5 SCOPED)
+======================================================================
+File:
+GOLDEN_HYBRID_LOCAL_SEARCH_EPHEMERAL_CORE_v1.txt
+
+Stato:
+CERTIFIED GOLDEN
+
+Donor:
+App-Factory-Core reference engine (Notes + CamperBoss source) -> Wonderlog independent consumer.
+
+Scope:
+- In-memory lexical + optional deterministic 192-dimensional feature hashing;
+- bounded query, stable tie/ranking, visibility/deletion/revision checks;
+- opt-in related-term search with fallback, reference suite and independent consumer CI.
+
+Non certificato: index persistent, model/semantic neural AI, provider, cross-account ACL, physical performance.
+
+======================================================================
+61. GPX — STRICT READ-ONLY PREVIEW CORE (E5 SCOPED)
+======================================================================
+File:
+GOLDEN_GPX_READ_ONLY_PREVIEW_CORE_v1.txt
+
+Stato:
+CERTIFIED GOLDEN
+
+Donor:
+App-Factory-Core reference engine (TrailPath + CamperBoss sources) -> Wonderlog independent consumer.
+
+Scope:
+- GPX bounded strict UTF-8/XML parse, WGS84 validation, tracks/routes/waypoints;
+- 5MiB read-only file preview adapter in Wonderlog; exact-source CI and parity fixtures.
+
+Non certificato: full import/write/export, map snapping, provider roads, arbitrary extensions, physical picker.

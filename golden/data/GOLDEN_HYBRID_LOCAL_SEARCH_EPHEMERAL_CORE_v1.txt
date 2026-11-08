@@ -1,0 +1,30 @@
+GOLDEN HYBRID LOCAL SEARCH — EPHEMERAL CORE
+Version: 1.0 — 2026-11-08
+Status: CERTIFIED GOLDEN (E5, SCOPE LIMITED)
+CATEGORY: data
+PARENT: golden/data/GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt remains DRAFT; not replacing its wider contract.
+OWNER: pure ephemeral in-memory lexical + opt-in deterministic feature-hash retrieval ranking; NOT persistence, neural AI or provider ACL.
+
+PROVENANCE
+Core implementation: App-Factory-Core/reference_engines/lib/src/hybrid_search.dart and semantic_embeddings.dart.
+Core implementation SHA: a9a051d2dbb1a89ad7eacad8a3d7d293087fe182.
+Core reference CI: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41558127847 — SUCCESS (exact reference source).
+Original source donors (not consumer): Notes-Ecosistema@3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c; CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4.
+Independent consumer: Wonderlog PR #21 https://github.com/riccardopinato/Wonderlog/pull/21 (MERGED)
+Consumer tested head: 6ea8e43f1be3e07634c1e792e734f4af3704f476.
+Consumer exact-head Flutter Foundation: https://github.com/riccardopinato/Wonderlog/actions/runs/41612729813 — SUCCESS.
+Consumer post-merge Flutter Foundation/Web: https://github.com/riccardopinato/Wonderlog/actions/runs/41615273697 and https://github.com/riccardopinato/Wonderlog/actions/runs/41615273698 — SUCCESS.
+Consumer code: flutter/lib/features/search/domain/search_engine.dart; flutter/lib/features/search/presentation/global_search_page.dart; source vendor blobs identical to Core reference (see parent Golden provenance).
+E5 = reference + truly independent Wonderlog consumer on production code path and test CI for THIS SCOPE.
+
+COPY-READY CONTRACT
+search(input query, eligible documents, optional term match, bounded limit) -> unique ordered explainable matches.
+Deterministic lexical matches must keep working when semantic option disabled. Visibility and allowed-scope filters before hits. Deletes/revisions invalidate ephemeral candidate inputs. Stable tie order; no duplicate IDs; finite normalized feature vectors. Consumer owns document authorizations, current source revisions and UX.
+Tests: empty corpus; single character; exact term; synonym/alias opt-in; repeats, deletions, permissions, stale revision; engine mismatch; invalid vector; deterministic ties; bounded length and corpus; fallback.
+
+DO NOT CLAIM
+Trained AI or model downloaded; persistent semantic index; cross-device sync; cross-account ACL verified in consumer; user data on real phones; 5k-document latency/Recall verified for all apps. Those remain in parent DRAFT Golden.
+REUSE GATE
+Use minimal source/test and immutable commit or file blob from donor. No second donor audit when original SHA/blob unchanged. Run focused target tests for permission, corpus and integration. Provider/device/Store gate only if target modifies those boundaries. No automatic product admission.
+
+END E5 SCOPED HYBRID LOCAL SEARCH GOLDEN

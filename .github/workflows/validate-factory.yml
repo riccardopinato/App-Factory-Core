@@ -23,6 +23,11 @@ jobs:
       - name: Validate Factory resolver, registry and supply chain
         run: python3 scripts/validate_factory.py
 
+      - name: Check reusable passports and scoped donor source gate
+        run: |
+          python3 scripts/reuse_passport_gate.py --check
+          python3 -m unittest discover -s tests -p 'reuse_passport_test.py' -v
+
       - name: Validate harvested engine contracts and portable fixture definitions
         run: python3 scripts/validate_engine_harvest.py
 
