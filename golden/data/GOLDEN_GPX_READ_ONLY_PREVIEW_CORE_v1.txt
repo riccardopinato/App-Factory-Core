@@ -21,7 +21,7 @@ E5 = independently demonstrated read/validate/preview subset with exact source a
 
 COPY-READY CONTRACT
 parsePreview(UTF8 bytes <=5MiB, limits) -> structured GPX tracks/segments/routes/waypoints, preview data, warnings or typed fail-closed errors.
-Reject invalid root/namespace, DTD/external entities, malformed XML, non-finite/out-of-range WGS84, invalid UTF-8, oversized input or unsafe extensions. Preserve order and segment boundaries, dates/altitude when present. Do not interpret raw route as snapped road. No user data is written during preview.
+Reject wrong root local name, DTD/external entities, malformed XML, non-finite/out-of-range WGS84, invalid UTF-8 and oversized input. IMPORTANT: current parser matches XML element LOCAL NAMES and DOES NOT validate namespace URI; an unrelated namespace with local name gpx may be accepted. No strict namespace-authenticity assurance is part of this certified scope; consumers requiring namespace validation must add it and test it. Unknown extensions are outside the certified contract. Preserve order and segment boundaries, dates/altitude when present. Do not interpret raw route as snapped road. No user data is written during preview.
 Tests: valid UTF-8 and namespace; multi segment; standalone route/waypoint; invalid root; XXE; NaN/out of range; oversized input; malformed dates; empty track; duplicate IDs; cancellation and no writes.
 
 NOT CERTIFIED

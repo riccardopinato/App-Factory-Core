@@ -36,6 +36,19 @@ def load():
     for r, p in zip(recs, ps):
         if r["id"] != p["id"] or r["source_sha"] != p["source_sha"] or r["ci_url"] != p["ci_url"]:
             raise ValueError("index drift")
+        # A changed passport path/hash could falsely authorize unrelated source.
+        fields = {
+            "source": "source_repo", "source_sha": "source_sha",
+            "source_blob": "source_blob_sha", "test_blob": "test_blob_sha",
+            "source_path": "source_path", "test_path": "test_path",
+            "ci_url": "ci_url", "certificate": "evidence",
+            "scope": "scope", "exclusions": "excluded",
+        }
+        if any(p.get(pk) != r.get(rk) for pk, rk in fields.items()):
+            raise ValueError("PASSPORT_SOURCE_OR_EVIDENCE_DRIFT: " + r["id"])
+        if p.get("consumer_gate") != "FOCUSED_ADAPTER_TESTS; physical/provider/store only if in scope":
+            raise ValueError("PASSPORT_CONSUMER_GATE_DRIFT: " + r["id"])
+
         if not SHA.fullmatch(r["source_sha"]):
             raise ValueError("invalid source SHA")
         if not r["ci_url"].startswith("https://github.com/riccardopinato/"):

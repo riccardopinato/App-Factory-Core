@@ -25,6 +25,16 @@ class ReusePassportTests(unittest.TestCase):
             (root / "lib" / "source.dart").write_bytes(b"new")
             self.assertTrue(mod.check_checkout(p, root).startswith("INVALIDATED:"))
 
+    def test_passport_fields_identical_to_donor_record(self):
+        items = mod.load()
+        self.assertEqual(len(items), 20)
+        data = mod.json.loads((P / "donors/REGISTRO_DONOR_CAPABILITY.json").read_text())
+        r = next(x for x in data["records"] if x["id"] == "focus_score")
+        p = next(x for x in items if x["id"] == "focus_score")
+        self.assertEqual(p["source_blob"], r["source_blob_sha"])
+        self.assertEqual(p["source_path"], r["source_path"])
+        # Tamper test remains an explicit invariant in load() itself.
+    
     def test_legacy_does_not_auto_certify(self):
         p = dict(source_blob=None, test_blob=None)
         self.assertIn("NEEDS_FIRST_FILE_PIN", mod.check_checkout(p, pathlib.Path(".")))
