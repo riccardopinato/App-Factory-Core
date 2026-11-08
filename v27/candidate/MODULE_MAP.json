@@ -589,7 +589,10 @@
         "ux",
         "monetizzazione",
         "mercato",
-        "idee"
+        "idee",
+        "stelle",
+        "stars capability audit",
+        "GitHub stars"
       ]
     }
   ],
@@ -679,6 +682,28 @@
       ],
       "public_command": true,
       "command_trigger": "Capability"
+    },
+    {
+      "id": "cmd_stelle",
+      "terms": [
+        "stelle",
+        "stelle nuove",
+        "stelle 95",
+        "stelle priorità",
+        "stelle capability"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "capability-sync",
+        "portfolio-commands"
+      ],
+      "golden_ids": [
+        "single_donor_capability_admission",
+        "scoped_donor_capability_catalog"
+      ],
+      "command_trigger": "Stelle",
+      "public_command": true
     },
     {
       "id": "roadmap",
