@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-07",
+  "updated_at": "2026-11-08",
   "authority": "App Factory Core command index; CURRENT.yaml, Master and Product Bible remain authoritative for behavior.",
   "commands": [
     {
@@ -93,6 +93,41 @@
         }
       ],
       "notes": "La fonte dati resta Idee-app-Archivi-riferimenti. Non modifica le singole app né promuove Golden."
+    },
+    {
+      "id": "stelle",
+      "group": "Catalogo",
+      "trigger": "Stelle",
+      "title": "Stelle → Capability complete",
+      "description": "Acquisisce nuove stelle GitHub, analizza ogni repository, estrae e deduplica funzioni, formalizza CAP E0 e kit, confronta Product Bible e produce raccomandazioni di ammissione.",
+      "effect": "SCRITTURA SOLO CATALOGO (PR + CI)",
+      "entrypoint": "commands/specs/STELLE.md",
+      "route_id": "cmd_stelle",
+      "examples": [
+        {
+          "text": "Stelle",
+          "description": "Esegui l'intera pipeline incrementale sulle stelle accessibili dell'account GitHub autorizzato."
+        },
+        {
+          "text": "Stelle nuove",
+          "description": "Controlla il delta dalle stelle precedentemente inventariate e aggiorna solo le novità."
+        },
+        {
+          "text": "Stelle 95",
+          "description": "Riconcilia il pacchetto storico di 95 OSS senza duplicare CAP o kit."
+        },
+        {
+          "text": "Stelle priorità",
+          "description": "Confronta le candidate col prodotto e restituisce la shortlist, senza approvarla automaticamente."
+        },
+        {
+          "text": "Stelle owner/repository",
+          "description": "Audit mirato a un repository indicato esplicitamente, senza presumere che sia starred."
+        }
+      ],
+      "notes": "Riuso di Capability e atlas OSS. Ricerca ammessa per tutte le licenze; copia codice non automatica. Decisioni APPROVATA/IN_ROADMAP solo con prova owner. Non modifica app, Factory, Golden o release.",
+      "contract_version": 1,
+      "spec_blob_sha": "f974b7f689b767adbf07e1e99a5dd61bb3aa049f"
     },
     {
       "id": "procedi",
