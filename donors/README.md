@@ -10,3 +10,9 @@ Passports: [reuse/PASSPORTS.json](reuse/PASSPORTS.json).
 Per riuso, si devono leggere soltanto: passport corrispondente, file sorgenti puntati e contratto Golden pertinente. Se source/test **Git blob** coincidono, mantenere prova E3 precedente e saltare l'audit donor; eseguire solo test adapter consumer. Se cambia blob, contratto, SDK, rights o sicurezza: ricontrollare quel delta. Nessuna promo globale implicita.
 
 Non serve un secondo progetto per certificare E3. Nessuna scrittura di app, store, cloud o Play.
+
+## Mini-batch 08/11/2026 — sei donor legacy certificati E3 in modo puntuale
+
+Il batch [CERTIFICAZIONI_E3_BATCH_2026-11-08.md](CERTIFICAZIONI_E3_BATCH_2026-11-08.md) ha verificato **6 file source + 6 test alla SHA del donor, gli stessi blob sul main attuale, 6 run CI con head esatto e suite pertinente riuscita**. Da 9 E3 exact-head a **15 E3 exact-head**, senza nuovi donor, senza cambiare app, senza nuove CAP/Golden/decisioni di prodotto. Rimangono 4 legacy certificati e 1 E2 non certificato.
+
+Corretto `notes_links`: il file test diretto esercita `reference_lifecycle.dart`, non `stable_links.dart`; certificazione **ristretta al lifecycle di riferimenti**. `cooking_catalog` resta legacy perché il test storico del Quality Engine non esercita il `compile_recipe_catalog.py` indicato: richiede un puntamento test/source coerente e prova di suite diretta prima di promuovere. Le parti hardware/cloud/device continuano ad avere gate indipendenti.

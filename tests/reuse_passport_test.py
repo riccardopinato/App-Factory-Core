@@ -13,6 +13,23 @@ class ReusePassportTests(unittest.TestCase):
     def test_registry_has_20_valid_contracts(self):
         self.assertEqual(len(mod.load()), 20)
 
+    def test_six_legacy_donors_now_have_exact_e3_proofs(self):
+        ids = {"anna_media", "notes_links", "camper_backup", "world_content_pack", "battery_estimation", "phone_security_policy"}
+        data = mod.json.loads((P / "donors/REGISTRO_DONOR_CAPABILITY.json").read_text())
+        passports = {p["id"]: p for p in mod.load()}
+        records = {r["id"]: r for r in data["records"]}
+        self.assertEqual(len([r for r in records.values() if r["evidence"] == "E3_EXACT_HEAD_TESTS"]), 15)
+        for ident in ids:
+            item = records[ident]
+            passport = passports[ident]
+            self.assertEqual(item["status"], "CERTIFIED_DONOR_SCOPED")
+            self.assertEqual(item["source_sha"], item["e3_admission"]["exact_run_head_sha"])
+            self.assertTrue(item["e3_admission"]["source_blob_same_on_main"])
+            self.assertTrue(item["e3_admission"]["test_blob_same_on_main"])
+            self.assertEqual(passport["source_blob"], item["source_blob_sha"])
+            self.assertEqual(passport["test_blob"], item["test_blob_sha"])
+        self.assertEqual(records["send_upload_bounds"]["status"], "SOURCE_CANDIDATE")
+
     def test_matching_and_changed_blob(self):
         with tempfile.TemporaryDirectory() as temp:
             root = pathlib.Path(temp)

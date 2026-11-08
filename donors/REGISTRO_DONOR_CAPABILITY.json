@@ -9,38 +9,70 @@
       "source_repo": "riccardopinato/Agenda-per-Anna",
       "source_sha": "827bb61620960d8867eb03e453d142013aada786",
       "source_path": "lib/media_asset_store.dart",
-      "source_blob_sha": null,
+      "source_blob_sha": "0eaaafa70ce2e17c968e9f1179f539c08a833723",
       "test_path": "test/media_asset_store_test.dart",
-      "test_blob_sha": null,
+      "test_blob_sha": "5020835b294840cd7d8fede8defcc9e8d16f7835",
       "ci_url": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/41458618496",
-      "scope": "Media SHA-256, bounded cache, recoverable Trash",
-      "evidence": "E3_LEGACY_SCOPE",
-      "status": "CERTIFIED_DONOR_LEGACY_SCOPED",
-      "excluded": "No physical backup/restore or cross-provider guarantee",
+      "scope": "Dart MediaAssetStore: SHA-256 content-addressed IDs, duplicate media reuse, bounded cached assets and referenced-media persistence under tested flows",
+      "evidence": "E3_EXACT_HEAD_TESTS",
+      "status": "CERTIFIED_DONOR_SCOPED",
+      "excluded": "Not certifying journal Trash, PWA backup recovery, local/cloud sync, encryption, provider cross-account migration, native physical storage; adjacent lifecycle remains legacy",
       "inherited_from": [
         "GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1",
         "GOLDEN_WAVE2_VERIFIED_DONORS_v1",
         "GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1"
-      ]
+      ],
+      "e3_admission": {
+        "batch": "2026-11-08-six-legacy",
+        "exact_run_head_sha": "827bb61620960d8867eb03e453d142013aada786",
+        "run_id": 41458618496,
+        "run_status": "completed",
+        "run_conclusion": "success",
+        "run_main_source_files_tests": "TARGET_SOURCE_AND_TEST_EXERCISED_IN_SUCCESSFUL_SUITE",
+        "verified_main_head": "2b01f820bbe541258a9292c2863a2e37c2018e8d",
+        "source_blob_same_on_main": true,
+        "test_blob_same_on_main": true,
+        "source_file_sha1": "0eaaafa70ce2e17c968e9f1179f539c08a833723",
+        "test_file_sha1": "5020835b294840cd7d8fede8defcc9e8d16f7835",
+        "license": "USER_OWNED_INTERNAL_SOURCE_NOT_THIRD_PARTY",
+        "consumer_e4": "NOT_VERIFIED",
+        "scope_applies_to": "SINGLE_SCOPED_FUNCTION_NOT_WHOLE_APP"
+      }
     },
     {
       "id": "notes_links",
       "source_repo": "riccardopinato/Notes-Ecosistema",
       "source_sha": "3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c",
-      "source_path": "flutter_app/lib/src/domain/stable_links.dart",
-      "source_blob_sha": null,
+      "source_path": "flutter_app/lib/src/domain/reference_lifecycle.dart",
+      "source_blob_sha": "b7280c4752bb9cabe3dd8941c5f2802cf4371967",
       "test_path": "flutter_app/test/reference_lifecycle_test.dart",
-      "test_blob_sha": null,
+      "test_blob_sha": "ba1339f33f04c2ecb7585eef009b5303e779d864",
       "ci_url": "https://github.com/riccardopinato/Notes-Ecosistema/actions/runs/36594580169",
-      "scope": "Stable ID references, link lifecycle, disaster-safe archive validation",
-      "evidence": "E3_LEGACY_SCOPE",
-      "status": "CERTIFIED_DONOR_LEGACY_SCOPED",
-      "excluded": "No native filesystem crash proof",
+      "scope": "Dart ReferenceLifecycle: stable note-ID resolution across rename; typed resolved/deleted/sourceMissing/stale/ambiguous states, relationships and synced block references",
+      "evidence": "E3_EXACT_HEAD_TESTS",
+      "status": "CERTIFIED_DONOR_SCOPED",
+      "excluded": "Not certifying stable_links.dart URI parser by unrelated test, persistent native migration, end-to-end crash restore, cloud consistency or device proof",
       "inherited_from": [
         "GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1",
         "GOLDEN_WAVE2_VERIFIED_DONORS_v1",
         "GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1"
-      ]
+      ],
+      "e3_admission": {
+        "batch": "2026-11-08-six-legacy",
+        "exact_run_head_sha": "3fd9b0df5ab3b7470c65721b4bad7f3fd8c59e6c",
+        "run_id": 36594580169,
+        "run_status": "completed",
+        "run_conclusion": "success",
+        "run_main_source_files_tests": "TARGET_SOURCE_AND_TEST_EXERCISED_IN_SUCCESSFUL_SUITE",
+        "verified_main_head": "6e8510c721308d0acceeda12d0b4090268118cdd",
+        "source_blob_same_on_main": true,
+        "test_blob_same_on_main": true,
+        "source_file_sha1": "b7280c4752bb9cabe3dd8941c5f2802cf4371967",
+        "test_file_sha1": "ba1339f33f04c2ecb7585eef009b5303e779d864",
+        "license": "USER_OWNED_INTERNAL_SOURCE_NOT_THIRD_PARTY",
+        "consumer_e4": "NOT_VERIFIED",
+        "scope_applies_to": "SINGLE_SCOPED_FUNCTION_NOT_WHOLE_APP"
+      }
     },
     {
       "id": "wonderlog_merge",
@@ -66,38 +98,70 @@
       "source_repo": "riccardopinato/CamperBoss",
       "source_sha": "cf4202e25bf3bc630f9cfe5e3823219acfba84b4",
       "source_path": "lib/core/services/data_backup_service.dart",
-      "source_blob_sha": null,
+      "source_blob_sha": "af2abad242d877584ede262936d46c25f790d837",
       "test_path": "test/data_backup_service_test.dart",
-      "test_blob_sha": null,
+      "test_blob_sha": "a911830232a50c0a6f88bfa8715801a8734a6600",
       "ci_url": "https://github.com/riccardopinato/CamperBoss/actions/runs/38570040742",
-      "scope": "Versioned restore staging, rollback and hash verification",
-      "evidence": "E3_LEGACY_SCOPE",
-      "status": "CERTIFIED_DONOR_LEGACY_SCOPED",
-      "excluded": "Crash and physical transfer not covered",
+      "scope": "Dart versioned backup staging: manifest hash checks, restore conflict handling, rollback after failures, tested startup recovery and bounded archive restoration fixtures",
+      "evidence": "E3_EXACT_HEAD_TESTS",
+      "status": "CERTIFIED_DONOR_SCOPED",
+      "excluded": "Not certifying device crash durability, encryption strength, third-party backup provider, cross-OS transfer or Play release; target schema migration tests remain required",
       "inherited_from": [
         "GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1",
         "GOLDEN_WAVE2_VERIFIED_DONORS_v1",
         "GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1"
-      ]
+      ],
+      "e3_admission": {
+        "batch": "2026-11-08-six-legacy",
+        "exact_run_head_sha": "cf4202e25bf3bc630f9cfe5e3823219acfba84b4",
+        "run_id": 38570040742,
+        "run_status": "completed",
+        "run_conclusion": "success",
+        "run_main_source_files_tests": "TARGET_SOURCE_AND_TEST_EXERCISED_IN_SUCCESSFUL_SUITE",
+        "verified_main_head": "ae30d08f23aa7e8c835927bc98127f25662d2f6a",
+        "source_blob_same_on_main": true,
+        "test_blob_same_on_main": true,
+        "source_file_sha1": "af2abad242d877584ede262936d46c25f790d837",
+        "test_file_sha1": "a911830232a50c0a6f88bfa8715801a8734a6600",
+        "license": "USER_OWNED_INTERNAL_SOURCE_NOT_THIRD_PARTY",
+        "consumer_e4": "NOT_VERIFIED",
+        "scope_applies_to": "SINGLE_SCOPED_FUNCTION_NOT_WHOLE_APP"
+      }
     },
     {
       "id": "world_content_pack",
       "source_repo": "riccardopinato/World-Days",
       "source_sha": "bb662cb21506b6157658f43070c2059c960637b5",
       "source_path": "lib/core/content_pack/content_pack_manager.dart",
-      "source_blob_sha": null,
+      "source_blob_sha": "07f52428be7cad539b88aca1037c551ce66d7c22",
       "test_path": "test/core/content_pack_manager_test.dart",
-      "test_blob_sha": null,
+      "test_blob_sha": "9cb5da46f3bef1164a6a96465ce4d547fa9ab1ac",
       "ci_url": "https://github.com/riccardopinato/World-Days/actions/runs/41680940705",
-      "scope": "Verified content packs, downgrade-safe bundled upgrade and rollback",
-      "evidence": "E3_SCOPED_EXACT_HEAD",
-      "status": "CERTIFIED_DONOR_LEGACY_SCOPED",
-      "excluded": "Pack size/URLs target-specific; no OTA device proof",
+      "scope": "Flutter content-pack manager: bounded HTTPS metadata, SHA-256 checked staged activation, active/previous fallback, numeric version downgrade prevention in 12 test fixtures",
+      "evidence": "E3_EXACT_HEAD_TESTS",
+      "status": "CERTIFIED_DONOR_SCOPED",
+      "excluded": "Not certifying real OTA network/service provider, user device storage failure, arbitrary media pack formats or third-party CDN security",
       "inherited_from": [
         "GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1",
         "GOLDEN_WAVE2_VERIFIED_DONORS_v1",
         "GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1"
-      ]
+      ],
+      "e3_admission": {
+        "batch": "2026-11-08-six-legacy",
+        "exact_run_head_sha": "bb662cb21506b6157658f43070c2059c960637b5",
+        "run_id": 41680940705,
+        "run_status": "completed",
+        "run_conclusion": "success",
+        "run_main_source_files_tests": "TARGET_SOURCE_AND_TEST_EXERCISED_IN_SUCCESSFUL_SUITE",
+        "verified_main_head": "bb662cb21506b6157658f43070c2059c960637b5",
+        "source_blob_same_on_main": true,
+        "test_blob_same_on_main": true,
+        "source_file_sha1": "07f52428be7cad539b88aca1037c551ce66d7c22",
+        "test_file_sha1": "9cb5da46f3bef1164a6a96465ce4d547fa9ab1ac",
+        "license": "USER_OWNED_INTERNAL_SOURCE_NOT_THIRD_PARTY",
+        "consumer_e4": "NOT_VERIFIED",
+        "scope_applies_to": "SINGLE_SCOPED_FUNCTION_NOT_WHOLE_APP"
+      }
     },
     {
       "id": "cooking_catalog",
@@ -123,38 +187,70 @@
       "source_repo": "riccardopinato/Battery_Guard",
       "source_sha": "d8cf237ab2df2daf427b87ca057871e3143bccc7",
       "source_path": "lib/services/battery_intelligence_engine.dart",
-      "source_blob_sha": null,
+      "source_blob_sha": "5d178554028ee3ae05dc8098951289b22eeec323",
       "test_path": "test/battery_intelligence_test.dart",
-      "test_blob_sha": null,
+      "test_blob_sha": "2088290556af36a30d159e10d90696e333ad8a8b",
       "ci_url": "https://github.com/riccardopinato/Battery_Guard/actions/runs/40368962341",
-      "scope": "Robust charge ETA and anomaly cohorts",
-      "evidence": "E3_LEGACY_SCOPE",
-      "status": "CERTIFIED_DONOR_LEGACY_SCOPED",
-      "excluded": "No device calibration or charge cutoff hardware proof",
+      "scope": "Dart BatteryIntelligenceEngine: bounded standard/smart charge ETA, valid same-source history filtering and unavailable behavior on non-charging devices in unit fixtures",
+      "evidence": "E3_EXACT_HEAD_TESTS",
+      "status": "CERTIFIED_DONOR_SCOPED",
+      "excluded": "Not certifying physical battery currents, Android API/OEM telemetry, actual ETA accuracy on devices, battery cut-off or hardware anomaly detection",
       "inherited_from": [
         "GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1",
         "GOLDEN_WAVE2_VERIFIED_DONORS_v1",
         "GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1"
-      ]
+      ],
+      "e3_admission": {
+        "batch": "2026-11-08-six-legacy",
+        "exact_run_head_sha": "d8cf237ab2df2daf427b87ca057871e3143bccc7",
+        "run_id": 40368962341,
+        "run_status": "completed",
+        "run_conclusion": "success",
+        "run_main_source_files_tests": "TARGET_SOURCE_AND_TEST_EXERCISED_IN_SUCCESSFUL_SUITE",
+        "verified_main_head": "d8cf237ab2df2daf427b87ca057871e3143bccc7",
+        "source_blob_same_on_main": true,
+        "test_blob_same_on_main": true,
+        "source_file_sha1": "5d178554028ee3ae05dc8098951289b22eeec323",
+        "test_file_sha1": "2088290556af36a30d159e10d90696e333ad8a8b",
+        "license": "USER_OWNED_INTERNAL_SOURCE_NOT_THIRD_PARTY",
+        "consumer_e4": "NOT_VERIFIED",
+        "scope_applies_to": "SINGLE_SCOPED_FUNCTION_NOT_WHOLE_APP"
+      }
     },
     {
       "id": "phone_security_policy",
       "source_repo": "riccardopinato/Phone-Guard",
       "source_sha": "ba377aa0fadbe2d7e5ec603f5abd4b69d411ed3c",
       "source_path": "app/src/main/java/com/riccardopinato/phoneguard/protection/ProtectionPolicy.kt",
-      "source_blob_sha": null,
+      "source_blob_sha": "0d3524ce28701f544381678c2ea1ce0c475c882b",
       "test_path": "app/src/test/java/com/riccardopinato/phoneguard/protection/ProtectionPolicyTest.kt",
-      "test_blob_sha": null,
+      "test_blob_sha": "14741978095a1c1d2fccbc2b0f6cddbab3fb370c",
       "ci_url": "https://github.com/riccardopinato/Phone-Guard/actions/runs/40700256048",
-      "scope": "Sensor/owner guard and security policy",
-      "evidence": "E3_LEGACY_SCOPE",
-      "status": "CERTIFIED_DONOR_LEGACY_SCOPED",
-      "excluded": "No multi-OEM alarm/FGS runtime",
+      "scope": "Kotlin ProtectionPolicy: per-mode sensor capability admission, pending-trigger owner actions and journey time/deadline semantics proven by 16 unit cases",
+      "evidence": "E3_EXACT_HEAD_TESTS",
+      "status": "CERTIFIED_DONOR_SCOPED",
+      "excluded": "Not certifying native sensors across OEMs, alarm/torch/FGS, Keystore PIN security or runtime protection of a physical device",
       "inherited_from": [
         "GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1",
         "GOLDEN_WAVE2_VERIFIED_DONORS_v1",
         "GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1"
-      ]
+      ],
+      "e3_admission": {
+        "batch": "2026-11-08-six-legacy",
+        "exact_run_head_sha": "ba377aa0fadbe2d7e5ec603f5abd4b69d411ed3c",
+        "run_id": 40700256048,
+        "run_status": "completed",
+        "run_conclusion": "success",
+        "run_main_source_files_tests": "TARGET_SOURCE_AND_TEST_EXERCISED_IN_SUCCESSFUL_SUITE",
+        "verified_main_head": "ba377aa0fadbe2d7e5ec603f5abd4b69d411ed3c",
+        "source_blob_same_on_main": true,
+        "test_blob_same_on_main": true,
+        "source_file_sha1": "0d3524ce28701f544381678c2ea1ce0c475c882b",
+        "test_file_sha1": "14741978095a1c1d2fccbc2b0f6cddbab3fb370c",
+        "license": "USER_OWNED_INTERNAL_SOURCE_NOT_THIRD_PARTY",
+        "consumer_e4": "NOT_VERIFIED",
+        "scope_applies_to": "SINGLE_SCOPED_FUNCTION_NOT_WHOLE_APP"
+      }
     },
     {
       "id": "send_upload_bounds",
@@ -348,5 +444,31 @@
       "excluded": "Alarm service and sensor OEM proof not covered",
       "inherited_from": []
     }
-  ]
+  ],
+  "updated_at": "2026-11-08",
+  "legacy_e3_upgrade_20261108": {
+    "batch_size": 6,
+    "previous_exact_head_E3": 9,
+    "now_exact_head_E3": 15,
+    "total_components": 20,
+    "still_legacy_certified": 4,
+    "source_candidate_E2": 1,
+    "consumers_modified": 0,
+    "tests_reused": "historical exact-head CI and confirmed identical source/test blobs on current main",
+    "promoted_ids": [
+      "anna_media",
+      "notes_links",
+      "camper_backup",
+      "world_content_pack",
+      "battery_estimation",
+      "phone_security_policy"
+    ],
+    "blocked_not_promoted": [
+      "wonderlog_merge",
+      "cooking_catalog",
+      "send_upload_bounds",
+      "trail_geo",
+      "frame_editorial"
+    ]
+  }
 }

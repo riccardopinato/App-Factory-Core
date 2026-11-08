@@ -59,8 +59,16 @@ def load():
                 raise ValueError("invalid blob SHA")
         for key in ("source_path", "test_path"):
             path_inside(Path("/tmp/donor-checkout"), r[key])
-        if r["evidence"] == "E3_EXACT_HEAD_TESTS" and not r["source_blob_sha"]:
-            raise ValueError("E3 new entry without blob")
+        if r["evidence"] == "E3_EXACT_HEAD_TESTS":
+            if not r["source_blob_sha"] or not r["test_blob_sha"]:
+                raise ValueError("E3 certificate requires both source and test fingerprint")
+            if "e3_admission" in r:
+                proof = r["e3_admission"]
+                if (proof["exact_run_head_sha"] != r["source_sha"]
+                        or not proof["source_blob_same_on_main"]
+                        or not proof["test_blob_same_on_main"]
+                        or p.get("e3_admission") != proof):
+                    raise ValueError("E3 proof does not match source/Passport")
     return ps
 
 
