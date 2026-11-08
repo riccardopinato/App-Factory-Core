@@ -1,6 +1,6 @@
 factory_version: 2
 repository: riccardopinato/App-Factory-Core
-updated_at: 2026-11-03
+updated_at: 2026-11-08
 
 master:
   version: "27"
@@ -10,10 +10,10 @@ master:
   modular_manifest: v27/candidate/MODULE_MAP.json
 
 golden_index:
-  version: 28
+  version: 29
   status: CURRENT
   path: golden/GOLDEN_INDEX_CURRENT.txt
-  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v28.txt
+  versioned_path: golden/GOLDEN_COMPONENTS_INDEX_v29.txt
 
 golden_registry:
   version: 2

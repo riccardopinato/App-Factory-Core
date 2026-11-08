@@ -45,11 +45,29 @@ def main() -> None:
     registry = yaml.safe_load((ROOT / "golden/GOLDEN_REGISTRY.yaml").read_text(encoding="utf-8"))
     current = yaml.safe_load((ROOT / "CURRENT.yaml").read_text(encoding="utf-8"))
     index = (ROOT / "golden/GOLDEN_INDEX_CURRENT.txt").read_text(encoding="utf-8")
-    assert current["golden_index"]["version"] == 28, "expected Golden v28"
-    assert registry["index_version"] == 28
+    index_version = current["golden_index"]["version"]
+    require(index_version >= 28, "Golden Index older than engine harvest baseline v28")
+    require(registry["index_version"] == index_version, "Golden Registry vs CURRENT index drift")
     registered = {entry["id"]: entry for entry in registry["goldens"]}
     require(len(registered) == len(registry["goldens"]), "duplicate registry IDs")
-    require(len(registered) == 59, "expected 51 + 8 Golden entries")
+    require(len(registered) >= 59, "engine harvest baseline must retain all 59 legacy Goldens")
+    scoped_e5 = {
+        "hybrid_local_search_ephemeral_scoped": "golden/data/GOLDEN_HYBRID_LOCAL_SEARCH_EPHEMERAL_CORE_v1.txt",
+        "gpx_read_only_preview_scoped": "golden/data/GOLDEN_GPX_READ_ONLY_PREVIEW_CORE_v1.txt",
+    }
+    if index_version >= 29:
+        for ident, rel in scoped_e5.items():
+            require(ident in registered, "missing scoped E5 Golden: " + ident)
+            item = registered[ident]
+            require(item["status"] == "CERTIFIED GOLDEN" and item["path"] == rel,
+                    "scoped E5 registry mismatch: " + ident)
+            doc = (ROOT / rel).read_text(encoding="utf8")
+            require("E5" in doc and "INDEPENDENT" in doc.upper() and "NOT CERTIFIED" in doc.upper() or
+                    "E5" in doc and "Independent consumer" in doc and "NOT" in doc,
+                    "scoped Golden must state evidence and negative boundary: " + ident)
+        require(len(registered) == 61, "v29 scoped index must have 61 Goldens")
+    else:
+        require(len(registered) == 59, "v28 legacy Golden count drift")
     for ident, rel in NEW.items():
         require(ident in registered, "unregistered engine: " + ident)
         entry = registered[ident]

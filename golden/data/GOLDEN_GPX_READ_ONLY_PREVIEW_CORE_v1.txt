@@ -1,0 +1,31 @@
+GOLDEN GPX — STRICT READ-ONLY PREVIEW CORE
+Version: 1.0 — 2026-11-08
+Status: CERTIFIED GOLDEN (E5, SCOPE LIMITED)
+CATEGORY: data
+PARENT: golden/data/GOLDEN_GPX_INTEROPERABILITY_ENGINE_v1_DRAFT.txt remains DRAFT for full import/export/writeback.
+OWNER: bounded strict read-only GPX parsing and preview. NOT route finding, map matching, persistent import, transfer or writeback.
+
+PROVENANCE
+Core reference file: reference_engines/lib/src/gpx.dart
+Core SHA: ce3d0c743a0b2cee3ac26fbc72023e479b178837
+Core reference blob SHA1: 970b0555ab905655be4f6d221522b18cb37cc212
+Core analyze / test / vectors: https://github.com/riccardopinato/App-Factory-Core/actions/runs/41553706803 — SUCCESS.
+Original donors: TrailPath@3f44ab37c0881e4315033797c451cec723e23cd2; CamperBoss@cf4202e25bf3bc630f9cfe5e3823219acfba84b4.
+Independent consumer: Wonderlog PR #22 https://github.com/riccardopinato/Wonderlog/pull/22 (MERGED).
+Consumer exact PR head: 439a24e02952b351bb9c1f76528575ec1830e3f1
+Consumer code: flutter/lib/features/gpx/domain/gpx_reference.dart; production Journey Detail file picker -> local file preview.
+Consumer source blob matches reference Core: 970b0555ab905655be4f6d221522b18cb37cc212.
+Consumer Flutter Foundation and Apple build CI: https://github.com/riccardopinato/Wonderlog/actions/runs/41616436051 and https://github.com/riccardopinato/Wonderlog/actions/runs/41616436017 — SUCCESS.
+Merger source: Wonderlog main 5c3fe1c626104fb7c80d57de6a7871b968ee499a.
+E5 = independently demonstrated read/validate/preview subset with exact source and CI.
+
+COPY-READY CONTRACT
+parsePreview(UTF8 bytes <=5MiB, limits) -> structured GPX tracks/segments/routes/waypoints, preview data, warnings or typed fail-closed errors.
+Reject wrong root local name, DTD/external entities, malformed XML, non-finite/out-of-range WGS84, invalid UTF-8 and oversized input. IMPORTANT: current parser matches XML element LOCAL NAMES and DOES NOT validate namespace URI; an unrelated namespace with local name gpx may be accepted. No strict namespace-authenticity assurance is part of this certified scope; consumers requiring namespace validation must add it and test it. Unknown extensions are outside the certified contract. Preserve order and segment boundaries, dates/altitude when present. Do not interpret raw route as snapped road. No user data is written during preview.
+Tests: valid UTF-8 and namespace; multi segment; standalone route/waypoint; invalid root; XXE; NaN/out of range; oversized input; malformed dates; empty track; duplicate IDs; cancellation and no writes.
+
+NOT CERTIFIED
+GPX write/export roundtrip in independent consumer; full imported journeys, original source writeback, map provider, routes on road, memory in low-end physical phone, picker permissions across OEM and third-party extension compatibility. Full GPX Golden stays DRAFT.
+REUSE GATE
+Compare exact source file blob and API contract. Reuse pure parser, adapt with readonly target file picker and unit tests; physical QA only for target picker/storage integration. No new map-routing library or provider implied.
+END E5 SCOPED GPX GOLDEN
