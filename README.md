@@ -17,6 +17,10 @@ Resolve it deterministically:
 The commit SHA used for this read becomes the **Factory baseline** for the session.
 Do not refresh it between consecutive steps unless the central framework changes or a refresh is explicitly requested.
 
+## Template Engine Standard v1 — contract candidate
+
+[Specifica, manifest JSON Schema, esempi multi-app e validator](contracts/template_engine_v1/README.md). Contratto **documentale e staticamente validato** per modelli originali e nativi di ciascuna app; non SDK Flutter, import Notion, Golden, funzionalità runtime o store attivo. Include gate di installazione atomica e conservazione dei dati utente, senza modificare Master/GOLDEN.
+
 ## Commandi rapidi
 
 Scrivi `Legenda` nelle chat del Project: legge `commands/REGISTRY.json` e `commands/LEGGENDA.md` per mostrare gli shortcut aggiornati. `Audit` avvia il 360° in sola lettura; `Capability` aggiorna il catalogo con PR e gate. Per aggiungere un comando pubblico: route + registro canonico + generatore `scripts/build_command_legend.py --write`; CI verifica la sincronizzazione.

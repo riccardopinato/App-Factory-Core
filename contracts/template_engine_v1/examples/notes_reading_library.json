@@ -1,0 +1,106 @@
+{
+  "contract_version": 1,
+  "template_id": "it.riccardopinato.notes.reading_library",
+  "template_version": "0.1.0",
+  "app_id": "riccardopinato/Notes-Ecosistema",
+  "catalog_status": "research_candidate",
+  "category": "knowledge",
+  "localization": {
+    "default_locale": "it",
+    "translations": {
+      "it": {
+        "title": "Biblioteca personale",
+        "description": "Raccolte e liste di lettura modificabili in Notes.",
+        "preview_alt": "Anteprima della biblioteca creata nell'app Notes."
+      },
+      "en": {
+        "title": "Reading library",
+        "description": "Editable reading collections and lists in Notes.",
+        "preview_alt": "Preview of the in-app Notes reading library."
+      },
+      "es": {
+        "title": "Biblioteca personal",
+        "description": "Colecciones y listas de lectura editables en Notes.",
+        "preview_alt": "Vista previa de la biblioteca creada en Notes."
+      },
+      "fr": {
+        "title": "Bibliothèque personnelle",
+        "description": "Collections et listes de lecture modifiables dans Notes.",
+        "preview_alt": "Aperçu de la bibliothèque créée dans Notes."
+      },
+      "de": {
+        "title": "Persönliche Bibliothek",
+        "description": "Bearbeitbare Lesesammlungen und Listen in Notes.",
+        "preview_alt": "Vorschau der Bibliothek in Notes."
+      },
+      "pt": {
+        "title": "Biblioteca pessoal",
+        "description": "Coleções e listas de leitura editáveis no Notes.",
+        "preview_alt": "Prévia da biblioteca criada no Notes."
+      }
+    }
+  },
+  "preview": {
+    "kind": "generated_in_app"
+  },
+  "compatibility": {
+    "min_app_build": 1,
+    "platforms": [
+      "android"
+    ],
+    "data_contract_revision": 1,
+    "required_capabilities": [
+      "notes.template_writer.v1",
+      "notes.collection_writer.v1"
+    ],
+    "target_locales": [
+      "it",
+      "en",
+      "es",
+      "fr",
+      "de",
+      "pt"
+    ]
+  },
+  "configuration": {
+    "fields": [
+      {
+        "key": "include_reading_queue",
+        "kind": "boolean",
+        "default": true
+      },
+      {
+        "key": "display_mode",
+        "kind": "choice",
+        "options": [
+          "cards",
+          "compact"
+        ],
+        "default": "cards"
+      }
+    ]
+  },
+  "installation": {
+    "strategy": "staged_validate_atomic_commit",
+    "scope": "private",
+    "confirmation_required": true,
+    "replay_policy": "idempotent_install_receipt",
+    "removal_policy": "detach_keep_user_data",
+    "adapter_id": "notes.personal_templates.v1",
+    "write_targets": [
+      "note",
+      "collection"
+    ]
+  },
+  "access": {
+    "tier": "free"
+  },
+  "provenance": {
+    "origin": "original_app_native",
+    "external_assets_embedded": false,
+    "reference_ids": [
+      "TPLUX-REF-0004"
+    ],
+    "rights_status": "first_party_pending_review"
+  }
+}

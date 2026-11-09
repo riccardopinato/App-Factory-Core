@@ -31,6 +31,11 @@ jobs:
       - name: Validate harvested engine contracts and portable fixture definitions
         run: python3 scripts/validate_engine_harvest.py
 
+      - name: Verify Template Engine Standard v1 manifest contract and fail-closed vectors
+        run: |
+          python3 scripts/validate_template_engine_v1.py
+          python3 -m unittest discover -s tests -p 'test_template_engine_v1.py' -v
+
       - name: Validate v27 section coverage and synchronized fallback
         run: python3 scripts/validate_v27_candidate.py --self-test
 

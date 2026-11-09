@@ -1,0 +1,98 @@
+{
+  "contract_version": 1,
+  "template_id": "it.riccardopinato.anna.morning_ritual",
+  "template_version": "0.1.0",
+  "app_id": "riccardopinato/Agenda-per-Anna",
+  "catalog_status": "research_candidate",
+  "category": "journal",
+  "localization": {
+    "default_locale": "it",
+    "translations": {
+      "it": {
+        "title": "La mia routine del mattino",
+        "description": "Un modello privato per organizzare una routine leggera.",
+        "preview_alt": "Anteprima di una routine mattutina privata in Anna's Diary."
+      },
+      "en": {
+        "title": "My morning routine",
+        "description": "A private template for a light daily routine.",
+        "preview_alt": "Preview of a private morning routine in Anna's Diary."
+      },
+      "es": {
+        "title": "Mi rutina de mañana",
+        "description": "Un modelo privado para una rutina diaria sencilla.",
+        "preview_alt": "Vista previa de una rutina matutina privada en Anna's Diary."
+      },
+      "fr": {
+        "title": "Ma routine du matin",
+        "description": "Un modèle privé pour une routine quotidienne simple.",
+        "preview_alt": "Aperçu d'une routine matinale privée dans Anna's Diary."
+      },
+      "pt": {
+        "title": "A minha rotina matinal",
+        "description": "Um modelo privado para uma rotina diária simples.",
+        "preview_alt": "Prévia de uma rotina matinal privada no Anna's Diary."
+      }
+    }
+  },
+  "preview": {
+    "kind": "generated_in_app"
+  },
+  "compatibility": {
+    "min_app_build": 1,
+    "platforms": [
+      "android",
+      "web"
+    ],
+    "data_contract_revision": 1,
+    "required_capabilities": [
+      "anna.daily_rituals.v1"
+    ],
+    "target_locales": [
+      "it",
+      "en",
+      "es",
+      "fr",
+      "pt"
+    ]
+  },
+  "configuration": {
+    "fields": [
+      {
+        "key": "include_evening_reflection",
+        "kind": "boolean",
+        "default": false
+      },
+      {
+        "key": "days_per_week",
+        "kind": "integer",
+        "default": 7,
+        "min": 1,
+        "max": 7
+      }
+    ]
+  },
+  "installation": {
+    "strategy": "staged_validate_atomic_commit",
+    "scope": "private",
+    "confirmation_required": true,
+    "replay_policy": "idempotent_install_receipt",
+    "removal_policy": "detach_keep_user_data",
+    "adapter_id": "anna.diary_templates.v1",
+    "write_targets": [
+      "diary_entry"
+    ]
+  },
+  "access": {
+    "tier": "paid_once",
+    "entitlement_key": "anna.template.morning_ritual"
+  },
+  "provenance": {
+    "origin": "original_app_native",
+    "external_assets_embedded": false,
+    "reference_ids": [
+      "TPLUX-REF-0002"
+    ],
+    "rights_status": "first_party_pending_review"
+  }
+}
