@@ -239,6 +239,33 @@ Valuta per elemento in scala 1–5: valore utente, gravità/rischio, frequenza, 
 
 Non mettere automaticamente prima la feature più appariscente. Le priorità devono derivare da `impatto reale × rischio × fattibilità × prerequisiti`, spiegando perché un P0 precede una funzione nuova e perché alcuni P2 sono più efficienti di grandi progetti. Evidenzia dipendenze critiche, lavoro parallelizzabile davvero, rischio conflitti file/schema, bottleneck unico e feature che bloccano più app.
 
+## 19-bis. ADDENDUM INCREMENTALE — FLUTTER FULL-CHECKOUT SCAN + WORLD DAYS LIST BENCHMARK (09/11/2026)
+
+**REGOLA DI COMPOSIZIONE:** questo è un modulo **AGGIUNTIVO** di audit, non sostituisce, non abbrevia, non elimina e non declassa nessuna verifica precedente delle sezioni 0–22. Tutte le altre dimensioni (prodotto, UX, lifecycle, dati, security, CI, release, cross-app, donor/Golden, mercato e roadmap) restano obbligatorie. La sua presenza non autorizza da sola scritture nei repo/app, deploy, release o promozioni.
+
+**A. SCAN REALE DEI CHECKOUT FLUTTER**
+- Nei normali audit di una app Flutter: valuta i sorgenti Dart **dell'intero checkout del repo target** sul suo HEAD SHA verificato, non solo README, file campione o ricerca GitHub indicizzata. Su «Audit tutte le app»/audit trasversale: inventaria i repo, distingui Flutter/Kotlin/Web/infra, esegui la scansione dei checkout Flutter accessibili per ognuno, con SHA individuale, inclusi i moduli Flutter in eventuali sottocartelle.
+- Riusa lo scanner read-only canonico del catalogo `riccardopinato/Idee-app-Archivi-riferimenti/scripts/audit_flutter_antipatterns.py` o una variante identica/equivalente con file, SHA e versione documentati. Inventaria il numero di file .dart letti, generated/skipped, repository completi, privati non accessibili, errori/cloni, truncated output, e i pattern effettivamente coperti.
+- Classifica ogni match `LEGACY_API`, `REVIEW` oppure `FALSE_POSITIVE`, con file+riga e confidenza. `ListView(children: ...)`, `dart:io`, `SharedPreferences.getInstance()` o `void ... async` **non sono automaticamente bug**. Prima di correggere, valuta import condizionali, semantica delle async callback, API realmente obsolete, user flows, versioni Flutter/Dart e metodi già presenti; non riscrivere architetture funzionanti né confondere segnale lessicale con `flutter analyze`.
+- Mantieni i rapporti dettagliati dei repo privati **nel relativo perimetro privato**; nel catalogo condividi solo aggregati e provenienza autorizzati. Se GitHub Actions non può accedere a un repo privato, esegui una verifica distinta autorizzata nel repo privato o dichiara `NOT VERIFIED`.
+- Riusa un run precedente **solo** se SHA, versione scanner, ambito e metodo coincidono: dichiara esplicitamente data, provenienza e `REUSED_SHA_EXACT`, non spacciarlo per un rerun odierno. Per nuove modifiche al codice Flutter, nuova analisi su HEAD corrente. Non avviare build/CI onerose o modificare workflow durante un AUDIT_ONLY senza autorizzazione separata; se non possibile, `NOT VERIFIED` con motivo e istruzioni del gate.
+
+**B. MODULO DI MISURA WORLD DAYS — DUE LISTE NOMINATE**
+- L'audit Flutter trasversale include come **sentinella comparativa** `World-Days/SavedPage` («Salvati») e `World-Days/AroundTheWorldPage` («In giro per il mondo»). Per un audit specifico World Days, analizzale direttamente e misura quando eseguibile; per altre app, riporta l'ultimo run *validato a SHA* e marca `STALE / NEEDS RERUN` se il codice o le fixture sono cambiate. Non usare queste due liste per dedurre che tutte le altre app sono rapide.
+- Usa veri widget del repo e commit esatto, `flutter test`/harness riproducibile, SDK/OS/runner e dimensioni logiche esplicite, casi con 10/50/150/300 record e/o numero reale di record per vista, warmup, N campioni, mediana/p95 e child/mounted counts. Mantieni **raw sample** in allegato machine-readable, non un solo numero. Il benchmark widget misura wall-clock del test, **non** frame GPU/FPS, jank, RAM o performance Android fisica; per queste servono `profile`/timeline/strumentazione sul dispositivo.
+- Se il reale catalogo di World Days contiene meno elementi della fixture stress, riporta i conteggi reali **per mercato** e il massimo effettivo preferiti. Non proclamare problemi di scalabilità o percentuali di miglioramento da mediana non monotona, caching o ordine non randomizzato dei casi. Confronta `before/after` su stesso ambiente, dati e source gate se propini un fix.
+- Se il benchmark scopre un errore UX (esempio storico 09/11/2026: dropdown Paese overflow **12px** a viewport 390×844, lingua IT, World Days issue #52), separa `CONFIRMED_UI_BUG` dalla misura prestazionale e dalla scansione statica. Test responsive su 320/360/390/480, IT/EN/DE, textScale 1.0/1.5/2.0 dove applicabile; non trasformare un artefatto del test in un successo UI.
+
+**C. PRIORITÀ E REUSE GATE**
+- Per ogni nuovo risultato collega: `repo@SHA | scannerVersion | path:line | severity P0–P3 | evidenceLevel | confidence | whether already handled | proposed bounded fix | regression criteria | needs_device?`. Non duplicare CAP/Golden o aprire issue ripetute; prima cerca il catalogo e issue già esistenti.
+- Per World Days `SavedPage` ad alta densità: prova circa 296–300 preferiti nel benchmark widget e, se disponibile, in modalità profile su un dispositivo Android; `AroundTheWorldPage` usa i conteggi reali del singolo Paese. Se il dispositivo fisico non è disponibile, segnala `DEVICE_NOT_VERIFIED` senza inventare risultati.
+- Le decisioni dei casi già triagiati si mantengono finché nuove prove non le smentiscono: ad esempio 6 `accentColor` in Cooking Anime sono campi grafici custom, non `ThemeData.accentColor`, quindi `FALSE_POSITIVE` con fonte; non proporne la rimozione.
+- **Output ADDITIVO**: allegato/tabella `Flutter full-checkout source evidence`, `World Days 2-list benchmark`, `UI/rendering anomalies`, `quality limits and unresolved hardware gate` e delta dall'ultimo run in sezioni C/I/G/N/P del report obbligatorio. NON eliminare altre tabelle del MASTER AUDIT. Se il target non usa Flutter, `N/A` motivato, ma il riepilogo portafoglio può rimanere un riferimento senza imporre uno scan immotivato.
+
+**EVIDENZE DI PARTENZA (storiche, non baseline runtime permanente):**
+- `riccardopinato/Idee-app-Archivi-riferimenti` PR #63 / audit 09/11/2026: 13 repo Flutter, 1.467 Dart, 0 match nei pattern legacy cercati; non prova assenza di ogni API obsoleta.
+- World Days `bb662cb21506b6157658f43070c2059c960637b5`: 8 scenari widget reali su CI Linux / Flutter 3.47.3, 296 osservanze totali, max 4 per Paese; issue #52 riproducibile a 390px. Consultare rapporto JSON e artifact, mai sostituirli con un riassunto ricordato.
+
 ## 20. FORMATO DEL RAPPORTO OBBLIGATORIO
 
 A. **Executive verdict (max 25 righe)**: maturità reale, promessa, tre punti più forti, tre debolezze principali, rischi immediati, cosa NON fare.
@@ -274,6 +301,8 @@ O. **Decisioni necessarie dell'utente**, solo se strettamente indispensabili; pe
 P. **Decision log / delta dall'ultimo audit**: nuovo, risolto, peggiorato, ancora aperto, obsoleto, rinviato; non ripartire da zero ad ogni audit.
 
 Q. **Verdetto operativo finale**: «se oggi potessi fare solo una cosa, quale?», «qual è il miglior quick win?», «quale lavoro evita più futuri bug?», «quale funzionalità è pronta solo nel codice ma non nella vita reale?», «qual è il prossimo gate oggettivo?», «quali modifiche NON fare?». Chiudi con una frase che dichiari l'effettivo perimetro delle verifiche effettuate.
+
+R. **Addendum Flutter — evidenza checkout completo / benchmark World Days** (quando applicabile): per-app SHA e numero Dart scansionati, pattern coperti/limiti, veri falsi positivi, 2 liste World Days con raw timings e dataset, UI overflow separati, prova Android o esplicito NOT VERIFIED. Questa sezione SI AGGIUNGE ad A–Q, non le sostituisce.
 
 ## 21. STANDARD DELLE EVIDENZE E GATE DI CHIUSURA
 
