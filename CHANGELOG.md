@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-09 — Template Engine Standard v1 (Maxi-step 1)
+
+- Definito contratto **candidato** cross-app in `contracts/template_engine_v1/`: manifest JSON Schema v1, due esempi nativi di ricerca per Notes e Anna, compatibilità/anteprime/configurazione/installazione reversibile, licenze e accesso logico free/paid_once. I riferimenti Notion non sono oggetti rivendibili o implementazioni app.
+- Aggiunti `scripts/validate_template_engine_v1.py` e `tests/test_template_engine_v1.py` (positivi/negativi) al workflow Factory, senza SDK Flutter né integrazioni IAP o modifica a `CURRENT`, Master, Index o Golden Registry.
+- Conformità statica **non** certifica comportamento del consumer, rendering UI, provider billing o Apple/Google Store.
+
+
 ## 2026-11-07 — APK e Deploy / comando Web/PWA
 
 - Nuova sezione visiva `APK e Deploy` con comandi indipendenti per Android APK e Web/PWA Deploy; catalogo totale 29 comandi con 23 contratti individuali.
