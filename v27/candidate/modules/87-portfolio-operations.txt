@@ -1,0 +1,31 @@
+APP FACTORY v27 — PORTFOLIO OPERATIONS / CONTINUITY
+Status: ACTIVE SPECIALIZED POLICY. Covers A04, A05, A08, A10, M03, M05, M06, M09.
+Never substitute this policy for Product Bible, current roadmap, GitHub HEAD or immutable evidence.
+
+1. SINGLE PORTFOLIO LEDGER
+Track each product/idea with stable ID; family; repo URL; current HEAD when verified; owner-approved product state; roadmap and current step; dependencies/blockers; risks; relevant capability/donor/Golden IDs; last evidence time; last verified deploy/release; cost and next action.
+Keep IMPLEMENTED, SOURCE_TESTED, PROVIDER_VERIFIED, DEVICE_VERIFIED, DEPLOYED and STORE_RELEASED as independent evidence dimensions; product status is distinct from technical proof. Preserve history and explicit UNKNOWN, STALE or GAP where verification is missing.
+The canonical capability catalog remains in Idee-app-Archivi-riferimenti; this ledger is an operational view, not a second authoritative capability database.
+
+2. PRIORITIZATION / WIP
+For a portfolio decision score impact, urgency, reuse leverage, complexity, costs, dependencies, user value and distribution proximity. Keep a small explicit WIP limit adapted to available capacity; prioritize blocking P0/P1 and near-delivery work before speculative feature expansion.
+Use the existing BLOCKING_NOW / FIX_CURRENT_STEP / BACKGROUND_MAINTENANCE / FUTURE lanes. Do not treat every idea as automatically approved for implementation.
+
+3. COMMERCIAL / COST GATE
+Before a new paid provider or expanding cloud usage identify fixed/variable cost, traffic sensitivity, maintenance burden, monetization assumptions, worst-case exposure and a measured or hypothetical break-even. No invented revenue or conversion certainty; user authorization remains required for new billing/services.
+
+4. CONTINUITY AND RESTART
+At a substantial boundary capture: task and scope, Factory baseline SHA, app repo HEAD/branch/PR, completed steps, actual test evidence, blockers, next command, and what was NOT done. "Riprendi" reconciles the checkpoint against GitHub first and must not replay already merged steps or claim unattended work ran.
+A chat cannot keep coding asynchronously. Use a real configured automation only when explicitly authorized and supported; no phantom background agents.
+
+5. REAL TIME / TOKEN COST OBSERVATORY
+Measure observed active coding intervals only if genuinely instrumented; separately track PR elapsed time, CI waiting, number of retries, actual measured wall clock, input/context size and infrastructure charges. Never claim elapsed PR time equals active development time or that tokenizer proxies equal actual provider billing.
+Benchmark modular vs full-master reading on paired tasks with comparable inputs, positive/negative policy checks and observed failures. If a metric is unavailable, report NOT_MEASURED rather than estimating it as fact.
+
+6. STARS / CAPABILITY EVIDENCE
+The existing "Stelle" contract owns incremental ingestion: stable IDs, deduplication, public/accessible repo inventory and explicit enumeration gaps; distinguish metadata audit from source-code deep dive; license-gate every donor. Do not silently approve an app idea or promote to E3/E5.
+For repeated audits present a delta: new, resolved, regressions and unchanged; link source SHA and previous report. Read-only audit never authorizes remediation.
+
+7. GBRAIN / CONNECTED MEMORY IS OPTIONAL
+GBrain may help retrieve historical decisions, tagged checkpoints or candidate provenance when connected and available, but it cannot override CURRENT.yaml, GitHub, Product Bible or real tests. If PC/MCP is offline, continue from canonical GitHub and visible files without false claims. Only call backup/restoration VERIFIED with an actual evidence receipt.
+END PORTFOLIO OPERATIONS
