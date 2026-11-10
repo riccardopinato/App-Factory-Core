@@ -59,6 +59,9 @@ jobs:
       - name: Test v27C resolver, lazy routing and fail closed
         run: python3 scripts/test_v27_resolver.py
 
+      - name: Current v27 routing and UTF-8 context measurement (offline)
+        run: python3 scripts/evaluate_v27_active_routes.py
+
       - name: v27D read-only three-repo routing and context-byte replay
         run: python3 scripts/evaluate_v27_pilots.py
 
