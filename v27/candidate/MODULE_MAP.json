@@ -594,6 +594,103 @@
         "stars capability audit",
         "GitHub stars"
       ]
+    },
+    {
+      "id": "product-family-router",
+      "path": "v27/candidate/modules/85-product-family-router.txt",
+      "selectors": [
+        "mobile app",
+        "web utility",
+        "desktop utility",
+        "game factory",
+        "technology stack"
+      ],
+      "review_item_ids": [
+        "A01",
+        "R05"
+      ]
+    },
+    {
+      "id": "web-utility-data",
+      "path": "v27/candidate/modules/86-web-utility-data.txt",
+      "selectors": [
+        "seo",
+        "market",
+        "data provider",
+        "web utility",
+        "public data",
+        "tutorial audit"
+      ],
+      "review_item_ids": [
+        "A02",
+        "A03",
+        "A09",
+        "R06"
+      ]
+    },
+    {
+      "id": "portfolio-operations",
+      "path": "v27/candidate/modules/87-portfolio-operations.txt",
+      "selectors": [
+        "portfolio",
+        "wip",
+        "priority",
+        "cost",
+        "checkpoint",
+        "gbrain",
+        "github stars",
+        "real development time"
+      ],
+      "review_item_ids": [
+        "A04",
+        "A05",
+        "A08",
+        "A10",
+        "M03",
+        "M05",
+        "M06",
+        "M09"
+      ]
+    },
+    {
+      "id": "verification-boundaries",
+      "path": "v27/candidate/modules/88-verification-boundaries.txt",
+      "selectors": [
+        "source-only",
+        "evidence",
+        "physical QA",
+        "provider",
+        "release",
+        "privacy metrics",
+        "golden freshness"
+      ],
+      "review_item_ids": [
+        "A06",
+        "A07",
+        "A11",
+        "M01",
+        "M02",
+        "M04",
+        "M07",
+        "M08",
+        "R01",
+        "R02",
+        "R03"
+      ]
+    },
+    {
+      "id": "modular-navigation",
+      "path": "v27/candidate/modules/89-modular-navigation.txt",
+      "selectors": [
+        "master legend",
+        "modular master",
+        "mockup decisions",
+        "legacy cleanup"
+      ],
+      "review_item_ids": [
+        "M10",
+        "R04"
+      ]
     }
   ],
   "task_routes": [
@@ -642,7 +739,8 @@
       ],
       "modules": [
         "authority-execution",
-        "factory-policy-sync"
+        "factory-policy-sync",
+        "modular-navigation"
       ],
       "golden_ids": [
         "agent_governance"
@@ -795,7 +893,8 @@
         "biometria"
       ],
       "modules": [
-        "identity-native"
+        "identity-native",
+        "verification-boundaries"
       ],
       "golden_ids": [
         "android_native_reliability"
@@ -843,7 +942,8 @@
         "acquisto"
       ],
       "modules": [
-        "monetization-ai"
+        "monetization-ai",
+        "portfolio-operations"
       ],
       "golden_ids": [
         "entitlement_contract"
@@ -877,7 +977,8 @@
         "merge"
       ],
       "modules": [
-        "delivery-verification"
+        "delivery-verification",
+        "verification-boundaries"
       ],
       "golden_ids": [
         "immutable_build_test_artifact"
@@ -890,7 +991,8 @@
       ],
       "modules": [
         "audit-roadmap",
-        "portfolio-commands"
+        "portfolio-commands",
+        "portfolio-operations"
       ],
       "command_trigger": "Stato",
       "public_command": true
@@ -902,7 +1004,8 @@
       ],
       "modules": [
         "audit-roadmap",
-        "portfolio-commands"
+        "portfolio-commands",
+        "portfolio-operations"
       ],
       "command_trigger": "Prossimo",
       "public_command": true
@@ -928,7 +1031,8 @@
       "modules": [
         "authority-execution",
         "audit-roadmap",
-        "portfolio-commands"
+        "portfolio-commands",
+        "portfolio-operations"
       ],
       "command_trigger": "Roadmap",
       "public_command": true
@@ -953,7 +1057,8 @@
       ],
       "modules": [
         "audit-roadmap",
-        "portfolio-commands"
+        "portfolio-commands",
+        "portfolio-operations"
       ],
       "command_trigger": "Riprendi",
       "public_command": true
@@ -990,7 +1095,8 @@
       "modules": [
         "authority-execution",
         "factory-policy-sync",
-        "portfolio-commands"
+        "portfolio-commands",
+        "modular-navigation"
       ],
       "command_trigger": "Factory",
       "public_command": true
@@ -1016,7 +1122,8 @@
       "modules": [
         "authority-execution",
         "foundation-reuse",
-        "portfolio-commands"
+        "portfolio-commands",
+        "product-family-router"
       ],
       "command_trigger": "Nuova app",
       "public_command": true
@@ -1155,7 +1262,8 @@
       "modules": [
         "audit-roadmap",
         "monetization-ai",
-        "portfolio-commands"
+        "portfolio-commands",
+        "portfolio-operations"
       ],
       "command_trigger": "Mercato",
       "public_command": true
@@ -1168,10 +1276,94 @@
       "modules": [
         "authority-execution",
         "audit-roadmap",
-        "portfolio-commands"
+        "portfolio-commands",
+        "portfolio-operations"
       ],
       "command_trigger": "Idee",
       "public_command": true
+    },
+    {
+      "id": "web_utility_specialist",
+      "terms": [
+        "web utility",
+        "sito seo",
+        "seo multi market",
+        "data provider",
+        "web search traffic"
+      ],
+      "modules": [
+        "product-family-router",
+        "web-utility-data"
+      ]
+    },
+    {
+      "id": "product_family_specialist",
+      "terms": [
+        "desktop utility",
+        "game factory",
+        "app desktop",
+        "stack tecnologico",
+        "product family"
+      ],
+      "modules": [
+        "product-family-router"
+      ]
+    },
+    {
+      "id": "portfolio_observatory",
+      "terms": [
+        "portafoglio progetti",
+        "portfolio operations",
+        "tempi sviluppo",
+        "dashboard app factory",
+        "wip limit"
+      ],
+      "modules": [
+        "portfolio-operations",
+        "audit-roadmap"
+      ]
+    },
+    {
+      "id": "platform_evidence",
+      "terms": [
+        "source-only",
+        "matrice verifiche",
+        "evidence platform",
+        "web push",
+        "notifica consegnata",
+        "provider verified"
+      ],
+      "modules": [
+        "verification-boundaries",
+        "delivery-verification"
+      ]
+    },
+    {
+      "id": "master_navigation",
+      "terms": [
+        "modularizzazione master",
+        "master legend",
+        "legenda master",
+        "modules on demand"
+      ],
+      "modules": [
+        "modular-navigation",
+        "factory-policy-sync",
+        "authority-execution"
+      ]
+    },
+    {
+      "id": "source_admission",
+      "terms": [
+        "audit tutorial",
+        "fonti esterne",
+        "licenza dataset",
+        "external api license"
+      ],
+      "modules": [
+        "web-utility-data",
+        "foundation-reuse"
+      ]
     }
   ],
   "router": {
@@ -1186,12 +1378,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "0189f6cf099c819db1a640d521337cd0067a90a9",
+    "git_blob_sha": "1c419b25180c3c4b5cccc515599e0ca42c12ce3d",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "7f2119783acc8a41755e7862859d5bdaac7779ac",
+    "core": "7e62acf2bef9cbc635b83ae4a35e41a9af1f5c11",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -1200,10 +1392,15 @@
     "monetization-ai": "12b306d487cfe077bb6f3b3cd1b172fa7deace39",
     "delivery-verification": "8e1cac8a0e587d4ed73179427d3fa2b3e8ea88ff",
     "audit-roadmap": "daada6c5059a5de30e901e273fa3486666b0f36f",
-    "factory-policy-sync": "5efa4194650f68e2570ee5c450dceda15a834c92",
+    "factory-policy-sync": "1423c983da0dc163deab73b59c737173be91e51a",
     "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c",
     "capability-sync": "e6beae3d0b5ca2e09a7091dc348324c4c6893ada",
     "command-legend": "0ac7f7a74c70887d402aa1c206c048f0a2befc1f",
-    "portfolio-commands": "46a09e68b75e6009c8c1694d123da2fa02ccdb77"
+    "portfolio-commands": "46a09e68b75e6009c8c1694d123da2fa02ccdb77",
+    "product-family-router": "c606d62244deff398d873fbe07f548c7647ef48b",
+    "web-utility-data": "8ad7113a00f757e596cc1d89ba21a1414114a637",
+    "portfolio-operations": "f38cd922661b6b0bf69adecea3fcfb4361d1db7c",
+    "verification-boundaries": "9721e54c28e4a25f22ed06fbfb2ca59bca28c4b5",
+    "modular-navigation": "2dd1482e383154a9c7f5546f4552bdff11e019a1"
   }
 }
