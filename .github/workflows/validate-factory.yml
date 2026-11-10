@@ -39,6 +39,9 @@ jobs:
       - name: Validate v27 section coverage and synchronized fallback
         run: python3 scripts/validate_v27_candidate.py --self-test
 
+      - name: Verify generated Master navigation legend and 27-item ownership
+        run: python3 scripts/build_master_legend.py --check
+
       - name: Check synchronized full fallback and modular hashes
         run: python3 scripts/build_v27_fallback.py --check
 

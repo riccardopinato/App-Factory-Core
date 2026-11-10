@@ -357,6 +357,14 @@ Queste sono parole chiave di instradamento tecnico, non comandi autonomi garanti
 | Monetization | `admob`, `pubblicita`, `premium`, `abbonamento` |
 | Ai | `intelligenza artificiale`, `modello ai`, `modello locale` |
 | Delivery | `ci`, `build`, `apk`, `aab` |
+| Web Utility Specialist | `web utility`, `sito seo`, `seo multi market`, `data provider` |
+| Product Family Specialist | `desktop utility`, `game factory`, `app desktop`, `stack tecnologico` |
+| Portfolio Observatory | `portafoglio progetti`, `portfolio operations`, `tempi sviluppo`, `dashboard app factory` |
+| Platform Evidence | `source-only`, `matrice verifiche`, `evidence platform`, `web push` |
+| Master Navigation | `modularizzazione master`, `master legend`, `legenda master`, `modules on demand` |
+| Source Admission | `audit tutorial`, `fonti esterne`, `licenza dataset`, `external api license` |
+| Controlled Pilot Activation | `pilot 3`, `pilot_3`, `self canary activation`, `attivazione pilot` |
+| Factory Governance Change | `modifica governance`, `governance change`, `modifica master factory` |
 
 ## Regole e aggiornamento
 

@@ -37,6 +37,7 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Target: app in the present chat/Project unless explicitly named. "Audit tutte le app" requests a cross-repo inventory; if no app can be identified, ask only which app. Never select an arbitrary repo.
 - The Audit file refines reporting only, never overrides Product Bible, Master, Golden or repository authorization. An audit permits no repo/roadmap/cloud/PR/release changes; missing specification means AUDIT SPEC UNAVAILABLE, not fabricated completion.
 - Exact command "Capability" (case-insensitive), "Capability <app>", or "Capability tutte le app": route through capability-sync and load the FULL `capability/MASTER_CAPABILITY_SYNC_v1.txt`; bare command runs GLOBAL incremental reconciliation. A missing spec blocks as CAPABILITY COMMAND SPEC UNAVAILABLE.
+- Public command "Stelle" dispatches the SHA-pinned `commands/specs/STELLE.md`: one incremental workflow from authenticated GitHub Stars (or explicitly curated list) through per-repo OSS audits, CAP deduplication, E0 admission/kits, per-app product-admission recommendations and catalog-only PR/CI. Reuse the full Capability contract; never infer starred status, import code without license, approve app product scope, edit apps or create background jobs.
 - Capability updates only the canonical catalog in `riccardopinato/Idee-app-Archivi-riferimenti/12-CAPABILITY-E-IMPLEMENTAZIONI`, with branch/PR/exact-head gates. No app-code/roadmap/Golden/Factory, cloud or release mutations. A technical evidence state and a product decision (including SCARTATA/RINVIATA) are distinct, proven dimensions.
 - Compare repository HEAD and decision evidence incrementally, preserve all other app states, regenerate catalog views through its build script, and return NO-OP if unchanged; never claim success without catalog main/CI evidence.
 - Exact command "Legenda" (optional text filter, e.g. "Legenda Audit") is READ_ONLY: use the current Factory SHA to read `commands/REGISTRY.json` and generated `commands/LEGGENDA.md`, then SHOW all available public short commands, examples, effects, and relevant router topics. Listing commands never executes them or grants permissions.
@@ -100,6 +101,9 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Do not duplicate CI runs or build artifacts absent a reason.
 
 8. MODULE SELECTOR (V27 ACTIVE)
+- Product family router: classify mobile Flutter, existing native, SEO-first web, desktop and game before choosing technical rules.
+- For web data/SEO, portfolio operations, platform verification and Master navigation, resolve their specialized policy updates on-demand.
+- The generated MASTER_LEGEND_CURRENT.md is the full navigation index, not a second editable policy source; generated full fallback remains the comprehensive operative text.
 - Registered selector: scripts/resolve_v27_candidate.py --task ... --context ... --include-goldens.
 - Read MODULE_MAP.json for deterministic task-to-module routing.
 - Load only relevant modules; ambiguous routing requires a verified fallback.

@@ -131,10 +131,18 @@ def benchmark(fixture,required_tokens:bool):
             "local_resolver_median_ms":round(statistics.median(pairs),3),
             "baseline_prompt_sha256":sha(b),"modular_prompt_sha256":sha(v)
         }
-        if base_tokens is not None and mod_tokens>=base_tokens:
-            raise ValueError("modular token count not reduced in "+case["id"])
-        if z>=a:
-            raise ValueError("modular prompt bytes not reduced in "+case["id"])
+        # A verified fallback is a deliberate safety path, not a modular
+        # optimization. Keep a strict saving gate for actual MODULES routes;
+        # report any larger fallback honestly rather than masking it as a win.
+        if r["selection"]=="MODULES":
+            if base_tokens is not None and mod_tokens>=base_tokens:
+                raise ValueError("modular token count not reduced in "+case["id"])
+            if z>=a:
+                raise ValueError("modular prompt bytes not reduced in "+case["id"])
+        records["fallback_over_baseline"] = (
+            r["selection"]=="FALLBACK_BASELINE_USED"
+            and (z>=a or (base_tokens is not None and mod_tokens>=base_tokens))
+        )
         rows.append(records)
         print(f"D2 CASE {case['id']}: {r['selection']} | bytes {a}->{z} "
               f"(-{records['byte_reduction_pct']:.2f}%) | "
@@ -159,6 +167,8 @@ def benchmark(fixture,required_tokens:bool):
         "median_modular_byte_reduction_pct":round(statistics.median(
             row["byte_reduction_pct"] for row in modular),2),
         "fallback_cases":sum(x["selection"]=="FALLBACK_BASELINE_USED" for x in rows),
+        "fallback_over_baseline_cases":[x["case_id"] for x in rows
+                                      if x.get("fallback_over_baseline")],
         "records":rows,
         "promotion":"HOLD"
     }

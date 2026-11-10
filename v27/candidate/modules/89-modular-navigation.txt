@@ -1,0 +1,21 @@
+APP FACTORY v27 — MODULAR MASTER NAVIGATION / DECISION TRACEABILITY
+Status: ACTIVE SPECIALIZED POLICY. Covers M10, R04.
+
+1. ONE AUTHORITATIVE RULE, MANY READABLE VIEWS
+CURRENT.yaml selects the live Master; the v27 Core declares universal invariants; the pinned MODULE_MAP.json selects specialized modules; Golden Registry identifies reusable artifacts. The generated synchronized full fallback is the comprehensive operative text when a safe selective route is unavailable.
+The human MASTER_LEGEND_CURRENT.md is a generated navigation index, never a second editable set of instructions. Commands/LEGGENDA.md lists the short public commands separately. If map and legend disagree, fail closed and repair the generated view; do not silently improvise missing rules.
+
+2. TOKEN-ECONOMICAL LOADING
+Classify task; load Core and minimum relevant modules; then only selected Golden, Product Bible, roadmap and source files. Preserve all security/authorization gates even if a specialized module is not initially selected. An ambiguous route must load an integrity-verified synchronized fallback or BLOCK.
+Do not make 27 separate always-loaded documents. Prefer a compact family of specialized policies and explicit routing over a long universal prompt.
+
+3. GENERATED AND HISTORICAL SURFACES
+Update modular sources plus regenerated fallback, manifest seals and stable Core alias in the same authorized PR. Use scripts/build_v27_fallback.py --write, then --check on exact HEAD. Regenerate the Master legend from MODULE_MAP; preserve immutable v26.8 snapshots.
+Retire stale copies of current rules only when confirmed unreferenced. No automatic deletion of history, compatibility migrations, registered Golden, evidence or consumer documentation.
+
+4. INTERACTIVE VISUAL DECISIONS
+The existing "Mock-up interattivi" 1/10–10/10 contract remains canonical. Preserve a lightweight decision register: app, screen, proposed revision, APPROVED / REVISE / REJECTED, screenshot or prototype reference, date and user approval. No premature code integration; final implementation uses only explicitly approved selections and visual regression baselines when practical.
+
+5. ACTIVATION / PERFORMANCE PROOF
+Route selection and source hashes can be statically validated; effective model adherence, actual user-task speedup and token-cost savings cannot be claimed without a comparable real evaluation. Keep negative tests for cross-command privilege expansion, stale fallback, missing policy and unsafe module routing.
+END MODULAR MASTER NAVIGATION

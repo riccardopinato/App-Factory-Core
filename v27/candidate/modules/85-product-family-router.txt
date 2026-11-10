@@ -1,0 +1,22 @@
+APP FACTORY v27 — PRODUCT FAMILY / STACK ROUTER
+Status: ACTIVE SPECIALIZED POLICY. Covers A01, R05.
+Authority: CURRENT.yaml > Product Bible for scope > this task-specific module. Never replace an app's approved stack silently.
+
+1. CLASSIFY PRODUCT BEFORE CHOOSING TECHNOLOGY
+- MOBILE CROSS-PLATFORM (Android/iOS app): Flutter/Dart is the default for NEW products.
+- EXISTING NATIVE APP (Kotlin/Compose or another functioning stack): preserve its stack unless a documented product need justifies migration.
+- WEB UTILITY / ORGANIC SEARCH PRODUCT: prefer web-native renderable HTML, SSR/SSG, structured metadata and SEO (Astro, Next.js/TypeScript, or another evaluated fit); do NOT select Flutter Web by default for programmatic SEO pages.
+- WEB APP / PWA (not primarily SEO): evaluate Flutter Web or web-native based on UX, runtime needs, accessibility and actual deploy constraints.
+- DESKTOP UTILITY: evaluate Tauri and other lightweight desktop solutions per native API need, packaging, security and maintainer effort; no mandatory Tauri migration.
+- GAME: evaluate Flutter/Flame, Godot, raylib or the engine that matches 2D/3D/platform needs; never prescribe a multiplayer backend for an offline game.
+
+2. ROUTING CONTRACT
+Before architecture work record: family, target surfaces, primary acquisition channel, offline/online requirement, platform permissions, delivery method, maintenance budget and approved product exclusions.
+Load only the matching specialist(s). For a WEB UTILITY, load 86-web-utility-data.txt as well. For Android native risk, load the existing identity/native module and relevant Golden; a generic SEO task must not load sensor or APK rules.
+A family classification is not permission to invent a new product, paid provider, account, billing model or cloud infrastructure.
+
+3. EXCEPTIONS AND LEGACY CLEANUP
+Remove default-template statements saying every website MUST use Flutter Web or every existing Kotlin app MUST migrate to Flutter. Preserve historical records and tested assets. All deviations from preferred stack need specific documented tradeoffs, not popularity-based choices.
+- No automatic application-repository refresh; adoption stays scoped and authorized.
+- Keep code and artifacts platform-specific; web preview cannot certify Android/iOS native behavior.
+END PRODUCT FAMILY ROUTER

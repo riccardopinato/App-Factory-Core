@@ -36,7 +36,7 @@ La legenda raggruppa APK Android e Deploy Web/PWA. `Deploy <app>` utilizza solta
 ## Current versions
 
 - Master Prompt: **v27 modular Core** (controlled/preliminary activation; model-behavior and real-time speedup not independently certified)
-- Golden Components Index: **v28**
+- Golden Components Index: **v29**
 - Golden registry: **v2**
 - Semantic validator: **v7**
 
@@ -118,5 +118,7 @@ Repository branch/ruleset protection should require the validation check and
 block force-push/delete. See `GOVERNANCE.md`.
 
 ## Active v27 modular Master and fallback
+
+**[Master Legend — complete navigational index](v27/candidate/MASTER_LEGEND_CURRENT.md):** generated from the module map, listing the 8 legacy modules, specialized policy updates, scoped review IDs, task routing and links to the public command and Golden catalogs. It is not a second editable policy source. Changes to the map must pass `scripts/build_master_legend.py --check`. The complete operative text remains the synchronized generated full fallback.
 
 The compact Core is current modular authority. Legacy stable alias `master/MASTER_PROMPT_CURRENT.txt` mirrors the Core. The full operative fallback is generated deterministically from Core, legacy-section modules, policy updates and route catalog and checked by CI; historical v26.8 remains immutable emergency recovery. ChatGPT Project custom instruction settings are not automatically modified by GitHub; update the pointer separately.
