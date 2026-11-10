@@ -21,7 +21,7 @@ Do not refresh it between consecutive steps unless the central framework changes
 
 [Specifica, manifest JSON Schema, esempi multi-app e validator](contracts/template_engine_v1/README.md). Contratto **documentale e staticamente validato** per modelli originali e nativi di ciascuna app; non SDK Flutter, import Notion, Golden, funzionalità runtime o store attivo. Include gate di installazione atomica e conservazione dei dati utente, senza modificare Master/GOLDEN.
 
-## Commandi rapidi
+## Comandi rapidi
 
 Scrivi `Legenda` nelle chat del Project: legge `commands/REGISTRY.json` e `commands/LEGGENDA.md` per mostrare gli shortcut aggiornati. `Audit` avvia il 360° in sola lettura; `Capability` aggiorna il catalogo con PR e gate. Per aggiungere un comando pubblico: route + registro canonico + generatore `scripts/build_command_legend.py --write`; CI verifica la sincronizzazione.
 
@@ -35,7 +35,7 @@ La legenda raggruppa APK Android e Deploy Web/PWA. `Deploy <app>` utilizza solta
 
 ## Current versions
 
-- Master Prompt: **v27 modular Core** (controlled/preliminary activation; model-behavior and real-time speedup not independently certified)
+- Master Prompt: **v27 modular Core (ACTIVE)**; model adherence and real-time speedup **NOT VERIFIED** independently
 - Golden Components Index: **v29**
 - Golden registry: **v2**
 - Semantic validator: **v7**
@@ -74,6 +74,9 @@ evidence/
 
 ## Governance
 
+**Main protection is NOT active as of 2026-11-10** (GitHub reports protected=false, zero rulesets). Setup and API verification: [MAIN_PROTECTION_SETUP.md](governance/MAIN_PROTECTION_SETUP.md). CI success alone does not block direct pushes.
+
+
 - `CURRENT.yaml` is the resolver.
 - `MASTER_PROMPT_CURRENT.txt` and `GOLDEN_INDEX_CURRENT.txt` are stable aliases.
 - Versioned files remain available for audit/history.
@@ -98,6 +101,9 @@ A Master/Golden framework update should update, in one coherent change:
 See `bootstrap/APP_FACTORY_BOOTSTRAP.txt` for the short reusable bootstrap instruction.
 
 ## ChatGPT Project pointer
+
+The pointer is source-controlled but ChatGPT Project settings require a separate user-side update. The Golden Index is on-demand, not a mandatory full read for every execution.
+
 
 To prevent old chats from selecting a stale Master Prompt, copy the instruction in `bootstrap/PROJECT_CUSTOM_INSTRUCTION.txt` into the ChatGPT Project instructions. The repository remains the canonical source of truth.
 
