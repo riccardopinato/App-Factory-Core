@@ -713,9 +713,7 @@
         "mock-up interattivi",
         "mockup interattivi",
         "mock up interattivi",
-        "interactive mockups",
-        "integra i mock-up",
-        "integra i mockup"
+        "interactive mockups"
       ],
       "modules": [
         "experience",
@@ -726,9 +724,9 @@
       ],
       "public_command": true,
       "command_aliases": [
-        "Mock-up interattivi",
-        "Integra i mock-up"
-      ]
+        "Mock-up interattivi"
+      ],
+      "command_trigger": "Mock-up interattivi"
     },
     {
       "id": "factory_update",
@@ -1421,6 +1419,23 @@
       ],
       "command_trigger": "Avanti roadmap",
       "public_command": true
+    },
+    {
+      "id": "mockup_integration",
+      "terms": [
+        "integra i mock-up",
+        "integra i mockup"
+      ],
+      "modules": [
+        "authority-execution",
+        "experience",
+        "interactive-mockup-review"
+      ],
+      "golden_ids": [
+        "app_shell_responsive_visual_qa"
+      ],
+      "public_command": true,
+      "command_trigger": "Integra i mock-up"
     }
   ],
   "router": {
