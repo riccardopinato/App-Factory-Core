@@ -1392,6 +1392,35 @@
         "factory-policy-sync",
         "modular-navigation"
       ]
+    },
+    {
+      "id": "cmd_avanti",
+      "terms": [
+        "avanti",
+        "avanti step"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "portfolio-commands",
+        "portfolio-operations"
+      ],
+      "command_trigger": "Avanti",
+      "public_command": true
+    },
+    {
+      "id": "cmd_avanti_roadmap",
+      "terms": [
+        "avanti roadmap"
+      ],
+      "modules": [
+        "authority-execution",
+        "audit-roadmap",
+        "portfolio-commands",
+        "portfolio-operations"
+      ],
+      "command_trigger": "Avanti roadmap",
+      "public_command": true
     }
   ],
   "router": {
