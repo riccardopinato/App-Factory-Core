@@ -20,6 +20,15 @@ class HardeningTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "alias drift"):
                 verify_active_master_alias(core, alias)
 
+    def test_live_registry_has_structured_consistent_admission(self):
+        import yaml
+        root=Path(__file__).resolve().parents[1]
+        registry=yaml.safe_load((root/"golden/GOLDEN_REGISTRY.yaml").read_text(encoding="utf-8"))
+        self.assertGreaterEqual(len(registry["goldens"]), 61)
+        for entry in registry["goldens"]:
+            with self.subTest(id=entry["id"]):
+                check_admission(entry)
+
     def test_candidate_without_draft_is_not_admitted(self):
         entry = dict(id="ecosystem_bridge", status="CANDIDATE — NON COPY-READY",
                      admission_level="CANDIDATE", freshness_status="CURRENT")
