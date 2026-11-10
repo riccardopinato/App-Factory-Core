@@ -6,8 +6,8 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 1. CANONICAL BASELINE
 - Resolve CURRENT.yaml once and follow its current version. When v27 is current, this core is authoritative; historical v26.8 remains immutable recovery.
 - The full v26.8 snapshot is preserved at master/MASTER_PROMPT_UTILITY_FLUTTER_CHATGPT_v26_8_FULL.txt.
-- The pinned source commit is 72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20.
-- The full fallback has Git blob identity 98fee1ef7ccadc98b947cefa74b33e9fae51022f.
+- The IMMUTABLE historical v26.8 source commit is 72e6d7fd1c57c64594501d4f05d6bf5a0f21ad20; the live Factory SHA must be resolved from main, not this historical pin.
+- The historical v26.8 archive blob identity is 98fee1ef7ccadc98b947cefa74b33e9fae51022f; the ACTIVE v27 full fallback blob must be read from MODULE_MAP.json.living_fallback.git_blob_sha.
 - Never silently change version, source or precedence.
 - For active v27, resolve CURRENT first, then the pinned modular manifest and relevant Golden paths.
 - Fix a Factory baseline SHA once per session; do not repeatedly refresh without cause.
@@ -41,8 +41,8 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Capability updates only the canonical catalog in `riccardopinato/Idee-app-Archivi-riferimenti/12-CAPABILITY-E-IMPLEMENTAZIONI`, with branch/PR/exact-head gates. No app-code/roadmap/Golden/Factory, cloud or release mutations. A technical evidence state and a product decision (including SCARTATA/RINVIATA) are distinct, proven dimensions.
 - Compare repository HEAD and decision evidence incrementally, preserve all other app states, regenerate catalog views through its build script, and return NO-OP if unchanged; never claim success without catalog main/CI evidence.
 - Exact command "Legenda" (optional text filter, e.g. "Legenda Audit") is READ_ONLY: use the current Factory SHA to read `commands/REGISTRY.json` and generated `commands/LEGGENDA.md`, then SHOW all available public short commands, examples, effects, and relevant router topics. Listing commands never executes them or grants permissions.
-- Every new public command must be registered once in commands/REGISTRY.json and marked public_command=true in MODULE_MAP.json, with a canonical spec, generated legend updated and CI drift checks. If registry/docs cannot be verified, say COMMAND LEGEND UNAVAILABLE instead of using stale memory.
-- Public commands include Avanti (next unequivocally proposed authorized step) and Avanti roadmap (next approved feasible roadmap step); the longer trigger wins. They are two distinct execution contracts. The current registry holds 32 entries, including 26 SHA-pinned command specs; load exactly one spec and never treat context or a read-only Legenda/Prossimo/Riprendi as authorization.
+- Every public command must be registered once in commands/REGISTRY.json, with route (or contextual Procedi), a verifiable canonical instruction and generated legend. Legacy Audit/Capability/Mock-up/Legenda load SHA-checked canonical instructions, Procedi Core is source-pinned. Missing or stale contract blocks, never silently expands scope. If registry/docs cannot be verified, say COMMAND LEGEND UNAVAILABLE.
+- Public commands include Avanti (next unequivocally proposed authorized step) and Avanti roadmap (next approved feasible roadmap step); longest explicit trigger wins. Load only one SHA-pinned contract; the living registry provides current counts. A read-only Legenda/Prossimo/Riprendi never authorizes execution.
 - All public shortcuts follow longest-prefix routing; execution requires clear target and scope, actual GitHub/roadmap reconciliation, and normal PR/exact-head, security, release and provider checks. No implicit entire-roadmap execution.
 - Read-only commands cannot mutate repositories; Test and APK may dispatch only a specifically authorized workflow with runner/source/permission proof, never publish to Store. Scoped-write commands require target/scope, PR and exact-head checks. If a contract is missing, corrupt or unregistered, BLOCKED_COMMAND_SPEC_UNAVAILABLE: no silent generic fallback that could grant greater power.
 - Under «APK e Deploy», APK builds Android artifacts only. Deploy is Web/PWA and defaults to configured preview; a production-only workflow remains blocked until explicit `Deploy produzione <app>`, existing hosting, reviewed CI/source/permission gates and live site verification. No new service, deployment URL, or publishing status is invented.
@@ -84,11 +84,13 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Prefer existing production-safe Golden/donor before new dependencies.
 - A verified capability in ONE donor app can be registered as scoped CERTIFIED DONOR with immutable source, relevant tests and exact-SHA evidence; a second app is not required before reuse.
 - CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
+- Golden admission_level is the structured gate for candidate/copy-ready/donor/certified/deprecated; human-readable status and freshness remain separate evidence. CURRENT freshness NEVER promotes a CANDIDATE.
 - Add packages only when benefits justify permissions, footprint and maintenance.
 - Favor coherent Material/iOS design depending on product requirements.
 - Localize every target surface affected by the feature, including native text.
 - Keep branding/icon production-intent for new app bootstrap.
 - A Web mock never certifies Android/iOS native behavior.
+- Choose verification and delivery matrix by product family: Web Utility SEO does not inherit Android APK/AAB, while native Android release needs device/signing evidence.
 - Do bounded hygiene in the affected scope, then rerun relevant checks.
 
 7. GITHUB AND RELEASE
@@ -143,5 +145,6 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Measure context loaded, time to first edit, wall clock, retries and regressions.
 - v27 is authoritative only after reviewed CURRENT activation and verified policy behavior.
 - Preserve the complete activation evidence; unmet gates block release despite passing static checks.
+- CURRENT v27 is already ACTIVE as a source of authority; independent model adherence, actual time/token savings and downstream adoption remain NOT_VERIFIED until directly measured.
 
 END MASTER CORE v27
