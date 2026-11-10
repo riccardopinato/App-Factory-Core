@@ -6,6 +6,7 @@ For any authorized request to update the Master Prompt, App Factory Core or Fact
 - Regenerate v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt from those same inputs.
 - Update MODULE_MAP.json source/fallback integrity pins in the same PR.
 - CI must reject a changed modular source without corresponding regenerated fallback.
+- Validate active v27 Core against master/MASTER_PROMPT_CURRENT.txt byte-for-byte, separately from fallback. Pointer and derived legends must not hardcode stale command counts.
 - Do not hand edit the generated fallback or maintain two independent canonical documents.
 - Keep the historical full v26.8 snapshot pinned and unchanged for emergency recovery.
 - If the current active Master is also within the requested scope, update its current
