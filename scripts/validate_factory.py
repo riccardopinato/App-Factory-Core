@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from datetime import date, datetime
+from golden_admission import check_admission
+from factory_integrity import verify_active_master_alias
 from pathlib import Path
 import json, re, sys, subprocess, tempfile
 import yaml
@@ -68,6 +70,10 @@ for g in goldens:
     p=str(g.get("path") or ""); req(p)
     cat=str(g.get("category") or "")
     if p and not p.startswith(f"golden/{cat}/"): fail(f"category/path mismatch for {g.get('id')}: {cat} vs {p}")
+    try:
+        check_admission(g)
+    except ValueError as err:
+        fail(str(err))
     if g.get("provider_sensitive") is True and g.get("freshness_status")=="CURRENT" and not g.get("last_provider_verified_at"):
         fail(f"provider-sensitive CURRENT Golden lacks last_provider_verified_at: {g.get('id')}")
     if "last_reviewed" in g: fail(f"deprecated last_reviewed field present: {g.get('id')}")
@@ -111,6 +117,10 @@ if mp.exists():
         if "CANDIDATE ONLY" in mp.read_text(encoding="utf-8"):
             fail("Active modular Master still marked as candidate")
         mod_manifest=load_json("v27/candidate/MODULE_MAP.json")
+        try:
+            verify_active_master_alias(mp, req("master/MASTER_PROMPT_CURRENT.txt"))
+        except ValueError as err:
+            fail(str(err))
         if mod_manifest.get("status")!="ACTIVE":
             fail("Active v27 must have ACTIVE manifest status")
         if current.get("master",{}).get("modular_manifest")!="v27/candidate/MODULE_MAP.json":
