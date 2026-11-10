@@ -15,6 +15,8 @@ Resolve it deterministically:
 6. fallback to verified synchronized generated full v27 policy on ambiguity/module error, block if it is invalid
 
 The commit SHA used for this read becomes the **Factory baseline** for the session.
+
+`CURRENT.yaml.updated_at` records when the selected CURRENT pointer/baseline was last changed; it is **not** the last edit time of any v27 policy module. The live source revision is the pinned Git commit SHA. Do not change `updated_at` merely because a module or command document changed.
 Do not refresh it between consecutive steps unless the central framework changes or a refresh is explicitly requested.
 
 ## Template Engine Standard v1 — contract candidate
