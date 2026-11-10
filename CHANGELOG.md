@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-10 — Comandi Avanti e Avanti roadmap
+
+- Registrati due comandi di esecuzione indipendenti e SHA-pinned in `commands/REGISTRY.json`: `Avanti` per il prossimo passaggio proposto e autorizzato nella chat, `Avanti roadmap` per il primo step della roadmap approvato, non completato e fattibile.
+- Instradamento pubblico longest-prefix: `Avanti roadmap` prevale su `Avanti`; nessun comando nascosto nel contesto modifica i permessi. `Prossimo`, `Riprendi` e `Legenda` rimangono consultivi.
+- Sincronizzati moduli di policy, Master Core/alias, bootstrap, registro, due specifiche, legende generate, fallback integrale e verifiche di regressione.
+- Nessun nuovo permesso su app, cloud, Play Store o deploy di produzione; un passo di roadmap non autorizza l'intera sequenza.
+
 ## 2026-11-10 — v27 modular specialization and 27-item Master review
 
 - Preserve active Master v27 / Golden Index v29 and the immutable v26.8 legacy coverage; add on-demand product-family, Web Utility/data, portfolio operations, evidence/platform and modular navigation policies.
