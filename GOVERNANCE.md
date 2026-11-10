@@ -18,6 +18,8 @@ The repository should enforce a ruleset/branch protection for `main`:
 
 A workflow file does not itself protect `main`. On 2026-11-10 GitHub GET reported `protected: false` and no rulesets: this is a required owner/admin UI action, not a change a PR can make. See [setup and post-change verification](governance/MAIN_PROTECTION_SETUP.md).
 
+The `CURRENT.yaml.updated_at` field describes selection of a canonical version/pointer, not the latest policy/document edit. For the latest policy revision always pin the Git commit SHA.
+
 ## Versioning and freshness
 
 Migration into the Core is not review evidence.
