@@ -1,0 +1,3 @@
+DO NOT MERGE.
+Intentionally unregistered Golden: semantic validator must flag an orphan.
+This is a temporary required-status-check negative-control PR.
