@@ -17,14 +17,16 @@ class LegendTests(unittest.TestCase):
         rendered = legend.render(R, M)
         self.assertEqual(rendered, (ROOT / "commands/LEGGENDA.md").read_text(encoding="utf-8"))
         for phrase in ("Legenda", "Audit tutte le app", "Capability priorità", "Stelle 95",
-                       "Capability Notes-Ecosistema", "Procedi", "Mock-up interattivi"):
+                       "Capability Notes-Ecosistema", "Procedi", "Mock-up interattivi",
+                       "Avanti", "Avanti roadmap"):
             self.assertIn(phrase, rendered)
     def test_22_approved_commands_and_pins(self):
         approved=("Stato","Prossimo","Allinea","Roadmap","Backlog","Riprendi",
                   "Golden","Donor","Factory","Adotta Factory","Nuova app",
                   "CI","Test","Ripara","APK","Store","Peso","Sicurezza",
-                  "UX","Monetizzazione","Mercato","Idee","Deploy")
-        self.assertEqual(len(R["commands"]),30)
+                  "UX","Monetizzazione","Mercato","Idee","Deploy",
+                  "Avanti","Avanti roadmap")
+        self.assertEqual(len(R["commands"]),32)
         for name in approved:
             with self.subTest(name=name):
                 item=next(x for x in R["commands"] if x["trigger"]==name)
