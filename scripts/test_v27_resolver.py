@@ -123,7 +123,7 @@ class RouterTests(unittest.TestCase):
     def test_23_shortcuts_route_one_contract(self):
         reg=json.loads((ROOT/"commands/REGISTRY.json").read_text(encoding="utf-8"))
         new=[c for c in reg["commands"] if c.get("contract_version")==1]
-        self.assertEqual(len(new),24)
+        self.assertEqual(len(new),26)
         for item in new:
             with self.subTest(trigger=item["trigger"]):
                 r=resolver.resolve(item["trigger"]+" AnnaDiary","Legenda Capability Audit")
@@ -145,6 +145,10 @@ class RouterTests(unittest.TestCase):
                ("Legenda APK","legend"),
                ("Audit Test","audit"),
                ("Capability Test","capability_sync"),
+               ("Avanti","cmd_avanti"),
+               ("Avanti AnnaDiary","cmd_avanti"),
+               ("Avanti roadmap","cmd_avanti_roadmap"),
+               ("Avanti roadmap AnnaDiary","cmd_avanti_roadmap"),
                ("Stelle 95","cmd_stelle"),
                ("Legenda Stelle","legend"),
                ("Mock-up interattivi","mockup_interactive"),
