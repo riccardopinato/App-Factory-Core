@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-10 — v27 modular specialization and 27-item Master review
+
+- Preserve active Master v27 / Golden Index v29 and the immutable v26.8 legacy coverage; add on-demand product-family, Web Utility/data, portfolio operations, evidence/platform and modular navigation policies.
+- Assign the 27 owner-selected items (A01–A11, M01–M10, R01–R06) to exactly one specialized policy each; recommendations to retire legacy behavior are conditional and never delete protected history or bypass validation.
+- Generate a complete Master navigation legend from the registered module and task-route map; retain existing public commands and Golden Registry as separate canonical catalogs.
+- Update Core and legacy alias together, fix stale v26.8 candidate wording, regenerate the synchronized fallback and exact Git blob seals; add legend drift checking to CI.
+- No downstream app, provider, production deploy, paid API, Golden status or CURRENT version changed; source/behavior/runtime improvements require their own evidence and gates.
+
 ## 2026-11-09 — Template Engine Standard v1 (Maxi-step 1)
 
 - Definito contratto **candidato** cross-app in `contracts/template_engine_v1/`: manifest JSON Schema v1, due esempi nativi di ricerca per Notes e Anna, compatibilità/anteprime/configurazione/installazione reversibile, licenze e accesso logico free/paid_once. I riferimenti Notion non sono oggetti rivendibili o implementazioni app.
