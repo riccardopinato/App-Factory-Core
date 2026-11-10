@@ -1,5 +1,5 @@
 registry_version: 2
-updated_at: 2026-11-08
+updated_at: 2026-11-10
 master_version: "27"
 index_version: 29
 goldens:
@@ -7,6 +7,7 @@ goldens:
     title: "Google Auth / Universal Identity"
     version: "1"
     status: "COPY-READY GOLDEN"
+    admission_level: COPY_READY
     category: identity
     path: golden/identity/GOLDEN_GOOGLE_AUTH_SUPABASE_FLUTTER_v1.txt
     migrated_at: 2026-10-09
@@ -18,6 +19,7 @@ goldens:
     title: "Localization"
     version: "1"
     status: "COPY-READY GOLDEN"
+    admission_level: COPY_READY
     category: ui
     path: golden/ui/GOLDEN_LOCALIZATION_FLUTTER_v1.txt
     migrated_at: 2026-10-09
@@ -29,6 +31,7 @@ goldens:
     title: "CI + Android Release + Web Deploy"
     version: "2"
     status: "COPY-READY GOLDEN"
+    admission_level: COPY_READY
     category: release
     path: golden/release/GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v2.txt
     supersedes: golden/archive/GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v1.txt
@@ -42,6 +45,7 @@ goldens:
     title: "Profile Standard"
     version: "1"
     status: "COPY-READY GOLDEN"
+    admission_level: COPY_READY
     category: identity
     path: golden/identity/GOLDEN_PROFILE_STANDARD_FLUTTER_v1.txt
     migrated_at: 2026-10-09
@@ -53,6 +57,7 @@ goldens:
     title: "Theme Material 3"
     version: "1"
     status: "COPY-READY GOLDEN"
+    admission_level: COPY_READY
     category: ui
     path: golden/ui/GOLDEN_THEME_M3_FLUTTER_v1.txt
     migrated_at: 2026-10-09
@@ -64,6 +69,7 @@ goldens:
     title: "Secure Storage Envelope"
     version: "1"
     status: "COPY-READY GOLDEN"
+    admission_level: COPY_READY
     category: security
     path: golden/security/GOLDEN_SECURE_STORAGE_ANDROID_KEYSTORE_FLUTTER_v1.txt
     migrated_at: 2026-10-09
@@ -75,6 +81,7 @@ goldens:
     title: "Notification Reliability"
     version: "1"
     status: "COPY-READY GOLDEN"
+    admission_level: COPY_READY
     category: notifications
     path: golden/notifications/GOLDEN_NOTIFICATION_RELIABILITY_FLUTTER_v1.txt
     migrated_at: 2026-10-09
@@ -86,6 +93,7 @@ goldens:
     title: "Backup / Recovery"
     version: "1"
     status: "DRAFT / CANDIDATE"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_BACKUP_RECOVERY_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -97,6 +105,7 @@ goldens:
     title: "Entity Lifecycle / Trash"
     version: "1"
     status: "DRAFT / CANDIDATE"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_ENTITY_LIFECYCLE_TRASH_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -108,6 +117,7 @@ goldens:
     title: "Media Asset Store"
     version: "1"
     status: "DRAFT / CANDIDATE"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_MEDIA_ASSET_STORE_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -119,6 +129,7 @@ goldens:
     title: "OSS Reuse / Reconnaissance"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE"
+    admission_level: CANDIDATE
     category: governance
     path: golden/governance/GOLDEN_OSS_REUSE_RECONNAISSANCE_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -130,6 +141,7 @@ goldens:
     title: "CodeRabbit PR Review"
     version: "1"
     status: "DRAFT / CANDIDATE"
+    admission_level: CANDIDATE
     category: governance
     path: golden/governance/GOLDEN_CODERABBIT_PR_REVIEW_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -141,6 +153,7 @@ goldens:
     title: "Fastlane Android Delivery"
     version: "1"
     status: "DRAFT / CANDIDATE"
+    admission_level: CANDIDATE
     category: release
     path: golden/release/GOLDEN_FASTLANE_ANDROID_DELIVERY_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -152,6 +165,7 @@ goldens:
     title: "Release Reality / Physical Validation"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE"
+    admission_level: CANDIDATE
     category: release
     path: golden/release/GOLDEN_RELEASE_REALITY_PHYSICAL_VALIDATION_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -163,6 +177,7 @@ goldens:
     title: "Provenance / Reuse Ledger"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE"
+    admission_level: CANDIDATE
     category: governance
     path: golden/governance/GOLDEN_PROVENANCE_REUSE_LEDGER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -174,6 +189,7 @@ goldens:
     title: "Ecosystem Bridge — Shared Ecosystem Core v1"
     version: "1"
     status: "CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: ecosystem
     path: golden/ecosystem/GOLDEN_ECOSYSTEM_BRIDGE_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -185,6 +201,7 @@ goldens:
     title: "AppLab QA / Certification Adapter"
     version: "1.2"
     status: "CERTIFIED PROCESS"
+    admission_level: CERTIFIED_PROCESS
     category: release
     path: golden/release/GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt
     migrated_at: 2026-10-09
@@ -196,6 +213,7 @@ goldens:
     title: "AdMob Safe & Adaptive Monetization"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: monetization
     path: golden/monetization/GOLDEN_ADMOB_SAFE_ADAPTIVE_MONETIZATION_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -208,6 +226,7 @@ goldens:
     title: "App Icon / Branding"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: ui
     path: golden/ui/GOLDEN_APP_ICON_BRANDING_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -219,6 +238,7 @@ goldens:
     title: "App Bootstrap / Assembly First"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: governance
     path: golden/governance/GOLDEN_APP_BOOTSTRAP_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -230,6 +250,7 @@ goldens:
     title: "Capability / Permission / Health"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: native
     path: golden/native/GOLDEN_CAPABILITY_PERMISSION_HEALTH_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -241,6 +262,7 @@ goldens:
     title: "Android Native Reliability"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: native
     path: golden/native/GOLDEN_ANDROID_NATIVE_RELIABILITY_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -252,6 +274,7 @@ goldens:
     title: "Android Signing / Release Identity"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: release
     path: golden/release/GOLDEN_ANDROID_SIGNING_RELEASE_IDENTITY_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -263,6 +286,7 @@ goldens:
     title: "Import / Export / Portability"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_IMPORT_EXPORT_PORTABILITY_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -274,6 +298,7 @@ goldens:
     title: "Entitlement Contract"
     version: "1"
     status: "COPY-READY GOLDEN — PROVIDER-AGNOSTIC"
+    admission_level: COPY_READY
     category: monetization
     path: golden/monetization/GOLDEN_ENTITLEMENT_CONTRACT_FLUTTER_v1.txt
     migrated_at: 2026-10-09
@@ -285,6 +310,7 @@ goldens:
     title: "Onboarding / First Run"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: ui
     path: golden/ui/GOLDEN_ONBOARDING_FIRST_RUN_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -296,6 +322,7 @@ goldens:
     title: "App Shell / Responsive / Visual QA"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: ui
     path: golden/ui/GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -307,6 +334,7 @@ goldens:
     title: "Offline Content Packs"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_OFFLINE_CONTENT_PACKS_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-09
@@ -319,6 +347,7 @@ goldens:
     title: "Agent Governance / Repository Operating Contract"
     version: "1"
     status: "CERTIFIED PROCESS"
+    admission_level: CERTIFIED_PROCESS
     category: governance
     path: golden/governance/GOLDEN_AGENT_GOVERNANCE_v1.txt
     migrated_at: 2026-10-13
@@ -331,6 +360,7 @@ goldens:
     title: "Code Hygiene / Bounded Obsolete-Code Sweep"
     version: "1"
     status: "CERTIFIED PROCESS"
+    admission_level: CERTIFIED_PROCESS
     category: governance
     path: golden/governance/GOLDEN_CODE_HYGIENE_v1.txt
     migrated_at: 2026-10-13
@@ -343,6 +373,7 @@ goldens:
     title: "Incremental Persistent Indexing"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_INCREMENTAL_PERSISTENT_INDEXING_v1_DRAFT.txt
     migrated_at: 2026-10-14
@@ -355,6 +386,7 @@ goldens:
     title: "Bounded Parallel Hashing"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_BOUNDED_PARALLEL_HASHING_v1_DRAFT.txt
     migrated_at: 2026-10-14
@@ -366,6 +398,7 @@ goldens:
     title: "Progressive Disclosure / Module Visibility"
     version: "1"
     status: "DRAFT / CANDIDATE — NON COPY-READY"
+    admission_level: CANDIDATE
     category: ui
     path: golden/ui/GOLDEN_PROGRESSIVE_DISCLOSURE_MODULE_VISIBILITY_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-15
@@ -378,6 +411,7 @@ goldens:
     title: "Play Billing Lifetime Entitlement"
     version: "1"
     status: "DRAFT / PROVIDER CANDIDATE — STORE SANDBOX NOT VERIFIED"
+    admission_level: CANDIDATE
     category: monetization
     path: golden/monetization/GOLDEN_PLAY_BILLING_LIFETIME_ENTITLEMENT_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-15
@@ -391,6 +425,7 @@ goldens:
     title: "Monetization Backend"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — BACKEND PILOT PENDING"
+    admission_level: CANDIDATE
     category: monetization
     path: golden/monetization/GOLDEN_MONETIZATION_BACKEND_v1_DRAFT.txt
     migrated_at: 2026-10-25
@@ -404,6 +439,7 @@ goldens:
     title: "Resumable Local Transfer"
     version: "1"
     status: "DRAFT / CANDIDATE — PHYSICAL TRANSFER NOT VERIFIED"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_RESUMABLE_LOCAL_TRANSFER_v1_DRAFT.txt
     migrated_at: 2026-10-15
@@ -416,6 +452,7 @@ goldens:
     title: "Versioned Editorial Catalog"
     version: "1"
     status: "DRAFT / CANDIDATE — MULTI-APP DONOR"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_VERSIONED_EDITORIAL_CATALOG_FLUTTER_v1_DRAFT.txt
     migrated_at: 2026-10-15
@@ -428,6 +465,7 @@ goldens:
     title: "Cross-App Verification"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — PAIRED PHYSICAL EVIDENCE PENDING"
+    admission_level: CANDIDATE
     category: release
     path: golden/release/GOLDEN_CROSS_APP_VERIFICATION_v1_DRAFT.txt
     migrated_at: 2026-10-15
@@ -440,6 +478,7 @@ goldens:
     title: "Duplicate / Similarity Review Gate"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — DESIGN-ONLY"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_DUPLICATE_SIMILARITY_REVIEW_GATE_v1_DRAFT.txt
     migrated_at: 2026-10-22
@@ -451,6 +490,7 @@ goldens:
     title: "Roadmap Fast + Continuous Maintenance"
     version: "1"
     status: "COPY-READY PROCESS"
+    admission_level: COPY_READY
     category: governance
     path: golden/governance/GOLDEN_ROADMAP_FAST_CONTINUOUS_MAINTENANCE_v1.txt
     migrated_at: 2026-10-26
@@ -463,6 +503,7 @@ goldens:
     title: "Event-Driven Execution + Reconciliation"
     version: "1"
     status: "COPY-READY PROCESS"
+    admission_level: COPY_READY
     category: governance
     path: golden/governance/GOLDEN_EVENT_DRIVEN_RECONCILIATION_v1.txt
     migrated_at: 2026-10-26
@@ -475,6 +516,7 @@ goldens:
     title: "Immutable Build / Test Artifact"
     version: "1"
     status: "COPY-READY PROCESS"
+    admission_level: COPY_READY
     category: release
     path: golden/release/GOLDEN_IMMUTABLE_BUILD_TEST_ARTIFACT_v1.txt
     migrated_at: 2026-10-26
@@ -488,6 +530,7 @@ goldens:
     title: "Capability Harvest / Multi-Donor Assembly"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — MULTI-DONOR PILOT"
+    admission_level: CANDIDATE
     category: governance
     path: golden/governance/GOLDEN_CAPABILITY_HARVEST_ASSEMBLY_v1_DRAFT.txt
     migrated_at: 2026-10-27
@@ -500,6 +543,7 @@ goldens:
     title: "Sensor Fusion Android"
     version: "1"
     status: "DRAFT / CANDIDATE — SPECIALIZED"
+    admission_level: CANDIDATE
     category: native
     path: golden/native/GOLDEN_SENSOR_FUSION_ANDROID_v1_DRAFT.txt
     migrated_at: 2026-10-27
@@ -512,6 +556,7 @@ goldens:
     title: "Android Alarm Escalation"
     version: "1"
     status: "DRAFT / CANDIDATE — PHYSICAL QA PENDING"
+    admission_level: CANDIDATE
     category: native
     path: golden/native/GOLDEN_ANDROID_ALARM_ESCALATION_v1_DRAFT.txt
     migrated_at: 2026-10-27
@@ -524,6 +569,7 @@ goldens:
     title: "Android Local PIN Verifier / Keystore"
     version: "1"
     status: "DRAFT / CANDIDATE — ANDROID ONLY"
+    admission_level: CANDIDATE
     category: security
     path: golden/security/GOLDEN_ANDROID_LOCAL_PIN_VERIFIER_KEYSTORE_v1_DRAFT.txt
     migrated_at: 2026-10-27
@@ -536,6 +582,7 @@ goldens:
     title: "Single-Donor Capability Admission"
     version: "1"
     status: "COPY-READY PROCESS"
+    admission_level: COPY_READY
     category: governance
     path: golden/governance/GOLDEN_SINGLE_DONOR_CAPABILITY_ADMISSION_v1.txt
     migrated_at: 2026-11-02
@@ -548,6 +595,7 @@ goldens:
     title: "Scoped Verified Capability Donor Catalog"
     version: "1"
     status: "CERTIFIED DONOR — SCOPED CI/TOOL EVIDENCE"
+    admission_level: CERTIFIED_DONOR
     category: governance
     path: golden/governance/GOLDEN_SCOPED_DONOR_CAPABILITY_CATALOG_v1.txt
     migrated_at: 2026-11-02
@@ -560,6 +608,7 @@ goldens:
     title: "Wave 2 Verified Capability Donors"
     version: "1"
     status: "CERTIFIED DONOR — SCOPED TEST/CI EVIDENCE"
+    admission_level: CERTIFIED_DONOR
     category: governance
     path: golden/governance/GOLDEN_WAVE2_VERIFIED_DONORS_v1.txt
     migrated_at: 2026-11-02
@@ -572,6 +621,7 @@ goldens:
     title: "Wave 2 TrailPath / FrameLab Source Candidates"
     version: "1"
     status: "DEPRECATED"
+    admission_level: DEPRECATED
     category: governance
     path: golden/governance/GOLDEN_WAVE2_SOURCE_CANDIDATES_v1.txt
     migrated_at: 2026-11-02
@@ -584,6 +634,7 @@ goldens:
     title: "TrailPath / FrameLab Pinned-Source Verified Donors"
     version: "1"
     status: "CERTIFIED DONOR — EXACT PINNED SOURCE TESTS"
+    admission_level: CERTIFIED_DONOR
     category: data
     path: golden/data/GOLDEN_TRAILPATH_FRAMELAB_SCOPED_DONORS_v1.txt
     migrated_at: 2026-11-02
@@ -596,6 +647,7 @@ goldens:
     title: "GPX Interoperability Engine"
     version: "1"
     status: "DRAFT / CANDIDATE — E5 LIMITED READ-ONLY PREVIEW CONSUMER VERIFIED"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_GPX_INTEROPERABILITY_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -608,6 +660,7 @@ goldens:
     title: "Hybrid Local Search Engine"
     version: "1"
     status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, LIMITED INDEPENDENT CONSUMER VERIFIED"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_HYBRID_LOCAL_SEARCH_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -620,6 +673,7 @@ goldens:
     title: "Civil Date Recurrence Engine"
     version: "1"
     status: "COPY-READY GOLDEN — PURE DART REFERENCE + DONOR CONSUMER CI"
+    admission_level: COPY_READY
     category: data
     path: golden/data/GOLDEN_CIVIL_DATE_RECURRENCE_ENGINE_v1.txt
     migrated_at: 2026-11-03
@@ -632,6 +686,7 @@ goldens:
     title: "Local Rules Automation Engine"
     version: "1"
     status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_LOCAL_RULES_AUTOMATION_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -644,6 +699,7 @@ goldens:
     title: "Infinite Canvas / Ink Engine"
     version: "1"
     status: "DRAFT / CANDIDATE — CORE VIEWPORT/INK IMPLEMENTED, UI + CONSUMER PENDING"
+    admission_level: CANDIDATE
     category: ui
     path: golden/ui/GOLDEN_INFINITE_CANVAS_INK_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -656,6 +712,7 @@ goldens:
     title: "Spatial Clustering Engine"
     version: "1"
     status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_SPATIAL_CLUSTERING_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -668,6 +725,7 @@ goldens:
     title: "Explainable Recommendation Engine"
     version: "1"
     status: "DRAFT / CANDIDATE — REFERENCE IMPLEMENTED, CONSUMER PENDING"
+    admission_level: CANDIDATE
     category: data
     path: golden/data/GOLDEN_EXPLAINABLE_RECOMMENDATION_ENGINE_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -680,6 +738,7 @@ goldens:
     title: "Performance Regression Fixtures"
     version: "1"
     status: "DRAFT / PROCESS CANDIDATE — FIXTURE HARNESS IMPLEMENTED, CONSUMER PENDING"
+    admission_level: CANDIDATE
     category: governance
     path: golden/governance/GOLDEN_PERFORMANCE_REGRESSION_FIXTURES_v1_DRAFT.txt
     migrated_at: 2026-11-03
@@ -692,6 +751,7 @@ goldens:
     title: "Hybrid Local Search — Ephemeral Search Core"
     version: "1"
     status: "CERTIFIED GOLDEN"
+    admission_level: CERTIFIED_GOLDEN
     category: data
     path: golden/data/GOLDEN_HYBRID_LOCAL_SEARCH_EPHEMERAL_CORE_v1.txt
     migrated_at: 2026-11-08
@@ -704,6 +764,7 @@ goldens:
     title: "GPX Interoperability — Strict Read-Only Preview"
     version: "1"
     status: "CERTIFIED GOLDEN"
+    admission_level: CERTIFIED_GOLDEN
     category: data
     path: golden/data/GOLDEN_GPX_READ_ONLY_PREVIEW_CORE_v1.txt
     migrated_at: 2026-11-08
