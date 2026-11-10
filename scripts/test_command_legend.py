@@ -43,6 +43,15 @@ class LegendTests(unittest.TestCase):
         self.assertIn("### APK e Deploy", legend.render(R, M))
         self.assertIn("Deploy produzione Anna's Diary", legend.render(R, M))
 
+    def test_legacy_contract_seals_required(self):
+        for name in ("legenda","audit","capability","procedi","mockup","integra_mockup"):
+            with self.subTest(name=name):
+                bad=copy.deepcopy(R)
+                item=next(x for x in bad["commands"] if x["id"]==name)
+                item["spec_blob_sha"]="0"*40
+                with self.assertRaises(ValueError):
+                    legend.validate(bad,M)
+
     def test_corrupt_contract_hash_rejected(self):
         broken=copy.deepcopy(R)
         item=next(x for x in broken["commands"] if x["id"]=="apk")
