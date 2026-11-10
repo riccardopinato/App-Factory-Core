@@ -107,6 +107,9 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Do not duplicate CI runs or build artifacts absent a reason.
 
 8. MODULE SELECTOR (V27 ACTIVE)
+- Product family router: classify mobile Flutter, existing native, SEO-first web, desktop and game before choosing technical rules.
+- For web data/SEO, portfolio operations, platform verification and Master navigation, resolve their specialized policy updates on-demand.
+- The generated MASTER_LEGEND_CURRENT.md is the full navigation index, not a second editable policy source; generated full fallback remains the comprehensive operative text.
 - Registered selector: scripts/resolve_v27_candidate.py --task ... --context ... --include-goldens.
 - Read MODULE_MAP.json for deterministic task-to-module routing.
 - Load only relevant modules; ambiguous routing requires a verified fallback.
@@ -1689,7 +1692,7 @@ END MASTER PROMPT v26.8 FULL CONSOLIDATED
 
 ===== V27 POLICY UPDATE: factory-policy-sync =====
 APP FACTORY v27 — SYNCHRONIZED MASTER UPDATE POLICY
-Status: v27 candidate; repository governance applies while v26.8 remains active.
+Status: ACTIVE v27 whenever CURRENT.yaml selects version 27; repository governance and exact-head checks apply.
 
 For any authorized request to update the Master Prompt, App Factory Core or Factory governance:
 - Update canonical modular instructions in the relevant v27 core or policy module.
@@ -1701,8 +1704,8 @@ For any authorized request to update the Master Prompt, App Factory Core or Fact
 - If the current active Master is also within the requested scope, update its current
   alias, versioned source, resolver, Registry and changelog together per governance.
 - No merge with missing exact-head checks, unresolved review or rule/fallback drift.
-- Until activation, CURRENT.yaml continues to select v26.8; candidate-only edits do
-  not claim to change the currently active app rules.
+- CURRENT.yaml selects active v27; a branch change is not authoritative until merged and verified.
+- Keep the generated MASTER_LEGEND_CURRENT.md synchronized with MODULE_MAP.json; it is an index, not operative source.
 
 The operative fallback is living and synchronized. The historical snapshot is immutable.
 
@@ -1797,6 +1800,160 @@ Installing these command contracts updates only Core; does not mutate app reposi
 Update registry, specs/hashes, public routes, derived Legenda, Master/mirror/fallback, bootstrap/pointer and CI together. Fail closed on mismatch.
 END PORTFOLIO COMMANDS ROUTER
 
+
+===== V27 POLICY UPDATE: product-family-router =====
+APP FACTORY v27 — PRODUCT FAMILY / STACK ROUTER
+Status: ACTIVE SPECIALIZED POLICY. Covers A01, R05.
+Authority: CURRENT.yaml > Product Bible for scope > this task-specific module. Never replace an app's approved stack silently.
+
+1. CLASSIFY PRODUCT BEFORE CHOOSING TECHNOLOGY
+- MOBILE CROSS-PLATFORM (Android/iOS app): Flutter/Dart is the default for NEW products.
+- EXISTING NATIVE APP (Kotlin/Compose or another functioning stack): preserve its stack unless a documented product need justifies migration.
+- WEB UTILITY / ORGANIC SEARCH PRODUCT: prefer web-native renderable HTML, SSR/SSG, structured metadata and SEO (Astro, Next.js/TypeScript, or another evaluated fit); do NOT select Flutter Web by default for programmatic SEO pages.
+- WEB APP / PWA (not primarily SEO): evaluate Flutter Web or web-native based on UX, runtime needs, accessibility and actual deploy constraints.
+- DESKTOP UTILITY: evaluate Tauri and other lightweight desktop solutions per native API need, packaging, security and maintainer effort; no mandatory Tauri migration.
+- GAME: evaluate Flutter/Flame, Godot, raylib or the engine that matches 2D/3D/platform needs; never prescribe a multiplayer backend for an offline game.
+
+2. ROUTING CONTRACT
+Before architecture work record: family, target surfaces, primary acquisition channel, offline/online requirement, platform permissions, delivery method, maintenance budget and approved product exclusions.
+Load only the matching specialist(s). For a WEB UTILITY, load 86-web-utility-data.txt as well. For Android native risk, load the existing identity/native module and relevant Golden; a generic SEO task must not load sensor or APK rules.
+A family classification is not permission to invent a new product, paid provider, account, billing model or cloud infrastructure.
+
+3. EXCEPTIONS AND LEGACY CLEANUP
+Remove default-template statements saying every website MUST use Flutter Web or every existing Kotlin app MUST migrate to Flutter. Preserve historical records and tested assets. All deviations from preferred stack need specific documented tradeoffs, not popularity-based choices.
+- No automatic application-repository refresh; adoption stays scoped and authorized.
+- Keep code and artifacts platform-specific; web preview cannot certify Android/iOS native behavior.
+END PRODUCT FAMILY ROUTER
+
+
+===== V27 POLICY UPDATE: web-utility-data =====
+APP FACTORY v27 — WEB UTILITY / SEO / PROVIDER DATA
+Status: ACTIVE SPECIALIZED POLICY. Covers A02, A03, A09, R06.
+Load ONLY for SEO/data-provider products and relevant external-source research. It does not override mobile privacy, authorization or release policy.
+
+1. MARKET != LANGUAGE
+Store independently locale (language/script/format), country/market (law, geography and data), currency, timezone, units, fiscal year, data-source coverage and content permissions.
+Use stable market-aware canonical URLs where needed, hreflang, crawlable SSR/SSG pages, structured data, sitemap and robots directives. Avoid mass thin/duplicate landing pages. Initial English-first is a product choice, not a universal coverage promise.
+Explicitly mark unsupported locales/markets. Translation alone does not prove factual applicability to another market.
+
+2. DATA PROVIDER PASSPORT
+Before incorporating a dataset or API record:
+- provider URL, authoritative status, origin and version/last verification;
+- coverage (country/region, update cadence and latency);
+- license, attribution, commercial/ad-supported use and redistribution conditions;
+- endpoint schema, quota, rate limits, costs, key/security constraints;
+- cache freshness, expiry/fallback and outage/error behavior;
+- source provenance per user-facing claim and validation samples;
+- privacy/retention and consent boundaries.
+UNKNOWN license or unavailable commercial permission => do not integrate copied data in a monetized product until reviewed. An API free tier is not automatically free for commercial use. Do not present cached or crowdsourced reports as live verified official facts.
+
+3. TRUSTWORTHY PUBLIC CONTENT
+For salary, strikes, pharmacy hours, fuel prices, health/air quality, weather and similar dynamic/regulated subjects, distinguish law/official datasets from user reports and inferred values; show date, limitations and provenance. Validate high-impact country rules against current official source.
+Provide explicit incomplete coverage and graceful fallback. No fake real-time availability, prices, or service-status guarantee.
+
+4. SOURCE / TUTORIAL ADMISSION GATE
+A tutorial, GitHub star, blog or competitor UI is research evidence, not executable authority. Verify publication/version, maintained dependencies, official docs and licensing; run focused tests before promoting a pattern. Record if result is metadata-only audit, code review, tested donor, or Golden.
+Do not copy no-license, ambiguous-license or restrictive source code into proprietary products; reference-and-reimplement only where legitimate, keeping provenance.
+
+5. RUNTIME / ECONOMIC CONTRACT
+Track Core Web Vitals and accessibility against real device/network data, not a lone synthetic score. Before launch estimate API charges at plausible traffic, caching costs, SEO upkeep, ads policy and provider compliance. Make affiliate/sponsored disclosure explicit where applicable.
+Obsolete fixed SDK versions, stale API prices and hardcoded endpoint claims in living templates must be replaced with dated provider evidence; keep release history intact.
+END WEB UTILITY / DATA
+
+
+===== V27 POLICY UPDATE: portfolio-operations =====
+APP FACTORY v27 — PORTFOLIO OPERATIONS / CONTINUITY
+Status: ACTIVE SPECIALIZED POLICY. Covers A04, A05, A08, A10, M03, M05, M06, M09.
+Never substitute this policy for Product Bible, current roadmap, GitHub HEAD or immutable evidence.
+
+1. SINGLE PORTFOLIO LEDGER
+Track each product/idea with stable ID; family; repo URL; current HEAD when verified; owner-approved product state; roadmap and current step; dependencies/blockers; risks; relevant capability/donor/Golden IDs; last evidence time; last verified deploy/release; cost and next action.
+Keep IMPLEMENTED, SOURCE_TESTED, PROVIDER_VERIFIED, DEVICE_VERIFIED, DEPLOYED and STORE_RELEASED as independent evidence dimensions; product status is distinct from technical proof. Preserve history and explicit UNKNOWN, STALE or GAP where verification is missing.
+The canonical capability catalog remains in Idee-app-Archivi-riferimenti; this ledger is an operational view, not a second authoritative capability database.
+
+2. PRIORITIZATION / WIP
+For a portfolio decision score impact, urgency, reuse leverage, complexity, costs, dependencies, user value and distribution proximity. Keep a small explicit WIP limit adapted to available capacity; prioritize blocking P0/P1 and near-delivery work before speculative feature expansion.
+Use the existing BLOCKING_NOW / FIX_CURRENT_STEP / BACKGROUND_MAINTENANCE / FUTURE lanes. Do not treat every idea as automatically approved for implementation.
+
+3. COMMERCIAL / COST GATE
+Before a new paid provider or expanding cloud usage identify fixed/variable cost, traffic sensitivity, maintenance burden, monetization assumptions, worst-case exposure and a measured or hypothetical break-even. No invented revenue or conversion certainty; user authorization remains required for new billing/services.
+
+4. CONTINUITY AND RESTART
+At a substantial boundary capture: task and scope, Factory baseline SHA, app repo HEAD/branch/PR, completed steps, actual test evidence, blockers, next command, and what was NOT done. "Riprendi" reconciles the checkpoint against GitHub first and must not replay already merged steps or claim unattended work ran.
+A chat cannot keep coding asynchronously. Use a real configured automation only when explicitly authorized and supported; no phantom background agents.
+
+5. REAL TIME / TOKEN COST OBSERVATORY
+Measure observed active coding intervals only if genuinely instrumented; separately track PR elapsed time, CI waiting, number of retries, actual measured wall clock, input/context size and infrastructure charges. Never claim elapsed PR time equals active development time or that tokenizer proxies equal actual provider billing.
+Benchmark modular vs full-master reading on paired tasks with comparable inputs, positive/negative policy checks and observed failures. If a metric is unavailable, report NOT_MEASURED rather than estimating it as fact.
+
+6. STARS / CAPABILITY EVIDENCE
+The existing "Stelle" contract owns incremental ingestion: stable IDs, deduplication, public/accessible repo inventory and explicit enumeration gaps; distinguish metadata audit from source-code deep dive; license-gate every donor. Do not silently approve an app idea or promote to E3/E5.
+For repeated audits present a delta: new, resolved, regressions and unchanged; link source SHA and previous report. Read-only audit never authorizes remediation.
+
+7. GBRAIN / CONNECTED MEMORY IS OPTIONAL
+GBrain may help retrieve historical decisions, tagged checkpoints or candidate provenance when connected and available, but it cannot override CURRENT.yaml, GitHub, Product Bible or real tests. If PC/MCP is offline, continue from canonical GitHub and visible files without false claims. Only call backup/restoration VERIFIED with an actual evidence receipt.
+END PORTFOLIO OPERATIONS
+
+
+===== V27 POLICY UPDATE: verification-boundaries =====
+APP FACTORY v27 — EVIDENCE / SOURCE-ONLY / PLATFORM BOUNDARIES
+Status: ACTIVE SPECIALIZED POLICY. Covers A06, A07, A11, M01, M02, M04, M07, M08, R01, R02, R03.
+Apply alongside existing AppLab and release Golden. This is NOT a replacement certification ladder.
+
+1. SCOPED CLAIMS / EVIDENCE
+For each critical feature track separately: IDEA; IMPLEMENTED_ON_SHA; SOURCE_TEST_EXECUTED; EMULATOR_RUNTIME; PHYSICAL_DEVICE; EXTERNAL_PROVIDER_CONFIRMED; ARTIFACT_DISTRIBUTED; WEB_DEPLOY_LIVE; STORE_ACCEPTED. These describe independent evidence, not automatic upgrades; record artifact/source identity, tool version, coverage and failure cases.
+CI GREEN is not end-to-end verification. A notification request accepted by FCM is not delivery on iPhone; OAuth staging code is not a completed user authorization; local download UI is not verified file integrity; internal signed APK is not Play Store publication.
+
+2. PLATFORM MATRIX
+Android emulator, physical Android models, Flutter Web, installed iPhone PWA, remote Web Push, native iOS and backend services require separate acceptance evidence. Support/permissions, scheduling, lifecycle, offline and notifications differ across surfaces.
+On a platform with no verified implementation, the UI must communicate that limit, not show false availability. A real external provider response and actual user-device receipt are separate results.
+
+3. APPLAB SOURCE-ONLY DEVELOPMENT DEFAULT
+Ordinary PR checks use source lint/analyze/tests and AppLab SOURCE-ONLY when configured. No implicit APK generation, emulator boot, Maestro or FULL certification on every routine change. Native sensor/permission/security changes may require APK/runtime during development; release and user acceptance require appropriate higher gates.
+Remove conflicting legacy workflows ONLY after determining required release and risk gates are preserved. Source gate alone does not mean code compilation or runtime PASS. The existing GOLDEN_APPLAB_QA_CERTIFICATION contract stays authoritative.
+
+4. DELIVERY / SIGNING / WEB
+Use independent status for source complete, Web preview, Web production deploy, signed APK, real-device acceptance, Play Internal Testing and public release. Web-only delivery is allowed when product/owner selected it; no APK work should be inferred from normal source updates.
+Artifact hash, signing identity, immutable source and target URL/device evidence must accompany delivery claims. Never delete a keystore or downgrade versionCode to bypass an update failure.
+
+5. PROVIDER / NOTIFICATION / SYNC DIAGNOSTICS
+Instrument actual outcomes: permission/channel health, token/device registration, backend acceptance, remote result, actual client receipt where observable, retry/failure reason and platform limitation. Errors must not be masked as success. Reconcile offline/sync and user-visible state, preserving sensitive data boundaries.
+
+6. DONOR AND GOLDEN PROOF / FRESHNESS
+Reuse existing E0–E5 admission contract; E3 proves only the pinned, tested donor slice; E5 is independent consumer evidence. CERTIFIED GOLDEN, COPY-READY, DRAFT and DEPRECATED remain distinct. Exclude DEPRECATED from active selection while retaining provenance and migration history.
+For provider-sensitive Golden: refresh on SDK/package upgrade, provider breaking API/policy changes, platform permission change, security advisory or discovered incompatibility. Track last external verification separately from last document edit; mark NEEDS_REVIEW or STALE rather than silently certifying freshness.
+
+7. PRIVACY-SAFE PRODUCT QUALITY
+Collect only consented, purpose-limited metrics useful for failure detection or product decisions (startup, crashes, feature use, conversions), never private content by default. Give retention and deletion policy. No mandatory analytics added solely to satisfy this governance proposal.
+
+8. DEPRECATION / FALSE PASS CLEANUP
+Retire report/template wording that equates built, uploaded, downloaded, delivered or certified. Do not delete protected history, old migrations, archived evidence or fallback source in the name of cleanup.
+END EVIDENCE / PLATFORM BOUNDARIES
+
+
+===== V27 POLICY UPDATE: modular-navigation =====
+APP FACTORY v27 — MODULAR MASTER NAVIGATION / DECISION TRACEABILITY
+Status: ACTIVE SPECIALIZED POLICY. Covers M10, R04.
+
+1. ONE AUTHORITATIVE RULE, MANY READABLE VIEWS
+CURRENT.yaml selects the live Master; the v27 Core declares universal invariants; the pinned MODULE_MAP.json selects specialized modules; Golden Registry identifies reusable artifacts. The generated synchronized full fallback is the comprehensive operative text when a safe selective route is unavailable.
+The human MASTER_LEGEND_CURRENT.md is a generated navigation index, never a second editable set of instructions. Commands/LEGGENDA.md lists the short public commands separately. If map and legend disagree, fail closed and repair the generated view; do not silently improvise missing rules.
+
+2. TOKEN-ECONOMICAL LOADING
+Classify task; load Core and minimum relevant modules; then only selected Golden, Product Bible, roadmap and source files. Preserve all security/authorization gates even if a specialized module is not initially selected. An ambiguous route must load an integrity-verified synchronized fallback or BLOCK.
+Do not make 27 separate always-loaded documents. Prefer a compact family of specialized policies and explicit routing over a long universal prompt.
+
+3. GENERATED AND HISTORICAL SURFACES
+Update modular sources plus regenerated fallback, manifest seals and stable Core alias in the same authorized PR. Use scripts/build_v27_fallback.py --write, then --check on exact HEAD. Regenerate the Master legend from MODULE_MAP; preserve immutable v26.8 snapshots.
+Retire stale copies of current rules only when confirmed unreferenced. No automatic deletion of history, compatibility migrations, registered Golden, evidence or consumer documentation.
+
+4. INTERACTIVE VISUAL DECISIONS
+The existing "Mock-up interattivi" 1/10–10/10 contract remains canonical. Preserve a lightweight decision register: app, screen, proposed revision, APPROVED / REVISE / REJECTED, screenshot or prototype reference, date and user approval. No premature code integration; final implementation uses only explicitly approved selections and visual regression baselines when practical.
+
+5. ACTIVATION / PERFORMANCE PROOF
+Route selection and source hashes can be statically validated; effective model adherence, actual user-task speedup and token-cost savings cannot be claimed without a comparable real evaluation. Keep negative tests for cross-command privilege expansion, stale fallback, missing policy and unsafe module routing.
+END MODULAR MASTER NAVIGATION
+
 ===== V27 TASK ROUTES (SYNCED CANDIDATE METADATA) =====
 [
   {
@@ -1844,7 +2001,8 @@ END PORTFOLIO COMMANDS ROUTER
     ],
     "modules": [
       "authority-execution",
-      "factory-policy-sync"
+      "factory-policy-sync",
+      "modular-navigation"
     ],
     "golden_ids": [
       "agent_governance"
@@ -1997,7 +2155,8 @@ END PORTFOLIO COMMANDS ROUTER
       "biometria"
     ],
     "modules": [
-      "identity-native"
+      "identity-native",
+      "verification-boundaries"
     ],
     "golden_ids": [
       "android_native_reliability"
@@ -2045,7 +2204,8 @@ END PORTFOLIO COMMANDS ROUTER
       "acquisto"
     ],
     "modules": [
-      "monetization-ai"
+      "monetization-ai",
+      "portfolio-operations"
     ],
     "golden_ids": [
       "entitlement_contract"
@@ -2079,7 +2239,8 @@ END PORTFOLIO COMMANDS ROUTER
       "merge"
     ],
     "modules": [
-      "delivery-verification"
+      "delivery-verification",
+      "verification-boundaries"
     ],
     "golden_ids": [
       "immutable_build_test_artifact"
@@ -2092,7 +2253,8 @@ END PORTFOLIO COMMANDS ROUTER
     ],
     "modules": [
       "audit-roadmap",
-      "portfolio-commands"
+      "portfolio-commands",
+      "portfolio-operations"
     ],
     "command_trigger": "Stato",
     "public_command": true
@@ -2104,7 +2266,8 @@ END PORTFOLIO COMMANDS ROUTER
     ],
     "modules": [
       "audit-roadmap",
-      "portfolio-commands"
+      "portfolio-commands",
+      "portfolio-operations"
     ],
     "command_trigger": "Prossimo",
     "public_command": true
@@ -2130,7 +2293,8 @@ END PORTFOLIO COMMANDS ROUTER
     "modules": [
       "authority-execution",
       "audit-roadmap",
-      "portfolio-commands"
+      "portfolio-commands",
+      "portfolio-operations"
     ],
     "command_trigger": "Roadmap",
     "public_command": true
@@ -2155,7 +2319,8 @@ END PORTFOLIO COMMANDS ROUTER
     ],
     "modules": [
       "audit-roadmap",
-      "portfolio-commands"
+      "portfolio-commands",
+      "portfolio-operations"
     ],
     "command_trigger": "Riprendi",
     "public_command": true
@@ -2192,7 +2357,8 @@ END PORTFOLIO COMMANDS ROUTER
     "modules": [
       "authority-execution",
       "factory-policy-sync",
-      "portfolio-commands"
+      "portfolio-commands",
+      "modular-navigation"
     ],
     "command_trigger": "Factory",
     "public_command": true
@@ -2218,7 +2384,8 @@ END PORTFOLIO COMMANDS ROUTER
     "modules": [
       "authority-execution",
       "foundation-reuse",
-      "portfolio-commands"
+      "portfolio-commands",
+      "product-family-router"
     ],
     "command_trigger": "Nuova app",
     "public_command": true
@@ -2357,7 +2524,8 @@ END PORTFOLIO COMMANDS ROUTER
     "modules": [
       "audit-roadmap",
       "monetization-ai",
-      "portfolio-commands"
+      "portfolio-commands",
+      "portfolio-operations"
     ],
     "command_trigger": "Mercato",
     "public_command": true
@@ -2370,9 +2538,93 @@ END PORTFOLIO COMMANDS ROUTER
     "modules": [
       "authority-execution",
       "audit-roadmap",
-      "portfolio-commands"
+      "portfolio-commands",
+      "portfolio-operations"
     ],
     "command_trigger": "Idee",
     "public_command": true
+  },
+  {
+    "id": "web_utility_specialist",
+    "terms": [
+      "web utility",
+      "sito seo",
+      "seo multi market",
+      "data provider",
+      "web search traffic"
+    ],
+    "modules": [
+      "product-family-router",
+      "web-utility-data"
+    ]
+  },
+  {
+    "id": "product_family_specialist",
+    "terms": [
+      "desktop utility",
+      "game factory",
+      "app desktop",
+      "stack tecnologico",
+      "product family"
+    ],
+    "modules": [
+      "product-family-router"
+    ]
+  },
+  {
+    "id": "portfolio_observatory",
+    "terms": [
+      "portafoglio progetti",
+      "portfolio operations",
+      "tempi sviluppo",
+      "dashboard app factory",
+      "wip limit"
+    ],
+    "modules": [
+      "portfolio-operations",
+      "audit-roadmap"
+    ]
+  },
+  {
+    "id": "platform_evidence",
+    "terms": [
+      "source-only",
+      "matrice verifiche",
+      "evidence platform",
+      "web push",
+      "notifica consegnata",
+      "provider verified"
+    ],
+    "modules": [
+      "verification-boundaries",
+      "delivery-verification"
+    ]
+  },
+  {
+    "id": "master_navigation",
+    "terms": [
+      "modularizzazione master",
+      "master legend",
+      "legenda master",
+      "modules on demand"
+    ],
+    "modules": [
+      "modular-navigation",
+      "factory-policy-sync",
+      "authority-execution"
+    ]
+  },
+  {
+    "id": "source_admission",
+    "terms": [
+      "audit tutorial",
+      "fonti esterne",
+      "licenza dataset",
+      "external api license"
+    ],
+    "modules": [
+      "web-utility-data",
+      "foundation-reuse"
+    ]
   }
 ]
