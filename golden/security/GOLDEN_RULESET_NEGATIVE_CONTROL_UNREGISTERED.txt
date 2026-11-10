@@ -1,3 +1,5 @@
 NEGATIVE CONTROL ONLY — test GitHub required CI enforcement.
 This intentionally unregistered Golden file must be rejected by scripts/validate_factory.py.
 DO NOT MERGE. Close this PR after verifying that GitHub blocks merge.
+
+This synchronization event intentionally retries CI on the non-mergeable test branch.
