@@ -38,6 +38,8 @@
 | `Roadmap` | Riconcilia roadmap, completamenti reali, dipendenze e prossimi maxi-step. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
 | `Nuova app` | Assembla bootstrap Flutter con Product Bible, roadmap, AGENTS, CI e Golden pertinenti. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
 | `Ripara` | Individua la causa di un bug riproducibile e prepara PR minima con test. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
+| `Avanti` | Esegue il prossimo step proposto in chat (o quello approvato in roadmap se manca una proposta inequivocabile), con verifiche e gate. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
+| `Avanti roadmap` | Esegue solo il primo step approvato, fattibile e non completato della roadmap corrente. | MODIFICHE SOLO NELLO SCOPE AUTORIZZATO |
 
 ## Comandi ed esempi
 
@@ -339,6 +341,24 @@
 | `Ripara Anna's Diary issue 42` | Variante mirata con ambito esplicito. |
 
 **Effetto:** MODIFICHE SOLO NELLO SCOPE AUTORIZZATO. Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.
+
+**Avanti** — Esegue il prossimo step proposto in chat (o quello approvato in roadmap se manca una proposta inequivocabile), con verifiche e gate.
+
+| Scrivi | Cosa succede |
+| --- | --- |
+| `Avanti` | Esegue il prossimo passaggio proposto e autorizzato per l'app corrente. |
+| `Avanti Anna's Diary` | Esegue il prossimo step proposto, solo sull'app indicata. |
+
+**Effetto:** MODIFICHE SOLO NELLO SCOPE AUTORIZZATO. Richiede scope inequivocabile, proposta/roadmap approvata e controlli GitHub sullo SHA esatto. Nessuna autorizzazione implicita a rilasci Store, produzione o azioni irreversibili.
+
+**Avanti roadmap** — Esegue solo il primo step approvato, fattibile e non completato della roadmap corrente.
+
+| Scrivi | Cosa succede |
+| --- | --- |
+| `Avanti roadmap` | Verifica la roadmap e implementa il primo step approvato e fattibile. |
+| `Avanti roadmap Notes-Ecosistema` | Implementa il prossimo step approvato della roadmap per l'app indicata. |
+
+**Effetto:** MODIFICHE SOLO NELLO SCOPE AUTORIZZATO. Una sola tappa, non l'intera roadmap; verifica Product Bible, dipendenze, CI exact-head e autorizzazione prima del merge. Blocca scope e rilasci non approvati.
 
 ## Altri argomenti riconosciuti dal router
 
