@@ -58,6 +58,26 @@ class ActiveCommandTests(unittest.TestCase):
                 result=router.resolve(task,root=root)
                 self.assertEqual(result["selection"],"BLOCKED_COMMAND_SPEC_UNAVAILABLE",result)
 
+    def test_corrupt_public_module_blocks_without_fallback_bypass(self):
+        import tempfile, shutil
+        manifest=CORE
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            files=["CURRENT.yaml","v27/candidate/MODULE_MAP.json",
+                   manifest["core"]["path"],manifest["living_fallback"]["path"],
+                   "commands/REGISTRY.json","commands/specs/RIPARA.md"]
+            files += [m["path"] for m in manifest["modules"]]
+            files += [m["path"] for m in manifest["policy_updates"]]
+            for name in files:
+                dst=root/name
+                dst.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copyfile(ROOT/name,dst)
+            selected=root/"v27/candidate/modules/00-authority-execution.txt"
+            selected.write_bytes(selected.read_bytes()+b"\\nCORRUPT")
+            result=router.resolve("Ripara",root=root)
+            self.assertEqual(result["selection"],"BLOCKED_COMMAND_SPEC_UNAVAILABLE",result)
+            self.assertNotEqual(result["selection"],"FALLBACK_BASELINE_USED")
+
     def test_integration_never_inherits_readonly_mockup_lane(self):
         r=router.resolve("Integra i mock-up","APPROVED designs")
         self.assertEqual(r["route_rules"],["mockup_integration"])
