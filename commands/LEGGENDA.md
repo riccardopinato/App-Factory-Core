@@ -363,6 +363,8 @@ Queste sono parole chiave di instradamento tecnico, non comandi autonomi garanti
 | Platform Evidence | `source-only`, `matrice verifiche`, `evidence platform`, `web push` |
 | Master Navigation | `modularizzazione master`, `master legend`, `legenda master`, `modules on demand` |
 | Source Admission | `audit tutorial`, `fonti esterne`, `licenza dataset`, `external api license` |
+| Controlled Pilot Activation | `pilot 3`, `pilot_3`, `self canary activation`, `attivazione pilot` |
+| Factory Governance Change | `modifica governance`, `governance change`, `modifica master factory` |
 
 ## Regole e aggiornamento
 
