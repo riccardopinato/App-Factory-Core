@@ -1,5 +1,5 @@
 APP FACTORY v27 — SYNCHRONIZED MASTER UPDATE POLICY
-Status: v27 candidate; repository governance applies while v26.8 remains active.
+Status: ACTIVE v27 whenever CURRENT.yaml selects version 27; repository governance and exact-head checks apply.
 
 For any authorized request to update the Master Prompt, App Factory Core or Factory governance:
 - Update canonical modular instructions in the relevant v27 core or policy module.
@@ -11,8 +11,8 @@ For any authorized request to update the Master Prompt, App Factory Core or Fact
 - If the current active Master is also within the requested scope, update its current
   alias, versioned source, resolver, Registry and changelog together per governance.
 - No merge with missing exact-head checks, unresolved review or rule/fallback drift.
-- Until activation, CURRENT.yaml continues to select v26.8; candidate-only edits do
-  not claim to change the currently active app rules.
+- CURRENT.yaml selects active v27; a branch change is not authoritative until merged and verified.
+- Keep the generated MASTER_LEGEND_CURRENT.md synchronized with MODULE_MAP.json; it is an index, not operative source.
 
 The operative fallback is living and synchronized. The historical snapshot is immutable.
 
