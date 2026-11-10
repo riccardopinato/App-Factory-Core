@@ -1364,6 +1364,34 @@
         "web-utility-data",
         "foundation-reuse"
       ]
+    },
+    {
+      "id": "controlled_pilot_activation",
+      "terms": [
+        "pilot 3",
+        "pilot_3",
+        "self canary activation",
+        "attivazione pilot",
+        "promozione senza prove"
+      ],
+      "modules": [
+        "authority-execution",
+        "delivery-verification",
+        "verification-boundaries"
+      ]
+    },
+    {
+      "id": "factory_governance_change",
+      "terms": [
+        "modifica governance",
+        "governance change",
+        "modifica master factory"
+      ],
+      "modules": [
+        "authority-execution",
+        "factory-policy-sync",
+        "modular-navigation"
+      ]
     }
   ],
   "router": {
@@ -1378,7 +1406,7 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "1c419b25180c3c4b5cccc515599e0ca42c12ce3d",
+    "git_blob_sha": "6af3f307905111494a4ea0f09a75561ffa8e526c",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
