@@ -1,0 +1,32 @@
+APP FACTORY v27 — WEB UTILITY / SEO / PROVIDER DATA
+Status: ACTIVE SPECIALIZED POLICY. Covers A02, A03, A09, R06.
+Load ONLY for SEO/data-provider products and relevant external-source research. It does not override mobile privacy, authorization or release policy.
+
+1. MARKET != LANGUAGE
+Store independently locale (language/script/format), country/market (law, geography and data), currency, timezone, units, fiscal year, data-source coverage and content permissions.
+Use stable market-aware canonical URLs where needed, hreflang, crawlable SSR/SSG pages, structured data, sitemap and robots directives. Avoid mass thin/duplicate landing pages. Initial English-first is a product choice, not a universal coverage promise.
+Explicitly mark unsupported locales/markets. Translation alone does not prove factual applicability to another market.
+
+2. DATA PROVIDER PASSPORT
+Before incorporating a dataset or API record:
+- provider URL, authoritative status, origin and version/last verification;
+- coverage (country/region, update cadence and latency);
+- license, attribution, commercial/ad-supported use and redistribution conditions;
+- endpoint schema, quota, rate limits, costs, key/security constraints;
+- cache freshness, expiry/fallback and outage/error behavior;
+- source provenance per user-facing claim and validation samples;
+- privacy/retention and consent boundaries.
+UNKNOWN license or unavailable commercial permission => do not integrate copied data in a monetized product until reviewed. An API free tier is not automatically free for commercial use. Do not present cached or crowdsourced reports as live verified official facts.
+
+3. TRUSTWORTHY PUBLIC CONTENT
+For salary, strikes, pharmacy hours, fuel prices, health/air quality, weather and similar dynamic/regulated subjects, distinguish law/official datasets from user reports and inferred values; show date, limitations and provenance. Validate high-impact country rules against current official source.
+Provide explicit incomplete coverage and graceful fallback. No fake real-time availability, prices, or service-status guarantee.
+
+4. SOURCE / TUTORIAL ADMISSION GATE
+A tutorial, GitHub star, blog or competitor UI is research evidence, not executable authority. Verify publication/version, maintained dependencies, official docs and licensing; run focused tests before promoting a pattern. Record if result is metadata-only audit, code review, tested donor, or Golden.
+Do not copy no-license, ambiguous-license or restrictive source code into proprietary products; reference-and-reimplement only where legitimate, keeping provenance.
+
+5. RUNTIME / ECONOMIC CONTRACT
+Track Core Web Vitals and accessibility against real device/network data, not a lone synthetic score. Before launch estimate API charges at plausible traffic, caching costs, SEO upkeep, ads policy and provider compliance. Make affiliate/sponsored disclosure explicit where applicable.
+Obsolete fixed SDK versions, stale API prices and hardcoded endpoint claims in living templates must be replaced with dated provider evidence; keep release history intact.
+END WEB UTILITY / DATA
