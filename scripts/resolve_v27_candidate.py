@@ -152,6 +152,11 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
     try:
         manifest=json.loads((root/MANIFEST).read_text(encoding="utf-8"))
         names,golden_ids,matched=route(task,context,manifest)
+        # Classify explicit public commands BEFORE any integrity-checked read.
+        # If Core or a module fails, we must fail closed instead of silently
+        # invoking the generic full fallback for an executable shortcut.
+        public_routes={r["id"] for r in manifest["task_routes"]
+                       if r.get("public_command") is True}
         if not names: raise ValueError("NO_SAFE_MODULE_ROUTE")
         seals=manifest["integrity_blob_sha"]
         core=read_checked(manifest["core"]["path"],seals["core"],root)
@@ -161,8 +166,6 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
                 docs[entry["path"]]=read_checked(entry["path"],seals[entry["id"]],root)
         # Load exactly one SHA-pinned command contract for ANY public route,
         # including canonical legacy Audit/Capability/Mockup entrypoints.
-        public_routes={r["id"] for r in manifest["task_routes"]
-                       if r.get("public_command") is True}
         if len(matched)==1 and matched[0] in public_routes:
             reg=json.loads((root/"commands/REGISTRY.json").read_text(encoding="utf-8"))
             items=[x for x in reg.get("commands",[])
