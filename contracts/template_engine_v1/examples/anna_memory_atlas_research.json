@@ -1,0 +1,105 @@
+{
+  "contract_version": 1,
+  "template_id": "it.riccardopinato.anna.memory_chapters",
+  "template_version": "0.1.0",
+  "app_id": "riccardopinato/Agenda-per-Anna",
+  "catalog_status": "research_candidate",
+  "category": "journal",
+  "localization": {
+    "default_locale": "it",
+    "translations": {
+      "it": {
+        "title": "Atlante dei ricordi",
+        "description": "Quattro capitoli privati per raccontare momenti scelti da te.",
+        "preview_alt": "Anteprima fittizia di capitoli personali in Anna's Diary."
+      },
+      "en": {
+        "title": "Memory Atlas",
+        "description": "Four private chapters for memories you explicitly choose.",
+        "preview_alt": "Synthetic preview of personal memory chapters in Anna's Diary."
+      },
+      "es": {
+        "title": "Atlas de recuerdos",
+        "description": "Cuatro capítulos privados para recuerdos elegidos por ti.",
+        "preview_alt": "Vista previa ficticia de capítulos privados en Anna's Diary."
+      },
+      "fr": {
+        "title": "Atlas des souvenirs",
+        "description": "Quatre chapitres privés pour les souvenirs choisis par vous.",
+        "preview_alt": "Aperçu fictif des chapitres privés dans Anna's Diary."
+      },
+      "pt": {
+        "title": "Atlas de memórias",
+        "description": "Quatro capítulos privados para memórias escolhidas por si.",
+        "preview_alt": "Prévia fictícia de capítulos privados no Anna's Diary."
+      }
+    }
+  },
+  "preview": {
+    "kind": "generated_in_app"
+  },
+  "compatibility": {
+    "min_app_build": 1,
+    "platforms": [
+      "android",
+      "web"
+    ],
+    "data_contract_revision": 1,
+    "required_capabilities": [
+      "anna.diary_block_writer.v1",
+      "anna.private_memories.v1"
+    ],
+    "target_locales": [
+      "it",
+      "en",
+      "es",
+      "fr",
+      "pt"
+    ]
+  },
+  "configuration": {
+    "fields": [
+      {
+        "key": "atlas_title",
+        "kind": "text",
+        "default": "Il mio atlante",
+        "max_length": 120
+      },
+      {
+        "key": "include_selected_media",
+        "kind": "boolean",
+        "default": false
+      },
+      {
+        "key": "chapter_layout",
+        "kind": "choice",
+        "options": [
+          "simple",
+          "editorial"
+        ],
+        "default": "simple"
+      }
+    ]
+  },
+  "installation": {
+    "adapter_id": "anna.memory_chapters.v1",
+    "strategy": "staged_validate_atomic_commit",
+    "scope": "private",
+    "write_targets": [
+      "diary_entry"
+    ],
+    "confirmation_required": true,
+    "replay_policy": "idempotent_install_receipt",
+    "removal_policy": "detach_keep_user_data"
+  },
+  "access": {
+    "tier": "paid_once",
+    "entitlement_key": "anna.template.memory_chapters"
+  },
+  "provenance": {
+    "origin": "original_app_native",
+    "external_assets_embedded": false,
+    "reference_ids": [],
+    "rights_status": "first_party_pending_review"
+  }
+}

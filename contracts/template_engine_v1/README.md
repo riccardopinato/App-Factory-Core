@@ -77,6 +77,21 @@ Il display price deve arrivare dal provider del marketplace, non da stringhe har
 - Tutto il contenuto premium originale deve restare utilizzabile/modificabile nei writer canonici. Il template non acquisisce ownership sui dati dell'utente e non cancella dati in seguito a revoca.
 - I riferimenti `TPLUX-REF` sono un registro di ispirazione e non giustificano copia di copertine, formule, immagini, layout pixel-identici o testi di un venditore.
 
+## Quattro blueprint originali — Research manifests (10/11/2026)
+
+La raccolta `examples/` include ora quattro *manifest statici di ricerca* collegati al blueprint in `Idee-app-Archivi-riferimenti/17-RICERCA-TEMPLATE-UX/BLUEPRINT_PREMIUM_ORIGINALI_2026-11-09.md`:
+
+| File | Consumer proprietario | Concept / adattatore (non implementato) |
+|---|---|---|
+| `notes_study_sprint_studio_research.json` | Notes | Study Sprint Studio, Note/Task; `notes.study_sprint.v1` |
+| `notes_project_launch_studio_research.json` | Notes | Project Launch Studio, multi-writer Project/Note/Task; `notes.project_launch_multiwriter.v1` |
+| `anna_twelve_week_reflection_research.json` | Anna | Dodici settimane che contano, DiaryBlock privati; `anna.twelve_week_reflection.v1` |
+| `anna_memory_atlas_research.json` | Anna | Atlante dei ricordi, capitoli privati; `anna.memory_chapters.v1` |
+
+**Stato rigoroso:** `catalog_status=research_candidate`; i nomi `adapter_id` e `required_capabilities` sono **contratti di integrazione attesi**, non dimostrazioni che gli adapter esistano o che le piattaforme selezionate funzionino. `min_app_build=1` nel manifest è un segnaposto dello schema, **non** compatibilità runtime certificata. `access.tier=paid_once` descrive soltanto l'ipotesi commerciale futura; `entitlement_key` è un ID logico, **non un prodotto Store/SKU**.
+
+I record non vengono consumati dalle app e non sbloccano billing, account, prezzi, template Premium o dati condivisi. Non includono immagini, dati o file Notion. La validazione automatica controlla JSON Schema, regole di sicurezza, cinque/sei traduzioni, confini privati e assenza di promozione a `product_approved`. **Prima del pilota Flutter:** UX/Product Bible approval, adapter canonico con staging/rollback/idempotent receipt e test per-app. Il catalogo free esistente resta invariato.
+
 ## Gate per il futuro
 
 **Step 1 PASS** richiede schema valido, fixtures cross-app, validator con casi positivi/negativi, workflow Factory green e PR merged. Questo non attribuisce "COPY-READY", certificazione Golden, consumer app support o monetizzazione.

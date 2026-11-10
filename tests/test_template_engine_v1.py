@@ -29,6 +29,49 @@ class TemplateEngineV1ContractTests(unittest.TestCase):
         self.assertTrue(any(marker in e for e in mod.validate_manifest(manifest)),
                         f"Expected {marker}, got {mod.validate_manifest(manifest)}")
 
+    def test_four_original_pack_manifests_remain_research_only(self):
+        candidates = {
+            "notes_project_launch_studio_research.json": (
+                "riccardopinato/Notes-Ecosistema",
+                "it.riccardopinato.notes.project_launch_studio",
+            ),
+            "notes_study_sprint_studio_research.json": (
+                "riccardopinato/Notes-Ecosistema",
+                "it.riccardopinato.notes.study_sprint_studio",
+            ),
+            "anna_memory_atlas_research.json": (
+                "riccardopinato/Agenda-per-Anna",
+                "it.riccardopinato.anna.memory_chapters",
+            ),
+            "anna_twelve_week_reflection_research.json": (
+                "riccardopinato/Agenda-per-Anna",
+                "it.riccardopinato.anna.twelve_week_reflection",
+            ),
+        }
+        for filename, (app_id, template_id) in candidates.items():
+            with self.subTest(filename=filename):
+                candidate = json.loads(
+                    (ROOT / "contracts" / "template_engine_v1" / "examples" / filename)
+                    .read_text(encoding="utf-8")
+                )
+                self.assertEqual([], mod.validate_manifest(candidate))
+                self.assertEqual(candidate["app_id"], app_id)
+                self.assertEqual(candidate["template_id"], template_id)
+                self.assertEqual(candidate["catalog_status"], "research_candidate")
+                self.assertEqual(candidate["access"]["tier"], "paid_once")
+                self.assertIn("entitlement_key", candidate["access"])
+                self.assertEqual(candidate["installation"]["scope"], "private")
+                self.assertTrue(candidate["installation"]["confirmation_required"])
+                self.assertEqual(
+                    candidate["installation"]["removal_policy"],
+                    "detach_keep_user_data",
+                )
+                self.assertFalse(candidate["provenance"]["external_assets_embedded"])
+                self.assertEqual(
+                    candidate["provenance"]["rights_status"],
+                    "first_party_pending_review",
+                )
+
     def test_invalid_contract_and_identity(self):
         self.reject(NOTE, lambda x: x.update(contract_version=2), "contract_version")
         self.reject(NOTE, lambda x: x.update(template_id="../../example"), "template_id")
