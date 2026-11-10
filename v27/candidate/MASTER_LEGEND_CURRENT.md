@@ -93,6 +93,7 @@
 | `factory_governance_change` | authority-execution, factory-policy-sync, modular-navigation | — |
 | `cmd_avanti` | authority-execution, audit-roadmap, portfolio-commands, portfolio-operations | — |
 | `cmd_avanti_roadmap` | authority-execution, audit-roadmap, portfolio-commands, portfolio-operations | — |
+| `mockup_integration` | authority-execution, experience, interactive-mockup-review | app_shell_responsive_visual_qa |
 
 ## How to use this index
 
