@@ -89,6 +89,8 @@
 | `platform_evidence` | verification-boundaries, delivery-verification | — |
 | `master_navigation` | modular-navigation, factory-policy-sync, authority-execution | — |
 | `source_admission` | web-utility-data, foundation-reuse | — |
+| `controlled_pilot_activation` | authority-execution, delivery-verification, verification-boundaries | — |
+| `factory_governance_change` | authority-execution, factory-policy-sync, modular-navigation | — |
 
 ## How to use this index
 
