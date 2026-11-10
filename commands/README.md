@@ -16,9 +16,9 @@ La legenda non inventa macro non configurate e non esegue azioni. I comandi già
 
 App-Factory-Core resta proprietario del registro dei COMANDI. Il registro DATI delle capability resta in Idee-app-Archivi-riferimenti.
 
-## Comandi operativi App Factory (29 totali)
+## Comandi operativi App Factory (conteggio dinamico dal Registry)
 
-Ogni comando dispone di route pubblica dedicata, un contratto individuale in `commands/specs/<ID>.md` e relativo `spec_blob_sha` nel registro. `Legenda` legge le 29 voci. Il resolver seleziona un solo comando per prefisso esatto, carica la specifica verificata e blocca la richiesta quando la specifica non corrisponde all'hash. Modifiche ai repository richiedono scope autorizzato e branch/PR/CI exact-head; Test/APK non pubblicano sullo Store. Questa installazione non esegue nessun workflow applicativo.
+Ogni comando ha una sorgente canonica SHA-verificata. I comandi recenti usano `commands/specs/<ID>.md`; Audit e Capability usano i rispettivi prompt completi, Mock-up e Integra i mock-up usano la policy dedicata con route distinte, Procedi usa il Core/fallback verificato. `Legenda` legge tutte le voci dal Registry senza conteggi hardcoded. Il resolver seleziona il prefisso pubblico più lungo, carica la fonte verificata e blocca contratti corrotti. Modifiche ai repository richiedono scope autorizzato e branch/PR/CI exact-head; Test/APK non pubblicano sullo Store. Questa installazione non esegue nessun workflow applicativo.
 
 ## APK e Deploy
 
