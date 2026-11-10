@@ -51,7 +51,7 @@ jobs:
           python3 scripts/test_command_legend.py
           python3 scripts/test_portfolio_commands.py
 
-      - name: Audit hardening: active alias, Golden admission and routing
+      - name: Audit hardening — active alias, Golden admission and routing
         run: |
           python3 scripts/test_factory_hardening.py
           python3 scripts/test_v27_active_commands.py
