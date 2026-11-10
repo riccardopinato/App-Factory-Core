@@ -101,6 +101,9 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - Do not duplicate CI runs or build artifacts absent a reason.
 
 8. MODULE SELECTOR (V27 ACTIVE)
+- Product family router: classify mobile Flutter, existing native, SEO-first web, desktop and game before choosing technical rules.
+- For web data/SEO, portfolio operations, platform verification and Master navigation, resolve their specialized policy updates on-demand.
+- The generated MASTER_LEGEND_CURRENT.md is the full navigation index, not a second editable policy source; generated full fallback remains the comprehensive operative text.
 - Registered selector: scripts/resolve_v27_candidate.py --task ... --context ... --include-goldens.
 - Read MODULE_MAP.json for deterministic task-to-module routing.
 - Load only relevant modules; ambiguous routing requires a verified fallback.
