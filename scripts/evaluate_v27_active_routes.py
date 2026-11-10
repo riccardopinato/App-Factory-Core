@@ -21,7 +21,7 @@ CASES=[
     ("legend","Legenda Avanti","display commands only","legend"),
     ("mockup","Mock-up interattivi","design, no code","mockup_interactive"),
     ("integrate_mockup","Integra i mock-up","approved designs only","mockup_integration"),
-    ("native","Verifica PIN Android Keystore","strong biometrics","android_security"),
+    ("native","Verifica PIN Android Keystore","strong biometrics","native_pin"),
     ("web","Progetta una web utility SEO multilingua","multi-market","web_utility_specialist"),
     ("factory","Aggiorna App Factory Core","Master Prompt","factory_update"),
     ("bare_procedi","Procedi","","FALLBACK_BASELINE_USED"),
