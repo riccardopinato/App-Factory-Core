@@ -1,0 +1,33 @@
+APP FACTORY v27 — EVIDENCE / SOURCE-ONLY / PLATFORM BOUNDARIES
+Status: ACTIVE SPECIALIZED POLICY. Covers A06, A07, A11, M01, M02, M04, M07, M08, R01, R02, R03.
+Apply alongside existing AppLab and release Golden. This is NOT a replacement certification ladder.
+
+1. SCOPED CLAIMS / EVIDENCE
+For each critical feature track separately: IDEA; IMPLEMENTED_ON_SHA; SOURCE_TEST_EXECUTED; EMULATOR_RUNTIME; PHYSICAL_DEVICE; EXTERNAL_PROVIDER_CONFIRMED; ARTIFACT_DISTRIBUTED; WEB_DEPLOY_LIVE; STORE_ACCEPTED. These describe independent evidence, not automatic upgrades; record artifact/source identity, tool version, coverage and failure cases.
+CI GREEN is not end-to-end verification. A notification request accepted by FCM is not delivery on iPhone; OAuth staging code is not a completed user authorization; local download UI is not verified file integrity; internal signed APK is not Play Store publication.
+
+2. PLATFORM MATRIX
+Android emulator, physical Android models, Flutter Web, installed iPhone PWA, remote Web Push, native iOS and backend services require separate acceptance evidence. Support/permissions, scheduling, lifecycle, offline and notifications differ across surfaces.
+On a platform with no verified implementation, the UI must communicate that limit, not show false availability. A real external provider response and actual user-device receipt are separate results.
+
+3. APPLAB SOURCE-ONLY DEVELOPMENT DEFAULT
+Ordinary PR checks use source lint/analyze/tests and AppLab SOURCE-ONLY when configured. No implicit APK generation, emulator boot, Maestro or FULL certification on every routine change. Native sensor/permission/security changes may require APK/runtime during development; release and user acceptance require appropriate higher gates.
+Remove conflicting legacy workflows ONLY after determining required release and risk gates are preserved. Source gate alone does not mean code compilation or runtime PASS. The existing GOLDEN_APPLAB_QA_CERTIFICATION contract stays authoritative.
+
+4. DELIVERY / SIGNING / WEB
+Use independent status for source complete, Web preview, Web production deploy, signed APK, real-device acceptance, Play Internal Testing and public release. Web-only delivery is allowed when product/owner selected it; no APK work should be inferred from normal source updates.
+Artifact hash, signing identity, immutable source and target URL/device evidence must accompany delivery claims. Never delete a keystore or downgrade versionCode to bypass an update failure.
+
+5. PROVIDER / NOTIFICATION / SYNC DIAGNOSTICS
+Instrument actual outcomes: permission/channel health, token/device registration, backend acceptance, remote result, actual client receipt where observable, retry/failure reason and platform limitation. Errors must not be masked as success. Reconcile offline/sync and user-visible state, preserving sensitive data boundaries.
+
+6. DONOR AND GOLDEN PROOF / FRESHNESS
+Reuse existing E0–E5 admission contract; E3 proves only the pinned, tested donor slice; E5 is independent consumer evidence. CERTIFIED GOLDEN, COPY-READY, DRAFT and DEPRECATED remain distinct. Exclude DEPRECATED from active selection while retaining provenance and migration history.
+For provider-sensitive Golden: refresh on SDK/package upgrade, provider breaking API/policy changes, platform permission change, security advisory or discovered incompatibility. Track last external verification separately from last document edit; mark NEEDS_REVIEW or STALE rather than silently certifying freshness.
+
+7. PRIVACY-SAFE PRODUCT QUALITY
+Collect only consented, purpose-limited metrics useful for failure detection or product decisions (startup, crashes, feature use, conversions), never private content by default. Give retention and deletion policy. No mandatory analytics added solely to satisfy this governance proposal.
+
+8. DEPRECATION / FALSE PASS CLEANUP
+Retire report/template wording that equates built, uploaded, downloaded, delivered or certified. Do not delete protected history, old migrations, archived evidence or fallback source in the name of cleanup.
+END EVIDENCE / PLATFORM BOUNDARIES
