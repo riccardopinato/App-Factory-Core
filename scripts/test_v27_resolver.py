@@ -26,6 +26,15 @@ class RouterTests(unittest.TestCase):
         self.assertIn("product-family-router", desktop["modules"])
         self.assertNotIn("web-utility-data", desktop["modules"])
 
+        pilot = resolver.resolve("Attiva subito PILOT_3 senza le prove richieste")
+        self.assertEqual(pilot["selection"], "MODULES", pilot)
+        self.assertIn("authority-execution", pilot["modules"])
+        self.assertIn("verification-boundaries", pilot["modules"])
+
+        governance = resolver.resolve("Procedi con modifica governance")
+        self.assertEqual(governance["selection"], "MODULES", governance)
+        self.assertIn("factory-policy-sync", governance["modules"])
+
         provider = resolver.resolve("Verifica source-only e provider verified")
         self.assertEqual(provider["selection"], "MODULES", provider)
         self.assertIn("verification-boundaries", provider["modules"])
