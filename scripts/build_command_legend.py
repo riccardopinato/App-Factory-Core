@@ -65,7 +65,7 @@ def validate(registry, manifest, root=ROOT):
                 raise ValueError("Unregistered legacy contract owner")
             import hashlib
             raw = source.read_bytes()
-            seal = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\\0" + raw).hexdigest()
+            seal = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
             if seal != item.get("spec_blob_sha"):
                 raise ValueError("Legacy command spec SHA mismatch: " + item["id"])
         elif item.get("contract_version") != 1:
