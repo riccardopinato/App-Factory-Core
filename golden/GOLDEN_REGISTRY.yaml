@@ -36,7 +36,7 @@ goldens:
     path: golden/release/GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v2.txt
     supersedes: golden/archive/GOLDEN_CI_RELEASE_WEB_DEPLOY_FLUTTER_v1.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-11
+    last_content_reviewed_at: 2026-11-10
     last_provider_verified_at: 2026-10-09
     provider_sensitive: true
     freshness_status: CURRENT
