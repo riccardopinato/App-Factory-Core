@@ -13,6 +13,41 @@ ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=json.loads((ROOT/"v27/candidate/MODULE_MAP.json").read_text(encoding="utf-8"))
 
 class RouterTests(unittest.TestCase):
+    def test_product_family_web_utility_and_platform_evidence_routing(self):
+        web = resolver.resolve("Progetta una web utility SEO multilingua")
+        self.assertEqual(web["selection"], "MODULES", web)
+        self.assertIn("product-family-router", web["modules"])
+        self.assertIn("web-utility-data", web["modules"])
+        self.assertNotIn("identity-native", web["modules"])
+        self.assertNotIn("verification-boundaries", web["modules"])
+
+        desktop = resolver.resolve("Nuova app Desktop Utility")
+        self.assertEqual(desktop["selection"], "MODULES", desktop)
+        self.assertIn("product-family-router", desktop["modules"])
+        self.assertNotIn("web-utility-data", desktop["modules"])
+
+        provider = resolver.resolve("Verifica source-only e provider verified")
+        self.assertEqual(provider["selection"], "MODULES", provider)
+        self.assertIn("verification-boundaries", provider["modules"])
+
+        portfolio = resolver.resolve("Stato")
+        self.assertEqual(portfolio["selection"], "MODULES", portfolio)
+        self.assertIn("portfolio-operations", portfolio["modules"])
+
+        master = resolver.resolve("Aggiorna master legend")
+        self.assertEqual(master["selection"], "MODULES", master)
+        self.assertIn("modular-navigation", master["modules"])
+
+        audit = resolver.resolve("Audit", "web utility, dati, provider, portfolio")
+        self.assertEqual(audit["route_rules"], ["audit"])
+        self.assertNotIn("web-utility-data", audit["modules"])
+        self.assertNotIn("portfolio-operations", audit["modules"])
+
+        legend = resolver.resolve("Legenda", "web utility, SEO, native, premium")
+        self.assertEqual(legend["route_rules"], ["legend"])
+        self.assertNotIn("web-utility-data", legend["modules"])
+        self.assertNotIn("verification-boundaries", legend["modules"])
+
     def test_modular_ui_and_roadmap(self):
         r=resolver.resolve("Procedi con la roadmap", "redesign delle schermate Flutter")
         self.assertEqual(r["selection"],"MODULES",r)
