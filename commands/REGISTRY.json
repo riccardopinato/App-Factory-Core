@@ -10,7 +10,7 @@
       "title": "Legenda dei comandi",
       "description": "Mostra tutti i comandi disponibili in App Factory Core, con spiegazioni ed esempi; puoi filtrare per nome.",
       "effect": "SOLA LETTURA",
-      "entrypoint": "commands/REGISTRY.json",
+      "entrypoint": "commands/specs/LEGENDA.md",
       "route_id": "legend",
       "examples": [
         {
@@ -26,7 +26,9 @@
           "description": "Mostra soltanto i comandi relativi a Capability."
         }
       ],
-      "notes": "Non esegue i comandi che elenca e non modifica repository o dati."
+      "notes": "Non esegue i comandi che elenca e non modifica repository o dati.",
+      "legacy_contract_version": 1,
+      "spec_blob_sha": "b15f7ce346699109e2f0bf5c1da561b258582053"
     },
     {
       "id": "audit",
@@ -55,7 +57,9 @@
           "description": "Audit trasversale del portafoglio e dei repository accessibili."
         }
       ],
-      "notes": "Non autorizza modifiche a codice, roadmap, issue o release."
+      "notes": "Non autorizza modifiche a codice, roadmap, issue o release.",
+      "legacy_contract_version": 1,
+      "spec_blob_sha": "aac7b8d03b1e4ed8fe35305aee0a68b9e7315a82"
     },
     {
       "id": "capability",
@@ -92,7 +96,9 @@
           "description": "Riconcilia le evidenze e mostra la prossima coda operativa."
         }
       ],
-      "notes": "La fonte dati resta Idee-app-Archivi-riferimenti. Non modifica le singole app né promuove Golden."
+      "notes": "La fonte dati resta Idee-app-Archivi-riferimenti. Non modifica le singole app né promuove Golden.",
+      "legacy_contract_version": 1,
+      "spec_blob_sha": "b81badcbc8e3e7ae0ab8b1af2aae53ee919c03b2"
     },
     {
       "id": "stelle",
@@ -152,7 +158,9 @@
           "description": "Sinonimo contestuale di Procedi."
         }
       ],
-      "notes": "Non è un audit: può effettuare implementazioni solo nel perimetro già approvato, rispettando i gate GitHub."
+      "notes": "Non è un audit: può effettuare implementazioni solo nel perimetro già approvato, rispettando i gate GitHub.",
+      "legacy_contract_version": 1,
+      "spec_blob_sha": "6f403434be0b29280e311a998e884d48fe37d1da"
     },
     {
       "id": "mockup",
@@ -169,7 +177,9 @@
           "description": "Mostra il primo prototipo visivo cliccabile 1/10 dell'app corrente."
         }
       ],
-      "notes": "Ogni slot richiede approvazione, modifica o rifiuto; le dieci scelte non sono approvate automaticamente."
+      "notes": "Ogni slot richiede approvazione, modifica o rifiuto; le dieci scelte non sono approvate automaticamente.",
+      "legacy_contract_version": 1,
+      "spec_blob_sha": "14060fa69b29d19c2945599ab7d60dea0ff74f9c"
     },
     {
       "id": "integra_mockup",
@@ -179,14 +189,16 @@
       "description": "Chiude il ciclo di revisione e richiede l'implementazione separata delle sole modifiche di design approvate.",
       "effect": "IMPLEMENTAZIONE CON GATE",
       "entrypoint": "v27/candidate/modules/81-interactive-mockup-review.txt",
-      "route_id": "mockup_interactive",
+      "route_id": "mockup_integration",
       "examples": [
         {
           "text": "Integra i mock-up",
           "description": "Termina la revisione e avvia la fase controllata di implementazione dei design approvati."
         }
       ],
-      "notes": "Richiede scelte effettivamente approvate e rispetta roadmap, test e branch protection."
+      "notes": "Richiede scelte effettivamente approvate e rispetta roadmap, test e branch protection.",
+      "legacy_contract_version": 1,
+      "spec_blob_sha": "14060fa69b29d19c2945599ab7d60dea0ff74f9c"
     },
     {
       "id": "stato",
