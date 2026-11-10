@@ -7,14 +7,34 @@ import resolve_v27_candidate as router
 ROOT=Path(__file__).resolve().parents[1]
 REG=json.loads((ROOT/"commands/REGISTRY.json").read_text(encoding="utf-8"))
 class PortfolioTests(unittest.TestCase):
-    def test_all_23_stay_isolated(self):
+    def test_all_26_stay_isolated(self):
         new=[x for x in REG["commands"] if x.get("contract_version")==1]
-        self.assertEqual(len(new),24)
+        self.assertEqual(len(new),26)
         for x in new:
             with self.subTest(name=x["trigger"]):
                 r=router.resolve(x["trigger"],"Legenda Audit Capability")
                 self.assertEqual(r["selection"],"MODULES",r)
                 self.assertEqual(r["route_rules"],[x["route_id"]])
+    def test_avanti_and_avanti_roadmap_longest_prefix(self):
+        for task, route, spec in (
+            ("Avanti", "cmd_avanti", "commands/specs/AVANTI.md"),
+            ("Avanti AnnaDiary", "cmd_avanti", "commands/specs/AVANTI.md"),
+            ("Avanti roadmap", "cmd_avanti_roadmap", "commands/specs/AVANTI_ROADMAP.md"),
+            ("Avanti roadmap AnnaDiary", "cmd_avanti_roadmap", "commands/specs/AVANTI_ROADMAP.md"),
+        ):
+            with self.subTest(task=task):
+                r=router.resolve(task, "Prossimo Audit Riprendi Avanti roadmap")
+                self.assertEqual(r["selection"], "MODULES", r)
+                self.assertEqual(r["route_rules"], [route], r)
+                self.assertIn(spec, r["document_paths"])
+                self.assertIn("authority-execution", r["modules"])
+        for consult in ("Legenda Avanti", "Legenda Avanti roadmap",
+                        "Prossimo", "Riprendi"):
+            with self.subTest(consult=consult):
+                r=router.resolve(consult, "Avanti roadmap AnnaDiary")
+                self.assertNotIn("cmd_avanti", r["route_rules"], r)
+                self.assertNotIn("cmd_avanti_roadmap", r["route_rules"], r)
+
     def test_web_deploy_routes_explicitly_and_not_to_apk(self):
         for task in ("Deploy", "Deploy Anna's Diary", "Deploy anteprima Anna's Diary",
                      "Deploy produzione Anna's Diary"):
