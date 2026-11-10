@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-10 — Master v27 governance hardening (audit remediation)
+
+- Harden v27 Master alias validation and introduce negative tamper tests.
+- Add structured Golden admission level across Registry, schema and resolver, keeping human statuses and separate freshness; no automatic Golden promotion.
+- SHA-pin legacy public command sources, separate design-only Mock-up from gated Integra i mock-up, and preserve command-specific authority.
+- Update bootstrap and project pointer to dynamic command registry counts and on-demand Golden Index, without changing user-side Project settings.
+- Clarify release workflow as product-family specific; preserve historical artifacts and original v26.8 source.
+- Add offline active-v27 routing scenarios and explicit adoption/evidence matrix; no billed model calls or app updates.
+- GitHub main protection remains a required admin UI action, not a result of this PR.
+
 ## 2026-11-10 — Comandi Avanti e Avanti roadmap
 
 - Registrati due comandi di esecuzione indipendenti e SHA-pinned in `commands/REGISTRY.json`: `Avanti` per il prossimo passaggio proposto e autorizzato nella chat, `Avanti roadmap` per il primo step della roadmap approvato, non completato e fattibile.

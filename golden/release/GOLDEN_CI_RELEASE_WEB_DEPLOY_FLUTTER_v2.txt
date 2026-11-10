@@ -33,10 +33,26 @@ Regola:
   dipendenze diventano obsolete o incompatibili.
 
 ======================================================================
+0.1 SELEZIONE DELLE LANE PER FAMIGLIA DI PRODOTTO — 10/11/2026
+
+- Flutter Android/iOS: analyze/test e build/release SOLO per i target autorizzati.
+- Flutter Web/PWA: build/deploy Web secondo hosting effettivamente configurato;
+  Web PASS non certifica Android o iOS.
+- Web Utility SEO (Astro/Next/SSR/SSG): nessun APK/AAB come requisito generale;
+  CI web, HTML crawlable, routing, accessibilità e provider data contract.
+- Kotlin/Compose Android esistente: conservare stack; non imporre Flutter o
+  workflow Flutter.
+- Desktop e giochi: toolchain e test per platform/engine scelto; no AAB di default.
+- AppLab SOURCE-ONLY resta il default di sviluppo ordinario; native runtime,
+  artifact firmato e device QA sono on-demand o veri release/risk gate.
+- Non cambiare automaticamente workflow consumer: adozione esplicita, con PR
+  e prove sul repo target.
+
+======================================================================
 1. OBIETTIVO
 ======================================================================
 
-Standard minimo per ogni progetto:
+Matrice di verifica applicabile SOLO a prodotti Flutter con target Android e Web realmente richiesti; non obbligatoria in blocco per Web Utility SEO, desktop, giochi o app Kotlin esistenti:
 - analyze;
 - test;
 - build Web release;

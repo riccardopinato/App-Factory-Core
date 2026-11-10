@@ -713,9 +713,7 @@
         "mock-up interattivi",
         "mockup interattivi",
         "mock up interattivi",
-        "interactive mockups",
-        "integra i mock-up",
-        "integra i mockup"
+        "interactive mockups"
       ],
       "modules": [
         "experience",
@@ -726,9 +724,9 @@
       ],
       "public_command": true,
       "command_aliases": [
-        "Mock-up interattivi",
-        "Integra i mock-up"
-      ]
+        "Mock-up interattivi"
+      ],
+      "command_trigger": "Mock-up interattivi"
     },
     {
       "id": "factory_update",
@@ -1421,6 +1419,23 @@
       ],
       "command_trigger": "Avanti roadmap",
       "public_command": true
+    },
+    {
+      "id": "mockup_integration",
+      "terms": [
+        "integra i mock-up",
+        "integra i mockup"
+      ],
+      "modules": [
+        "authority-execution",
+        "experience",
+        "interactive-mockup-review"
+      ],
+      "golden_ids": [
+        "app_shell_responsive_visual_qa"
+      ],
+      "public_command": true,
+      "command_trigger": "Integra i mock-up"
     }
   ],
   "router": {
@@ -1435,12 +1450,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "498e232cb0d54798345ed84256c82d1bec2cef77",
+    "git_blob_sha": "a7212cda5a637f4194d69acf310a8d16f5260746",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "6f403434be0b29280e311a998e884d48fe37d1da",
+    "core": "13ba772b35a92fcefec7fd023ecbbb841db59f28",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -1449,11 +1464,11 @@
     "monetization-ai": "12b306d487cfe077bb6f3b3cd1b172fa7deace39",
     "delivery-verification": "8e1cac8a0e587d4ed73179427d3fa2b3e8ea88ff",
     "audit-roadmap": "daada6c5059a5de30e901e273fa3486666b0f36f",
-    "factory-policy-sync": "1423c983da0dc163deab73b59c737173be91e51a",
+    "factory-policy-sync": "42fae065b4423c9f459e31b3fb700bb6a3ff1c9a",
     "interactive-mockup-review": "14060fa69b29d19c2945599ab7d60dea0ff74f9c",
     "capability-sync": "e6beae3d0b5ca2e09a7091dc348324c4c6893ada",
     "command-legend": "0ac7f7a74c70887d402aa1c206c048f0a2befc1f",
-    "portfolio-commands": "22ccadc36b7df0c4fb32a6fc78329450f19e0fe6",
+    "portfolio-commands": "a9b83cc9ceda1012245b7835f87cac1c15ea1dee",
     "product-family-router": "c606d62244deff398d873fbe07f548c7647ef48b",
     "web-utility-data": "8ad7113a00f757e596cc1d89ba21a1414114a637",
     "portfolio-operations": "f38cd922661b6b0bf69adecea3fcfb4361d1db7c",

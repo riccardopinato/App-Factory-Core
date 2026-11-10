@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Prototype v27C on-demand resolver (CANDIDATE ONLY).
+"""Active v27 on-demand resolver under CURRENT.yaml authority.
 
-It does NOT supersede CURRENT.yaml. Call only to inspect/evaluate candidate
-routing. On unsafe selection, use integrity-verified synchronized full fallback.
+The authority selector is CURRENT.yaml, not the script filename or chat memory.
+On unsafe selection use the integrity-verified synchronized full fallback.
 No model agents, remote calls, or background processes are created here.
 """
 from __future__ import annotations
@@ -152,6 +152,11 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
     try:
         manifest=json.loads((root/MANIFEST).read_text(encoding="utf-8"))
         names,golden_ids,matched=route(task,context,manifest)
+        # Classify explicit public commands BEFORE any integrity-checked read.
+        # If Core or a module fails, we must fail closed instead of silently
+        # invoking the generic full fallback for an executable shortcut.
+        public_routes={r["id"] for r in manifest["task_routes"]
+                       if r.get("public_command") is True}
         if not names: raise ValueError("NO_SAFE_MODULE_ROUTE")
         seals=manifest["integrity_blob_sha"]
         core=read_checked(manifest["core"]["path"],seals["core"],root)
@@ -159,22 +164,28 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
         for entry in [*manifest["modules"],*manifest.get("policy_updates",[])]:
             if entry["id"] in names:
                 docs[entry["path"]]=read_checked(entry["path"],seals[entry["id"]],root)
-        # Load only the pinned contract for the one selected new shortcut.
-        if len(matched)==1 and matched[0].startswith("cmd_"):
+        # Load exactly one SHA-pinned command contract for ANY public route,
+        # including canonical legacy Audit/Capability/Mockup entrypoints.
+        if len(matched)==1 and matched[0] in public_routes:
             reg=json.loads((root/"commands/REGISTRY.json").read_text(encoding="utf-8"))
             items=[x for x in reg.get("commands",[])
-                   if x.get("route_id")==matched[0] and x.get("contract_version")==1]
+                   if x.get("route_id")==matched[0]
+                   and (x.get("contract_version")==1
+                        or x.get("legacy_contract_version")==1)]
             if len(items)!=1:
                 raise ValueError("COMMAND_SPEC_REGISTRY_UNAVAILABLE")
             item=items[0]
             path=item.get("entrypoint","")
-            if not path.startswith("commands/specs/"):
+            allowed=("commands/specs/","audit/","capability/",
+                     "v27/candidate/modules/")
+            if not isinstance(path,str) or not path.startswith(allowed):
                 raise ValueError("COMMAND_SPEC_UNSAFE_PATH")
             spec=(root/path).resolve()
             if not spec.is_relative_to(root.resolve()):
                 raise ValueError("COMMAND_SPEC_UNSAFE_PATH")
             raw=spec.read_bytes()
-            if not re.fullmatch(r"[0-9a-f]{40}",item.get("spec_blob_sha","")) or digest(raw)!=item["spec_blob_sha"]:
+            if (not re.fullmatch(r"[0-9a-f]{40}",item.get("spec_blob_sha",""))
+                    or digest(raw)!=item["spec_blob_sha"]):
                 raise ValueError("COMMAND_SPEC_INVALID_SEAL")
             docs[path]=raw.decode("utf-8")
         result.update(selection="MODULES",reason="ROUTE_MATCHED",route_rules=matched,
@@ -191,16 +202,19 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
             for gid in golden_ids:
                 golden=registry_map.get(gid)
                 if not golden: raise ValueError("unknown Golden ID: "+gid)
-                if golden.get("status")=="DEPRECATED":
+                from golden_admission import check_admission, requires_review, reuse_scope
+                level=check_admission(golden)
+                if level=="DEPRECATED":
                     raise ValueError("deprecated Golden ID: "+gid)
                 # Golden file content only materialized on explicit request.
                 loc=(root/golden["path"]).resolve()
                 if not loc.is_relative_to(root.resolve()) or not loc.is_file():
                     raise ValueError("unavailable Golden file: "+gid)
-                needs_review=(golden.get("freshness_status")!="CURRENT"
-                              or "DRAFT" in str(golden.get("status","")).upper())
+                needs_review=requires_review(golden)
                 chosen.append({"id":gid,"path":golden["path"],
                                "status":golden["status"],
+                               "admission_level":level,
+                               "reuse_scope":reuse_scope(golden),
                                "freshness_status":golden.get("freshness_status"),
                                "provider_sensitive":golden.get("provider_sensitive",False),
                                "requires_review":needs_review})
@@ -217,7 +231,7 @@ def resolve(task:str,context:str="",expected_sha:str|None=None,
     except (KeyError,ValueError,OSError,UnicodeError,json.JSONDecodeError) as exc:
         cause=str(exc)
         if cause.startswith("COMMAND_SPEC_") or (len(locals().get("matched",[]))==1
-                  and locals()["matched"][0].startswith("cmd_")):
+                  and locals()["matched"][0] in locals().get("public_routes",set())):
             return {**result,"selection":"BLOCKED_COMMAND_SPEC_UNAVAILABLE","reason":cause}
         try:
             manifest=json.loads((root/MANIFEST).read_text(encoding="utf-8"))

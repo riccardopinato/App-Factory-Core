@@ -51,8 +51,16 @@ jobs:
           python3 scripts/test_command_legend.py
           python3 scripts/test_portfolio_commands.py
 
+      - name: Audit hardening — active alias, Golden admission and routing
+        run: |
+          python3 scripts/test_factory_hardening.py
+          python3 scripts/test_v27_active_commands.py
+
       - name: Test v27C resolver, lazy routing and fail closed
         run: python3 scripts/test_v27_resolver.py
+
+      - name: Current v27 routing and UTF-8 context measurement (offline)
+        run: python3 scripts/evaluate_v27_active_routes.py
 
       - name: v27D read-only three-repo routing and context-byte replay
         run: python3 scripts/evaluate_v27_pilots.py

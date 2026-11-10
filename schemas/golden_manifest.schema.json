@@ -1,23 +1,111 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://github.com/riccardopinato/App-Factory-Core/schemas/golden_manifest.schema.json",
-  "title":"App Factory Golden Manifest Entry",
-  "type":"object","additionalProperties":false,
-  "required":["id","title","version","status","category","path","migrated_at","last_content_reviewed_at","last_provider_verified_at","provider_sensitive","freshness_status"],
-  "properties":{
-    "id":{"type":"string","pattern":"^[a-z0-9_]+$"},
-    "title":{"type":"string","minLength":1},
-    "version":{"type":"string","minLength":1},
-    "status":{"type":"string","minLength":1},
-    "category":{"enum":["identity","ui","release","security","notifications","data","governance","ecosystem","monetization","native"]},
-    "path":{"type":"string","pattern":"^golden/(?!archive/).+\\.txt$"},
-    "supersedes":{"type":["string","null"]},
-    "migrated_at":{"type":"string","format":"date"},
-    "last_content_reviewed_at":{"type":"string","format":"date"},
-    "last_provider_verified_at":{"type":["string","null"],"format":"date"},
-    "provider_sensitive":{"type":"boolean"},
-    "freshness_status":{"enum":["CURRENT","NEEDS_REVIEW","STALE","DEPRECATED"]},
-    "tested_package_version":{"type":["string","null"]},
-    "replacement":{"type":["string","null"]}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/riccardopinato/App-Factory-Core/schemas/golden_manifest.schema.json",
+  "title": "App Factory Golden Manifest Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "version",
+    "status",
+    "admission_level",
+    "category",
+    "path",
+    "migrated_at",
+    "last_content_reviewed_at",
+    "last_provider_verified_at",
+    "provider_sensitive",
+    "freshness_status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "enum": [
+        "identity",
+        "ui",
+        "release",
+        "security",
+        "notifications",
+        "data",
+        "governance",
+        "ecosystem",
+        "monetization",
+        "native"
+      ]
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^golden/(?!archive/).+\\.txt$"
+    },
+    "supersedes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "migrated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "last_content_reviewed_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "last_provider_verified_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "provider_sensitive": {
+      "type": "boolean"
+    },
+    "freshness_status": {
+      "enum": [
+        "CURRENT",
+        "NEEDS_REVIEW",
+        "STALE",
+        "DEPRECATED"
+      ]
+    },
+    "tested_package_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "replacement": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "admission_level": {
+      "enum": [
+        "CERTIFIED_GOLDEN",
+        "CERTIFIED_PROCESS",
+        "CERTIFIED_DONOR",
+        "COPY_READY",
+        "CANDIDATE",
+        "DEPRECATED"
+      ]
+    }
   }
 }

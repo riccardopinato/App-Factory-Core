@@ -152,7 +152,7 @@ class RouterTests(unittest.TestCase):
                ("Stelle 95","cmd_stelle"),
                ("Legenda Stelle","legend"),
                ("Mock-up interattivi","mockup_interactive"),
-               ("Integra i mock-up","mockup_interactive")]
+               ("Integra i mock-up","mockup_integration")]
         for task,rid in pairs:
             with self.subTest(task=task):
                 r=resolver.resolve(task,"Capability Audit CI")

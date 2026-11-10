@@ -16,7 +16,9 @@ The repository should enforce a ruleset/branch protection for `main`:
 - block branch deletion;
 - owner/admin emergency bypass only when necessary.
 
-A workflow file does not itself protect `main`.
+A workflow file does not itself protect `main`. On 2026-11-10 GitHub GET reported `protected: false` and no rulesets: this is a required owner/admin UI action, not a change a PR can make. See [setup and post-change verification](governance/MAIN_PROTECTION_SETUP.md).
+
+The `CURRENT.yaml.updated_at` field describes selection of a canonical version/pointer, not the latest policy/document edit. For the latest policy revision always pin the Git commit SHA.
 
 ## Versioning and freshness
 
@@ -34,9 +36,9 @@ Provider-sensitive entries without current provider evidence are NEEDS_REVIEW.
 - Changes to AGENTS.md or its governance modules follow the same branch -> validation -> PR -> review flow as other Core governance changes.
 - Agents must not self-modify central governance as an unreviewed reaction to a single session correction.
 
-## v27 synchronized modular/full policy update (candidate)
+## v27 synchronized modular/full policy update (ACTIVE)
 
-When a user requests an update to the Master Prompt or App-Factory-Core, update both the canonical modular v27 rule sources and the generated *operative* full v27 fallback in the same branch/PR. `scripts/build_v27_fallback.py --write` produces the fallback and updates the manifest source/fallback pins; CI runs `--check` and resolver tests to reject drift. Never hand-edit the fallback. The original v26.8 full Master remains an immutable historical recovery asset, not the current-policy fallback. Until v27 activation, the version resolved by CURRENT.yaml remains independently authoritative and must be updated if the requested policy change affects currently active rules. No silent fallback to stale policy, no branch-protection bypass.
+When a user requests an update to the Master Prompt or App-Factory-Core, update both the canonical modular v27 rule sources and the generated *operative* full v27 fallback in the same branch/PR. `scripts/build_v27_fallback.py --write` produces the fallback and updates the manifest source/fallback pins; CI runs `--check` and resolver tests to reject drift. Never hand-edit the fallback. The original v26.8 full Master remains an immutable historical recovery asset, not the current-policy fallback. CURRENT.yaml currently selects v27 ACTIVE. Update current Core, stable mirror, manifest seals, generated fallback and relevant living documentation in a single validated PR. No silent fallback to stale policy, no branch-protection bypass.
 
 ## Active v27 baseline
 
