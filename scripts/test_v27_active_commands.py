@@ -34,6 +34,30 @@ class ActiveCommandTests(unittest.TestCase):
                 self.assertEqual(r["route_rules"],[route],r)
                 self.assertIn(source,r["document_paths"])
 
+    def test_corrupted_legacy_spec_is_blocked(self):
+        import tempfile, shutil
+        manifest=CORE
+        for task, source in (
+            ("Audit", "audit/MASTER_AUDIT_360_APP_FACTORY_v1.txt"),
+            ("Capability", "capability/MASTER_CAPABILITY_SYNC_v1.txt"),
+            ("Legenda", "commands/specs/LEGENDA.md"),
+        ):
+            with self.subTest(task=task), tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp)
+                paths=["CURRENT.yaml","v27/candidate/MODULE_MAP.json",
+                       manifest["core"]["path"], manifest["living_fallback"]["path"],
+                       "commands/REGISTRY.json", source]
+                paths += [m["path"] for m in manifest["modules"]]
+                paths += [m["path"] for m in manifest["policy_updates"]]
+                for p in paths:
+                    d=root/p
+                    d.parent.mkdir(parents=True,exist_ok=True)
+                    shutil.copyfile(ROOT/p,d)
+                damaged=root/source
+                damaged.write_bytes(damaged.read_bytes()+b"\\nTAMPER")
+                result=router.resolve(task,root=root)
+                self.assertEqual(result["selection"],"BLOCKED_COMMAND_SPEC_UNAVAILABLE",result)
+
     def test_integration_never_inherits_readonly_mockup_lane(self):
         r=router.resolve("Integra i mock-up","APPROVED designs")
         self.assertEqual(r["route_rules"],["mockup_integration"])
