@@ -60,6 +60,16 @@ def validate(registry, manifest, root=ROOT):
             declared_routes.add(route_id)
         elif item["id"] != "procedi":
             raise ValueError("Only Procedi is a contextual Master command")
+        if item.get("legacy_contract_version") == 1:
+            if item["id"] not in ("legenda","audit","capability","procedi","mockup","integra_mockup"):
+                raise ValueError("Unregistered legacy contract owner")
+            import hashlib
+            raw = source.read_bytes()
+            seal = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\\0" + raw).hexdigest()
+            if seal != item.get("spec_blob_sha"):
+                raise ValueError("Legacy command spec SHA mismatch: " + item["id"])
+        elif item.get("contract_version") != 1:
+            raise ValueError("Missing command contract seal: " + item["id"])
         if item.get("contract_version") == 1:
             if not str(item["route_id"]).startswith("cmd_"):
                 raise ValueError("New command without dedicated route")
