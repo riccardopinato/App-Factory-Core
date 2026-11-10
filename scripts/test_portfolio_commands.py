@@ -64,6 +64,29 @@ class PortfolioTests(unittest.TestCase):
             r=router.resolve("Deploy produzione AnnaDiary",root=root)
             self.assertEqual(r["selection"],"BLOCKED_COMMAND_SPEC_UNAVAILABLE",r)
 
+    def test_tampered_avanti_contracts_fail_closed(self):
+        import tempfile, shutil
+        manifest=json.loads((ROOT/"v27/candidate/MODULE_MAP.json").read_text(encoding="utf-8"))
+        for trigger, contract in (
+            ("Avanti", "commands/specs/AVANTI.md"),
+            ("Avanti roadmap", "commands/specs/AVANTI_ROADMAP.md"),
+        ):
+            with self.subTest(trigger=trigger), tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp)
+                paths=["CURRENT.yaml", "v27/candidate/MODULE_MAP.json",
+                       manifest["core"]["path"], manifest["living_fallback"]["path"],
+                       "commands/REGISTRY.json", contract]
+                paths += [x["path"] for x in manifest["modules"]]
+                paths += [x["path"] for x in manifest.get("policy_updates", [])]
+                for name in paths:
+                    dest=root/name
+                    dest.parent.mkdir(parents=True,exist_ok=True)
+                    shutil.copyfile(ROOT/name,dest)
+                target=root/contract
+                target.write_text(target.read_text(encoding="utf-8")+"\\nTAMPER",encoding="utf-8")
+                outcome=router.resolve(trigger,root=root)
+                self.assertEqual(outcome["selection"],"BLOCKED_COMMAND_SPEC_UNAVAILABLE",outcome)
+
     def test_generic_roadmap_not_a_public_command(self):
         r=router.resolve("Procedi con la roadmap","redesign Flutter")
         self.assertEqual(r["selection"],"MODULES",r)
