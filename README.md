@@ -27,7 +27,7 @@ Scrivi `Legenda` nelle chat del Project: legge `commands/REGISTRY.json` e `comma
 
 ## Comandi operativi App Factory
 
-`Legenda` ora elenca 29 comandi (6 precedenti, 22 approvati e Deploy), con 23 specifiche SHA-verificate in `commands/specs/`, instradamento pubblico esatto e CI. I comandi consultivi sono sola lettura; modifiche, Test e APK operano nei limiti dichiarati e non autorizzano rilasci pubblici. Nessun worker permanente viene creato dal comando.
+`Legenda` ora elenca **32 voci**, di cui **26 specifiche SHA-verificate** in `commands/specs/`. `Avanti` esegue il prossimo passaggio proposto e autorizzato; `Avanti roadmap` esegue un solo prossimo step approvato, fattibile e non completato dalla roadmap, con precedenza sul prefisso più corto. `Prossimo` e `Riprendi` rimangono in sola lettura. Instradamento pubblico esatto, CI e gate in vigore. I comandi consultivi sono sola lettura; modifiche, Test e APK operano nei limiti dichiarati e non autorizzano rilasci pubblici. Nessun worker permanente viene creato dal comando.
 
 ## APK e Deploy
 

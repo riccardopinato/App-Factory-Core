@@ -91,6 +91,8 @@
 | `source_admission` | web-utility-data, foundation-reuse | — |
 | `controlled_pilot_activation` | authority-execution, delivery-verification, verification-boundaries | — |
 | `factory_governance_change` | authority-execution, factory-policy-sync, modular-navigation | — |
+| `cmd_avanti` | authority-execution, audit-roadmap, portfolio-commands, portfolio-operations | — |
+| `cmd_avanti_roadmap` | authority-execution, audit-roadmap, portfolio-commands, portfolio-operations | — |
 
 ## How to use this index
 

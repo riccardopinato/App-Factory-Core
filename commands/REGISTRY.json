@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-08",
+  "updated_at": "2026-11-10",
   "authority": "App Factory Core command index; CURRENT.yaml, Master and Product Bible remain authoritative for behavior.",
   "commands": [
     {
@@ -724,6 +724,52 @@
       "notes": "Scrivere solo con target e scope autorizzati, branch/PR, exact-head CI, review e mergeability; non cambiare feature/decisioni di prodotto.",
       "contract_version": 1,
       "spec_blob_sha": "493f45fe7f54577d0dbb88e28ebbb90df9b35e6e"
+    },
+    {
+      "id": "avanti",
+      "group": "Esecuzione",
+      "trigger": "Avanti",
+      "title": "Avanti",
+      "description": "Esegue il prossimo step proposto in chat (o quello approvato in roadmap se manca una proposta inequivocabile), con verifiche e gate.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/AVANTI.md",
+      "route_id": "cmd_avanti",
+      "examples": [
+        {
+          "text": "Avanti",
+          "description": "Esegue il prossimo passaggio proposto e autorizzato per l'app corrente."
+        },
+        {
+          "text": "Avanti Anna's Diary",
+          "description": "Esegue il prossimo step proposto, solo sull'app indicata."
+        }
+      ],
+      "notes": "Richiede scope inequivocabile, proposta/roadmap approvata e controlli GitHub sullo SHA esatto. Nessuna autorizzazione implicita a rilasci Store, produzione o azioni irreversibili.",
+      "contract_version": 1,
+      "spec_blob_sha": "ff8af4722f75ebdf7685ac2a2ba5cfbfaf17c424"
+    },
+    {
+      "id": "avanti_roadmap",
+      "group": "Esecuzione",
+      "trigger": "Avanti roadmap",
+      "title": "Avanti roadmap",
+      "description": "Esegue solo il primo step approvato, fattibile e non completato della roadmap corrente.",
+      "effect": "MODIFICHE SOLO NELLO SCOPE AUTORIZZATO",
+      "entrypoint": "commands/specs/AVANTI_ROADMAP.md",
+      "route_id": "cmd_avanti_roadmap",
+      "examples": [
+        {
+          "text": "Avanti roadmap",
+          "description": "Verifica la roadmap e implementa il primo step approvato e fattibile."
+        },
+        {
+          "text": "Avanti roadmap Notes-Ecosistema",
+          "description": "Implementa il prossimo step approvato della roadmap per l'app indicata."
+        }
+      ],
+      "notes": "Una sola tappa, non l'intera roadmap; verifica Product Bible, dipendenze, CI exact-head e autorizzazione prima del merge. Blocca scope e rilasci non approvati.",
+      "contract_version": 1,
+      "spec_blob_sha": "8ee0aa4d1a5847c3e3ae62ed5f14cb50b73caf42"
     }
   ]
 }
