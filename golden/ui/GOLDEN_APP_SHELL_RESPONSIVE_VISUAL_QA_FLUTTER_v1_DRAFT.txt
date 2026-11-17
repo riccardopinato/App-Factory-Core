@@ -159,4 +159,25 @@ GOLDEN_PROGRESSIVE_DISCLOSURE_MODULE_VISIBILITY_FLUTTER_v1_DRAFT.txt
 App Shell owns layout/state/visual QA.
 Module Visibility owns presentation-selection semantics.
 
+======================================================================
+APPENDIX — DESIGN REVIEW & VISUAL EVIDENCE CONTRACT (17/11/2026)
+======================================================================
+
+Canonical process adjunct:
+contracts/DESIGN_VISUAL_QA_PROCESS_v1.md
+
+- Source reference: Design-App DSK-002 / Impeccable PR #34, merged
+  ae190d5bed59a37bebf7189d7a26b6647a797440.
+- Keep Product Bible, Master, Golden Theme M3 and AppLab authority separate.
+- Execute IWC-01..IWC-08 where in scope: context, direction, critique,
+  technical audit, resilient states, polish, reuse, platform split.
+- Capture source SHA, screenshot baseline + after, matching fixture/viewport,
+  theme, locale, font scale, visual findings and reviewer disposition.
+- Visual PASS requires screenshot evidence and an actual review; no screenshot
+  means NOT_VERIFIED. Passing source tests does not certify visual acceptance.
+- The Impeccable HTML/CSS Web detector and hooks do NOT verify native
+  Android/iOS or Flutter widget runtime. Use native accessibility/device QA.
+- CANDIDATE status unchanged. This addendum is process documentation only;
+  no new Golden, certified donor, app UI implementation or runtime QA claimed.
+
 END GOLDEN APP SHELL / RESPONSIVE / VISUAL QA v0.2 DRAFT
