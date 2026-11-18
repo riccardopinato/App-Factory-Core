@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-18 — Flutter Gems on-demand knowledge discovery
+
+- Added an explicit on-demand Flutter Gems research rule to the ACTIVE v27 compact Master, while preserving Golden/donor admission, Design-App-first aesthetics, licenses and app-specific Product Bible.
+- Classified Forui, Flutter Gems, GenUI/A2UI example, F22 Labs 2026 comparison and GitHub Flutter search in a cross-app research guide (not a package/Golden certification).
+- Set a premium, youthful, product-owned visual quality bar for 2026–27 with concrete accessibility and performance gates.
+- Synchronized canonical Core, legacy current alias, derived living full fallback and v27 source/hash manifest; kept CURRENT version, Golden Registry and historical v26.8 unchanged.
+
 ## 2026-11-18 — Product-owned visual direction 2026–2027
 
 - Supersede legacy framework-styled visual rules in the ACTIVE v27 compact Core: a product-owned design system now overrides legacy reference text; Flutter remains the implementation stack.
