@@ -160,7 +160,7 @@
       ],
       "notes": "Non è un audit: può effettuare implementazioni solo nel perimetro già approvato, rispettando i gate GitHub.",
       "legacy_contract_version": 1,
-      "spec_blob_sha": "d3fbb1ce833b230795f809e25b36e2cad522321f"
+      "spec_blob_sha": "b417a431ebd6958b8b3b28ac461d8ccd074ffda5"
     },
     {
       "id": "mockup",
