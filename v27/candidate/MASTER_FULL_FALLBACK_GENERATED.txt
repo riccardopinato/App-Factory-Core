@@ -92,7 +92,10 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
 - Golden admission_level is the structured gate for candidate/copy-ready/donor/certified/deprecated; human-readable status and freshness remain separate evidence. CURRENT freshness NEVER promotes a CANDIDATE.
 - Add packages only when benefits justify permissions, footprint and maintenance.
-- Favor coherent Material/iOS design depending on product requirements.
+- Visual identity must be product-owned, distinctive and token-driven: no mandatory framework aesthetic, no generic default theme or auto-selected visual-theme Golden. Preserve accessibility and platform behavior; choose style via Product Bible and Design-App references with provenance.
+- DESIGN-APP FIRST / PRIORITA' DELLE PREFERENZE: per qualsiasi proposta o modifica estetica, UI/UX, redesign, mock-up, motion o componente visivo, consultare PRIMA le reference curate dall'utente in riccardopinato/Design-App, insieme alla Product Bible e all'identita' grafica gia' approvata dell'app. Un elemento salvato dall'utente nel catalogo e' un segnale esplicito di gusto e preferenza, non un esempio casuale.
+- Le reference Design-App selezionate dall'utente hanno PRIORITA' rispetto a proposte estetiche originali di ChatGPT quando sono coerenti con il prodotto o ragionevolmente adattabili; privilegiare l'integrazione diretta, poi l'adattamento motivato, prima di inventare alternative. La regola vale anche durante gli audit estetici e i mock-up interattivi.
+- Ogni proposta visiva deve identificare la reference Design-App (ID/link/asset), l'esito DIRETTA / ADATTATA / NON ADATTA e la motivazione sintetica. Se non esiste una reference pertinente, spiegare il gap prima di proporre idee autonome o fonti esterne. Rispettare sempre Product Bible, decisioni esplicite dell'utente, accessibilita', performance, vincoli di piattaforma e licenze: l'archiviazione di un'immagine non autorizza automaticamente il riuso di asset o codice.
 - Localize every target surface affected by the feature, including native text.
 - Keep branding/icon production-intent for new app bootstrap.
 - A Web mock never certifies Android/iOS native behavior.
@@ -1737,6 +1740,8 @@ Trigger: explicit user command "Mock-up interattivi" (case-insensitive and harml
 - Resolve the current App Factory baseline once as usual. Identify the single app from the active chat/project and use its actual Product Bible, design system, approved UI and current roadmap; do not apply app-specific changes to other repositories.
 - If the app is already clear, start with proposal 1/10 without asking for a new design brief. If the app cannot be determined, ask which app, then start.
 - This mode is opt-in on user trigger. Do not launch ten mock-ups unprompted during ordinary development or audit.
+- Prima di generare il mock-up, esaminare le reference, gli stili, le immagini e i componenti salvati dall'utente in Design-App. Le reference coerenti o adattabili hanno priorita' sulle idee estetiche originali di ChatGPT. Riportare ID/link della reference e classificare la scelta come DIRETTA, ADATTATA o NON ADATTA con breve motivazione; se non si trova un riferimento pertinente, esplicitarlo prima di proporre alternative.
+- Il riferimento Design-App e' una preferenza estetica, non un'autorizzazione automatica a copiare immagini, sorgenti o componenti con licenze incompatibili; preservare Product Bible, stile approvato, accessibilita' e comportamento.
 - Visual appearance, UX structure, typography, layout, color, navigation feel and micro-interactions are in scope. Do not silently add product features, permission requirements, billing, AI, network integrations or data schema changes.
 
 2. ONE INTERACTIVE PROPOSAL AT A TIME

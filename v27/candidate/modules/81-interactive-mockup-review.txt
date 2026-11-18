@@ -6,6 +6,8 @@ Trigger: explicit user command "Mock-up interattivi" (case-insensitive and harml
 - Resolve the current App Factory baseline once as usual. Identify the single app from the active chat/project and use its actual Product Bible, design system, approved UI and current roadmap; do not apply app-specific changes to other repositories.
 - If the app is already clear, start with proposal 1/10 without asking for a new design brief. If the app cannot be determined, ask which app, then start.
 - This mode is opt-in on user trigger. Do not launch ten mock-ups unprompted during ordinary development or audit.
+- Prima di generare il mock-up, esaminare le reference, gli stili, le immagini e i componenti salvati dall'utente in Design-App. Le reference coerenti o adattabili hanno priorita' sulle idee estetiche originali di ChatGPT. Riportare ID/link della reference e classificare la scelta come DIRETTA, ADATTATA o NON ADATTA con breve motivazione; se non si trova un riferimento pertinente, esplicitarlo prima di proporre alternative.
+- Il riferimento Design-App e' una preferenza estetica, non un'autorizzazione automatica a copiare immagini, sorgenti o componenti con licenze incompatibili; preservare Product Bible, stile approvato, accessibilita' e comportamento.
 - Visual appearance, UX structure, typography, layout, color, navigation feel and micro-interactions are in scope. Do not silently add product features, permission requirements, billing, AI, network integrations or data schema changes.
 
 2. ONE INTERACTIVE PROPOSAL AT A TIME

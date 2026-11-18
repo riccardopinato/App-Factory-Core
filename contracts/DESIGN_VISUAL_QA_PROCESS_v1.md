@@ -8,6 +8,7 @@
 
 - App-Factory-Core defines cross-app technical constraints, Golden admission and release truth.
 - Design-App curates references, per-app design suggestions, visual QA checklists and reusable design candidates.
+- **Precedenza delle preferenze estetiche:** prima di produrre una proposta visiva o modificare una schermata, cercare nel catalogo Design-App le reference salvate dall'utente per quella app, anche se associate a piu' app. Se coerenti o adattabili, prevalgono sulle proposte originali dell'assistente: prima riuso diretto, poi adattamento motivato. Per ogni proposta registrare ID/link della reference, decisione DIRETTA / ADATTATA / NON ADATTA e motivazione; solo in assenza di reference idonee proporre una direzione autonoma. Questa preferenza non prevale su Product Bible, decisioni esplicite, licenze, accessibilita', performance o sicurezza.
 - Each app's Product Bible defines its actual brand, approved screen hierarchy, content, controls and product scope. Its roadmap coordinates rollout.
 - AppLab is the runtime/evidence verifier; a reviewer's aesthetic approval is a separate decision.
 - In conflicts, apply Master/Golden technical requirements before selecting a Design-App resource; never use a design example to override privacy, safety, data, accessibility or release constraints.

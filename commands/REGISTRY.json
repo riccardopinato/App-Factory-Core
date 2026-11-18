@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10",
+  "updated_at": "2026-11-18",
   "authority": "App Factory Core command index; CURRENT.yaml, Master and Product Bible remain authoritative for behavior.",
   "commands": [
     {
@@ -160,7 +160,7 @@
       ],
       "notes": "Non è un audit: può effettuare implementazioni solo nel perimetro già approvato, rispettando i gate GitHub.",
       "legacy_contract_version": 1,
-      "spec_blob_sha": "13ba772b35a92fcefec7fd023ecbbb841db59f28"
+      "spec_blob_sha": "d3fbb1ce833b230795f809e25b36e2cad522321f"
     },
     {
       "id": "mockup",
@@ -179,7 +179,7 @@
       ],
       "notes": "Ogni slot richiede approvazione, modifica o rifiuto; le dieci scelte non sono approvate automaticamente.",
       "legacy_contract_version": 1,
-      "spec_blob_sha": "14060fa69b29d19c2945599ab7d60dea0ff74f9c"
+      "spec_blob_sha": "1b74d9269eed5522d25f25098ef00f1074641618"
     },
     {
       "id": "integra_mockup",
@@ -198,7 +198,7 @@
       ],
       "notes": "Richiede scelte effettivamente approvate e rispetta roadmap, test e branch protection.",
       "legacy_contract_version": 1,
-      "spec_blob_sha": "14060fa69b29d19c2945599ab7d60dea0ff74f9c"
+      "spec_blob_sha": "1b74d9269eed5522d25f25098ef00f1074641618"
     },
     {
       "id": "stato",
