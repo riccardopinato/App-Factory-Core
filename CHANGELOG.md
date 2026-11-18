@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-19 — Flutter Component Library as scoped UI component discovery
+
+- Record fluttercomponentlibrary.com as an on-demand, priority Flutter widget reference for modern, distinctive app UI/UX (after owner-curated Design-App and Golden/donor fit checks).
+- Do not infer rights to paste code solely from displayed instructions: exact source and commercial licensing were not verified from accessible component cards; gate copying, dependencies, SDK, APK footprint and visual QA.
+- Add sample-based 15-component source guide with declared Dart paths and source/permission uncertainty; no automatic package installation, consumer changes or Golden promotion.
+- Synchronize v27 active alias, living fallback, integrity manifest and command source pin; CURRENT version stays v27.
+
 ## 2026-11-19 — Material 3 available as selective design option
 
 - Keep Material Design 3 (m3.material.io) as an optional, app-specific design system rather than a blanket ban or mandatory visual default.
