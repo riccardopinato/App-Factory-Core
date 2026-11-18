@@ -92,7 +92,7 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
 - Golden admission_level is the structured gate for candidate/copy-ready/donor/certified/deprecated; human-readable status and freshness remain separate evidence. CURRENT freshness NEVER promotes a CANDIDATE.
 - Add packages only when benefits justify permissions, footprint and maintenance.
-- Favor coherent Material/iOS design depending on product requirements.
+- Visual identity must be product-owned, distinctive and token-driven: no mandatory framework aesthetic, no generic default theme or auto-selected visual-theme Golden. Preserve accessibility and platform behavior; choose style via Product Bible and Design-App references with provenance.
 - Localize every target surface affected by the feature, including native text.
 - Keep branding/icon production-intent for new app bootstrap.
 - A Web mock never certifies Android/iOS native behavior.
