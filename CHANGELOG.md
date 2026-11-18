@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-19 — Material 3 available as selective design option
+
+- Keep Material Design 3 (m3.material.io) as an optional, app-specific design system rather than a blanket ban or mandatory visual default.
+- Clarify active v27 policy: owner-curated Design-App references and approved app identity still lead; consider M3 components for relevant utility workflows, preserve existing M3 when appropriate.
+- Clarify optional applicability of the COPY-READY Flutter M3 Golden without changing its code, admission level, index version or Kotlin/Compose boundaries; register refreshed content-review date, not provider verification.
+- Add source-routing audit and candidate-only matrix for FocusSense, Tabletop Motion Alarm, The Luminous Infinite Circle and Battery Guard. No app code changed.
+
 ## 2026-11-19 — Anti AI-stock professional product design standard
 
 - Strengthen active Master v27 with product-specific art direction, explicit anti-template/anti-AI-stock visual critique, curated Design-App-first reference hierarchy and quality evidence gates.
