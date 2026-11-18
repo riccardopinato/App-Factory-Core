@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-19 — Anti AI-stock professional product design standard
+
+- Strengthen active Master v27 with product-specific art direction, explicit anti-template/anti-AI-stock visual critique, curated Design-App-first reference hierarchy and quality evidence gates.
+- Define on-demand reference source router: existing DSK design skills, curated design sites, official Flutter/pub.dev, Flutter Gems and case-justified motion packages; no mandatory new UI dependency or universal theme.
+- Add `contracts/PROFESSIONAL_PRODUCT_DESIGN_ANTI_AI_STOCK_v1.md` companion to existing eight-gate visual QA process. No Golden promoted or consumer app modified.
+- Synchronize Core, active alias, generated fallback, module SHA seals and public Procedi command source pin; historical v26.8/CURRENT.version untouched.
+
 ## 2026-11-18 — Flutter Gems on-demand knowledge discovery
 
 - Added an explicit on-demand Flutter Gems research rule to the ACTIVE v27 compact Master, while preserving Golden/donor admission, Design-App-first aesthetics, licenses and app-specific Product Bible.
