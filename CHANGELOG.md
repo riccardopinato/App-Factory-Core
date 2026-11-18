@@ -2,10 +2,10 @@
 
 ## 2026-11-18 — Product-owned visual direction 2026–2027
 
-- Remove the default framework-styled visual baseline from the ACTIVE v27 master experience module and generated full fallback; Flutter remains the implementation stack.
+- Supersede legacy framework-styled visual rules in the ACTIVE v27 compact Core: a product-owned design system now overrides legacy reference text; Flutter remains the implementation stack.
 - Require original app-specific design tokens, Design-App reference provenance, accessibility, reduced-motion and visual QA; do not auto-select legacy theme Golden for new apps.
 - Preserve historical master snapshots, historical Golden evidence, and ongoing app behavior; this governance update does not migrate any consumer automatically.
-- Refresh module hash seals and synchronized fallback hash; record separate Design-App research intake for Dribbble and Collect UI.
+- Preserve immutable v26.8 section 23 in the legacy coverage module (required by v27 integrity); refresh Core/fallback SHA seals and record separate Design-App research intake for Dribbble and Collect UI.
 
 
 ## 2026-11-10 — Master v27 governance hardening (audit remediation)
