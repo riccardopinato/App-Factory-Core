@@ -1020,19 +1020,11 @@ Non dichiarare una lingua completa se parti user-facing rimangono hardcoded.
 23. THEME / UX / ACCESSIBILITY / APP SHELL
 ======================================================================
 
-APP FACTORY VISUAL DIRECTION 2026–2027 — DESIGN SYSTEM PROPRIETARIO
-Ogni app deve avere una identità visiva originale, moderna, pulita, fresca e riconoscibile. Nessuna estetica o libreria di componenti del framework è baseline visiva obbligatoria.
-
-Regole:
-- preservare Flutter/Dart per lo stack mobile senza ereditarne un aspetto preconfezionato;
-- per ogni app definire token di colore, tipografia, spaziature, raggio, motion, elevazione e iconografia coerenti con la Product Bible;
-- usare superfici neutre, gerarchia forte, fotografie quando aggiungono valore e accenti cromatici selettivi;
-- componenti standard del framework possono restare come infrastruttura tecnica/accessibile, ma vanno personalizzati quando risultano generici;
-- non selezionare automaticamente Golden di tema visivo legacy come default; riuso di componenti tecnici solo se compatibile con l'identità del prodotto;
-- consultare Design-App per pattern e fonti visive, registrare provenienza, link e licenza; le reference non autorizzano copia di asset o codice;
-- ottimizzare motion, reduced-motion, contrasto, screen reader, responsive e performance, evitando decorazione fine a se stessa.
+Material 3 è baseline tecnica, non giustificazione per UI generica.
+Per app consumer preferire un'identità visiva moderna e coerente.
 
 Applicare:
+- GOLDEN_THEME_M3_FLUTTER_v1.txt
 - GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt
 
 Verificare:
