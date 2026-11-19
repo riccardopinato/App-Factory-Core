@@ -36,6 +36,14 @@ class FactoryPerformanceQaTests(unittest.TestCase):
                 build_fixture(output, files=10, duplicate_pairs=1)
             self.assertEqual(keep.read_text(), "DO NOT TOUCH")
 
+    def test_malformed_manifest_shape_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "fixture"
+            build_fixture(output, files=10, duplicate_pairs=2)
+            (output / "manifest.json").write_text("[]", encoding="utf-8")
+            with self.assertRaisesRegex(EvidenceError, "must be an object"):
+                verify_fixture(output)
+
     def test_refuses_oversized_or_invalid_fixture_before_creation(self):
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "not-created"
@@ -72,7 +80,7 @@ class FactoryPerformanceQaTests(unittest.TestCase):
             "schema_version": 1, "fixture_id": fixture,
             "device": "Pixel-API35", "environment": environment, "api_level": 35,
             "mode": mode, "file_count": 1200, "rows_reused": 1200,
-            "rows_replaced": 0, "integrity_digest": "sha256:verified",
+            "rows_replaced": 0, "integrity_digest": "sha256:" + "e" * 64,
             "source_sha": source_sha, "file_rows_ms": value,
         }
 
