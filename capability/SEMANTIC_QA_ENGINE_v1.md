@@ -1,6 +1,6 @@
 # Semantic QA Engine v1 — reusable App Factory capability
 
-Status: **IMPLEMENTED CANDIDATE / NOT GOLDEN** (pending two-app adoption and semantic model evidence). Domain: public editorial content, local-first Flutter apps. No app-runtime dependency.
+Status: **3-CONSUMER TECHNICAL REUSE VERIFIED / NOT GOLDEN** (actual independent semantic-model evidence and Golden admission still pending). Domain: public editorial content, local-first Flutter apps. No app-runtime dependency.
 
 ## Scope and capability levels
 
@@ -69,3 +69,17 @@ Provenance: feature requested and approved in App Factory conversation on 2026-1
 - Exclude `needsReview`, private PDF/OCR workspace, personal notes, images and user profiles. Only public, rights-cleared editorial record text is eligible for a separately authorized semantic provider.
 - Engine 1.0.1 adds `pt-BR` to the allowed locale contract, with regression and cache-isolation checks. Existing pinned adopters are compatible; refresh consumers' immutable SHA explicitly.
 - This is an additional independent reuse pilot, **not an automatic new Golden certification**. An offline PASS is never proof of semantic equivalence, technical accuracy or editorial sign-off.
+
+## Independently verified consumer adoption — 2026-11-19
+
+All three applications consume the same source implementation `reference_engines/semantic_qa/semantic_qa.py`, centrally pinned to immutable **App-Factory-Core@827a271dcbd8f1608afabb60ca07184b20926991** (engine v1.0.1, including distinct `pt` and `pt-BR`).
+
+| Consumer | Main merge evidence | Exact-head CI evidence | Canonical source and offline comparison scope |
+| --- | --- | --- | --- |
+| Cooking Anime | [PR #61](https://github.com/riccardopinato/In-Cucina-con-gli-Anime/pull/61), main `285e1820787090625270fb25f618151d7295e006` | Semantic QA, R1 Quality Engine, Development checks PASS | 162 IT-source recipes × EN/ES/FR/DE/PT = **810** |
+| World Days | [PR #149](https://github.com/riccardopinato/World-Days/pull/149), main `c339131b129d497db7de7d116b1157fec7f6975a` | Semantic QA and Development checks PASS | 463 EN-source *published dossiers* × IT/ES/FR/DE/PT = **2,315**; **not** entire World Days catalog |
+| FrameLab | [PR #4](https://github.com/riccardopinato/FrameLab-Google-AI-Studio/pull/4), main `f022e1cca01849ff44356c96d4c32f694d65df64` | Semantic QA on exact PR head PASS and post-merge main PASS | 38 EN-source public published photography records × IT/ES/FR/DE/PT/pt-BR = **228**; 1 `needsReview` excluded |
+
+**Total: 3 independently integrated consumers, 663 unique source records within these scoped datasets, 3,353 source-to-target comparison entries.** All observed engine comparisons are in `OFFLINE_ONLY` / `OFFLINE_REVIEW_REQUIRED` mode. The three green technical pipelines establish reuse, normalized coverage and structural checks, **not semantic translation accuracy, source factuality, professional certification or a Certified Golden**.
+
+Known next QA requirement: independent meaning-level review on actual public editorial data with explicit user approval of external model/fees, evidence for discrepancies and remediated source fingerprints. FrameLab [issue #5](https://github.com/riccardopinato/FrameLab-Google-AI-Studio/issues/5) tracks a concrete candidate loss of technical exposure-setting instructions. Follow the separate Golden Index/Registry admission and consumer-specific privacy/security gates for any future promotion.
