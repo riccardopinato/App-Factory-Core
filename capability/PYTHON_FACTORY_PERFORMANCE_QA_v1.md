@@ -22,10 +22,10 @@ The destination **must not exist**; it will never be removed or overwritten. Eve
 JSONL: **one independently measured iteration per line**, with required fields:
 
 ```json
-{"schema_version":1,"fixture_id":"fixture-unchanged","device":"Xiaomi M2101K6G","environment":"physical","api_level":33,"mode":"cold","file_count":88352,"rows_reused":88351,"rows_replaced":1,"integrity_digest":"sha256:example-snapshot","source_sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","file_rows_ms":9840}
+{"schema_version":1,"fixture_id":"fixture-unchanged","device":"Xiaomi M2101K6G","environment":"physical","api_level":33,"mode":"cold","file_count":88352,"rows_reused":88351,"rows_replaced":1,"integrity_digest":"sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","source_sha":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","file_rows_ms":9840}
 ```
 
-The example above is a *shape only*, not measured Factory evidence: a matched candidate series does not yet exist. Each series must have at least **3** records with the **same** source SHA, fixture, device, API, mode, file count, reused/replaced count and integrity digest. Baseline and candidate may use different source SHAs but must match all other identity fields. Median comparisons are restricted to the requested phase `file_rows_ms`, `scan_ms`, `wall_ms` or `peak_bytes`.
+The example above is a *shape only*, not measured Factory evidence: a matched candidate series does not yet exist. Each series must have at least **3** records with the **same** full 40-character Git source SHA, fixture, device, API, mode, file count, reused/replaced count and full 64-hex SHA-256 integrity digest. Baseline and candidate may use different source SHAs but must match all other identity fields. Median comparisons are restricted to the requested phase `file_rows_ms`, `scan_ms`, `wall_ms` or `peak_bytes`.
 
 ```bash
 python3 reference_engines/performance_qa/factory_performance_qa.py compare \
