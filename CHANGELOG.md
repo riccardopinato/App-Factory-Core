@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-19 — Golden Index v31: REA CLI CERTIFIED PROCESS (scoped)
+
+- Promoted only the bounded *static REA CLI research procedure* `rea_cli_reverse_intelligence` to `CERTIFIED PROCESS`. Independent execution: AppLab Deskland PE/NSIS/.NET [#44615407360](https://github.com/riccardopinato/AppLab/actions/runs/44615407360) and Flutter Gallery AOT [#44626932001](https://github.com/riccardopinato/AppLab/actions/runs/44626932001); second repo Omni Cleaner own-APK/JADX [#44626294217](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44626294217) with negative Flutter and SHA mismatch tests, PR #44 merged.
+- `CURRENT.yaml` Index v31, synchronized Registry v2, aliases and versioned snapshot, Golden v1.1, and version-scoped engine-harvest validator. Core Master v27 unchanged; no MCP, no E3 donor automatic upgrade, no app code, physical device, signed APK or Store certification. REA third-party research source remains E1. The original historic Deskland-Setup.exe was not available.
+
+
 ## 2026-11-19 — Golden v30: REA CLI Reverse Engineering & Software Intelligence (COPY-READY PROCESS)
 
 - Registrato `GOLDEN_REA_CLI_REVERSE_INTELLIGENCE_v1.txt` come Golden di **processo riutilizzabile**, categoria governance, admission_level **COPY_READY**; aggiornati `CURRENT.yaml` (Golden Index 30), alias e file versionato dell'indice, e Golden Registry v2.
