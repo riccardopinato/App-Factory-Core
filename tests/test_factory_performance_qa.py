@@ -127,6 +127,45 @@ class FactoryPerformanceQaTests(unittest.TestCase):
             with self.assertRaisesRegex(EvidenceError, "mixed"):
                 compare_series(old, new)
 
+    def test_noisy_physical_benchmarks_fail_closed_and_report_p95(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old = Path(tmp) / "r0.jsonl"
+            new = Path(tmp) / "r1.jsonl"
+            self.write_runs(old, [100, 100, 100], "a" * 40, environment="physical")
+            self.write_runs(new, [30, 90, 150], "b" * 40, environment="physical")
+            verdict = compare_series(old, new)
+            self.assertEqual(verdict["gate"], "NOISY_MEASUREMENTS_REVIEW")
+            self.assertEqual(verdict["baseline_distribution"]["p50"], 100.0)
+            self.assertEqual(verdict["candidate_distribution"]["p95"], 144.0)
+            self.assertEqual(verdict["candidate_distribution"]["median_absolute_deviation"], 60.0)
+            self.assertEqual(verdict["certification"], "NOT_CERTIFIED")
+            self.assertEqual(
+                main(["compare", "--baseline", str(old), "--candidate", str(new)]),
+                4,
+            )
+
+    def test_asymmetric_tail_noise_cannot_pass_on_zero_mad(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old = Path(tmp) / "r0.jsonl"
+            new = Path(tmp) / "r1.jsonl"
+            self.write_runs(old, [100, 100, 100], "a" * 40, environment="physical")
+            self.write_runs(new, [80, 80, 200], "b" * 40, environment="physical")
+            verdict = compare_series(old, new)
+            self.assertEqual(verdict["candidate_distribution"]["median_absolute_deviation"], 0.0)
+            self.assertGreater(verdict["candidate_distribution"]["p95_tail_spread_pct"], 20)
+            self.assertEqual(verdict["gate"], "NOISY_MEASUREMENTS_REVIEW")
+
+    def test_noise_threshold_can_be_adjusted_without_masking_regression(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old = Path(tmp) / "r0.jsonl"
+            new = Path(tmp) / "r1.jsonl"
+            self.write_runs(old, [100, 100, 100], "a" * 40, environment="physical")
+            self.write_runs(new, [110, 120, 130], "b" * 40, environment="physical")
+            verdict = compare_series(old, new, max_variation_pct=30)
+            self.assertEqual(verdict["gate"], "REVIEW_REGRESSION")
+            with self.assertRaisesRegex(EvidenceError, "invalid evidence policy"):
+                compare_series(old, new, max_variation_pct=-1)
+
     def test_cli_blocks_policy_regression_with_exit_three(self):
         with tempfile.TemporaryDirectory() as tmp:
             old = Path(tmp) / "baseline.jsonl"
