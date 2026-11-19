@@ -35,6 +35,9 @@ python3 reference_engines/performance_qa/factory_performance_qa.py compare \
 
 - `BLOCKED` / exit 2 for incomplete, mixed, corrupted or incomparable evidence. Existing reports are never overwritten.
 - `REVIEW_REGRESSION` **and exit 3** for a median worse than the policy threshold; CI must treat this as a failed performance gate.
+
+- `NOISY_MEASUREMENTS_REVIEW` **and exit 4** if a series exceeds the configured `--max-variation-pct` (default 20%): both median absolute deviation / median and the p95-to-median upper-tail gap are checked. A noisy measurement cannot establish an improvement or non-regression even if its median appears faster.
+- Reports include `baseline_distribution` and `candidate_distribution`: p50, interpolated p95, median absolute deviation, relative MAD percentage and p95 tail spread. This does **not** imply that the 3-run p95 is a reliable population tail estimate; repeat on real devices under controlled thermal/I/O conditions.
 - `PHYSICAL_REPLAY_REQUIRED` for emulator-only series, even when numerically faster.
 - `CANDIDATE_NO_CERTIFICATION` for physically comparable series that meet the nonregression policy. It is **not** a release approval or a battery/thermal guarantee.
 - Every result carries `certification=NOT_CERTIFIED`. Conservative gate semantics prevent CI numbers being mistaken for an OEM or Play release certificate.
