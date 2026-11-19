@@ -34,7 +34,7 @@ python3 reference_engines/performance_qa/factory_performance_qa.py compare \
 ```
 
 - `BLOCKED` / exit 2 for incomplete, mixed, corrupted or incomparable evidence. Existing reports are never overwritten.
-- `REVIEW_REGRESSION` for a median worse by more than the policy threshold.
+- `REVIEW_REGRESSION` **and exit 3** for a median worse than the policy threshold; CI must treat this as a failed performance gate.
 - `PHYSICAL_REPLAY_REQUIRED` for emulator-only series, even when numerically faster.
 - `CANDIDATE_NO_CERTIFICATION` for physically comparable series that meet the nonregression policy. It is **not** a release approval or a battery/thermal guarantee.
 - Every result carries `certification=NOT_CERTIFIED`. Conservative gate semantics prevent CI numbers being mistaken for an OEM or Play release certificate.

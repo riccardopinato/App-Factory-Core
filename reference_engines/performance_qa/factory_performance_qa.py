@@ -236,7 +236,9 @@ def main(argv: list[str] | None = None) -> int:
                     raise EvidenceError("report path must not exist; no overwrite")
                 args.report.write_bytes(_canonical(result) + b"\n")
         print(json.dumps(result, sort_keys=True))
-        return 0
+        # Explicit regression threshold violations must fail CI rather than
+        # merely printing REVIEW_REGRESSION with exit code 0.
+        return 3 if args.command == "compare" and result["gate"] == "REVIEW_REGRESSION" else 0
     except (EvidenceError, OSError) as error:
         print(json.dumps({"gate": "BLOCKED", "reason": str(error), "certification": "NOT_CERTIFIED"}))
         return 2
