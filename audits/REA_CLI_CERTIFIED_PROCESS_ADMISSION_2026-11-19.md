@@ -10,6 +10,10 @@
 | AppLab Flutter | Public Flutter Gallery v2.9.2 compiled APK | [REA Flutter build/AOT PASS #44626932001](https://github.com/riccardopinato/AppLab/actions/runs/44626932001) under PR #238 merged `b8bfeb0765451adc95eda15f0c6d6abf5e10639f` | Public fixture, not app AOT or source reconstruction |
 | Independent Omni Cleaner | Actual locally built own debug APK from `riccardopinato/Android-Omni-Cleaner@b594adc670bce482d0768638648196d92a3b8eaf`, SHA256 `b2cb75cd332f1261ba5bfee69c47c994fd8acc0d64df88886be81c32fa14e977` | [Actual REA/JADX PASS #44626294217](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44626294217) and [PR #44 exact-head checks #44627485559 PASS](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44627485559), PR merged | Static manifest/DEX metadata only; app cleaning and device behavior not executed |
 
+## Additional independent Flutter consumer
+
+Adaptive-Landscape-Android PR #42 merged `ae76dea3af9e23dfd078107ad9ee40af2e7041ed`, source head `03fa33b7e6e563fd6021e0522bd40e82825945a1`. [Real REA CLI PASS](https://github.com/riccardopinato/Adaptive-Landscape-Android/actions/runs/44630662704) on own rebuilt ARM64 APK, **17,805,211 bytes**, SHA-256 `70cdf981ae8cae0832066b5d29657105baa0f275256c35fef3594724f95be33d`. Observed commands: `identify-flutter-build`, `inspect-dart-aot`, `inspect-android-package` with JADX prerequisite verified. Hashes of retained raw JSON reports: build `24b4d6751a00a46d0a358e59768d4d129048d2428f9fc1bdfec9a5a206d00f3a`, AOT `60fc427c50f6c24450116143b09ab379210d3cfc16b28c5d17777c9f1116b268`, Android `beb2b819130cbd89e073f69f067f8607c1e284a602a3bff63f35c27c769c3cdd`. App code untouched; no physical runtime test.
+
 ## Negative and recovery coverage
 
 - REA adapter tests reject wrong artifact hash, wrong engine version, ZIP/symlink errors, unsupported commands and immutable evidence collisions.
