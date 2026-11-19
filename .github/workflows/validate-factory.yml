@@ -36,6 +36,9 @@ jobs:
           python3 scripts/validate_template_engine_v1.py
           python3 -m unittest discover -s tests -p 'test_template_engine_v1.py' -v
 
+      - name: Semantic QA Engine v1 fail-closed and incremental-cache tests (offline)
+        run: python3 -m unittest discover -s tests -p 'test_semantic_qa_engine.py' -v
+
       - name: Validate v27 section coverage and synchronized fallback
         run: python3 scripts/validate_v27_candidate.py --self-test
 
