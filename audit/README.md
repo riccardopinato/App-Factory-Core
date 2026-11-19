@@ -11,7 +11,7 @@ Questa cartella è il catalogo canonico del comando **Audit**.
 
 ## Sorgente canonica
 
-[MASTER_AUDIT_360_APP_FACTORY_v1.txt](MASTER_AUDIT_360_APP_FACTORY_v1.txt) contiene il prompt integrale v1.0 (7 novembre 2026). Non duplicarlo nel Master Core.
+[MASTER_AUDIT_360_APP_FACTORY_v1.txt](MASTER_AUDIT_360_APP_FACTORY_v1.txt) contiene il prompt integrale v1.1 (19 novembre 2026; base v1.0 del 7 novembre). Non duplicarlo nel Master Core.
 
 Il bootstrap risolve una sola volta `CURRENT.yaml` + Master + Index/Registry e seleziona il route `audit` esistente in `MODULE_MAP.json`. Poi carica questo prompt; Product Bible, roadmap e regole di accesso delle singole app prevalgono sullo scope, mentre Master/Golden prevalgono sulle regole operative. Modalità **READ_ONLY**: nessun cambiamento a codebase, roadmap, issue, cloud, merge, deploy o store.
 
