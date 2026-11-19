@@ -127,6 +127,18 @@ class FactoryPerformanceQaTests(unittest.TestCase):
             with self.assertRaisesRegex(EvidenceError, "mixed"):
                 compare_series(old, new)
 
+    def test_cli_blocks_policy_regression_with_exit_three(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old = Path(tmp) / "baseline.jsonl"
+            new = Path(tmp) / "candidate.jsonl"
+            self.write_runs(old, [100, 100, 100], "a" * 40, environment="physical")
+            self.write_runs(new, [125, 115, 120], "b" * 40, environment="physical")
+            self.assertEqual(
+                main(["compare", "--baseline", str(old), "--candidate", str(new),
+                      "--max-regression-pct", "5"]),
+                3,
+            )
+
     def test_cli_returns_failure_on_incomparable_evidence(self):
         with tempfile.TemporaryDirectory() as tmp:
             old = Path(tmp) / "baseline.jsonl"
