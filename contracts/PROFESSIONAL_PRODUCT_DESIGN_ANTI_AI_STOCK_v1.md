@@ -213,3 +213,7 @@ Nessun mock-up inventato può dimostrare la qualità runtime. Non cambiare perme
 > Prima di implementare un elemento visivo, rispondere: **qual è il suo scopo di prodotto?** Serve a identità approvata, gerarchia, comprensione, fiducia, accessibilità, navigazione o feedback reale? Se la sola risposta è “rende il mock-up più appariscente”, non è sufficiente per l'approvazione. Favorire composizioni curate, sobrie quando utile e caratteristiche del prodotto, anziché effetti generici.
 
 **Fonte dei 64 segnali:** elenco operativo concordato in conversazione il 19/11/2026, non classificazione empirica universale o attestazione di origine AI. Questo documento è un contratto di qualità/revisione, non un detector, un Golden certificato o un'autorizzazione autonoma ad alterare ogni app.
+
+## 8. Unslop UI — subtrattiva, source-aware (2026-11-19)
+
+Il Master v27 richiama questo contratto per il gate AT-01..AT-64. Per applicare i controlli U1–U20 dello strumento MIT `felipebasurto/unslop-ui` senza duplicare o rinumerare i 64 segnali, usare il bridge [UNSLOP_UI_ANTI_AI_64_BRIDGE_v1.md](UNSLOP_UI_ANTI_AI_64_BRIDGE_v1.md). Il conteggio regex e' solo triage; qualsiasi rimozione richiede revisione semantica, fonte/stato reali, localizzazioni, Product Bible e reference Design-App. Flutter/Dart e Kotlin/Compose richiedono adattatore e screenshot native indipendenti; nessuna approvazione visiva o Golden certificata e' implicita.
