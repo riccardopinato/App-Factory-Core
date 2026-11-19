@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-19 — Fast Track IA massivo e parallelo per centinaia di contenuti indipendenti
+
+- Stabilita come regola operativa globale l'elaborazione in parallelo, per lotti disgiunti da 100 ID (salvo differente lotto del prodotto e ultimo residuo), di storie, ricette, localizzazioni e altri contenuti a basso rischio; vietato il micro-lotto seriale immotivato quando l'insieme e' ampio.
+- Ogni corsia produce contenuto completo e pronto all'import, sei lingue quando previste, QA IA proporzionata e HOLD individuale solo per problemi reali. Consolidamento deterministico/idempotente, prevenzione di conflitti Git e CI ridondante; contatori per ID realmente integrati e ID ancora in branch o pending.
+- Esempio World Days: 604 ID ancora aperti dopo il primo lotto Wave21 da cinque = sei lotti disgiunti da 100 + ultimo lotto da quattro. Nessuna storia nuova o integrazione nelle app e' affermata da questa modifica al Master.
+- Sincronizzati Master Core v27, alias, full fallback, manifest di integrita' e comando Procedi; moduli immutabili v26.8 invariati.
+
 ## 2026-11-19 — Fast track editoriale IA per app descrittive e intrattenimento
 
 - Le storie World Days, le ricette Cooking Anime e i contenuti editoriali analoghi a basso rischio possono essere generati, tradotti e controllati tramite IA, quindi integrati subito come contenuti ufficiali dell'app senza revisione professionale esterna o certificazione umana singola obbligatoria.
