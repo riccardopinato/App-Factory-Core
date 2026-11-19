@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-19 — Canonical code library: archive permitted source, deduplicate and search
+
+- Add global v27 Master rule to index discovered design components in the existing Design-App canonical library and automatically archive original accessible, reuse-permitted code with pinned origin/license/notice rather than collecting only links.
+- Clarify strict distinction ARCHIVED_SOURCE vs REFERENCE_ONLY vs consumer-tested COPY_READY; preserve existing source files without duplication, keep historical IDs as aliases, retain anti-AI-stock design/product authority and applicable code/asset rights.
+- Add cross-project contract `contracts/CANONICAL_COMPONENT_LIBRARY_INGEST_v1.md`, describing verified Design-App snapshot of 277 Ruixen TSX, 111 existing Uiverse originals, 478 canonical records and 4 aliases.
+- Synchronize active Core alias, living fallback, module SHA pins and Procedi source hash; no Golden or consumer app changes.
+
 ## 2026-11-19 — Flutter Component Library as scoped UI component discovery
 
 - Record fluttercomponentlibrary.com as an on-demand, priority Flutter widget reference for modern, distinctive app UI/UX (after owner-curated Design-App and Golden/donor fit checks).
