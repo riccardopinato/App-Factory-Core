@@ -1,6 +1,6 @@
 GOLDEN REA CLI / REVERSE ENGINEERING & SOFTWARE INTELLIGENCE
-Versione: 1.0 — 2026-11-19
-Stato: COPY-READY PROCESS (admission_level COPY_READY)
+Versione: 1.1 — 2026-11-19
+Stato: CERTIFIED PROCESS (admission_level CERTIFIED_PROCESS) — bounded CLI research only
 Categoria: governance
 PROCESS OWNER: App-Factory-Core
 IMPLEMENTATION OWNER: riccardopinato/AppLab
@@ -10,11 +10,11 @@ FACTORY BASELINE AT ADMISSION: 5f744d4714c9bacd9b19fdf1b37be4855ed03f09
 
 0. GOLDEN SCOPE AND STATUS
 
-This is a COPY-READY, on-demand, read-only RESEARCH PROCESS for handling
+This is a SCOPED CERTIFIED, on-demand, read-only RESEARCH PROCESS for handling
 authorized local PE/Windows executable files through the REA CLI and the
 existing AppLab research adapter. It is not a code library embedded in the
 consumer app, not an always-on service, not an MCP integration, and not a
-CERTIFIED GOLDEN or CERTIFIED PROCESS.
+CERTIFIED GOLDEN or a universally certified reversing engine.
 
 The scope verified so far is:
 - pinned REA CLI version/runtime admission and local static introspection;
@@ -182,7 +182,7 @@ I. Re-run dedicated consumer tests, exact-head CI, physical/provider/store
 - Keep adapter outputs research-only; AppLab QA/certification Golden remains
   the canonical trusted runtime verifier, not this Golden.
 
-6. COPY-READY ADOPTION CHECKLIST
+6. CERTIFIED PROCESS — CONSUMER ADOPTION CHECKLIST
 
 Before any consumer claims adoption, record:
 [ ] Purpose, rights, source/SHA, exact artifact identity and private storage
@@ -195,20 +195,49 @@ Before any consumer claims adoption, record:
 [ ] Exact-head consumer CI and device/production QA only when applicable
 [ ] No mistaken CERTIFIED runtime state, no automatic Golden promotion
 
-7. PROMOTION BOUNDARY
+7. PROMOTION BOUNDARY — SCOPED CERTIFIED PROCESS (19/11/2026)
 
-This one demonstrated AppLab+Deskland public-binary research workflow
-supports COPY-READY PROCESS for the stated static analysis procedure.
-It does not prove robust adoption in a second independent consumer or
-a certified reverse-engineering engine across all available REA providers.
+Demonstrated cross-project use (two independent research harnesses):
+- APPLAB real static Windows Deskland Preview v0.1.3 PE/NSIS/managed host:
+  https://github.com/riccardopinato/AppLab/actions/runs/44615407360
+  43/43 published embedded file hashes matched, no binary execution.
+- APPLAB real Flutter Gallery 2.9.2 APK / Dart AOT via REA CLI:
+  https://github.com/riccardopinato/AppLab/actions/runs/44626932001
+  identify-flutter-build + inspect-dart-aot actual engine execution.
+  AppLab integration PR #238 (merged commit
+  b8bfeb0765451adc95eda15f0c6d6abf5e10639f), all exact-head CI GREEN.
+- INDEPENDENT CONSUMER Android Omni Cleaner PR #44 (merged):
+  https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44626294217
+  source b594adc670bce482d0768638648196d92a3b8eaf;
+  own APK SHA256 b2cb75cd332f1261ba5bfee69c47c994fd8acc0d64df88886be81c32fa14e977;
+  actual inspect-android-package / JADX success. Deliberately wrong
+  expected SHA256 rejected before analysis; negative Flutter classification
+  on native Kotlin APK; official JADX JAR SHA verified.
+  Final PR #44 exact-head workflows successful:
+  https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44627485559
 
-To promote to CERTIFIED PROCESS, collect an independently operated
-second consumer/project with reproducible exact-head tests and evidence,
-including negative/hard cases, rights boundaries, and rollback/failure
-behavior. To claim CERTIFIED GOLDEN for a wider reusable capability, satisfy
-the stronger scoped cross-consumer E5 requirements in the Master and
-Single-Donor Admission Golden. Do not promote REA broadly because its
-repository is popular or important.
+Independent negative evidence: the first Omni run without a valid JADX
+prerequisite failed. The reviewed subsequent run verified dependency hash
+and succeeded; no failure is omitted or relabeled. AppLab has adapter
+negative tests for corrupted evidence, file type, symlinks and budgets.
+
+CERTIFIED SCOPE: the reproducible *process* of authorized, bounded,
+source/artifact-hashed, read-only REA CLI static research across Windows
+and Android/Flutter artifacts, with review-only evidence and independent
+consumer execution. REA output remains UNVALIDATED_EXTERNAL_OUTPUT
+except for the exact fields individually reviewed. Separate product-source
+comparison and license admission remain obligatory.
+
+NOT CERTIFIED: generic REA binary decompilation, automatic code reuse,
+device/Windows runtime, actual Omni cleaning, signed Play release, broad
+Ghidra/IDA/Hopper integrations, private historic Deskland installer, or
+E3/E5 source-donor capability. This process certification is NOT
+CERTIFIED GOLDEN of arbitrary inspected code.
+
+For future promotion to CERTIFIED GOLDEN or broadened command families,
+require separately reviewed E5 cross-consumer implementation and tested
+functionality with rights, negative cases and physical/provider gates when
+relevant. No automatic promotion of REA source (which remains E1).
 
 RELATION TO EXISTING GOLDEN
 - GOLDEN_OSS_REUSE_RECONNAISSANCE_FLUTTER_v1_DRAFT.txt: source discovery and
