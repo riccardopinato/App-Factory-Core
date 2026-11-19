@@ -1,7 +1,7 @@
 registry_version: 2
 updated_at: 2026-11-19
 master_version: "27"
-index_version: 30
+index_version: 31
 goldens:
   - id: google_auth_supabase
     title: "Google Auth / Universal Identity"
@@ -775,8 +775,8 @@ goldens:
   - id: rea_cli_reverse_intelligence
     title: "REA CLI / Reverse Engineering & Software Intelligence"
     version: "1"
-    status: "COPY-READY PROCESS"
-    admission_level: COPY_READY
+    status: "CERTIFIED PROCESS"
+    admission_level: CERTIFIED_PROCESS
     category: governance
     path: golden/governance/GOLDEN_REA_CLI_REVERSE_INTELLIGENCE_v1.txt
     migrated_at: 2026-11-19
@@ -784,4 +784,4 @@ goldens:
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
-    tested_package_version: "rea-agents 6.9.0 (CLI; Node 24); AppLab PE/NSIS/.NET static pilot on 2026-11-19"
+    tested_package_version: "rea-agents 6.9.0 (CLI; Node 24); AppLab Windows/Flutter and independent Omni Cleaner Android/JADX PASS 2026-11-19"
