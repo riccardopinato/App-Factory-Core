@@ -71,3 +71,145 @@ Store approved product-specific decisions in the app's own design/product record
 - **Battery Guard / FocusSense:** measured charts and functional, legible controls; no ornamental charts or continuously running visual effects.
 
 No app code or Golden certification is changed by this design contract.
+
+## 7. Mandato TEAM-GRADE / Anti-AI-Template (operativo, 2026-11-19)
+
+**Obiettivo esplicito del proprietario:** ogni app deve avere qualità percepita e robustezza confrontabili con il lavoro di un **team esperto di product design, visual/UI, UX research, content design, motion, accessibilità, ingegneria mobile, performance e QA**. Non è richiesto simulare origini o autori umani: è lecito dichiarare che si è usata l'AI. Il prodotto non deve però sembrare un collage di template generici, testi automatici, dati fittizi e controlli non rifiniti.
+
+**Osservazione, non diagnosi di paternità:** generatori AI, kit generici e sviluppi affrettati *possono* ripetere i pattern qui censiti, ma anche sviluppatori umani; nessun elemento dimostra che una schermata è stata creata con ChatGPT, né esiste un test visivo infallibile. Non usare questo registro per attribuire autori, nascondere l'uso dell'AI o vietare indiscriminatamente gradienti, Bento, glass, framework, illustrazioni o animazioni.
+
+**Applicabilità:** obbligatorio in nuove app, redesign significativi, mock-up di decisione, audit estetici trasversali e visual QA pre-release. Su microfix limitarsi alla regressione dello scope interessato. Product Bible e preferenze approvate sono superiori alle scorciatoie stilistiche; prima **Design-App FIRST**, poi ricerca esterna se manca un riferimento coerente. Nessuna adozione tacita di asset o licenze.
+
+### 7.1 Checklist completa — 64 segnali e rimedi
+
+I codici `AT-01`…`AT-64` identificano **domande diagnostiche**, non errori garantiti. Ogni segnale va verificato su schermate/stati reali; in assenza di prove è `NOT_VERIFIED`.
+
+### A — Identità visiva e stile
+
+| ID | Segnale da verificare | Correzione professionale |
+|---|---|---|
+| AT-01 | Gradienti blu/viola predefiniti | Scegliere colore e contrasto in base a identità, significato e contenuto. |
+| AT-02 | Card sovrarrotondate tutte uguali | Definire una scala di raggi con differenze funzionali, non un solo raggio enorme. |
+| AT-03 | Card annidate in altre card | Ridurre i livelli di contenitori e usare gerarchia, divider e spaziature. |
+| AT-04 | Glassmorphism gratuito | Riservare trasparenza e blur a contesti giustificati da contenuto e contrasto. |
+| AT-05 | Glow e ombre luminose indiscriminati | Ridurre rumore visivo; usare profondità solo per focus e gerarchia. |
+| AT-06 | Bento usato senza logica | Dimensionare i moduli secondo priorità delle funzioni e densità dati. |
+| AT-07 | Palette identiche fra prodotti diversi | Definire colori semanticamente propri per ogni Product Bible. |
+| AT-08 | Accenti cromatici scelti solo per varietà | Documentare significato di colori, categorie, stati e priorità. |
+| AT-09 | Icone generiche e intercambiabili | Creare vocabolario iconografico consistente, semantico e riconoscibile. |
+| AT-10 | Emoji come sistema di icone | Preferire icone deliberate e accessibili; emoji solo quando hanno un ruolo esplicito. |
+| AT-11 | Illustrazioni stock scollegate dalle funzioni | Usare asset pertinenti, leciti e non fuorvianti. |
+| AT-12 | Cerchi, onde, sfere e forme ornamentali ripetuti | Ridurre il decoro quando sottrae spazio e chiarezza. |
+| AT-13 | Sfondi complessi su ogni schermata | Proteggere il contrasto e dare priorità ai contenuti operativi. |
+| AT-14 | Marchio senza identità riconoscibile | Verificare carattere riconoscibile senza dipendere dal solo nome dell'app. |
+| AT-15 | Estetica di framework non personalizzata | Separare infrastruttura UI da art direction approvata e design token. |
+
+### B — Layout, navigazione e contenuto
+
+| ID | Segnale da verificare | Correzione professionale |
+|---|---|---|
+| AT-16 | Ogni schermata con lo stesso schema titolo + quattro card | Variare il layout in funzione del lavoro reale, non del template. |
+| AT-17 | Dashboard scenografica senza utilità | Mostrare prima dati e azioni decision-critical. |
+| AT-18 | Spazi vuoti ingiustificati | Ottimizzare densità e leggibilità soprattutto sul primo viewport. |
+| AT-19 | Schermate sovraccariche | Organizzare la gerarchia e introdurre progressive disclosure utile. |
+| AT-20 | Tutte le CTA visivamente primarie | Distinguere primaria, secondaria, terziaria e distruttiva. |
+| AT-21 | Dati o spiegazioni duplicati fra pagine | Consolidare le informazioni e usare contesti chiari. |
+| AT-22 | Navigazione lunga o imprevedibile | Ridurre tap, preservare back stack e coerenza fra destinazioni. |
+| AT-23 | Accordion ovunque con effetto timeline | Preferire schermate dedicate quando hanno workflow e contenuto autonomi. |
+| AT-24 | Gerarchia tipografica piatta | Documentare scala, pesi, allineamenti e priorità dei dati. |
+| AT-25 | Font, interlinea e pesi lasciati ai default | Scegliere tipografia leggibile e distintiva, con fallback robusto. |
+| AT-26 | FAB o overlay che coprono azioni | Verificare insets, tastiera, banner, dimensioni e collisioni. |
+| AT-27 | Header sovradimensionati | Dare accesso immediato alla prima azione o informazione utile. |
+| AT-28 | Layout valido solo sul dispositivo del mock-up | Testare larghezze, font scaling, landscape quando previsto. |
+
+### C — Motion, feedback e fluidità
+
+| ID | Segnale da verificare | Correzione professionale |
+|---|---|---|
+| AT-29 | Animazioni applicate a ogni elemento | Animare solo cambi di stato, gerarchia e transizioni utili. |
+| AT-30 | Rimbalzi, rotazioni e slide gratuiti | Scegliere motion coerente con compito e direzione. |
+| AT-31 | Animazioni lente che bloccano il compito | Mantenere input pronto e transizioni brevi e interrompibili. |
+| AT-32 | Loader scenografici privi di informazioni | Mostrare lavoro reale, risultato, stop o retry. |
+| AT-33 | Progresso percentuale inventato | Usare avanzamento determinato solo se misurabile. |
+| AT-34 | Transizioni diverse per flussi equivalenti | Definire un motion system con durate, easing e contesto. |
+| AT-35 | Effetti di ingresso ripetuti a ogni navigazione | Ridurre ripetizioni; consentire interazione immediata. |
+| AT-36 | Reduced motion ignorato | Prevedere fallback senza animazione e preferenze di accessibilità. |
+| AT-37 | Scroll e navigazione con jank | Misurare frame time, allocazioni e workload reale. |
+
+### D — Testi, localizzazione e credibilità
+
+| ID | Segnale da verificare | Correzione professionale |
+|---|---|---|
+| AT-38 | Microcopy promozionale generico | Scrivere testi concreti legati a funzione, beneficio e stato verificabile. |
+| AT-39 | Entusiasmo automatico e complimenti gratuiti | Usare tono umano, sobrio e adatto al contesto. |
+| AT-40 | Paragrafi didascalici inutili | Usare etichette concise e aiuto contestuale dove serve. |
+| AT-41 | Gergo pseudo-tecnico privo di funzione | Rimuovere AI-Powered/Ultra/Smart se non sostenuto da capability reale. |
+| AT-42 | Stesse frasi ripetute in schermate diverse | Scrivere contenuti specifici per fase e destinazione. |
+| AT-43 | Pulsanti etichettati Scopri/Continua senza oggetto | Indicare azione e conseguenza in forma inequivoca. |
+| AT-44 | Traduzioni letterali e testi non adattati | Verificare idiomaticità, pluralizzazione, lunghezza e fallback. |
+| AT-45 | Successi dichiarati prima della conferma | Basare messaggi su stato verificato, non su chiamata API avviata. |
+
+### E — Comportamento reale, stati ed etica
+
+| ID | Segnale da verificare | Correzione professionale |
+|---|---|---|
+| AT-46 | Grafici o dati demo presentati come reali | Etichettare fixture e mostrare solo dati effettivi in produzione. |
+| AT-47 | Stati vuoti trascurati | Progettare first-run, zero contenuti e prossimo passo reale. |
+| AT-48 | Errori generici senza recovery | Spiegare problema, impatto, retry o alternativa. |
+| AT-49 | Comandi senza feedback | Fornire stato, esito e disponibilità delle azioni. |
+| AT-50 | Feature aggiunte per impressionare | Rimuovere o rinviare ciò che non migliora il job-to-be-done. |
+| AT-51 | Conferme distruttive deboli | Mostrare oggetto, conseguenza, reversibilità e consenso esplicito. |
+| AT-52 | Wizard e passaggi eccessivi | Ridurre frizione senza rimuovere gate necessari. |
+| AT-53 | Contrasto, touch e TalkBack trascurati | Verificare semantica, lettori schermo, >=48dp ove applicabile. |
+| AT-54 | Comportamenti UI incoerenti fra schermate | Definire stati, componenti e feedback condivisi. |
+| AT-55 | Stati reali complessi non collaudati | Testare permessi negati, offline, dati massivi, media e testi lunghi. |
+
+### F — Qualità del codice e rilascio
+
+| ID | Segnale da verificare | Correzione professionale |
+|---|---|---|
+| AT-56 | Componenti UI duplicati | Riusare primitive condivise senza creare architetture astratte superflue. |
+| AT-57 | Token grafici hardcoded e incoerenti | Centralizzare colori semantici, spaziature, raggi, motion e tipografia. |
+| AT-58 | Dipendenze decorative inutili | Verificare costo, manutenzione, sicurezza, licenza e dimensione build. |
+| AT-59 | Animazioni senza profiling | Misurare FPS, carico CPU/GPU, autonomia e reduced motion. |
+| AT-60 | Mock-up senza QA su dispositivi reali | Separare screenshot/CI da accettazione fisica. |
+| AT-61 | Codice sovra-ingegnerizzato per UI banali | Preferire componenti semplici, testabili e già posseduti. |
+| AT-62 | Correzioni estetiche incoerenti fra pagine | Applicare token e QA visivo trasversale, senza scope creep. |
+| AT-63 | Restyling che rompe feature o dati | Eseguire regression test per navigazione, storage e flussi critici. |
+| AT-64 | Direzione artistica non documentata | Conservare brief, reference Design-App, decisioni e changelog. |
+
+
+### 7.2 Dieci controlli prioritari (gate estetico)
+
+| Ordine | Controllo | Codici di riferimento |
+|---|---|---|
+| 1 | Identità visiva distinguibile dai template | AT-07, AT-14, AT-15, AT-64 |
+| 2 | Decorazioni, gradienti e sfondi giustificati | AT-01, AT-04, AT-05, AT-12, AT-13 |
+| 3 | Gerarchia di compito, dati e CTA | AT-17, AT-20, AT-24, AT-28 |
+| 4 | Niente ripetizione meccanica di card/componenti | AT-02, AT-03, AT-06, AT-16 |
+| 5 | Microcopy naturale e informativo | AT-38, AT-39, AT-41, AT-43 |
+| 6 | Motion proporzionato e FPS verificabili | AT-29…AT-37 |
+| 7 | Informazione visiva densa senza caos | AT-18, AT-19, AT-23, AT-27 |
+| 8 | Stati reali: first-run, errore, attesa, permessi | AT-33, AT-34, AT-46…AT-55 |
+| 9 | Iconografia e tipografia intenzionali | AT-09, AT-10, AT-24, AT-25 |
+| 10 | Coerenza trasversale e assenza di regressioni | AT-54, AT-56, AT-57, AT-62, AT-63 |
+
+**Ordine operativo:** correggere prima i rischi per fiducia, sicurezza, accessibilità, contenuti falsi e blocco dei flussi; poi gerarchia/usabilità; infine polish soggettivo. I codici non impongono automaticamente severità P0/P1/P2: assegnarla in base a evidenza e impatto utente.
+
+### 7.3 Contratto di revisione e accettazione
+
+Per ogni schermata o flusso campionato riportare:
+1. **Provenienza:** repo + source SHA + schermo/stato + piattaforma/viewport; Product Bible e riferimento Design-App (ID, URL, DIRETTA/ADATTATA/NON ADATTA).
+2. **Diagnosi:** codici `AT-xx`, osservazione specifica (con screenshot reale, test o frammento di codice), impatto e motivazione; `FOUND`, `NOT_FOUND`, `NOT_APPLICABLE` con motivazione, o `NOT_VERIFIED`.
+3. **Scelta designer:** mantenere, migliorare, rimuovere, o rifiutare la proposta; indicare direzione artistica, token, gerarchia, comportamento, testo e densità desiderati. Controllare almeno due alternative solo quando davvero servono.
+4. **Responsabilità team virtuale:** Product (job e scope), Visual (identità e sistema), UX/Content (comprensibilità e journey), Engineering (feasibility e regressioni), Accessibilità (semantica e large type), QA (stati e form factor), Performance (jank/batteria/peso). Sono **prospettive di revisione**, non persone/agenti realmente operanti se non esistono.
+5. **Evidenza prima/dopo:** screenshot stessi dati/fixture/viewport (light/dark, 360dp e large font quando applicabile), TalkBack/contrasto/touch, loading/empty/error/offline/permission, navigazione Back, motion ridotto, profilo prestazioni e dimensione APK dove pertinente.
+6. **Gate e verità:** `SOURCE_IMPLEMENTED` non è `VISUAL_APPROVED`; CI verde non certifica resa su dispositivo. Approvazione estetica esplicita, QA runtime e certificazione release restano stati distinti; senza screenshot o test rilevanti, `NOT_VERIFIED` e non `PASS`.
+
+Nessun mock-up inventato può dimostrare la qualità runtime. Non cambiare permessi, dati, cleanup, sync, billing, licenze o stack per inseguire un effetto visivo. Un controllo che non trova difetti può essere registrato come `NO_CHANGE`, anziché creare lavori o dipendenze artificiali.
+
+### 7.4 Regola decisionale finale
+
+> Prima di implementare un elemento visivo, rispondere: **qual è il suo scopo di prodotto?** Serve a identità approvata, gerarchia, comprensione, fiducia, accessibilità, navigazione o feedback reale? Se la sola risposta è “rende il mock-up più appariscente”, non è sufficiente per l'approvazione. Favorire composizioni curate, sobrie quando utile e caratteristiche del prodotto, anziché effetti generici.
+
+**Fonte dei 64 segnali:** elenco operativo concordato in conversazione il 19/11/2026, non classificazione empirica universale o attestazione di origine AI. Questo documento è un contratto di qualità/revisione, non un detector, un Golden certificato o un'autorizzazione autonoma ad alterare ogni app.
