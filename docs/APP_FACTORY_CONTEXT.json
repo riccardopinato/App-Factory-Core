@@ -3,17 +3,17 @@
   "sources": [
     {
       "branch": "main",
-      "commit_date": "2026-11-13T01:23:45Z",
+      "commit_date": "2026-11-19T16:52:41Z",
       "purpose": "QA e affidabilità",
       "repository": "riccardopinato/AppLab",
-      "sha": "0b45e4a474fe958a141430a6447c50ccf6d114b2"
+      "sha": "800db6b3d1d36ecbe0867ae1f046032baae4d6e6"
     },
     {
       "branch": "main",
-      "commit_date": "2026-11-16T14:45:13Z",
+      "commit_date": "2026-11-19T16:45:21Z",
       "purpose": "Idee e capability",
       "repository": "riccardopinato/Idee-app-Archivi-riferimenti",
-      "sha": "00a584f2d267b5139ea0e7b1d95dfcb57ca5e45c"
+      "sha": "8f6771b9e4c6c8b7940216609ccd74244938e62b"
     }
   ]
 }
