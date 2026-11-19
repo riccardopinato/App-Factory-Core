@@ -174,10 +174,11 @@ def _read_runs(path: Path, metric: str, minimum: int) -> list[dict]:
 
 
 def compare_series(baseline: Path, candidate: Path, metric: str = "file_rows_ms",
-                   min_runs: int = 3, max_regression_pct: float = 5.0) -> dict:
+                   min_runs: int = 3, max_regression_pct: float = 5.0,
+                   max_variation_pct: float = 20.0) -> dict:
     if metric not in METRIC_FIELDS:
         raise EvidenceError("metric not recognized")
-    if not (3 <= min_runs <= 50) or not (0 <= max_regression_pct <= 100):
+    if not (3 <= min_runs <= 50) or not (0 <= max_regression_pct <= 100) or not (0 <= max_variation_pct <= 100):
         raise EvidenceError("invalid evidence policy")
     old = _read_runs(baseline, metric, min_runs)
     new = _read_runs(candidate, metric, min_runs)
@@ -189,8 +190,31 @@ def compare_series(baseline: Path, candidate: Path, metric: str = "file_rows_ms"
         raise EvidenceError("baseline median must be positive")
     delta_pct = round((b / a - 1) * 100, 3)
     environment = old[0]["environment"]
-    gate = "REVIEW_REGRESSION" if delta_pct > max_regression_pct else (
-        "PHYSICAL_REPLAY_REQUIRED" if environment == "emulator" else "CANDIDATE_NO_CERTIFICATION"
+
+    # Medians alone hide unstable hardware/thermal/runner conditions.
+    # A noisy series must never be promoted as convincing speedup evidence.
+    def describe(rows: list[dict]) -> dict:
+        samples = sorted(float(row[metric]) for row in rows)
+        median = statistics.median(samples)
+        mad = statistics.median(abs(value - median) for value in samples)
+        # Linear interpolation, matching a common inclusive percentile rule.
+        rank = (len(samples) - 1) * 0.95
+        lo = int(rank)
+        hi = min(lo + 1, len(samples) - 1)
+        p95 = samples[lo] + (samples[hi] - samples[lo]) * (rank - lo)
+        return {
+            "p50": round(median, 3),
+            "p95": round(p95, 3),
+            "median_absolute_deviation": round(mad, 3),
+            "relative_mad_pct": round(100 * mad / median, 3) if median > 0 else 100.0,
+        }
+
+    old_stats, new_stats = describe(old), describe(new)
+    noisy = any(stat["relative_mad_pct"] > max_variation_pct for stat in (old_stats, new_stats))
+    gate = "NOISY_MEASUREMENTS_REVIEW" if noisy else (
+        "REVIEW_REGRESSION" if delta_pct > max_regression_pct else (
+            "PHYSICAL_REPLAY_REQUIRED" if environment == "emulator" else "CANDIDATE_NO_CERTIFICATION"
+        )
     )
     return {
         "schema_version": VERSION, "metric": metric, "fixture_id": old[0]["fixture_id"],
@@ -198,7 +222,9 @@ def compare_series(baseline: Path, candidate: Path, metric: str = "file_rows_ms"
         "environment": environment, "mode": old[0]["mode"],
         "sample_counts": [len(old), len(new)],
         "baseline_median": a, "candidate_median": b, "delta_pct": delta_pct,
-        "max_regression_pct": max_regression_pct, "gate": gate,
+        "max_regression_pct": max_regression_pct, "max_variation_pct": max_variation_pct,
+        "baseline_distribution": old_stats, "candidate_distribution": new_stats,
+        "gate": gate,
         "certification": "NOT_CERTIFIED",
         "note": "Only comparable phase metrics; no battery/OEM/storage or release certification.",
     }
@@ -221,6 +247,8 @@ def main(argv: list[str] | None = None) -> int:
     compare.add_argument("--metric", choices=METRIC_FIELDS, default="file_rows_ms")
     compare.add_argument("--min-runs", type=int, default=3)
     compare.add_argument("--max-regression-pct", type=float, default=5.0)
+    compare.add_argument("--max-variation-pct", type=float, default=20.0,
+                         help="MAD / median threshold for noisy, non-comparable evidence")
     compare.add_argument("--report", type=Path)
     args = parser.parse_args(argv)
     try:
@@ -230,7 +258,8 @@ def main(argv: list[str] | None = None) -> int:
             result = verify_fixture(args.input)
         else:
             result = compare_series(args.baseline, args.candidate, args.metric,
-                                    args.min_runs, args.max_regression_pct)
+                                    args.min_runs, args.max_regression_pct,
+                                    args.max_variation_pct)
             if args.report:
                 if args.report.exists() or args.report.is_symlink():
                     raise EvidenceError("report path must not exist; no overwrite")
@@ -238,7 +267,12 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(result, sort_keys=True))
         # Explicit regression threshold violations must fail CI rather than
         # merely printing REVIEW_REGRESSION with exit code 0.
-        return 3 if args.command == "compare" and result["gate"] == "REVIEW_REGRESSION" else 0
+        if args.command == "compare":
+            if result["gate"] == "REVIEW_REGRESSION":
+                return 3
+            if result["gate"] == "NOISY_MEASUREMENTS_REVIEW":
+                return 4
+        return 0
     except (EvidenceError, OSError) as error:
         print(json.dumps({"gate": "BLOCKED", "reason": str(error), "certification": "NOT_CERTIFIED"}))
         return 2
