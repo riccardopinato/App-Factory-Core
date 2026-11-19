@@ -1,5 +1,5 @@
 # APP FACTORY — MASTER AUDIT 360° UNIVERSALE
-## Prompt operativo riutilizzabile | v1.0 | 7 novembre 2026
+## Prompt operativo riutilizzabile | v1.1 | 19 novembre 2026
 
 ### ISTRUZIONE DI AVVIO
 Esegui un AUDIT TRASVERSALE PROFONDO, COMPLETO, CRITICO, COMPARATIVO E BASATO SU EVIDENZE dell'app/progetto di cui stiamo parlando in questa chat. Se il contesto identifica più app, analizzale separatamente e aggiungi una matrice trasversale; se l'utente indica «tutte le app», inventaria prima i repository del suo ecosistema. Non chiedere di ripetere nomi, scelte o vincoli già disponibili.
@@ -332,4 +332,4 @@ NON CONSIDERARE CONCLUSO IL RAPPORTO se mancano: stato reale/HEAD, verifica scel
 
 ---
 
-FINE PROMPT — v1.0
+FINE PROMPT — v1.1
