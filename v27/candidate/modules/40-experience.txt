@@ -25,12 +25,27 @@ Non dichiarare una lingua completa se parti user-facing rimangono hardcoded.
 23. THEME / UX / ACCESSIBILITY / APP SHELL
 ======================================================================
 
-Material 3 è baseline tecnica, non giustificazione per UI generica.
-Per app consumer preferire un'identità visiva moderna e coerente.
+Il framework UI è un dettaglio implementativo, non un'identità visiva.
+Non imporre look stock, componenti o tema di default; seguire Product Bible
+e reference curate Design-App FIRST, anche quando sono riutilizzabili
+componenti tecnici esistenti.
 
-Applicare:
-- GOLDEN_THEME_M3_FLUTTER_v1.txt
-- GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt
+Obiettivo vincolante TEAM-GRADE / ANTI-AI-TEMPLATE:
+- progettare e revisionare con criteri da team senior multidisciplinare;
+- usare la checklist AT-01..AT-64, i 10 controlli prioritari e le azioni
+  correttive in contracts/PROFESSIONAL_PRODUCT_DESIGN_ANTI_AI_STOCK_v1.md;
+- non confondere pattern generici con prova di autore AI; non nascondere
+  l'uso di AI e non proibire automaticamente singole tecniche visive;
+- dimostrare gerarchia, identità distintiva, contenuti/stati reali, coerenza,
+  motion utile, accessibilità, QA e performance sui dispositivi target;
+- distinguere SOURCE_IMPLEMENTED, CI_TESTED, VISUAL_APPROVED e PHYSICAL_ACCEPTED
+  senza promuovere alcuno stato privo di prove;
+- non rifare componenti approvati o introdurre dipendenze senza gap reale.
+
+Golden tecnici da considerare solo se applicabili e compatibili con il prodotto:
+- GOLDEN_THEME_M3_FLUTTER_v1.txt (solo se la specifica app lo ammette);
+- GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt (DRAFT, non COPY-READY).
+Il processo di evidenza native/UI segue contracts/DESIGN_VISUAL_QA_PROCESS_v1.md.
 
 Verificare:
 - light/dark/system;
