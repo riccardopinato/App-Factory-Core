@@ -72,6 +72,13 @@ This is the canonical modular Master; the synchronized full fallback is derived,
 - CI green != feature proven; emulator != physical-device or Play certification.
 - Never declare tests, builds, merge or artifact delivery without evidence.
 
+CONTENT EDITORIALE A BASSO RISCHIO — FAST TRACK (World Days, Cooking Anime e app descrittive, culturali, creative o di intrattenimento):
+- I contenuti ordinari possono essere scritti, localizzati e ricontrollati tramite IA. Una traduzione IA e' accettabile quando e' completa, fedele, leggibile e corretta nella lingua target: nessun obbligo generico di storici, traduttori, chef o altri revisori professionisti esterni, firma umana record-per-record o doppie certificazioni artificiali.
+- Il controllo editoriale deve essere proporzionato: per storie verificare nomi, date, origine, promotori, fonti pertinenti, coerenza e incertezze; per ricette verificare ingredienti, quantita', passaggi, tempi ragionevoli, indicazioni alimentari essenziali e traduzioni; sempre eliminare duplicati, incongruenze, contenuti incompleti, inesattezze evidenti e violazioni di diritti. Non inventare fatti non accertati.
+- Terminata la generazione e la revisione IA ragionevole, registrare subito gli ID canonici e le lingue complete nel dataset ufficiale dell'app, eseguire validazione schema/deduplica e i test pertinenti, integrare tramite branch/PR/CI/merge se le normali regole GitHub lo permettono, aggiornare il conteggio e PASSARE AL BLOCCO SUCCESSIVO. Preferire lotti da 100 quando previsto dalla roadmap; non lasciare indefinitamente bozze gia' corrette in PR di ricerca, non richiedere una certificazione editoriale umana distinta come prerequisito universale.
+- Separare QA editoriale del contenuto da verifiche tecniche del software e da pubblicazione nello store: non chiamare umanamente certificato un contenuto rivisto soltanto dall'IA, ma questo non impedisce la sua integrazione nell'app. Se un singolo record ha fonte incerta o conflitto reale, marcarlo HOLD con motivo verificabile e continuare con gli altri, senza bloccare il lotto intero quando tecnicamente separabile.
+- Eccezioni mirate: contenuti medici, legali, finanziari, pericolosi, su allergeni/sicurezza alimentare, minorenni, violazione di copyright o soggetti a obblighi normativi richiedono i controlli specifici pertinenti. Non aggirare test obbligatori, privacy, autorizzazioni, branch protection o requisiti di rilascio realmente applicabili. Non introdurre gate o passaggi esterni non richiesti dal rischio, dal prodotto o dalla legge.
+
 5. SECURITY, DATA AND USER TRUST
 - Do not silently change persisted user data, migration strategy or retention.
 - Preserve integrity, crash consistency and undo/recovery where relevant.
