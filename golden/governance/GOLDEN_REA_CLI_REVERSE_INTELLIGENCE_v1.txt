@@ -1,0 +1,221 @@
+GOLDEN REA CLI / REVERSE ENGINEERING & SOFTWARE INTELLIGENCE
+Versione: 1.0 — 2026-11-19
+Stato: COPY-READY PROCESS (admission_level COPY_READY)
+Categoria: governance
+PROCESS OWNER: App-Factory-Core
+IMPLEMENTATION OWNER: riccardopinato/AppLab
+SOURCE OF EXTERNAL ENGINE: morluto/rea@4491c84c82140a43fa12390b727840a433875ba8
+TESTED PACKAGE: rea-agents@6.9.0 (MIT) — CLI ONLY
+FACTORY BASELINE AT ADMISSION: 5f744d4714c9bacd9b19fdf1b37be4855ed03f09
+
+0. GOLDEN SCOPE AND STATUS
+
+This is a COPY-READY, on-demand, read-only RESEARCH PROCESS for handling
+authorized local PE/Windows executable files through the REA CLI and the
+existing AppLab research adapter. It is not a code library embedded in the
+consumer app, not an always-on service, not an MCP integration, and not a
+CERTIFIED GOLDEN or CERTIFIED PROCESS.
+
+The scope verified so far is:
+- pinned REA CLI version/runtime admission and local static introspection;
+- bounded PE import and PE certificate observation via the AppLab adapter;
+- static NSIS extraction of a source-authenticated PUBLIC Deskland installer
+  using a separate archive tool, SHA-256 match for 43 published payload files;
+- direct REA managed-assembly metadata observation on extracted Deskland.exe;
+- traceable CLI output, checksums, evidence and no-execution boundaries.
+
+These are SEPARATE operations; REA CLI bridge currently accepts only
+inspect-pe-imports and inspect-pe-certificates. The direct managed inspection
+and archive extraction were demonstrated inside a dedicated GitHub research
+workflow, not generalized into the adapter. Do not imply one command does all.
+
+The status does NOT certify:
+- Windows runtime, installed registry state, or actual functional behavior;
+- arbitrary EXE/PE/NSIS formats, malware safety, digital signature validity,
+  device compatibility, extraction of proprietary source, or decompilation;
+- recovery of a historical user installer uploaded in another conversation;
+- every REA provider/engine, dynamic debugging, browser or APK analysis;
+- clean-room Android port parity, APK hardware QA, store release;
+- automatic donor/E3/E5 or Golden promotion for inspected software.
+
+1. WHEN TO USE
+
+Use only when the target software is owned by the user, officially available
+for lawful research, or the investigation is otherwise authorized; a specific
+question cannot be answered reliably from the accessible source; the analysis
+is likely to add measurable insight; and a bounded, isolated static workflow
+is proportionate. For normal Flutter/Kotlin app work when source/test/CI are
+available, prefer source inspection, AppLab existing verification and
+certified internal donor over reverse engineering.
+
+Examples of acceptable on-demand usage:
+- distinguish outer Windows installer from embedded executable architecture;
+- enumerate PE imports/cert tables and identify missing coverage;
+- compare official manifest and extracted payload hashes;
+- map source-observed Windows functionality to independently implementable
+  Android designs, without copying incompatible code/assets.
+
+No automatic scan of all App Factory repositories or background service.
+
+2. INPUTS / IMMUTABLE PROVENANCE
+
+REQUIRED:
+- target repository owner/name and exact 40-char source commit SHA, or
+  explicit provenance for a source-absent artifact;
+- exact local file bytes/path with user authorization and SHA-256;
+- local REA executable, pinned package version and upstream source SHA;
+- limited operations and absolute, private output directory;
+- purpose, license, reuse constraints, resource/time budget;
+- platform and whether expected output is source evidence, binary
+  observation or verified runtime.
+
+Sources at initial admission:
+- AppLab bridge: riccardopinato/AppLab@b1acac133d4b44d21e3995aa35e99498ee77f897
+  scripts/rea_cli_bridge.py; scripts/rea_artifact_intake.py;
+  backend/tests/test_rea_cli_bridge.py.
+- AppLab real-public-binary pilot: riccardopinato/AppLab@78a2358a5afad9ae0f6bf2b45ba852a7af985eed
+  .github/workflows/rea-deskland-preview-research.yml;
+  integration/intelligence/REA_DESKLAND_PREVIEW_BINARY_REPORT_2026-11-19.md.
+- External REA: https://github.com/morluto/rea
+  commit 4491c84c82140a43fa12390b727840a433875ba8; MIT;
+  package rea-agents@6.9.0; Node supported ranges at that commit:
+  ^22.23.4 || ^24.22.1 || >=26.12.1.
+- Deskland source/pilot: BLEZZ0102/Deskland@
+  9818b577402ff476e1b59da07970c56472713126; GPL-3.0.
+- Android research consumer dossier:
+  riccardopinato/Adaptive-Landscape-Android@
+  f27dc9623f8b06c9258db3a486961c71dfe76e8c;
+  docs/REA_DESKLAND_PILOT_2026-11-19.md.
+- Donor research record: riccardopinato/Idee-app-Archivi-riferimenti@
+  922ccd15911bbc15260981a34148073e5ed76190;
+  12-CAPABILITY-E-IMPLEMENTAZIONI/REVERSE_INTELLIGENCE_REA_2026-11-19.json.
+These commits describe independent implementation, evidence and research;
+they are not interchangeable and must not be relabeled as REA engine commits.
+
+3. EXECUTION RECIPE (READ-ONLY, ON-DEMAND)
+
+A. Resolve App Factory CURRENT, relevant Golden, product repository scope,
+   ownership and license. Prefer existing source and certified donors first.
+B. Locate the exact, authorized binary and capture the expected SHA-256 and
+   length. Do not substitute a public build for a privately shared installer
+   with a similar product name; label each binary independently.
+C. Provide a controlled environment. Install a tested, explicitly versioned
+   REA CLI independently of the app repository:
+   npm install --prefix /abs/rea-tools --no-save --omit=optional --no-audit --no-fund rea-agents@6.9.0
+   Node must report a supported version; verify REA --version --json.
+   The npm package version is pinned, but this example is NOT a complete
+   immutable transitive dependency lock. For production/high-trust runs,
+   review/install with package-lock integrity and supply-chain controls.
+D. Use the existing AppLab CLI adapter (not shell/MCP), for a confirmed PE:
+   python scripts/rea_cli_bridge.py --rea-bin /abs/rea-tools/node_modules/.bin/rea
+     --artifact /abs/sample.exe --output-dir /abs/private-output
+     --repository OWNER/REPO --source-sha FULL_40_CHAR_SOURCE_SHA
+     --operation imports --operation certificates
+   Windows: provide full path to node.exe as --rea-bin, with absolute
+   --rea-entry to the rea-agents/scripts/rea.mjs file; never invoke .cmd
+   wrappers through a shell. Exact installed paths are environment-specific.
+E. Adapter gates: pinned rea-agents 6.9.0 and compatible Node runtime;
+   absolute regular local file; confirmed PE header; SHA-256 before/after;
+   budget default 64 MiB, max 512 MiB; timeout default 45 s, max 180 s;
+   bounded JSON and stdout; immutable evidence file collision checking.
+   No execution of the input PE. Do not treat "0 PE imports" as "no native
+   APIs": .NET may use P/Invoke or other native/dynamic mechanisms.
+F. If approved and necessary, run additional *separate* static REA commands
+   (for example inspect-managed-artifact) on isolated extracted files, or
+   extract supported archives using third-party static tools; scope, version,
+   license, budget, results and test each command independently. The
+   restricted bridge does not cover these operations. No unzip path traversal.
+G. Save JSON receipts, external evidence with hashes, commit SHA, workflow
+   URL, analyzed filename/version, timestamps, command, coverage/limitations.
+   Summarize what was directly observed and what remains unverified.
+   External output is UNVALIDATED_EXTERNAL_OUTPUT until specific fields
+   are reviewed. Do not promote into AppLab trusted runtime evidence.
+H. Compare with source-only baseline: list findings genuinely unavailable
+   from the sources and explicitly decide ADOPT / REFERENCE / DEFER / REJECT.
+   License-clearance and independently authored Android implementation
+   remain separate from the reverse-engineering discovery step.
+I. Re-run dedicated consumer tests, exact-head CI, physical/provider/store
+   gates *only where relevant*; never mark reverse-engineered code
+   certified from documentation or static evidence alone.
+
+4. PROVEN BEHAVIOR AND VALIDATION LINKS
+
+- AppLab direct bridge, PR #236, merged:
+  https://github.com/riccardopinato/AppLab/pull/236
+- Exact-head real REA CLI on inert synthetic PE, PASS:
+  https://github.com/riccardopinato/AppLab/actions/runs/44604806371
+- Exact official public Deskland Preview v0.1.3 REA analysis, NSIS payload
+  checksum comparison, and managed .NET host metadata, PASS:
+  https://github.com/riccardopinato/AppLab/actions/runs/44615407360
+- Integration/pilot report (permanent, unlike 14-day Actions artifact):
+  https://github.com/riccardopinato/AppLab/blob/78a2358a5afad9ae0f6bf2b45ba852a7af985eed/integration/intelligence/REA_DESKLAND_PREVIEW_BINARY_REPORT_2026-11-19.md
+- Official public installer SHA-256:
+  e253cad56f1ea0ee2fb9d13ebe8a44f7dbe7232a506ba752cbe54c939c17bf44
+  (28,001,125 bytes, external official checksum matched).
+  48 extracted files / 43 out of 43 published payload hashes matched.
+- Extracted Windows host SHA-256:
+  5337c513e8c14dc492900d315cd57e287e9dfb4ba750ccf96c2fb668fa4ea530
+  (94,208 bytes, PE32+ x86_64, IL-only, 28 types, 200 methods,
+   40 P/Invoke records, WebView2 references 1.0.4191.47).
+- Historical user-uploaded Deskland-Setup.exe: NOT AVAILABLE,
+  NOT ANALYZED. The public release is not a substitute for it.
+- The pilot did not establish any NEW Android product feature missing
+  from the inspected source; no GPL-derived source/assets imported.
+
+5. SAFETY, LICENSE, SECURITY AND PRIVACY
+
+- Inspect only authorized, lawfully acquired targets. No bypass of product
+  controls, private account extraction or interception of third-party data.
+- Run on disposable/isolated machine when possible. Do not execute untrusted
+  files as part of static inspection, run hidden services, open ports, or
+  grant unnecessary privileges.
+- Do not upload user-provided private binaries, logs, secrets, decompiled
+  contents or identifiers into public Actions or pull requests.
+- REA is MIT licensed. Target and third-party engines keep THEIR OWN rights:
+  the original Deskland is GPL-3.0. A permissive REA license does not grant
+  permission to copy target software code, artwork or trademarks.
+- Prefer patterns independently rewritten according to consumer license and
+  product policy; record attributions where required.
+- Trust hierarchy: binary hash != software safety; static import/certificate
+  report != actual runtime/API call; CI PASS != hardware or Play readiness;
+  valid PE metadata != provenance or Authenticode signature verification.
+- Keep adapter outputs research-only; AppLab QA/certification Golden remains
+  the canonical trusted runtime verifier, not this Golden.
+
+6. COPY-READY ADOPTION CHECKLIST
+
+Before any consumer claims adoption, record:
+[ ] Purpose, rights, source/SHA, exact artifact identity and private storage
+[ ] REA pinned version/Node and supply-chain review
+[ ] Allowed commands, timeout/output/size limits, no-execution evidence
+[ ] Positive test (known PE), negative test (invalid/unavailable/untrusted
+    path or invalid version), regression (same SHA, deterministic receipts)
+[ ] JSON evidence and source-vs-binary finding/uncertainty matrix
+[ ] Source-donor/license review and independently implemented consumer delta
+[ ] Exact-head consumer CI and device/production QA only when applicable
+[ ] No mistaken CERTIFIED runtime state, no automatic Golden promotion
+
+7. PROMOTION BOUNDARY
+
+This one demonstrated AppLab+Deskland public-binary research workflow
+supports COPY-READY PROCESS for the stated static analysis procedure.
+It does not prove robust adoption in a second independent consumer or
+a certified reverse-engineering engine across all available REA providers.
+
+To promote to CERTIFIED PROCESS, collect an independently operated
+second consumer/project with reproducible exact-head tests and evidence,
+including negative/hard cases, rights boundaries, and rollback/failure
+behavior. To claim CERTIFIED GOLDEN for a wider reusable capability, satisfy
+the stronger scoped cross-consumer E5 requirements in the Master and
+Single-Donor Admission Golden. Do not promote REA broadly because its
+repository is popular or important.
+
+RELATION TO EXISTING GOLDEN
+- GOLDEN_OSS_REUSE_RECONNAISSANCE_FLUTTER_v1_DRAFT.txt: source discovery and
+  OSS/license due diligence; this file adds *bounded binary research* only.
+- GOLDEN_SINGLE_DONOR_CAPABILITY_ADMISSION_v1.txt: evidence grades and
+  certification limits; no automatic E3/E5 for a researched target.
+- GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt: canonical trusted verification;
+  REA static output is a separate research annex.
+
+END GOLDEN REA CLI / REVERSE ENGINEERING & SOFTWARE INTELLIGENCE v1
