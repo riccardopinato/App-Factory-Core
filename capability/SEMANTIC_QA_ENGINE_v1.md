@@ -62,3 +62,10 @@ python3 -m unittest discover -s tests -p 'test_semantic_qa_engine.py'
 Notes, Wonderlog, Edu and other apps may adopt the same adapter contract after checking data privacy, user consent, domain semantics and offline UX. **Anna's Diary/private notes must never be sent to a cloud semantic provider by default**. Local-only deterministic audit or opted-in private/on-device provider is the safe boundary.
 
 Provenance: feature requested and approved in App Factory conversation on 2026-11-19. Source references: Cooking Anime `tool/fast_track_catalog_audit.py` (donor triage), World Days editorial source and its English master. This capability is NOT registered as a COPY-READY Golden.
+
+## FrameLab pilot — regional Portuguese contract (engine 1.0.1)
+- Third consumer: `riccardopinato/FrameLab-Google-AI-Studio`, authoritative published editorial records only (`editorial/catalog/package.json`), EN original vs IT/ES/FR/DE/PT/**pt-BR**. The separate `pt` and `pt-BR` variants are never collapsed or silently skipped.
+- Technical photography-specific rubric: exposure (EV, ISO, aperture, shutter), focusing, optics, framing, measurement units and sequence of exercises; do not mistake fluent generic advice for faithful translation of camera-setting instructions.
+- Exclude `needsReview`, private PDF/OCR workspace, personal notes, images and user profiles. Only public, rights-cleared editorial record text is eligible for a separately authorized semantic provider.
+- Engine 1.0.1 adds `pt-BR` to the allowed locale contract, with regression and cache-isolation checks. Existing pinned adopters are compatible; refresh consumers' immutable SHA explicitly.
+- This is an additional independent reuse pilot, **not an automatic new Golden certification**. An offline PASS is never proof of semantic equivalence, technical accuracy or editorial sign-off.

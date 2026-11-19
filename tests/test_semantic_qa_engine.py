@@ -114,6 +114,30 @@ class OfflineSemanticTests(unittest.TestCase):
                 self.assertEqual(out["comparisonCount"], 4)
                 self.assertTrue(any(x["state"] == "AI_REVIEW_HOLD" for x in out["results"]))
 
+
+    def test_regional_portuguese_is_independent_from_pt(self):
+        data = fixture()
+        data["adapter"] = "framelab_photo_education"
+        data["sourceLocale"] = "en"
+        data["targetLocales"] = ["pt", "pt-BR"]
+        for item in data["records"]:
+            item["source"] = {"title": "Exposure basics", "body": "Keep shutter at 1/125 s."}
+            item["translations"] = {
+                "pt": {"title": "Exposição", "body": "Mantém o obturador em 1/125 s."},
+                "pt-BR": {"title": "Exposição", "body": "Mantenha o obturador em 1/125 s."},
+            }
+        cache = {}
+        first = mod.audit(data, cache=cache)
+        self.assertEqual(first["comparisonCount"], 4)
+        self.assertEqual({r["locale"] for r in first["results"]}, {"pt", "pt-BR"})
+        self.assertEqual(first["cachedComparisons"], 0)
+        second = mod.audit(data, cache=cache)
+        self.assertEqual(second["cachedComparisons"], 4)
+        data["records"][0]["translations"]["pt-BR"]["body"] = "Não altere 1/125 s."
+        third = mod.audit(data, cache=cache)
+        self.assertEqual(third["cachedComparisons"], 3)
+        self.assertEqual(third["certification"], "NOT_CERTIFIED")
+
     def test_invalid_ids_no_silent_dedup(self):
         data = fixture()
         data["records"][1]["id"] = data["records"][0]["id"]

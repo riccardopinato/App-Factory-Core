@@ -26,8 +26,8 @@ import re
 import sys
 from urllib.request import Request, urlopen
 
-ENGINE_VERSION = "1.0.0"
-LOCALES = ("en", "it", "es", "fr", "de", "pt")
+ENGINE_VERSION = "1.0.1"
+LOCALES = ("en", "it", "es", "fr", "de", "pt", "pt-BR")
 RISK_ORDER = {"PASS": 0, "REVIEW": 1, "HOLD": 2}
 AMOUNTS = re.compile(
     r"(?<!\w)\d+(?:[.,]\d+)?\s*(?:°\s*[cf]|%|ml|kg|mg|g|"
