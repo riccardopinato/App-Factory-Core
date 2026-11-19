@@ -11,11 +11,15 @@ Questa cartella è il catalogo canonico del comando **Audit**.
 
 ## Sorgente canonica
 
-[MASTER_AUDIT_360_APP_FACTORY_v1.txt](MASTER_AUDIT_360_APP_FACTORY_v1.txt) contiene il prompt integrale v1.0 (7 novembre 2026). Non duplicarlo nel Master Core.
+[MASTER_AUDIT_360_APP_FACTORY_v1.txt](MASTER_AUDIT_360_APP_FACTORY_v1.txt) contiene il prompt integrale v1.1 (19 novembre 2026; base v1.0 del 7 novembre). Non duplicarlo nel Master Core.
 
 Il bootstrap risolve una sola volta `CURRENT.yaml` + Master + Index/Registry e seleziona il route `audit` esistente in `MODULE_MAP.json`. Poi carica questo prompt; Product Bible, roadmap e regole di accesso delle singole app prevalgono sullo scope, mentre Master/Golden prevalgono sulle regole operative. Modalità **READ_ONLY**: nessun cambiamento a codebase, roadmap, issue, cloud, merge, deploy o store.
 
 `audit/` è la libreria di istruzioni; `audits/` raccoglie report storici/evidence. Non alterare i moduli legacy byte-exact della Factory v26.8 per registrare questo comando.
+
+## Registro delle attività aperte per audit ricorrenti
+
+[UNSLOP_UI_AZIONI_APERTE_2026-11-19.md](UNSLOP_UI_AZIONI_APERTE_2026-11-19.md) conserva i gate di accettazione ancora aperti del pilota Unslop UI/Anti-AI 64. In un audit Factory trasversale, o dei consumer coinvolti, verificare e riportare lo stato corrente degli ID UNSLOP-FT-01…04 senza confondere snapshot storici e HEAD GitHub. Consultarlo in **sola lettura** durante il comando `Audit`; la chiusura degli item richiede un'azione di manutenzione autorizzata, non è un effetto dell'audit.
 
 ## ChatGPT Project
 

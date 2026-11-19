@@ -1,5 +1,5 @@
 # APP FACTORY — MASTER AUDIT 360° UNIVERSALE
-## Prompt operativo riutilizzabile | v1.0 | 7 novembre 2026
+## Prompt operativo riutilizzabile | v1.1 | 19 novembre 2026
 
 ### ISTRUZIONE DI AVVIO
 Esegui un AUDIT TRASVERSALE PROFONDO, COMPLETO, CRITICO, COMPARATIVO E BASATO SU EVIDENZE dell'app/progetto di cui stiamo parlando in questa chat. Se il contesto identifica più app, analizzale separatamente e aggiungi una matrice trasversale; se l'utente indica «tutte le app», inventaria prima i repository del suo ecosistema. Non chiedere di ripetere nomi, scelte o vincoli già disponibili.
@@ -192,6 +192,8 @@ Matrice per opportunità:
 
 Se la stessa criticità appare in più app, classificala: `FIX APP-SPECIFIC`, `CERTIFIED DONOR CANDIDATE`, `GOLDEN CANDIDATE`, `FACTORY PROCESS`, `NON CONDIVIDERE`. Una Golden non è certificata perché il nome compare nell'indice; richiedi lo status reale del Registry, SHA e prove previste (E1/E3/E5 o gate correnti). La priorità è riuso mirato senza imporre UX uniforme o database comune.
 
+Per audit Factory trasversali o relativi ad Anna's Diary, Android Omni Cleaner, AppLab o Design-App, consulta anche `audit/UNSLOP_UI_AZIONI_APERTE_2026-11-19.md` come **registro persistente di follow-up**: riconcilia gli ID UNSLOP-FT-01…04 con HEAD/PR/CI, riporta OPEN/BLOCKED/DONE/NOT_VERIFIED e i gate mancanti. Non leggere gli snapshot come prova corrente, non promuovere scanner euristici a Golden, non modificare il registro durante AUDIT_ONLY. Questo addendum è pertinente solo ai target indicati e non sostituisce le altre verifiche.
+
 Verifica l'allineamento di `12-CAPABILITY-E-IMPLEMENTAZIONI`, backlog idee e classifiche, quando accessibili: capability duplicata, app destinataria corretta, stato aggiornato, vecchi suggerimenti già implementati, nuovo donor verificato, feature fuori prodotto, possibile aggiornamento Master/Golden. Suggerisci cambiamenti ma NON scrivere nei registri durante audit-only.
 
 ## 17. TEST DI ADATTAMENTO SPECIFICO PER TIPO DI APP
@@ -330,4 +332,4 @@ NON CONSIDERARE CONCLUSO IL RAPPORTO se mancano: stato reale/HEAD, verifica scel
 
 ---
 
-FINE PROMPT — v1.0
+FINE PROMPT — v1.1
