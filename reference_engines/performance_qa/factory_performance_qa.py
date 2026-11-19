@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import statistics
 import sys
 from pathlib import Path
@@ -89,6 +90,8 @@ def verify_fixture(directory: Path) -> dict:
         manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
     except (OSError, ValueError) as error:
         raise EvidenceError("invalid manifest") from error
+    if not isinstance(manifest, dict):
+        raise EvidenceError("manifest must be an object")
     if manifest.get("schema_version") != VERSION:
         raise EvidenceError("unsupported schema")
     seed, files, pairs = manifest.get("seed"), manifest.get("files"), manifest.get("duplicate_pairs")
@@ -146,8 +149,10 @@ def _read_runs(path: Path, metric: str, minimum: int) -> list[dict]:
                 raise EvidenceError("unsupported evidence schema")
             if any(field not in row for field in IDENTITY_FIELDS):
                 raise EvidenceError("missing identity/integrity evidence")
-            if not isinstance(row.get("source_sha"), str) or len(row["source_sha"]) < 7:
-                raise EvidenceError("missing source SHA")
+            if not isinstance(row.get("source_sha"), str) or re.fullmatch(r"[0-9a-f]{40}", row["source_sha"]) is None:
+                raise EvidenceError("missing full Git source SHA")
+            if not isinstance(row.get("integrity_digest"), str) or re.fullmatch(r"sha256:[0-9a-f]{64}", row["integrity_digest"]) is None:
+                raise EvidenceError("missing full integrity SHA-256")
             if row.get("environment") not in ("physical", "emulator"):
                 raise EvidenceError("missing environment provenance")
             if type(row.get(metric)) not in (int, float) or not (0 <= row[metric] < 1e12):
