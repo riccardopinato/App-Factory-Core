@@ -1,5 +1,5 @@
 registry_version: 2
-updated_at: 2026-11-10
+updated_at: 2026-11-19
 master_version: "27"
 index_version: 29
 goldens:
@@ -61,7 +61,7 @@ goldens:
     category: ui
     path: golden/ui/GOLDEN_THEME_M3_FLUTTER_v1.txt
     migrated_at: 2026-10-09
-    last_content_reviewed_at: 2026-10-01
+    last_content_reviewed_at: 2026-11-19
     last_provider_verified_at: null
     provider_sensitive: true
     freshness_status: NEEDS_REVIEW

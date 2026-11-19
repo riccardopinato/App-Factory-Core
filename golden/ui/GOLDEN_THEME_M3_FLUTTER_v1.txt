@@ -17,7 +17,7 @@ Donor secondario:
 1. SCOPO
 ======================================================================
 
-Tema Material 3 standard per nuove utility.
+Tema Material 3 COPY-READY come OPZIONE, non stile predefinito obbligatorio per nuove utility. L'adozione e' per-app e subordinata alla Product Bible, alle reference Design-App preferite dall'utente, al Master v27 e alla visual QA. Mantenere M3 nelle app esistenti quando coerente; non migrare automaticamente o applicare il Golden Flutter a progetti Kotlin/Compose.
 
 Obiettivi:
 - light;
@@ -381,8 +381,8 @@ class ResponsiveDestinationShell extends StatelessWidget {
 6. REGOLE VISIVE
 ======================================================================
 
-Default:
-- Material 3;
+Quando Material 3 e' esplicitamente scelto per questa app:
+- Material 3 (opzionale, personalizzato secondo la direzione grafica del prodotto);
 - superficie pulita;
 - card solo quando separano davvero contenuti;
 - massimo una primary CTA dominante per superficie;
@@ -404,7 +404,7 @@ Per consumer app:
 7. TEST CANONICI
 ======================================================================
 
-[ ] Material 3 attivo.
+[ ] Se e' stato scelto M3 per l'app, componenti e tema Material 3 effettivamente attivi e validati.
 [ ] Light mode leggibile.
 [ ] Dark mode leggibile.
 [ ] System mode segue OS.

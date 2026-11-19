@@ -1,5 +1,60 @@
 # Changelog
 
+## 2026-11-19 — Fast Track IA massivo e parallelo per centinaia di contenuti indipendenti
+
+- Stabilita come regola operativa globale l'elaborazione in parallelo, per lotti disgiunti da 100 ID (salvo differente lotto del prodotto e ultimo residuo), di storie, ricette, localizzazioni e altri contenuti a basso rischio; vietato il micro-lotto seriale immotivato quando l'insieme e' ampio.
+- Ogni corsia produce contenuto completo e pronto all'import, sei lingue quando previste, QA IA proporzionata e HOLD individuale solo per problemi reali. Consolidamento deterministico/idempotente, prevenzione di conflitti Git e CI ridondante; contatori per ID realmente integrati e ID ancora in branch o pending.
+- Esempio World Days: 604 ID ancora aperti dopo il primo lotto Wave21 da cinque = sei lotti disgiunti da 100 + ultimo lotto da quattro. Nessuna storia nuova o integrazione nelle app e' affermata da questa modifica al Master.
+- Sincronizzati Master Core v27, alias, full fallback, manifest di integrita' e comando Procedi; moduli immutabili v26.8 invariati.
+
+## 2026-11-19 — Fast track editoriale IA per app descrittive e intrattenimento
+
+- Le storie World Days, le ricette Cooking Anime e i contenuti editoriali analoghi a basso rischio possono essere generati, tradotti e controllati tramite IA, quindi integrati subito come contenuti ufficiali dell'app senza revisione professionale esterna o certificazione umana singola obbligatoria.
+- QA proporzionata per fatti, date, traduzioni, ricette, duplicati, fonti, schema e licenze; solo conflitti reali vanno in HOLD individuale. Terminati i controlli e i normali gate tecnici GitHub, registrare i contenuti, aggiornare i conteggi e procedere con il batch successivo.
+- Nessuna deroga a sicurezza alimentare, contenuti medici/legali/finanziari, privacy, proprietà intellettuale, CI o rilascio. Sincronizzati Core v27, alias operativo, full fallback generato, manifest e comando Procedi; nessun consumer repo modificato.
+
+## 2026-11-19 — Team-grade professional UI quality and 64-point Anti-AI-Template audit
+
+- Formalize the owner's quality target: consumer products should reflect expert product, visual, interaction, content, accessibility, engineering, performance and QA disciplines, rather than repetitive AI-generated-looking templates; do not misrepresent authorship or claim any AI-detector.
+- Extend the existing professional design contract with all **64 actionable visual/UX/copy/motion/implementation signals** (AT-01..AT-64), corrective actions, a top-10 quality review gate, per-surface statuses and reproducible screenshot/code/runtime evidence.
+- Update **active v27 Master Core** to route design work through the checklist. The immutable legacy experience module stays unchanged and the active Core overrides historical defaults; Design-App-first provenance and Product Bible/approved UI remain authoritative.
+- Synchronize the current Master alias, full generated fallback, manifest source/fallback integrity pins and Procedi command source SHA. No Golden promotion, new dependencies, app UI changes or release/certification claims.
+
+## 2026-11-19 — Canonical code library: archive permitted source, deduplicate and search
+
+- Add global v27 Master rule to index discovered design components in the existing Design-App canonical library and automatically archive original accessible, reuse-permitted code with pinned origin/license/notice rather than collecting only links.
+- Clarify strict distinction ARCHIVED_SOURCE vs REFERENCE_ONLY vs consumer-tested COPY_READY; preserve existing source files without duplication, keep historical IDs as aliases, retain anti-AI-stock design/product authority and applicable code/asset rights.
+- Add cross-project contract `contracts/CANONICAL_COMPONENT_LIBRARY_INGEST_v1.md`, describing verified Design-App snapshot of 277 Ruixen TSX, 111 existing Uiverse originals, 478 canonical records and 4 aliases.
+- Synchronize active Core alias, living fallback, module SHA pins and Procedi source hash; no Golden or consumer app changes.
+
+## 2026-11-19 — Flutter Component Library as scoped UI component discovery
+
+- Record fluttercomponentlibrary.com as an on-demand, priority Flutter widget reference for modern, distinctive app UI/UX (after owner-curated Design-App and Golden/donor fit checks).
+- Do not infer rights to paste code solely from displayed instructions: exact source and commercial licensing were not verified from accessible component cards; gate copying, dependencies, SDK, APK footprint and visual QA.
+- Add sample-based 15-component source guide with declared Dart paths and source/permission uncertainty; no automatic package installation, consumer changes or Golden promotion.
+- Synchronize v27 active alias, living fallback, integrity manifest and command source pin; CURRENT version stays v27.
+
+## 2026-11-19 — Material 3 available as selective design option
+
+- Keep Material Design 3 (m3.material.io) as an optional, app-specific design system rather than a blanket ban or mandatory visual default.
+- Clarify active v27 policy: owner-curated Design-App references and approved app identity still lead; consider M3 components for relevant utility workflows, preserve existing M3 when appropriate.
+- Clarify optional applicability of the COPY-READY Flutter M3 Golden without changing its code, admission level, index version or Kotlin/Compose boundaries; register refreshed content-review date, not provider verification.
+- Add source-routing audit and candidate-only matrix for FocusSense, Tabletop Motion Alarm, The Luminous Infinite Circle and Battery Guard. No app code changed.
+
+## 2026-11-19 — Anti AI-stock professional product design standard
+
+- Strengthen active Master v27 with product-specific art direction, explicit anti-template/anti-AI-stock visual critique, curated Design-App-first reference hierarchy and quality evidence gates.
+- Define on-demand reference source router: existing DSK design skills, curated design sites, official Flutter/pub.dev, Flutter Gems and case-justified motion packages; no mandatory new UI dependency or universal theme.
+- Add `contracts/PROFESSIONAL_PRODUCT_DESIGN_ANTI_AI_STOCK_v1.md` companion to existing eight-gate visual QA process. No Golden promoted or consumer app modified.
+- Synchronize Core, active alias, generated fallback, module SHA seals and public Procedi command source pin; historical v26.8/CURRENT.version untouched.
+
+## 2026-11-18 — Flutter Gems on-demand knowledge discovery
+
+- Added an explicit on-demand Flutter Gems research rule to the ACTIVE v27 compact Master, while preserving Golden/donor admission, Design-App-first aesthetics, licenses and app-specific Product Bible.
+- Classified Forui, Flutter Gems, GenUI/A2UI example, F22 Labs 2026 comparison and GitHub Flutter search in a cross-app research guide (not a package/Golden certification).
+- Set a premium, youthful, product-owned visual quality bar for 2026–27 with concrete accessibility and performance gates.
+- Synchronized canonical Core, legacy current alias, derived living full fallback and v27 source/hash manifest; kept CURRENT version, Golden Registry and historical v26.8 unchanged.
+
 ## 2026-11-18 — Product-owned visual direction 2026–2027
 
 - Supersede legacy framework-styled visual rules in the ACTIVE v27 compact Core: a product-owned design system now overrides legacy reference text; Flutter remains the implementation stack.
