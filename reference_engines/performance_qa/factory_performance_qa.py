@@ -207,10 +207,14 @@ def compare_series(baseline: Path, candidate: Path, metric: str = "file_rows_ms"
             "p95": round(p95, 3),
             "median_absolute_deviation": round(mad, 3),
             "relative_mad_pct": round(100 * mad / median, 3) if median > 0 else 100.0,
+            "p95_tail_spread_pct": round(100 * (p95 - median) / median, 3) if median > 0 else 100.0,
         }
 
     old_stats, new_stats = describe(old), describe(new)
-    noisy = any(stat["relative_mad_pct"] > max_variation_pct for stat in (old_stats, new_stats))
+    noisy = any(
+        max(stat["relative_mad_pct"], stat["p95_tail_spread_pct"]) > max_variation_pct
+        for stat in (old_stats, new_stats)
+    )
     gate = "NOISY_MEASUREMENTS_REVIEW" if noisy else (
         "REVIEW_REGRESSION" if delta_pct > max_regression_pct else (
             "PHYSICAL_REPLAY_REQUIRED" if environment == "emulator" else "CANDIDATE_NO_CERTIFICATION"
