@@ -28,6 +28,12 @@ jobs:
           python3 scripts/reuse_passport_gate.py --check
           python3 -m unittest discover -s tests -p 'reuse_passport_test.py' -v
 
+      - name: Python Factory Performance QA — deterministic fixtures and evidence fail-closed
+        run: |
+          python3 -m unittest discover -s tests -p 'test_factory_performance_qa.py' -v
+          python3 reference_engines/performance_qa/factory_performance_qa.py fixture --output "$RUNNER_TEMP/python-factory-qa-fixture" --files 256 --duplicate-pairs 16 --seed 19
+          python3 reference_engines/performance_qa/factory_performance_qa.py verify --input "$RUNNER_TEMP/python-factory-qa-fixture"
+
       - name: Validate harvested engine contracts and portable fixture definitions
         run: python3 scripts/validate_engine_harvest.py
 
