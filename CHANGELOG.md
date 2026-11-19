@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-19 — Team-grade professional UI quality and 64-point Anti-AI-Template audit
+
+- Formalize the owner's quality target: consumer products should reflect expert product, visual, interaction, content, accessibility, engineering, performance and QA disciplines, rather than repetitive AI-generated-looking templates; do not misrepresent authorship or claim any AI-detector.
+- Extend the existing professional design contract with all **64 actionable visual/UX/copy/motion/implementation signals** (AT-01..AT-64), corrective actions, a top-10 quality review gate, per-surface statuses and reproducible screenshot/code/runtime evidence.
+- Update **active v27 Master Core** and **experience module section 23** to route product-specific design work through the checklist while keeping Design-App-first provenance and Product Bible/approved UI as authority; no blanket prohibition of visual techniques or frameworks.
+- Synchronize the current Master alias, full generated fallback, manifest source/fallback integrity pins and Procedi command source SHA. No Golden promotion, new dependencies, app UI changes or release/certification claims.
+
 ## 2026-11-19 — Canonical code library: archive permitted source, deduplicate and search
 
 - Add global v27 Master rule to index discovered design components in the existing Design-App canonical library and automatically archive original accessible, reuse-permitted code with pinned origin/license/notice rather than collecting only links.
