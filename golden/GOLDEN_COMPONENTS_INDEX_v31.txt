@@ -1649,6 +1649,7 @@ Not CERTIFIED GOLDEN. Scoped research-only COPY-READY PROCESS; see
 Single-Donor Capability Admission and AppLab QA Golden for stronger gates.
 Flutter Gallery real CLI/AOT: https://github.com/riccardopinato/AppLab/actions/runs/44626932001
 Omni Cleaner independent REA/JADX: https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44626294217
+Adaptive Landscape independent Flutter/AOT/JADX: https://github.com/riccardopinato/Adaptive-Landscape-Android/actions/runs/44630662704
 
 Scope: CERTIFIED PROCESS for bounded read-only CLI static research and
 independent cross-project execution. NOT CERTIFIED GOLDEN, inspected code,
