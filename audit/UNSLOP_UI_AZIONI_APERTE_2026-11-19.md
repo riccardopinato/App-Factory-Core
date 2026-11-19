@@ -54,7 +54,7 @@ Fonte operativa e limitazioni: [bridge Core](../contracts/UNSLOP_UI_ANTI_AI_64_B
 ## Come usarlo nei futuri audit
 
 1. In un audit Factory trasversale, oppure di Anna's Diary, Omni Cleaner, AppLab o Design-App, leggere questo registro insieme ai soli contratti pertinenti e riconciliare i link con GitHub **in sola lettura**.
-2. Per ogni ID riportare `OPEN / BLOCKED / DONE / NOT_VERIFIED`, delta rispetto alla verifica precedente, SHA/PR/evidenza, dipendenze e prossimo passo. Non confondere attività in draft, mergeti, testate e certificate.
+2. Per ogni ID riportare `OPEN / BLOCKED / DONE / NOT_VERIFIED`, delta rispetto alla verifica precedente, SHA/PR/evidenza, dipendenze e prossimo passo. Non confondere attività in draft, merged, testate e certificate.
 3. **Non** ricontare come nuovo backlog i 379+16 candidati né trasformare ogni warning in un ticket senza triage. Non bloccare progetti non interessati.
 4. Gli stati qui sono snapshot: chiudere un ID nel registro solo con evidence reale attraverso una PR autorizzata di manutenzione; una lettura di audit da sola non autorizza scritture.
 5. La promozione Golden rimane separata dalle modifiche delle singole app. Le fonti sono i relativi HEAD e il Registry corrente, non la memoria della chat.
