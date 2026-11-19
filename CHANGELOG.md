@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-19 — Fast track editoriale IA per app descrittive e intrattenimento
+
+- Le storie World Days, le ricette Cooking Anime e i contenuti editoriali analoghi a basso rischio possono essere generati, tradotti e controllati tramite IA, quindi integrati subito come contenuti ufficiali dell'app senza revisione professionale esterna o certificazione umana singola obbligatoria.
+- QA proporzionata per fatti, date, traduzioni, ricette, duplicati, fonti, schema e licenze; solo conflitti reali vanno in HOLD individuale. Terminati i controlli e i normali gate tecnici GitHub, registrare i contenuti, aggiornare i conteggi e procedere con il batch successivo.
+- Nessuna deroga a sicurezza alimentare, contenuti medici/legali/finanziari, privacy, proprietà intellettuale, CI o rilascio. Sincronizzati Core v27, alias operativo, full fallback generato, manifest e comando Procedi; nessun consumer repo modificato.
+
 ## 2026-11-19 — Team-grade professional UI quality and 64-point Anti-AI-Template audit
 
 - Formalize the owner's quality target: consumer products should reflect expert product, visual, interaction, content, accessibility, engineering, performance and QA disciplines, rather than repetitive AI-generated-looking templates; do not misrepresent authorship or claim any AI-detector.
