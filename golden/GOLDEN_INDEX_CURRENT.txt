@@ -1,5 +1,5 @@
 GOLDEN COMPONENTS INDEX
-Versione: 29.0 — 08/11/2026
+Versione: 31.0 — 19/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
@@ -1612,3 +1612,45 @@ Scope:
 - 5MiB read-only file preview adapter in Wonderlog; exact-source CI and parity fixtures.
 
 Non certificato: full import/write/export, map snapping, provider roads, arbitrary extensions, physical picker.
+======================================================================
+62. REA CLI / REVERSE ENGINEERING & SOFTWARE INTELLIGENCE
+======================================================================
+
+File:
+GOLDEN_REA_CLI_REVERSE_INTELLIGENCE_v1.txt
+
+Stato:
+CERTIFIED PROCESS
+
+Donor/process:
+AppLab direct REA CLI bridge (6.9.0, MIT) + real public Deskland Preview
+v0.1.3 read-only binary/NSIS/.NET pilot. This is NOT an embedded app library,
+MCP runtime, or certified reverse-engineering engine.
+
+Scope:
+- source and artifact fingerprint; bounded static PE imports/certificates;
+- optional separate archive extraction and .NET metadata review under
+  explicit authorization; output JSON hashes and license/source provenance;
+- verified public installer hash, 43/43 payload checksums, extracted managed
+  host, zero copied GPL code/assets, and decision not to alter Android.
+- historical user Deskland-Setup.exe remains NOT ANALYZED.
+- Second independent consumer Android Omni Cleaner PR #44 with own-source APK, real REA/JADX and negative tests: PASS;
+- Flutter Gallery real CLI/AOT: PASS in AppLab; third-party, hardware and all-provider coverage NOT certified.
+
+Evidence:
+AppLab CLI PR #236 https://github.com/riccardopinato/AppLab/pull/236
+Real public binary PR #237 https://github.com/riccardopinato/AppLab/pull/237
+Cross-family AppLab PR #238 https://github.com/riccardopinato/AppLab/pull/238
+Independent Omni Cleaner PR #44 https://github.com/riccardopinato/Android-Omni-Cleaner/pull/44
+CLI synthetic fixture PASS https://github.com/riccardopinato/AppLab/actions/runs/44604806371
+Deskland real public binary PASS https://github.com/riccardopinato/AppLab/actions/runs/44615407360
+
+Not CERTIFIED GOLDEN. Scoped research-only COPY-READY PROCESS; see
+Single-Donor Capability Admission and AppLab QA Golden for stronger gates.
+Flutter Gallery real CLI/AOT: https://github.com/riccardopinato/AppLab/actions/runs/44626932001
+Omni Cleaner independent REA/JADX: https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44626294217
+Adaptive Landscape independent Flutter/AOT/JADX: https://github.com/riccardopinato/Adaptive-Landscape-Android/actions/runs/44630662704
+
+Scope: CERTIFIED PROCESS for bounded read-only CLI static research and
+independent cross-project execution. NOT CERTIFIED GOLDEN, inspected code,
+runtime functionality, arbitrary REA providers, Play or device verification.

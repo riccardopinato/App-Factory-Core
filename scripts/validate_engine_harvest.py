@@ -65,9 +65,30 @@ def main() -> None:
             require("E5" in doc and "INDEPENDENT" in doc.upper() and "NOT CERTIFIED" in doc.upper() or
                     "E5" in doc and "Independent consumer" in doc and "NOT" in doc,
                     "scoped Golden must state evidence and negative boundary: " + ident)
-        require(len(registered) == 61, "v29 scoped index must have 61 Goldens")
+        if index_version == 29:
+            require(len(registered) == 61, "v29 scoped index must have 61 Goldens")
+        elif index_version in (30, 31):
+            require(len(registered) == 62, "v30/v31 scoped index must have 62 Goldens")
+            rea = registered.get("rea_cli_reverse_intelligence")
+            require(isinstance(rea, dict), "missing REA CLI Golden in v30/v31")
+            expected = ("COPY-READY PROCESS", "COPY_READY") if index_version == 30 else (
+                "CERTIFIED PROCESS", "CERTIFIED_PROCESS")
+            require(rea["status"] == expected[0] and
+                    rea["admission_level"] == expected[1] and
+                    rea["path"] == "golden/governance/GOLDEN_REA_CLI_REVERSE_INTELLIGENCE_v1.txt",
+                    "REA CLI Golden must honor exact version-scoped admission")
+            doc = (ROOT / rea["path"]).read_text(encoding="utf-8")
+            require("CLI ONLY" in doc and "CERTIFIED GOLDEN" in doc and
+                    "historical user" in doc.lower() and
+                    "UNVALIDATED_EXTERNAL_OUTPUT" in doc and "E5" in doc,
+                    "REA CLI process must preserve execution, provenance and E5 boundaries")
+            require(rea["path"].rsplit("/", 1)[-1] in index,
+                    "REA CLI v30/v31 Golden missing from index")
+        else:
+            raise AssertionError("unreviewed Golden Index version in engine harvest test")
     else:
-        require(len(registered) == 59, "v28 legacy Golden count drift")
+        require(index_version == 28 and len(registered) == 59,
+                "v28 legacy Golden count drift")
     for ident, rel in NEW.items():
         require(ident in registered, "unregistered engine: " + ident)
         entry = registered[ident]

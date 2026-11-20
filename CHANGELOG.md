@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-19 — Golden Index v31: REA CLI CERTIFIED PROCESS (scoped)
+
+- Promoted only the bounded *static REA CLI research procedure* `rea_cli_reverse_intelligence` to `CERTIFIED PROCESS`. Independent execution: AppLab Deskland PE/NSIS/.NET [#44615407360](https://github.com/riccardopinato/AppLab/actions/runs/44615407360) and Flutter Gallery AOT [#44626932001](https://github.com/riccardopinato/AppLab/actions/runs/44626932001); second repo Omni Cleaner own-APK/JADX [#44626294217](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44626294217) with negative Flutter and SHA mismatch tests, PR #44 merged.
+- `CURRENT.yaml` Index v31, synchronized Registry v2, aliases and versioned snapshot, Golden v1.1, and version-scoped engine-harvest validator. Core Master v27 unchanged; no MCP, no E3 donor automatic upgrade, no app code, physical device, signed APK or Store certification. REA third-party research source remains E1. The original historic Deskland-Setup.exe was not available.
+
+
+## 2026-11-19 — Golden v30: REA CLI Reverse Engineering & Software Intelligence (COPY-READY PROCESS)
+
+- Registrato `GOLDEN_REA_CLI_REVERSE_INTELLIGENCE_v1.txt` come Golden di **processo riutilizzabile**, categoria governance, admission_level **COPY_READY**; aggiornati `CURRENT.yaml` (Golden Index 30), alias e file versionato dell'indice, e Golden Registry v2.
+- Donor operativo AppLab: CLI REA `rea-agents@6.9.0` senza MCP, adapter PE con hash/limiti/timeout e CI; reale installer pubblico Deskland v0.1.3 con 43/43 SHA payload e `.NET` host analizzati staticamente. Evidenza: https://github.com/riccardopinato/AppLab/actions/runs/44615407360
+- Rispetta i confini di proprietà, licenza e sicurezza: ricerca non autorizza copia di codice/asset GPL, prova runtime Windows, analisi del vecchio installer utente, E3 donor automatico o CERTIFIED GOLDEN. Per CERTIFIED PROCESS occorre consumer indipendente ed evidenze ripetibili; il Master resta v27.
+
+
 ## 2026-11-19 — Fast Track IA massivo e parallelo per centinaia di contenuti indipendenti
 
 - Stabilita come regola operativa globale l'elaborazione in parallelo, per lotti disgiunti da 100 ID (salvo differente lotto del prodotto e ultimo residuo), di storie, ricette, localizzazioni e altri contenuti a basso rischio; vietato il micro-lotto seriale immotivato quando l'insieme e' ampio.
