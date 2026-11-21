@@ -15,7 +15,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 import re
 
-ENGINE_VERSION = "1.1.1"
+ENGINE_VERSION = "1.1.2"
 PLACEHOLDER = re.compile(r"\{[a-zA-Z_][\w.]*\}|%\d*\$?[sd]|\$\{[^{}]+\}")
 NUMBER = re.compile(r"(?<![\w])\d+(?:[.,]\d+)?")
 PRIVATE = {"PRIVATE", "PERSONAL", "SENSITIVE", "HEALTH"}
@@ -103,12 +103,11 @@ def _render_spelled(text: str, locale: str) -> str:
     # Only explicit frequency idioms (not general article-to-one rewriting).
     # 'Una o due volte' and 'once or twice' are equivalent counts.
     frequency = {
-        "it": [(r"\buna?\s+o\s+due\s+volte\b", "1 o 2 volte"),
-               (r"\buna\s+volta\b", "1 volta")],
-        "en": [(r"\bonce\b", "1 time"), (r"\btwice\b", "2 times")],
+        "it": [(r"\buna?\s+o\s+due\s+volte\b", "1 o 2 volte")],
+        "en": [(r"\bonce\s+or\s+twice\b", "1 or 2")],
         "es": [(r"\buna\s+o\s+dos\s+veces\b", "1 o 2 veces")],
         "fr": [(r"\bune\s+ou\s+deux\s+fois\b", "1 ou 2 fois")],
-        "de": [(r"\beinmal\b", "1 mal"), (r"\bzweimal\b", "2 mal")],
+        "de": [(r"\beinmal\s+oder\s+zweimal\b", "1 oder 2 mal")],
         "pt": [(r"\buma\s+ou\s+duas\s+vezes\b", "1 ou 2 vezes")],
         "pt-br": [(r"\buma\s+ou\s+duas\s+vezes\b", "1 ou 2 vezes")],
     }
@@ -291,6 +290,7 @@ def run(
             draft = flatten(draft_index.get(rid, {}).get("translations", {}).get(locale, {}))
             proposals = []
             issues = []
+            numeric_context_hints = []
             normalized_fields = []
             for key, original in sources.items():
                 target = translated.get(key, "")
@@ -312,7 +312,14 @@ def run(
                 different, form_equivalent, units_differ = numeric_difference(
                     original, target, data["sourceLocale"], locale)
                 if different:
-                    issues.append(_number_review_issue("NUMBER_ANCHOR_REVIEW", key, original, target))
+                    finding = _number_review_issue("NUMBER_ANCHOR_REVIEW", key, original, target)
+                    if finding["code"] == "WORD_NUMBER_CONTEXT_REVIEW":
+                        # Purely written, context-dependent numeral phrases are
+                        # hints; a translation is still OFFLINE_REVIEW_REQUIRED.
+                        # Explicit unit mismatch below always remains REVIEW.
+                        numeric_context_hints.append(finding)
+                    else:
+                        issues.append(finding)
                 if units_differ:
                     issues.append(_number_review_issue("UNIT_ANCHOR_REVIEW", key, original, target))
                 if form_equivalent:
@@ -349,6 +356,7 @@ def run(
                 "semanticReviewType": witness.get("reviewType", "NOT_RUN") if witness else "NOT_RUN",
                 "proposals": proposals, "issues": issues,
                 "numericFormNormalizationHints": normalized_fields,
+                "numericContextHints": numeric_context_hints,
             })
     return {
         "engine": "app_factory_language_engine",
@@ -364,6 +372,7 @@ def run(
             issue.get("priority", "P1") for row in rows for issue in row["issues"]
         ).items())),
         "numericFormNormalizationHints": normalized_form_count,
+        "numericContextHints": sum(len(row["numericContextHints"]) for row in rows),
         "inputFingerprint": stable_hash(data),
         "privacy": data.get("privacy", "UNSPECIFIED"),
         "providerCalls": 0,
