@@ -159,5 +159,37 @@ class OfflineSemanticTests(unittest.TestCase):
                 self.assertEqual(recorded["cachedComparisons"], 0 if run == 0 else 4)
 
 
+    def test_fail_closed_preflight_missing_and_empty_fields(self):
+        data = fixture()
+        del data["records"][0]["translations"]["en"]["steps"]["one"]
+        report = mod.audit(data)
+        target = next(x for x in report["results"]
+                      if x["id"] == "recipe_000059" and x["locale"] == "en")
+        self.assertEqual(target["state"], "HOLD")
+        self.assertTrue(any(x["code"] == "MISSING_TARGET_FIELD" for x in target["findings"]))
+        data["records"][0]["translations"]["en"]["steps"]["one"] = ""
+        target = next(x for x in mod.audit(data)["results"]
+                      if x["id"] == "recipe_000059" and x["locale"] == "en")
+        self.assertEqual(target["state"], "HOLD")
+        self.assertTrue(any(x["code"] == "EMPTY_TRANSLATION" for x in target["findings"]))
+
+    def test_source_fingerprint_tracks_current_dataset_not_cached_summary(self):
+        data = fixture()
+        first = mod.audit(data)
+        self.assertEqual(first["inputFingerprint"], mod.stable_hash(data))
+        data["records"][0]["source"]["title"] = "New source title"
+        second = mod.audit(data)
+        self.assertNotEqual(first["inputFingerprint"], second["inputFingerprint"])
+
+    def test_model_invocation_errors_do_not_claim_used_semantic_model(self):
+        data = fixture()
+        with patch.dict("os.environ", {"OPENAI_API_KEY": "fake"}):
+            with patch.object(mod, "openai_review", side_effect=RuntimeError("offline")):
+                result = mod.audit(data, provider="openai", model="fake",
+                                   allow_external=True, workers=1)
+        self.assertFalse(result["semanticModelActuallyUsed"])
+        self.assertTrue(all(x["reviewType"] == "OFFLINE_ONLY"
+                            for x in result["results"]))
+
 if __name__ == "__main__":
     unittest.main()

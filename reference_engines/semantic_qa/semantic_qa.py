@@ -207,7 +207,8 @@ def review_one(entry: dict, locale: str, cfg: dict, cache: dict) -> dict:
     if fingerprint in cache:
         result = dict(cache[fingerprint])
         return {**result, "id": entry["id"], "locale": locale, "cached": True}
-    verdict = "REVIEW" if known else "PASS"
+    verdict = max(("PASS", *(item["severity"] for item in known)),
+                  key=RISK_ORDER.get)
     checked = cfg["provider"] == "openai"
     findings = list(known)
     if checked:
@@ -285,7 +286,8 @@ def audit(data: dict, *, provider: str = "offline", model: str = "",
     counts = dict(Counter(r["state"] for r in results))
     return {
         "schemaVersion": 1, "engineVersion": ENGINE_VERSION,
-        "mode": provider.upper(), "semanticModelActuallyUsed": provider == "openai",
+        "mode": provider.upper(),
+        "semanticModelActuallyUsed": any(r["reviewType"] == "AI_SEMANTIC" for r in results),
         "sourceLocale": source_locale, "targetLocales": locales,
         "adapter": cfg["adapter"], "recordCount": len(rows),
         "inputFingerprint": stable_hash(data),
