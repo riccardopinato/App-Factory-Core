@@ -76,6 +76,21 @@ L'icona deve:
 
 ICON CREATED != ICON WIRED != PHYSICAL LAUNCHER VERIFIED.
 
+GATE OBBLIGATORIO IN OGNI NUOVO REPOSITORY/APK:
+- Il bootstrap produce un master icon sorgente e una icona originale,
+  non un monogramma/stock Flutter di default o un logo generico di AI.
+- Applicare dal primo build i launcher assets alle piattaforme target,
+  inclusa Android Adaptive Icon, monochrome/themed quando pertinente.
+- Una CI source-level verifica il wiring e rifiuta stock icon o default
+  ancora collegati; una prova del package installato resta distinta.
+- Il design usa prima le reference Design-App e la Product Bible;
+  una reference non autorizzata resta solo ispirazione.
+- Ogni versione App Factory conserva la medesima identity di prodotto,
+  l'asset originale e una traccia di provenienza; il redesign e' ammesso,
+  il ritorno involontario al placeholder no.
+- In presenza di errore, APRIRE UNA CORREZIONE, non pubblicare APK
+  descritti come production-ready senza la prova dell'icona installata.
+
 ======================================================================
 7. GOLDEN COMPONENT LIBRARY — COPY FIRST
 ======================================================================

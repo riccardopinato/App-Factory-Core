@@ -129,7 +129,7 @@ CONTENT EDITORIALE A BASSO RISCHIO — FAST TRACK (World Days, Cooking Anime e a
 - Le reference Design-App selezionate dall'utente hanno PRIORITA' rispetto a proposte estetiche originali di ChatGPT quando sono coerenti con il prodotto o ragionevolmente adattabili; privilegiare l'integrazione diretta, poi l'adattamento motivato, prima di inventare alternative. La regola vale anche durante gli audit estetici e i mock-up interattivi.
 - Ogni proposta visiva deve identificare la reference Design-App (ID/link/asset), l'esito DIRETTA / ADATTATA / NON ADATTA e la motivazione sintetica. Se non esiste una reference pertinente, spiegare il gap prima di proporre idee autonome o fonti esterne. Rispettare sempre Product Bible, decisioni esplicite dell'utente, accessibilita', performance, vincoli di piattaforma e licenze: l'archiviazione di un'immagine non autorizza automaticamente il riuso di asset o codice.
 - Localize every target surface affected by the feature, including native text.
-- Keep branding/icon production-intent for new app bootstrap.
+- ICON FIRST E' UN GATE DI BOOTSTRAP: ogni nuova app deve avere prima del primo APK un'icona originale e distinta di prodotto, installata realmente nei launcher assets (Android adaptive + monochrome ove applicabile, iOS/Web se target). Vietate icone stock Flutter/Android, placeholder e simboli AI non rifiniti. La CI deve verificare presenza/integrazione del master e degli asset e fallire quando restano icone stock. Design-App/Product Bible first; evidence ASSET CREATED -> WIRED -> BUILD CONTAINS ICON -> PHYSICAL VERIFIED.
 - A Web mock never certifies Android/iOS native behavior.
 - Choose verification and delivery matrix by product family: Web Utility SEO does not inherit Android APK/AAB, while native Android release needs device/signing evidence.
 - Do bounded hygiene in the affected scope, then rerun relevant checks.
@@ -608,6 +608,21 @@ L'icona deve:
 - avere iOS/Web assets quando target.
 
 ICON CREATED != ICON WIRED != PHYSICAL LAUNCHER VERIFIED.
+
+GATE OBBLIGATORIO IN OGNI NUOVO REPOSITORY/APK:
+- Il bootstrap produce un master icon sorgente e una icona originale,
+  non un monogramma/stock Flutter di default o un logo generico di AI.
+- Applicare dal primo build i launcher assets alle piattaforme target,
+  inclusa Android Adaptive Icon, monochrome/themed quando pertinente.
+- Una CI source-level verifica il wiring e rifiuta stock icon o default
+  ancora collegati; una prova del package installato resta distinta.
+- Il design usa prima le reference Design-App e la Product Bible;
+  una reference non autorizzata resta solo ispirazione.
+- Ogni versione App Factory conserva la medesima identity di prodotto,
+  l'asset originale e una traccia di provenienza; il redesign e' ammesso,
+  il ritorno involontario al placeholder no.
+- In presenza di errore, APRIRE UNA CORREZIONE, non pubblicare APK
+  descritti come production-ready senza la prova dell'icona installata.
 
 ======================================================================
 6. PRODUCT BIBLE / RULE ZERO / SCOPE
