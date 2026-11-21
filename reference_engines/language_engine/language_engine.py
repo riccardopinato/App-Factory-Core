@@ -11,10 +11,11 @@ import argparse
 from collections import Counter
 import hashlib
 import json
+from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 import re
 
-ENGINE_VERSION = "1.0.0"
+ENGINE_VERSION = "1.1.0"
 PLACEHOLDER = re.compile(r"\{[a-zA-Z_][\w.]*\}|%\d*\$?[sd]|\$\{[^{}]+\}")
 NUMBER = re.compile(r"(?<![\w])\d+(?:[.,]\d+)?")
 PRIVATE = {"PRIVATE", "PERSONAL", "SENSITIVE", "HEALTH"}
@@ -45,11 +46,138 @@ def flatten(data: object, prefix: str = "") -> dict[str, str]:
     return {prefix: str(data)}
 
 
-def _anchor_mismatch(a: str, b: str) -> bool:
-    # Nonblocking: translations may spell numbers out or convert units.
-    aa = Counter(match.group().replace(",", ".") for match in NUMBER.finditer(a))
-    bb = Counter(match.group().replace(",", ".") for match in NUMBER.finditer(b))
-    return bool(aa) and aa != bb
+# Written numeric words 2..10 only. Articles are ambiguous, so remain REVIEW.
+CARDINALS = {
+    "it": "due tre quattro cinque sei sette otto nove dieci",
+    "en": "two three four five six seven eight nine ten",
+    "es": "dos tres cuatro cinco seis siete ocho nueve diez",
+    "fr": "deux trois quatre cinq six sept huit neuf dix",
+    "de": "zwei drei vier fünf sechs sieben acht neun zehn",
+    "pt": "dois três quatro cinco seis sete oito nove dez",
+}
+CARDINALS = {locale: {word: i for i, word in enumerate(words.split(), 2)}
+             for locale, words in CARDINALS.items()}
+CARDINALS["pt"]["duas"] = 2
+CARDINALS["pt-br"] = CARDINALS["pt"]
+WORDS = re.compile(r"\b[^\W\d_]+\b", re.UNICODE)
+TEMPERATURES = re.compile(r"(?<!\w)(\d+(?:[.,]\d+)?)\s*°\s*([cCfF])\b")
+UNITS = re.compile(
+    r"(?<!\w)(\d+(?:[.,]\d+)?)\s*"
+    r"(mm|cm|kg|mg|g|ml|litri?|liters?|litres?|"
+    r"minuti?|minutes?|minutos?|minuten|mins?|"
+    r"ore|hours?|horas?|heures?|stunden?)\b", re.IGNORECASE)
+UNIT_MAP = {
+    "mm": ("distance_mm", 1), "cm": ("distance_mm", 10),
+    "mg": ("mass_g", Decimal("0.001")), "g": ("mass_g", 1),
+    "kg": ("mass_g", 1000), "ml": ("volume_ml", 1),
+    "litri": ("volume_ml", 1000), "liters": ("volume_ml", 1000),
+    "litres": ("volume_ml", 1000), "liter": ("volume_ml", 1000),
+    "litre": ("volume_ml", 1000),
+    "min": ("duration_s", 60), "mins": ("duration_s", 60),
+    "minuto": ("duration_s", 60), "minuti": ("duration_s", 60),
+    "minute": ("duration_s", 60), "minutes": ("duration_s", 60),
+    "minutos": ("duration_s", 60), "minuten": ("duration_s", 60),
+    "ore": ("duration_s", 3600),
+    "hour": ("duration_s", 3600), "hours": ("duration_s", 3600),
+    "horas": ("duration_s", 3600),
+    "heures": ("duration_s", 3600), "stunden": ("duration_s", 3600),
+}
+
+
+def stable_hash(value: object) -> str:
+    """Same JSON contract as Semantic QA's stable_hash()."""
+    raw = json.dumps(value, ensure_ascii=False, sort_keys=True,
+                     separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _decimal(value: str) -> Decimal:
+    return Decimal(value.replace(",", "."))
+
+
+def _number(value: Decimal) -> str:
+    return format(value.normalize(), "f")
+
+
+def _render_spelled(text: str, locale: str) -> str:
+    lexicon = CARDINALS.get(locale.lower(), {})
+    return WORDS.sub(lambda m: str(lexicon.get(m.group().casefold(), m.group())), text)
+
+
+def numeric_anchors(text: str, locale: str) -> Counter:
+    """Conservative numeric fingerprints, including common unit conversions."""
+    normalized = _render_spelled(text, locale)
+    temps = []
+    def consume_temp(match):
+        value = _decimal(match.group(1))
+        kind = match.group(2).upper()
+        if kind == "F":
+            value = ((value - 32) * Decimal(5) / Decimal(9)).quantize(
+                Decimal("1"), rounding=ROUND_HALF_UP)
+        temps.append((kind, "°C:" + _number(value)))
+        return " "
+    remaining = TEMPERATURES.sub(consume_temp, normalized)
+    celsius = Counter(x for kind, x in temps if kind == "C")
+    found = []
+    for kind, value in temps:
+        # Drop only the redundant target-side F display of a C value.
+        if kind == "F" and celsius[value] > 0:
+            celsius[value] -= 1
+        else:
+            found.append(value)
+    found.extend("num:" + _number(_decimal(m.group()))
+                 for m in NUMBER.finditer(remaining))
+    return Counter(found)
+
+
+def unit_anchors(text: str, locale: str) -> Counter:
+    normalized = _render_spelled(text, locale)
+    found = []
+    for match in UNITS.finditer(normalized):
+        unit = UNIT_MAP.get(match.group(2).casefold())
+        if unit:
+            dimension, factor = unit
+            found.append((dimension, _number(_decimal(match.group(1)) * Decimal(factor))))
+    return Counter(found)
+
+
+def numeric_difference(source: str, target: str, source_locale: str, target_locale: str):
+    """Return numeric drift, explainable formatting drift, and unit drift."""
+    a, b = numeric_anchors(source, source_locale), numeric_anchors(target, target_locale)
+    a_units, b_units = unit_anchors(source, source_locale), unit_anchors(target, target_locale)
+    units_differ = bool(a_units and b_units and a_units != b_units)
+    raw_a = Counter(m.group().replace(",", ".") for m in NUMBER.finditer(source))
+    raw_b = Counter(m.group().replace(",", ".") for m in NUMBER.finditer(target))
+    return a != b, bool(a == b and raw_a != raw_b and not units_differ), units_differ
+
+
+def _semantic_evidence_index(report: dict, data: dict) -> dict:
+    expected = {(r["id"], locale) for r in data["records"]
+                for locale in data["targetLocales"]}
+    if (report.get("adapter") != data["adapter"]
+            or report.get("sourceLocale") != data["sourceLocale"]
+            or report.get("targetLocales") != data["targetLocales"]
+            or report.get("recordCount") != len(data["records"])
+            or report.get("comparisonCount") != len(expected)
+            or report.get("certification") != "NOT_CERTIFIED"
+            or report.get("inputFingerprint") != stable_hash(data)):
+        raise ValueError("Stale/unbound Semantic QA report: regenerate against current input")
+    results = report.get("results")
+    if not isinstance(results, list):
+        raise ValueError("Missing Semantic QA results")
+    index = {}
+    for row in results:
+        if not isinstance(row, dict):
+            raise ValueError("Malformed Semantic QA result")
+        key = (row.get("id"), row.get("locale"))
+        if key in index:
+            raise ValueError("Duplicate Semantic QA result")
+        if row.get("reviewType") not in ("OFFLINE", "OFFLINE_ONLY", "AI_SEMANTIC"):
+            raise ValueError("Unknown Semantic QA reviewType")
+        index[key] = row
+    if set(index) != expected:
+        raise ValueError("Semantic QA report coverage mismatch")
+    return index
 
 
 def _validate_record_set(source: dict) -> None:
@@ -117,17 +245,16 @@ def run(
         ):
             raise ValueError("Drafts do not match source adapter/locales")
     draft_index = {r["id"]: r for r in drafts["records"]} if drafts else {}
-    semantic = {}
-    if semantic_report:
-        if semantic_report.get("adapter") != data["adapter"]:
-            raise ValueError("Semantic report adapter mismatch")
-        if semantic_report.get("certification") != "NOT_CERTIFIED":
-            raise ValueError("Unrecognized semantic report certification")
-        semantic = {(r["id"], r["locale"]): r for r in semantic_report.get("results", [])}
+    source_by_id = {r["id"]: r["source"] for r in data["records"]}
+    for rid, draft in draft_index.items():
+        if rid not in source_by_id or draft["source"] != source_by_id[rid]:
+            raise ValueError("Stale draft with absent or changed canonical source")
+    semantic = _semantic_evidence_index(semantic_report, data) if semantic_report else {}
 
     domain = data["adapter"]
     rows = []
     counts = Counter()
+    normalized_form_count = 0
     for index, item in enumerate(data["records"]):
         rid = item["id"]
         sources = flatten(item["source"])
@@ -136,6 +263,7 @@ def run(
             draft = flatten(draft_index.get(rid, {}).get("translations", {}).get(locale, {}))
             proposals = []
             issues = []
+            normalized_fields = []
             for key, original in sources.items():
                 target = translated.get(key, "")
                 if not original.strip():
@@ -153,8 +281,15 @@ def run(
                     continue
                 if sorted(PLACEHOLDER.findall(original)) != sorted(PLACEHOLDER.findall(target)):
                     issues.append({"code": "PLACEHOLDER_DRIFT", "field": key, "severity": "HOLD"})
-                if _anchor_mismatch(original, target):
+                different, form_equivalent, units_differ = numeric_difference(
+                    original, target, data["sourceLocale"], locale)
+                if different:
                     issues.append({"code": "NUMBER_ANCHOR_REVIEW", "field": key, "severity": "REVIEW"})
+                if units_differ:
+                    issues.append({"code": "UNIT_ANCHOR_REVIEW", "field": key, "severity": "REVIEW"})
+                if form_equivalent:
+                    normalized_fields.append(key)
+                    normalized_form_count += 1
                 for term in glossary_rows:
                     if term.get("domain") not in (None, domain):
                         continue
@@ -185,6 +320,7 @@ def run(
                 "state": state,
                 "semanticReviewType": witness.get("reviewType", "NOT_RUN") if witness else "NOT_RUN",
                 "proposals": proposals, "issues": issues,
+                "numericFormNormalizationHints": normalized_fields,
             })
     return {
         "engine": "app_factory_language_engine",
@@ -196,6 +332,8 @@ def run(
         "comparisons": len(rows),
         "laneCount": (len(data["records"]) + max_records_per_lane - 1) // max_records_per_lane,
         "states": dict(sorted(counts.items())),
+        "numericFormNormalizationHints": normalized_form_count,
+        "inputFingerprint": stable_hash(data),
         "privacy": data.get("privacy", "UNSPECIFIED"),
         "providerCalls": 0,
         "mode": "OFFLINE_MEMORY_AND_QA",
