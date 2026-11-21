@@ -610,6 +610,38 @@ L'icona deve:
 ICON CREATED != ICON WIRED != PHYSICAL LAUNCHER VERIFIED.
 
 ======================================================================
+6. PRODUCT BIBLE / RULE ZERO / SCOPE
+======================================================================
+
+PRODUCT BIBLE = source of product truth.
+Definisce:
+- problema;
+- target;
+- promessa;
+- MVP;
+- esclusioni;
+- privacy;
+- Free/Premium;
+- UX;
+- feature approvate.
+
+RULE ZERO — PRODUCT FRICTION REDUCTION.
+Ogni decisione deve ridurre attrito non necessario:
+- meno tap;
+- meno schermate;
+- meno campi;
+- meno decisioni;
+- default chiari;
+- progressive disclosure;
+- recovery evidente;
+- permessi just-in-time;
+- forte gerarchia visiva.
+
+POSSIBILE != NECESSARIO.
+Non aggiungere feature, backend, AI, sync, schermate o framework solo perché
+tecnicamente possibili.
+
+======================================================================
 7. GOLDEN COMPONENT LIBRARY — COPY FIRST
 ======================================================================
 
