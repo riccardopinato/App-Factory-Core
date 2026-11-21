@@ -97,5 +97,50 @@ class LanguageEngineTests(unittest.TestCase):
         self.assertEqual(out["comparisons"], 402)
 
 
+    def test_safe_numerical_normalizations_and_real_mismatch(self):
+        good = module.numeric_difference(
+            "Cuoci 4 uova a 74 °C.", "Cook four eggs to 74 °C (165 °F).", "it", "en")
+        self.assertEqual(good, (False, True, False))
+        self.assertEqual(module.numeric_difference(
+            "Cuoci a 74 °C.", "Cook to 165 °F.", "it", "en")[0], False)
+        self.assertTrue(module.numeric_difference(
+            "Cuoci a 74 °C.", "Cook to 70 °C (165 °F).", "it", "en")[0])
+        self.assertTrue(module.numeric_difference(
+            "Gira di 90°.", "Turn a quarter of a turn.", "it", "en")[0])
+
+    def test_units_need_review_even_when_cardinal_values_match(self):
+        self.assertEqual(module.numeric_difference(
+            "Cuoci 4 minuti.", "Cook for 4 hours.", "it", "en"), (False, False, True))
+        self.assertEqual(module.numeric_difference(
+            "Cuoci 4 minuti.", "Cook for 4 minutes.", "it", "en"), (False, False, False))
+        self.assertEqual(module.numeric_difference(
+            "Taglia 4–5 mm.", "Slice 4–5 mm.", "it", "en"), (False, False, False))
+
+    def test_stale_draft_and_stale_semantic_evidence_rejected(self):
+        data = sample()
+        draft = sample()
+        draft["records"][0]["source"]["steps"]["first"] = "Wrong original."
+        with self.assertRaisesRegex(ValueError, "Stale draft"):
+            module.run(data, drafts=draft)
+        rows = [
+            {"id": "recipe_000080", "locale": lang, "state": "OFFLINE_REVIEW_REQUIRED",
+             "reviewType": "OFFLINE_ONLY"} for lang in ("en", "fr")
+        ]
+        report = {"adapter": "cooking_anime", "sourceLocale": "it",
+                  "targetLocales": ["en", "fr"], "recordCount": 1,
+                  "comparisonCount": 2, "certification": "NOT_CERTIFIED",
+                  "inputFingerprint": module.stable_hash(data), "results": rows}
+        self.assertEqual(module.run(data, semantic_report=report)["comparisons"], 2)
+        report["results"] = rows[:1]
+        with self.assertRaises(ValueError):
+            module.run(data, semantic_report=report)
+        report["results"] = rows + rows[:1]
+        with self.assertRaises(ValueError):
+            module.run(data, semantic_report=report)
+        report["results"] = rows
+        data["records"][0]["source"]["steps"]["first"] = "Changed canonical!"
+        with self.assertRaisesRegex(ValueError, "Stale/unbound"):
+            module.run(data, semantic_report=report)
+
 if __name__ == "__main__":
     unittest.main()

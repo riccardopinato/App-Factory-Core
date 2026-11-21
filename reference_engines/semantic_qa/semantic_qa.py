@@ -26,7 +26,7 @@ import re
 import sys
 from urllib.request import Request, urlopen
 
-ENGINE_VERSION = "1.0.1"
+ENGINE_VERSION = "1.0.2"
 LOCALES = ("en", "it", "es", "fr", "de", "pt", "pt-BR")
 RISK_ORDER = {"PASS": 0, "REVIEW": 1, "HOLD": 2}
 AMOUNTS = re.compile(
@@ -288,6 +288,7 @@ def audit(data: dict, *, provider: str = "offline", model: str = "",
         "mode": provider.upper(), "semanticModelActuallyUsed": provider == "openai",
         "sourceLocale": source_locale, "targetLocales": locales,
         "adapter": cfg["adapter"], "recordCount": len(rows),
+        "inputFingerprint": stable_hash(data),
         "comparisonCount": len(results), "batchSize": batch_size,
         "maxWorkers": workers, "cachedComparisons": sum(r["cached"] for r in results),
         "counts": counts, "results": results,
