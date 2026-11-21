@@ -15,7 +15,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 import re
 
-ENGINE_VERSION = "1.1.0"
+ENGINE_VERSION = "1.1.1"
 PLACEHOLDER = re.compile(r"\{[a-zA-Z_][\w.]*\}|%\d*\$?[sd]|\$\{[^{}]+\}")
 NUMBER = re.compile(r"(?<![\w])\d+(?:[.,]\d+)?")
 PRIVATE = {"PRIVATE", "PERSONAL", "SENSITIVE", "HEALTH"}
@@ -62,7 +62,7 @@ CARDINALS["pt-br"] = CARDINALS["pt"]
 WORDS = re.compile(r"\b[^\W\d_]+\b", re.UNICODE)
 TEMPERATURES = re.compile(r"(?<!\w)(\d+(?:[.,]\d+)?)\s*°\s*([cCfF])\b")
 UNITS = re.compile(
-    r"(?<!\w)(\d+(?:[.,]\d+)?)\s*"
+    r"(?<!\w)(\d+(?:[.,]\d+)?)\s*(?:[-‑–]\s*)?"
     r"(mm|cm|kg|mg|g|ml|litri?|liters?|litres?|"
     r"minuti?|minutes?|minutos?|minuten|mins?|"
     r"ore|hours?|horas?|heures?|stunden?)\b", re.IGNORECASE)
@@ -100,6 +100,20 @@ def _number(value: Decimal) -> str:
 
 
 def _render_spelled(text: str, locale: str) -> str:
+    # Only explicit frequency idioms (not general article-to-one rewriting).
+    # 'Una o due volte' and 'once or twice' are equivalent counts.
+    frequency = {
+        "it": [(r"\buna?\s+o\s+due\s+volte\b", "1 o 2 volte"),
+               (r"\buna\s+volta\b", "1 volta")],
+        "en": [(r"\bonce\b", "1 time"), (r"\btwice\b", "2 times")],
+        "es": [(r"\buna\s+o\s+dos\s+veces\b", "1 o 2 veces")],
+        "fr": [(r"\bune\s+ou\s+deux\s+fois\b", "1 ou 2 fois")],
+        "de": [(r"\beinmal\b", "1 mal"), (r"\bzweimal\b", "2 mal")],
+        "pt": [(r"\buma\s+ou\s+duas\s+vezes\b", "1 ou 2 vezes")],
+        "pt-br": [(r"\buma\s+ou\s+duas\s+vezes\b", "1 ou 2 vezes")],
+    }
+    for pattern, replacement in frequency.get(locale.lower(), []):
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
     lexicon = CARDINALS.get(locale.lower(), {})
     return WORDS.sub(lambda m: str(lexicon.get(m.group().casefold(), m.group())), text)
 
@@ -149,6 +163,20 @@ def numeric_difference(source: str, target: str, source_locale: str, target_loca
     raw_a = Counter(m.group().replace(",", ".") for m in NUMBER.finditer(source))
     raw_b = Counter(m.group().replace(",", ".") for m in NUMBER.finditer(target))
     return a != b, bool(a == b and raw_a != raw_b and not units_differ), units_differ
+
+
+def _number_review_issue(code: str, key: str, source: str, target: str) -> dict:
+    """Actionable triage without claiming heuristic completeness."""
+    if (code == "NUMBER_ANCHOR_REVIEW" and key.endswith(".name")
+            and key.startswith("ingredients.")
+            and re.search(r"\b(?:farina|flour)\s*0{1,2}\b", source, re.I)):
+        code = "INGREDIENT_CLASSIFICATION_REVIEW"
+    elif (code == "NUMBER_ANCHOR_REVIEW" and not NUMBER.search(source)
+          and not NUMBER.search(target)):
+        code = "WORD_NUMBER_CONTEXT_REVIEW"
+    return {"code": code, "field": key, "severity": "REVIEW",
+            "priority": "P1" if key.startswith("steps.") else "P2",
+            "sourceEvidence": source[:200], "targetEvidence": target[:200]}
 
 
 def _semantic_evidence_index(report: dict, data: dict) -> dict:
@@ -284,9 +312,9 @@ def run(
                 different, form_equivalent, units_differ = numeric_difference(
                     original, target, data["sourceLocale"], locale)
                 if different:
-                    issues.append({"code": "NUMBER_ANCHOR_REVIEW", "field": key, "severity": "REVIEW"})
+                    issues.append(_number_review_issue("NUMBER_ANCHOR_REVIEW", key, original, target))
                 if units_differ:
-                    issues.append({"code": "UNIT_ANCHOR_REVIEW", "field": key, "severity": "REVIEW"})
+                    issues.append(_number_review_issue("UNIT_ANCHOR_REVIEW", key, original, target))
                 if form_equivalent:
                     normalized_fields.append(key)
                     normalized_form_count += 1
@@ -332,6 +360,9 @@ def run(
         "comparisons": len(rows),
         "laneCount": (len(data["records"]) + max_records_per_lane - 1) // max_records_per_lane,
         "states": dict(sorted(counts.items())),
+        "triageIssuePriorities": dict(sorted(Counter(
+            issue.get("priority", "P1") for row in rows for issue in row["issues"]
+        ).items())),
         "numericFormNormalizationHints": normalized_form_count,
         "inputFingerprint": stable_hash(data),
         "privacy": data.get("privacy", "UNSPECIFIED"),
