@@ -1450,12 +1450,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "56d0786432e2b509a1f3728ecd5d36ff6537254b",
+    "git_blob_sha": "9b95b631ca9ff7827895ada58ad1ca0ac9010abe",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "cea728e1b4b4bfe7a8e6af8e361ee994b6d393e2",
+    "core": "c3f53d1e14f71036ea394a7f357cead1ea41a675",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
