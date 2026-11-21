@@ -146,7 +146,7 @@ class LanguageEngineTests(unittest.TestCase):
         self.assertEqual(module.numeric_difference(
             "Giralo una o due volte e lascia 4–6 minuti.",
             "Turn once or twice and allow 4–6 minutes.", "it", "en"),
-            (False, True, False))
+            (False, False, False))
         self.assertEqual(module.unit_anchors(
             "Fodera uno stampo da 18 cm e monta per 8–10 minuti.", "it"),
             module.unit_anchors(
