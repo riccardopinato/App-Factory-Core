@@ -171,5 +171,25 @@ class LanguageEngineTests(unittest.TestCase):
         self.assertTrue(result["triageIssuePriorities"].get("P2", 0) >= 1)
         self.assertEqual(result["certification"], "NOT_CERTIFIED")
 
+    def test_weak_word_numerals_are_traceable_hints_not_fabricated_errors(self):
+        data = sample()
+        data["records"][0]["source"]["steps"]["second"] = "Versa in due riprese."
+        data["records"][0]["translations"]["en"]["steps"]["second"] = "Pour in stages."
+        output = module.run(data)
+        row = next(r for r in output["results"] if r["locale"] == "en")
+        self.assertTrue(any(i["code"] == "WORD_NUMBER_CONTEXT_REVIEW"
+                            for i in row["numericContextHints"]))
+        self.assertFalse(any(i["code"] == "WORD_NUMBER_CONTEXT_REVIEW"
+                             for i in row["issues"]))
+        self.assertEqual(row["state"], "OFFLINE_REVIEW_REQUIRED")
+        self.assertGreater(output["numericContextHints"], 0)
+        self.assertEqual(output["certification"], "NOT_CERTIFIED")
+
+    def test_written_time_difference_remains_an_explicit_unit_review(self):
+        a = module.numeric_difference(
+            "Cuoci due minuti.", "Cook three minutes.", "it", "en")
+        self.assertTrue(a[0])
+        self.assertTrue(a[2])
+
 if __name__ == "__main__":
     unittest.main()
