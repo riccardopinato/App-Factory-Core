@@ -142,5 +142,34 @@ class LanguageEngineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Stale/unbound"):
             module.run(data, semantic_report=report)
 
+    def test_compound_units_and_frequency_idioms(self):
+        self.assertEqual(module.numeric_difference(
+            "Giralo una o due volte e lascia 4–6 minuti.",
+            "Turn once or twice and allow 4–6 minutes.", "it", "en"),
+            (False, False, False))
+        self.assertEqual(module.unit_anchors(
+            "Fodera uno stampo da 18 cm e monta per 8–10 minuti.", "it"),
+            module.unit_anchors(
+                "Prepare an 18-cm pan and beat for 8–10 minutes.", "en"))
+        self.assertEqual(module.unit_anchors(
+            "Cuoci in una teglia da 28 cm", "it"),
+            module.unit_anchors(
+                "Bake in a 28-cm-Form", "de"))
+
+    def test_numeric_findings_include_priority_and_source_evidence(self):
+        data = sample()
+        data["records"][0]["source"]["ingredients"] = {"flour": {"name": "Farina 00"}}
+        data["records"][0]["translations"]["en"]["ingredients"] = {
+            "flour": {"name": "Plain flour"}}
+        data["records"][0]["translations"]["fr"]["ingredients"] = {
+            "flour": {"name": "Farine ordinaire"}}
+        result = module.run(data)
+        en = next(r for r in result["results"] if r["locale"] == "en")
+        grade = next(i for i in en["issues"] if i["code"] == "INGREDIENT_CLASSIFICATION_REVIEW")
+        self.assertEqual(grade["priority"], "P2")
+        self.assertEqual(grade["sourceEvidence"], "Farina 00")
+        self.assertTrue(result["triageIssuePriorities"].get("P2", 0) >= 1)
+        self.assertEqual(result["certification"], "NOT_CERTIFIED")
+
 if __name__ == "__main__":
     unittest.main()
