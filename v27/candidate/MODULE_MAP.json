@@ -691,6 +691,18 @@
         "M10",
         "R04"
       ]
+    },
+    {
+      "id": "lean-engineering",
+      "path": "v27/candidate/modules/90-lean-engineering.txt",
+      "selectors": [
+        "lean engineering",
+        "ponytail",
+        "minimum sufficient implementation",
+        "riuso codice",
+        "overengineering",
+        "code simplicity"
+      ]
     }
   ],
   "task_routes": [
@@ -1436,6 +1448,24 @@
       ],
       "public_command": true,
       "command_trigger": "Integra i mock-up"
+    },
+    {
+      "id": "lean_engineering",
+      "terms": [
+        "lean engineering",
+        "ponytail",
+        "minimum sufficient implementation",
+        "riuso codice",
+        "overengineering"
+      ],
+      "modules": [
+        "foundation-reuse",
+        "delivery-verification",
+        "lean-engineering"
+      ],
+      "golden_ids": [
+        "code_hygiene"
+      ]
     }
   ],
   "router": {
@@ -1450,12 +1480,12 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "9b95b631ca9ff7827895ada58ad1ca0ac9010abe",
+    "git_blob_sha": "53dce2de8d860418845fb2c7866ee19f29c1f1e6",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
   "integrity_blob_sha": {
-    "core": "c3f53d1e14f71036ea394a7f357cead1ea41a675",
+    "core": "5a298995cf162de68dc345e96f1f5199155ecfa6",
     "authority-execution": "304ceb334e4e9419d6d1ba9460749c9aa37cc449",
     "foundation-reuse": "a97308a1e1d3cc979be0d4789fb5c41d8bf82f8b",
     "data-offline": "7ccd33ec533ce525c02e368accfedb75a1e72ea3",
@@ -1473,6 +1503,7 @@
     "web-utility-data": "8ad7113a00f757e596cc1d89ba21a1414114a637",
     "portfolio-operations": "f38cd922661b6b0bf69adecea3fcfb4361d1db7c",
     "verification-boundaries": "9721e54c28e4a25f22ed06fbfb2ca59bca28c4b5",
-    "modular-navigation": "2dd1482e383154a9c7f5546f4552bdff11e019a1"
+    "modular-navigation": "2dd1482e383154a9c7f5546f4552bdff11e019a1",
+    "lean-engineering": "03d79a4fa8eed325e7a404726102e82cec03eb1f"
   }
 }

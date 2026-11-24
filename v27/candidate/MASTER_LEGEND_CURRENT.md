@@ -39,6 +39,7 @@
 | `portfolio-operations` | `v27/candidate/modules/87-portfolio-operations.txt` | portfolio, wip, priority, cost, checkpoint, gbrain, github stars, real development time | A04, A05, A08, A10, M03, M05, M06, M09 |
 | `verification-boundaries` | `v27/candidate/modules/88-verification-boundaries.txt` | source-only, evidence, physical QA, provider, release, privacy metrics, golden freshness | A06, A07, A11, M01, M02, M04, M07, M08, R01, R02, R03 |
 | `modular-navigation` | `v27/candidate/modules/89-modular-navigation.txt` | master legend, modular master, mockup decisions, legacy cleanup | M10, R04 |
+| `lean-engineering` | `v27/candidate/modules/90-lean-engineering.txt` | lean engineering, ponytail, minimum sufficient implementation, riuso codice, overengineering, code simplicity | — |
 
 ## Router map
 
@@ -94,6 +95,7 @@
 | `cmd_avanti` | authority-execution, audit-roadmap, portfolio-commands, portfolio-operations | — |
 | `cmd_avanti_roadmap` | authority-execution, audit-roadmap, portfolio-commands, portfolio-operations | — |
 | `mockup_integration` | authority-execution, experience, interactive-mockup-review | app_shell_responsive_visual_qa |
+| `lean_engineering` | foundation-reuse, delivery-verification, lean-engineering | code_hygiene |
 
 ## How to use this index
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-18",
+  "updated_at": "2026-11-24",
   "authority": "App Factory Core command index; CURRENT.yaml, Master and Product Bible remain authoritative for behavior.",
   "commands": [
     {
@@ -160,7 +160,7 @@
       ],
       "notes": "Non è un audit: può effettuare implementazioni solo nel perimetro già approvato, rispettando i gate GitHub.",
       "legacy_contract_version": 1,
-      "spec_blob_sha": "c3f53d1e14f71036ea394a7f357cead1ea41a675"
+      "spec_blob_sha": "5a298995cf162de68dc345e96f1f5199155ecfa6"
     },
     {
       "id": "mockup",
