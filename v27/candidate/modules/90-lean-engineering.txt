@@ -1,0 +1,54 @@
+LEAN ENGINEERING — MINIMUM SUFFICIENT COMPLETE IMPLEMENTATION
+Policy update v27 — 24/11/2026
+Scope: development, code review, refactoring and technical planning only.
+Status: operative Master policy; efficiency gains NOT VERIFIED.
+
+1. TRACE BEFORE CODING
+- Read the approved requirement, affected code path, callers, fixtures,
+  configuration, data persistence and relevant failure paths before editing.
+- Define the smallest complete user-visible result. Do not quietly narrow
+  approved scope, delete features or skip necessary integration points.
+
+2. CHOOSE REUSE BEFORE NEW CODE
+- First check implementation and components already present in this app.
+- Then consider applicable safe current Golden/Donor, standard/native APIs,
+  and installed dependencies; discover new OSS only where justified.
+- Reuse a house component over generic alternatives when it already satisfies
+  the requirement and the app's approved design identity.
+- Keep source provenance/license and current-platform compatibility gates.
+- Prefer extending/configuring a working path; avoid a competing store,
+  service, controller, feature flag, abstraction or framework without a
+  concrete benefit needed now.
+
+3. IMPLEMENT FULLY; DO NOT CODE-GOLF
+- Implement all affected callers and edge cases, with a focused regression
+  test for nontrivial branches/parsing/security/money/data transformations.
+- No rigid line-count, class-count, token or package-count target.
+- Never remove trust-boundary validation, data-loss safeguards, privacy,
+  accessibility, error handling, approved UI or physical QA.
+- Fast Track IA still processes independent content in large disjoint batches,
+  parallel where safe; this policy removes repeated overhead, not volume.
+
+4. BOUNDED SIMPLIFICATION + REVALIDATION
+- Before final checks, inspect the touched subsystem for superseded behavior,
+  unnecessary helpers, unused dependencies/assets and duplicate ownership.
+- Do not use cleanup to trigger an unrequested repository-wide redesign.
+- Never delete historical migrations, recovery, compatibility or shared media
+  without evidence of safety; re-run relevant checks after actual cleanup.
+- Preserve PR exact-head checks, AppLab, release signing and physical/store
+  validation. A green static check does not certify runtime behavior.
+
+5. TRANSPARENT DELIVERY AND PILOT EVIDENCE
+- State reused components, added dependencies or architectural layers,
+  deliberately skipped speculative features and any unverified risk.
+- For two comparable pilots log exact SHAs, changed source/lock/generated
+  files, true reuse decisions, regression receipts and unverified gates.
+- Record elapsed time, tokens or cost only if measured; imported Ponytail
+  benchmark percentages are NOT App Factory results.
+- New Lean review metrics are advisory, not a merge gate or certification.
+
+Authority order: Product Bible / current roadmap / active Core Master,
+applicable Golden and repository contracts, exact trusted test evidence.
+This is not an installed Ponytail plugin in Chat or Work.
+Inspired by DietrichGebert/ponytail (MIT); adapted independently for Factory.
+Detailed examples: docs/process/LEAN_ENGINEERING_v1.md.
