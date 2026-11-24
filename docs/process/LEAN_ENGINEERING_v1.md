@@ -1,7 +1,7 @@
 # Lean Engineering — App Factory v1 (24/11/2026)
 
 **Stato:** policy operativa nel Master v27; metriche e vantaggi ancora **NON CERTIFICATI**.
-**Riferimento:** `v27/candidate/modules/10-foundation-reuse.txt`, sezione 10.1.
+**Riferimento operativo:** `v27/candidate/modules/90-lean-engineering.txt` (policy update del Master v27). La sezione legacy 10.1 e il Code Hygiene Golden restano invariati nel loro perimetro certificato.
 **Ispirazione:** [Ponytail](https://github.com/DietrichGebert/ponytail), licenza MIT.
 Le regole seguenti sono adattate all'App Factory: non richiedono installare il
 plugin, non promettono gli stessi benchmark e non creano una seconda authority.
