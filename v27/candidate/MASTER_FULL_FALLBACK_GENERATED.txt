@@ -2002,6 +2002,7 @@ The existing "Mock-up interattivi" 1/10–10/10 contract remains canonical. Pres
 Route selection and source hashes can be statically validated; effective model adherence, actual user-task speedup and token-cost savings cannot be claimed without a comparable real evaluation. Keep negative tests for cross-command privilege expansion, stale fallback, missing policy and unsafe module routing.
 END MODULAR MASTER NAVIGATION
 
+
 ===== V27 POLICY UPDATE: lean-engineering =====
 LEAN ENGINEERING — MINIMUM SUFFICIENT COMPLETE IMPLEMENTATION
 Policy update v27 — 24/11/2026
