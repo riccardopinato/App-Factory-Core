@@ -385,6 +385,7 @@ Queste sono parole chiave di instradamento tecnico, non comandi autonomi garanti
 | Source Admission | `audit tutorial`, `fonti esterne`, `licenza dataset`, `external api license` |
 | Controlled Pilot Activation | `pilot 3`, `pilot_3`, `self canary activation`, `attivazione pilot` |
 | Factory Governance Change | `modifica governance`, `governance change`, `modifica master factory` |
+| Lean Engineering | `lean engineering`, `ponytail`, `minimum sufficient implementation`, `riuso codice` |
 
 ## Regole e aggiornamento
 

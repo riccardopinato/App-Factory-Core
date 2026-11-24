@@ -1,5 +1,5 @@
 registry_version: 2
-updated_at: 2026-11-19
+updated_at: 2026-11-24
 master_version: "27"
 index_version: 31
 goldens:
@@ -364,7 +364,7 @@ goldens:
     category: governance
     path: golden/governance/GOLDEN_CODE_HYGIENE_v1.txt
     migrated_at: 2026-10-13
-    last_content_reviewed_at: 2026-10-14
+    last_content_reviewed_at: 2026-11-24
     last_provider_verified_at: null
     provider_sensitive: false
     freshness_status: CURRENT
