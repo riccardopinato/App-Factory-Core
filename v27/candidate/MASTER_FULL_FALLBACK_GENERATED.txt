@@ -108,7 +108,7 @@ CONTENT EDITORIALE A BASSO RISCHIO — FAST TRACK (World Days, Cooking Anime e a
 - Reuse the app's existing implementation first; consult applicable production-safe Golden/donors, platform/standard APIs and installed packages before writing new code. Do not search OSS for every trivial change.
 - New abstraction, dependency, service, database or configuration requires a present need and benefit; avoid speculative architecture and duplicate ownership.
 - After implementation, perform bounded simplification and relevant final regression checks on the exact integrated tree. Security, integrity, accessibility, physical calibration, signed-release gates and Fast Track IA volume/parallelism are never waived.
-- Operational contract: v27/candidate/modules/10-foundation-reuse.txt section 10.1; companion playbook: docs/process/LEAN_ENGINEERING_v1.md.
+- Operational contract: v27/candidate/modules/90-lean-engineering.txt (v27 policy update); playbook: docs/process/LEAN_ENGINEERING_v1.md. The legacy 55 sections remain immutable.
 - Prefer existing production-safe Golden/donor before new dependencies.
 - A verified capability in ONE donor app can be registered as scoped CERTIFIED DONOR with immutable source, relevant tests and exact-SHA evidence; a second app is not required before reuse.
 - CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
@@ -781,34 +781,6 @@ TEST GREEN BEFORE CLEANUP != FINAL TREE VERIFIED.
 
 Applicare:
 GOLDEN_CODE_HYGIENE_v1.txt
-
-LEAN ENGINEERING — MINIMUM SUFFICIENT IMPLEMENTATION (cross-app):
-- Prima del codice, ricostruire solo il flusso necessario: file, chiamanti, config,
-  test, persistenza e failure path influenzati dal cambiamento.
-- Verificare se il requisito e' gia' soddisfatto; se no, cercare nell'ordine
-  codice e componenti dell'app, Golden/Donor adeguati e aggiornati, API standard
-  o native e dipendenze gia' presenti. OSS esterno solo quando pertinente.
-  Il codice locale compatibile con il prodotto non va sostituito solo per stile.
-- Scegliere la soluzione completa con la minore complessita' motivabile:
-  estensione o configurazione prima di una nuova implementazione; un nuovo
-  layer/servizio/database/package richiede un beneficio attuale misurabile.
-- Non trasformare questa regola in un limite rigido di righe o token: non
-  sacrificare chiarezza, caratteristiche approvate, sicurezza, privacy,
-  accessibilita', gestione errori o compatibilita'.
-- Per bug fix cercare i chiamanti rilevanti e risolvere la causa condivisa;
-  per nuove logiche non banali aggiungere test mirati e copertura regressiva.
-- Dopo il cambiamento cercare solo duplicati, workaround superseded,
-  dipendenze/asset inutili nel perimetro toccato e rieseguire test dopo cleanup.
-- In chiusura dichiarare la scelta di riuso, le parti volutamente non aggiunte
-  e i rischi o controlli non verificati; nessun PASS implicito.
-- NON cambiare le regole di parallelismo Fast Track IA, le review estetiche
-  approvate, i gate di AppLab, firma, integrita' dati e dispositivi fisici.
-- Misurare su piloti comparabili: code churn, dipendenze, riuso documentato,
-  test/regressioni; token, tempo e costo solo con dati misurati. Nessun
-  vantaggio quantitativo importato da benchmark esterni come risultato Factory.
-Guida esempi/checklist: docs/process/LEAN_ENGINEERING_v1.md.
-Fonte di ispirazione: DietrichGebert/ponytail, skill MIT; adattamento
-indipendente alla governance di App Factory, NON plugin installato in Chat/Work.
 
 ======================================================================
 11. DEPENDENCY ADMISSION RULE
@@ -2030,6 +2002,62 @@ The existing "Mock-up interattivi" 1/10–10/10 contract remains canonical. Pres
 Route selection and source hashes can be statically validated; effective model adherence, actual user-task speedup and token-cost savings cannot be claimed without a comparable real evaluation. Keep negative tests for cross-command privilege expansion, stale fallback, missing policy and unsafe module routing.
 END MODULAR MASTER NAVIGATION
 
+===== V27 POLICY UPDATE: lean-engineering =====
+LEAN ENGINEERING — MINIMUM SUFFICIENT COMPLETE IMPLEMENTATION
+Policy update v27 — 24/11/2026
+Scope: development, code review, refactoring and technical planning only.
+Status: operative Master policy; efficiency gains NOT VERIFIED.
+
+1. TRACE BEFORE CODING
+- Read the approved requirement, affected code path, callers, fixtures,
+  configuration, data persistence and relevant failure paths before editing.
+- Define the smallest complete user-visible result. Do not quietly narrow
+  approved scope, delete features or skip necessary integration points.
+
+2. CHOOSE REUSE BEFORE NEW CODE
+- First check implementation and components already present in this app.
+- Then consider applicable safe current Golden/Donor, standard/native APIs,
+  and installed dependencies; discover new OSS only where justified.
+- Reuse a house component over generic alternatives when it already satisfies
+  the requirement and the app's approved design identity.
+- Keep source provenance/license and current-platform compatibility gates.
+- Prefer extending/configuring a working path; avoid a competing store,
+  service, controller, feature flag, abstraction or framework without a
+  concrete benefit needed now.
+
+3. IMPLEMENT FULLY; DO NOT CODE-GOLF
+- Implement all affected callers and edge cases, with a focused regression
+  test for nontrivial branches/parsing/security/money/data transformations.
+- No rigid line-count, class-count, token or package-count target.
+- Never remove trust-boundary validation, data-loss safeguards, privacy,
+  accessibility, error handling, approved UI or physical QA.
+- Fast Track IA still processes independent content in large disjoint batches,
+  parallel where safe; this policy removes repeated overhead, not volume.
+
+4. BOUNDED SIMPLIFICATION + REVALIDATION
+- Before final checks, inspect the touched subsystem for superseded behavior,
+  unnecessary helpers, unused dependencies/assets and duplicate ownership.
+- Do not use cleanup to trigger an unrequested repository-wide redesign.
+- Never delete historical migrations, recovery, compatibility or shared media
+  without evidence of safety; re-run relevant checks after actual cleanup.
+- Preserve PR exact-head checks, AppLab, release signing and physical/store
+  validation. A green static check does not certify runtime behavior.
+
+5. TRANSPARENT DELIVERY AND PILOT EVIDENCE
+- State reused components, added dependencies or architectural layers,
+  deliberately skipped speculative features and any unverified risk.
+- For two comparable pilots log exact SHAs, changed source/lock/generated
+  files, true reuse decisions, regression receipts and unverified gates.
+- Record elapsed time, tokens or cost only if measured; imported Ponytail
+  benchmark percentages are NOT App Factory results.
+- New Lean review metrics are advisory, not a merge gate or certification.
+
+Authority order: Product Bible / current roadmap / active Core Master,
+applicable Golden and repository contracts, exact trusted test evidence.
+This is not an installed Ponytail plugin in Chat or Work.
+Inspired by DietrichGebert/ponytail (MIT); adapted independently for Factory.
+Detailed examples: docs/process/LEAN_ENGINEERING_v1.md.
+
 ===== V27 TASK ROUTES (SYNCED CANDIDATE METADATA) =====
 [
   {
@@ -2774,5 +2802,23 @@ END MODULAR MASTER NAVIGATION
     ],
     "public_command": true,
     "command_trigger": "Integra i mock-up"
+  },
+  {
+    "id": "lean_engineering",
+    "terms": [
+      "lean engineering",
+      "ponytail",
+      "minimum sufficient implementation",
+      "riuso codice",
+      "overengineering"
+    ],
+    "modules": [
+      "foundation-reuse",
+      "delivery-verification",
+      "lean-engineering"
+    ],
+    "golden_ids": [
+      "code_hygiene"
+    ]
   }
 ]
