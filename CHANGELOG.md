@@ -2,7 +2,7 @@
 
 ## 2026-11-24 — Lean Engineering / minimum sufficient implementation (advisory pilots)
 
-- Esteso Master Core v27 e modulo foundation-reuse (sezione 10.1), con mirror e fallback generato sincronizzati; niente cambi a CURRENT/versione Master.
+- Esteso Master Core v27 e aggiunto modulo di policy Lean `90-lean-engineering.txt`, preservando intatte tutte le 55 sezioni legacy; mirror e fallback generato sincronizzati; niente cambi a CURRENT/versione Master.
 - Playbook `docs/process/LEAN_ENGINEERING_v1.md`: preferenza per riuso locale/Golden/Donor, modifica minima completa, prevenzione di overengineering, test proporzionati e post-change bounded review.
 - Esteso GOLDEN_CODE_HYGIENE_v1 con un preflight Lean **advisory** non incluso nella certificazione preesistente; Registry v2 aggiornato senza nuova Golden o promozioni.
 - Guardrail invariati: Product Bible, Design-App, Fast Track IA massivo, privacy/dati, CI/AppLab/physical gate, release/firma. Benchmark Ponytail esterni NON presentati come risparmio Factory.
