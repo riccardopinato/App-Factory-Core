@@ -98,6 +98,11 @@ CONTENT EDITORIALE A BASSO RISCHIO — FAST TRACK (World Days, Cooking Anime e a
 - Flutter is default for new cross-platform app projects.
 - Preserve valid Kotlin/Compose apps without unneeded rewrites.
 - REUSE-FIRST, EXTEND BEFORE DUPLICATE, least architecture for present need.
+- LEAN ENGINEERING / MINIMUM SUFFICIENT IMPLEMENTATION: inspect the requested flow, callers, tests and data risks, then choose the smallest COMPLETE solution; no reduced product scope or degraded UX.
+- Reuse the app's existing implementation first; consult applicable production-safe Golden/donors, platform/standard APIs and installed packages before writing new code. Do not search OSS for every trivial change.
+- New abstraction, dependency, service, database or configuration requires a present need and benefit; avoid speculative architecture and duplicate ownership.
+- After implementation, perform bounded simplification and relevant final regression checks on the exact integrated tree. Security, integrity, accessibility, physical calibration, signed-release gates and Fast Track IA volume/parallelism are never waived.
+- Operational contract: v27/candidate/modules/10-foundation-reuse.txt section 10.1; companion playbook: docs/process/LEAN_ENGINEERING_v1.md.
 - Prefer existing production-safe Golden/donor before new dependencies.
 - A verified capability in ONE donor app can be registered as scoped CERTIFIED DONOR with immutable source, relevant tests and exact-SHA evidence; a second app is not required before reuse.
 - CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
