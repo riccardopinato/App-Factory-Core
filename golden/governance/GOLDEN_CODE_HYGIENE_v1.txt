@@ -127,6 +127,22 @@ Applicare sempre anche la Dependency Admission Rule del Master per nuove
 dipendenze.
 
 ======================================================================
+7A. LEAN PRE-FLIGHT / ADVISORY EXTENSION (NOT YET CERTIFIED)
+======================================================================
+
+For substantial implementation, consider the smallest complete change:
+inspect affected callers and tests; reuse existing app code, suitable Golden/
+Donor, platform features and installed dependencies before adding layers.
+New abstractions, packages, duplicated ownership and speculative options need
+a present justification. Never trade away approved UX, security, data safety,
+accessibility, error handling, physical QA or required checks.
+
+This advisory extends the workflow but does NOT expand the existing
+CERTIFIED PROCESS evidence: code-hygiene certification remains bounded to
+superseded/dead-code cleanup and post-cleanup validation. Lean outcomes require
+separate pilots and measured evidence. See docs/process/LEAN_ENGINEERING_v1.md.
+
+======================================================================
 8. FINAL VALIDATION
 ======================================================================
 
