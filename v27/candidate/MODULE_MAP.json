@@ -1480,7 +1480,7 @@
   "living_fallback": {
     "mode": "SYNCHRONIZED_GENERATED",
     "path": "v27/candidate/MASTER_FULL_FALLBACK_GENERATED.txt",
-    "git_blob_sha": "2153a82782e6426215da105c6692e3a7f0f0121b",
+    "git_blob_sha": "53dce2de8d860418845fb2c7866ee19f29c1f1e6",
     "generator": "scripts/build_v27_fallback.py",
     "rule": "Regenerate from core, modules and policy updates in the same PR; disclose FALLBACK_BASELINE_USED."
   },
