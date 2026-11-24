@@ -104,6 +104,11 @@ CONTENT EDITORIALE A BASSO RISCHIO — FAST TRACK (World Days, Cooking Anime e a
 - Flutter is default for new cross-platform app projects.
 - Preserve valid Kotlin/Compose apps without unneeded rewrites.
 - REUSE-FIRST, EXTEND BEFORE DUPLICATE, least architecture for present need.
+- LEAN ENGINEERING / MINIMUM SUFFICIENT IMPLEMENTATION: inspect the requested flow, callers, tests and data risks, then choose the smallest COMPLETE solution; no reduced product scope or degraded UX.
+- Reuse the app's existing implementation first; consult applicable production-safe Golden/donors, platform/standard APIs and installed packages before writing new code. Do not search OSS for every trivial change.
+- New abstraction, dependency, service, database or configuration requires a present need and benefit; avoid speculative architecture and duplicate ownership.
+- After implementation, perform bounded simplification and relevant final regression checks on the exact integrated tree. Security, integrity, accessibility, physical calibration, signed-release gates and Fast Track IA volume/parallelism are never waived.
+- Operational contract: v27/candidate/modules/10-foundation-reuse.txt section 10.1; companion playbook: docs/process/LEAN_ENGINEERING_v1.md.
 - Prefer existing production-safe Golden/donor before new dependencies.
 - A verified capability in ONE donor app can be registered as scoped CERTIFIED DONOR with immutable source, relevant tests and exact-SHA evidence; a second app is not required before reuse.
 - CERTIFIED GOLDEN is a separate higher cross-project evidence level; consumer physical/provider/store and exact-head gates remain binding.
@@ -776,6 +781,34 @@ TEST GREEN BEFORE CLEANUP != FINAL TREE VERIFIED.
 
 Applicare:
 GOLDEN_CODE_HYGIENE_v1.txt
+
+LEAN ENGINEERING — MINIMUM SUFFICIENT IMPLEMENTATION (cross-app):
+- Prima del codice, ricostruire solo il flusso necessario: file, chiamanti, config,
+  test, persistenza e failure path influenzati dal cambiamento.
+- Verificare se il requisito e' gia' soddisfatto; se no, cercare nell'ordine
+  codice e componenti dell'app, Golden/Donor adeguati e aggiornati, API standard
+  o native e dipendenze gia' presenti. OSS esterno solo quando pertinente.
+  Il codice locale compatibile con il prodotto non va sostituito solo per stile.
+- Scegliere la soluzione completa con la minore complessita' motivabile:
+  estensione o configurazione prima di una nuova implementazione; un nuovo
+  layer/servizio/database/package richiede un beneficio attuale misurabile.
+- Non trasformare questa regola in un limite rigido di righe o token: non
+  sacrificare chiarezza, caratteristiche approvate, sicurezza, privacy,
+  accessibilita', gestione errori o compatibilita'.
+- Per bug fix cercare i chiamanti rilevanti e risolvere la causa condivisa;
+  per nuove logiche non banali aggiungere test mirati e copertura regressiva.
+- Dopo il cambiamento cercare solo duplicati, workaround superseded,
+  dipendenze/asset inutili nel perimetro toccato e rieseguire test dopo cleanup.
+- In chiusura dichiarare la scelta di riuso, le parti volutamente non aggiunte
+  e i rischi o controlli non verificati; nessun PASS implicito.
+- NON cambiare le regole di parallelismo Fast Track IA, le review estetiche
+  approvate, i gate di AppLab, firma, integrita' dati e dispositivi fisici.
+- Misurare su piloti comparabili: code churn, dipendenze, riuso documentato,
+  test/regressioni; token, tempo e costo solo con dati misurati. Nessun
+  vantaggio quantitativo importato da benchmark esterni come risultato Factory.
+Guida esempi/checklist: docs/process/LEAN_ENGINEERING_v1.md.
+Fonte di ispirazione: DietrichGebert/ponytail, skill MIT; adattamento
+indipendente alla governance di App Factory, NON plugin installato in Chat/Work.
 
 ======================================================================
 11. DEPENDENCY ADMISSION RULE
