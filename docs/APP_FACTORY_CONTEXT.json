@@ -3,10 +3,10 @@
   "sources": [
     {
       "branch": "main",
-      "commit_date": "2026-11-20T00:20:58Z",
+      "commit_date": "2026-11-24T14:09:09Z",
       "purpose": "QA e affidabilità",
       "repository": "riccardopinato/AppLab",
-      "sha": "4496a12eaf5160a484b2da645f623dd2aa85afa3"
+      "sha": "817a65dfdeb53750ce2ec4fb224a691dc29b8953"
     },
     {
       "branch": "main",
