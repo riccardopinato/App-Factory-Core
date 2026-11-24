@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-24 — Lean Engineering / minimum sufficient implementation (advisory pilots)
+
+- Esteso Master Core v27 e modulo foundation-reuse (sezione 10.1), con mirror e fallback generato sincronizzati; niente cambi a CURRENT/versione Master.
+- Playbook `docs/process/LEAN_ENGINEERING_v1.md`: preferenza per riuso locale/Golden/Donor, modifica minima completa, prevenzione di overengineering, test proporzionati e post-change bounded review.
+- Esteso GOLDEN_CODE_HYGIENE_v1 con un preflight Lean **advisory** non incluso nella certificazione preesistente; Registry v2 aggiornato senza nuova Golden o promozioni.
+- Guardrail invariati: Product Bible, Design-App, Fast Track IA massivo, privacy/dati, CI/AppLab/physical gate, release/firma. Benchmark Ponytail esterni NON presentati come risparmio Factory.
+
 ## 2026-11-19 — Golden Index v31: REA CLI CERTIFIED PROCESS (scoped)
 
 - Promoted only the bounded *static REA CLI research procedure* `rea_cli_reverse_intelligence` to `CERTIFIED PROCESS`. Independent execution: AppLab Deskland PE/NSIS/.NET [#44615407360](https://github.com/riccardopinato/AppLab/actions/runs/44615407360) and Flutter Gallery AOT [#44626932001](https://github.com/riccardopinato/AppLab/actions/runs/44626932001); second repo Omni Cleaner own-APK/JADX [#44626294217](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/44626294217) with negative Flutter and SHA mismatch tests, PR #44 merged.
