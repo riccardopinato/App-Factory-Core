@@ -57,11 +57,11 @@ class AuditOperatorContractTest(unittest.TestCase):
         self.assertNotIn("auto-eseguire in modalita' Audit", self.spec.casefold())  # forbidden behavior is only mentioned in Action Pack
 
     def test_legacy_sections_and_reporting_not_lost(self):
-        for n in range(24):
+        for n in range(25):
             with self.subTest(section=n):
                 self.assertRegex(self.spec, rf"(?m)^## {n}\. ")
         self.assertIn("## 19-bis.", self.spec)
-        for letter in "ABCDEFGHIJKLMNOPQR":
+        for letter in "ABCDEFGHIJKLMNOPQRS":
             with self.subTest(report=letter):
                 self.assertRegex(self.spec, rf"(?m)^{letter}\. \*\*")
 
@@ -81,6 +81,37 @@ class AuditOperatorContractTest(unittest.TestCase):
         self.assertNotIn("e i 5 maxi-step", self.spec)
         self.assertNotIn("Genera 5–15 opportunità", self.spec)
         self.assertIn("fino a 5 maxi-step", self.spec)
+
+    def test_product_strategy_horizons_and_boundaries(self):
+        # Static instruction-level regression, not an LLM behavioral evaluation.
+        section = self.spec.split("## 24. VISIONE FUTURA E PERCORSO STRATEGICO", 1)[1]
+        report = self.spec.split("S. **Visione e percorso evolutivo", 1)[1]
+        for marker in (
+            "NORTH STAR", "6 / 12 / 24 MESI", "DESTINAZIONE",
+            "ORIZZONTI", "ESECUZIONE IMMEDIATA", "VISIONE_NON_DOCUMENTATA",
+            "PROPOSTO_DA_VALUTARE", "NON FARE", "RIUSARE/SEMPLIFICARE",
+            "INTRODURRE PIÙ AVANTI", "SOLA LETTURA",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker.casefold(), section.casefold())
+        self.assertIn("N/A motivato", report)
+        self.assertIn("Finestre indicative, NON impegni temporali", report)
+        self.assertIn("dossier tecnico A–S", self.spec)
+        self.assertIn("2) DOSSIER A-S", self.action)
+        self.assertIn("ogni Action Card P0/P1", self.action)
+
+    def test_strategic_horizon_keeps_authority_and_short_term_separate(self):
+        section = self.spec.split("## 24. VISIONE FUTURA", 1)[1]
+        for term in ("Product Bible", "roadmap canonica app", "non approvati",
+                     "NON sostituisce", "gate", "costo", "lock-in"):
+            with self.subTest(term=term):
+                self.assertIn(term.casefold(), section.casefold())
+        self.assertIn("N. **Roadmap di fino a 5 prossimi maxi-step**", self.spec)
+        self.assertIn("S. **Visione e percorso evolutivo", self.spec)
+        self.assertLess(
+            self.spec.index("N. **Roadmap di fino a 5 prossimi maxi-step**"),
+            self.spec.index("S. **Visione e percorso evolutivo"),
+        )
 
     def test_14_contract_scenarios(self):
         for case_id, markers in CONTRACT_SCENARIOS.items():
