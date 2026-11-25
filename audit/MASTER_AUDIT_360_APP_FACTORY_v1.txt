@@ -1,5 +1,5 @@
 # APP FACTORY — MASTER AUDIT 360° UNIVERSALE
-## Prompt operativo riutilizzabile | v1.2 CANDIDATE | 25 novembre 2026
+## Prompt operativo riutilizzabile | v1.2 | 25 novembre 2026
 
 ### ISTRUZIONE DI AVVIO
 Esegui un AUDIT TRASVERSALE PROFONDO, COMPLETO, CRITICO, COMPARATIVO E BASATO SU EVIDENZE dell'app/progetto di cui stiamo parlando in questa chat. Se il contesto identifica più app, analizzale separatamente e aggiungi una matrice trasversale; se l'utente indica «tutte le app», inventaria prima i repository del suo ecosistema. Non chiedere di ripetere nomi, scelte o vincoli già disponibili.
@@ -328,7 +328,7 @@ Se la richiesta futura è «PROCEDI CON LA ROADMAP», allora e SOLO allora rileg
 NON CONSIDERARE CONCLUSO IL RAPPORTO se mancano: stato reale/HEAD, verifica scelte precedenti, capability matrix, 360° UX/tecnica, lifecycle, integrità/restore, evidenze runtime/release, disallineamenti, riuso App Factory, priorità, top interventi, fino a cinque maxi-step pertinenti e blocchi reali. Se qualche sezione è non applicabile, scrivilo e spiega il motivo. Se mancano prove, mostra come ottenerle.
 
 
-## 23. AUDIT COME STRUMENTO INTERNO DELL'AGENTE — EFFICIENZA END-TO-END (CANDIDATE 25/11/2026)
+## 23. AUDIT COME STRUMENTO INTERNO DELL'AGENTE — EFFICIENZA END-TO-END (25/11/2026)
 
 **MISSIONE OPERATIVA APPROVATA:** l'Audit serve principalmente a ChatGPT per scegliere COME operare, non a produrre un documento fine a se stesso. Ottimizzare per il miglior risultato utente raggiungibile con il minor costo totale e il minor tempo ragionevolmente possibile SENZA attenuare la sicurezza, la prova e i gate. Il costo include tool, token, tempo, lavoro umano, manutenzione, infrastruttura, debito tecnico, rework e regressioni. Non ottimizzare solo per la brevità della risposta.
 
@@ -358,4 +358,4 @@ NON CONSIDERARE CONCLUSO IL RAPPORTO se mancano: stato reale/HEAD, verifica scel
 
 ---
 
-FINE PROMPT — v1.2 CANDIDATE
+FINE PROMPT — v1.2
