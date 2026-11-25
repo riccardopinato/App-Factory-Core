@@ -1,5 +1,5 @@
 # APP FACTORY — MASTER AUDIT 360° UNIVERSALE
-## Prompt operativo riutilizzabile | v1.1 | 19 novembre 2026
+## Prompt operativo riutilizzabile | v1.2 CANDIDATE | 25 novembre 2026
 
 ### ISTRUZIONE DI AVVIO
 Esegui un AUDIT TRASVERSALE PROFONDO, COMPLETO, CRITICO, COMPARATIVO E BASATO SU EVIDENZE dell'app/progetto di cui stiamo parlando in questa chat. Se il contesto identifica più app, analizzale separatamente e aggiungi una matrice trasversale; se l'utente indica «tutte le app», inventaria prima i repository del suo ecosistema. Non chiedere di ripetere nomi, scelte o vincoli già disponibili.
@@ -11,7 +11,7 @@ PARAMETRI DI DEFAULT (modificali solo se l'utente lo richiede):
 - PERIODO: stato verificabile ORA, confrontato con ultimo audit, decisioni recenti e roadmap.
 - AMBITO: prodotto + UX + dati + codice + sicurezza + CI + runtime + rilascio + crescita + App Factory.
 - METODO: evidence-first, reuse-first, risk-based, anti-duplicazione, anti-regressione.
-- OUTPUT: report in italiano, tabelle verificabili, matrice problemi/capability, priorità e 5 maxi-step motivati.
+- OUTPUT: report in italiano, evidenze e decisioni verificabili, matrice problemi/capability, priorità e fino a 5 maxi-step motivati: non riempire numeri artificialmente.
 - VINCOLI: solo Chat, non Work; nessuna API OpenAI a pagamento; nessuna assunzione di capacità operative non disponibili.
 
 OBIETTIVO: spiegarmi con precisione COSA È l'app oggi, COSA FA realmente, COSA DOVREBBE FARE secondo gli accordi, COSA NON FUNZIONA o non è provato, COSA È INCOMPLETO, COSA SI POTREBBE MIGLIORARE, COSA MANCA, COSA È SUPERFLUO, COSA POSSIAMO RIUSARE, QUANTO CONVIENE intervenire, IN CHE ORDINE e CON QUALI EVIDENZE considereremo ogni intervento concluso. Non confondere un'idea, una PR, un test superato, una release firmata e una funzionalità certificata.
@@ -215,7 +215,7 @@ Gioco: performance, salvataggi, accessibilità, bilanciamento, crash, advertisin
 
 ## 18. IDEE ULTERIORI: CHIEDITI COSA NON ABBIAMO ANCORA PENSATO
 
-Non limitarti a ripetere roadmap o competitor. Genera 5–15 opportunità originali e pertinenti, sempre da classificare «DA VALUTARE» finché non approvate. Considera in particolare:
+Non limitarti a ripetere roadmap o competitor. Genera fino a 15 opportunità originali e pertinenti, solo se realmente utili, sempre da classificare «DA VALUTARE» finché non approvate. Considera in particolare:
 - journey e frizioni che l'utente subisce senza segnalarle;
 - differenza tra «potente» e «comprensibile in 15 secondi»;
 - dati già raccolti che potrebbero diventare viste contestuali utili senza AI;
@@ -296,7 +296,7 @@ L. **Opportunity backlog** separando: fix immediati, rifiniture UX, capability m
 
 M. **Top 20 interventi**, ordinati con impatto, difficoltà (S/M/L), priorità, riuso, rischi, costo ricorrente ed evidenza. Se meno di 20 hanno utilità, non riempire artificialmente.
 
-N. **Roadmap dei 5 prossimi maxi-step**: obiettivo, bug/capability inclusi, prerequisiti, cosa lascia fuori, branch/PR solo come eventuale piano, ordine e parallellizzabilità, criteri di accettazione, test, gate utente, stima qualitativa. Evidenzia percorsi indipendenti: software, hardware, provider, release/store.
+N. **Roadmap di fino a 5 prossimi maxi-step**: obiettivo, bug/capability inclusi, prerequisiti, cosa lascia fuori, branch/PR solo come eventuale piano, ordine e parallellizzabilità, criteri di accettazione, test, gate utente, stima qualitativa. Evidenzia percorsi indipendenti: software, hardware, provider, release/store.
 
 O. **Decisioni necessarie dell'utente**, solo se strettamente indispensabili; per tutto il resto proponi default compatibili con decisioni già prese. Nessuna richiesta di ripetere ciò che è noto.
 
@@ -325,11 +325,35 @@ Procedi fino a produrre la migliore analisi possibile nella sessione corrente. S
 
 Se la richiesta futura è «PROCEDI CON LA ROADMAP», allora e SOLO allora rileggi le autorizzazioni e le condizioni correnti, definisci il perimetro di implementazione, applica il router di esecuzione del Master e rispetta branch/PR/check/review. `AUDIT_ONLY` rimane la modalità di questo prompt finché non ricevi una nuova autorizzazione esplicita. Il comando «mock-up interattivi» segue invece il workflow dedicato con prototipi cliccabili approvati uno per volta, senza integrare anticipatamente.
 
-NON CONSIDERARE CONCLUSO IL RAPPORTO se mancano: stato reale/HEAD, verifica scelte precedenti, capability matrix, 360° UX/tecnica, lifecycle, integrità/restore, evidenze runtime/release, disallineamenti, riuso App Factory, priorità, top interventi, cinque maxi-step e blocchi reali. Se qualche sezione è non applicabile, scrivilo e spiega il motivo. Se mancano prove, mostra come ottenerle.
+NON CONSIDERARE CONCLUSO IL RAPPORTO se mancano: stato reale/HEAD, verifica scelte precedenti, capability matrix, 360° UX/tecnica, lifecycle, integrità/restore, evidenze runtime/release, disallineamenti, riuso App Factory, priorità, top interventi, fino a cinque maxi-step pertinenti e blocchi reali. Se qualche sezione è non applicabile, scrivilo e spiega il motivo. Se mancano prove, mostra come ottenerle.
+
+
+## 23. AUDIT COME STRUMENTO INTERNO DELL'AGENTE — EFFICIENZA END-TO-END (CANDIDATE 25/11/2026)
+
+**MISSIONE OPERATIVA APPROVATA:** l'Audit serve principalmente a ChatGPT per scegliere COME operare, non a produrre un documento fine a se stesso. Ottimizzare per il miglior risultato utente raggiungibile con il minor costo totale e il minor tempo ragionevolmente possibile SENZA attenuare la sicurezza, la prova e i gate. Il costo include tool, token, tempo, lavoro umano, manutenzione, infrastruttura, debito tecnico, rework e regressioni. Non ottimizzare solo per la brevità della risposta.
+
+**PERCORSO OBBLIGATORIO MA PROPORZIONATO:**
+- Pass 0 — risolvi baseline Factory UNA VOLTA e target/HEAD, Product Bible, roadmap, autorizzazioni.
+- Pass 1 — audit differenziale: riusa evidenza già valida a SHA; riconcilia issue/PR, audit precedenti e scelte approvate; niente ricerche ripetute senza motivo.
+- Pass 2 — controlli universali risk-first: prodotto/journey, dati, lifecycle, UX, sicurezza, tecnica, QA e distribuzione, con N/A motivati e coverage manifest.
+- Pass 3 — attiva solo controlli specialistici applicabili; deep dive prioritario sui rischi con maggior impatto atteso. Nessuna scansione pesante non pertinente; nessun P0 trascurato per risparmiare tempo.
+- Pass 4 — seleziona fra NON FARE, SEMPLIFICARE/RIMUOVERE, FIX MINIMO, RIUSO, NUOVA FUNZIONE; ordina per gravità, impatto, sforzo, rischio, costo operativo e dipendenze.
+- Pass 5 — produci un Execution Pack che ChatGPT possa riutilizzare al prossimo 'Procedi': Action Card con ID, evidenza, owner, source SHA, scope/anti-scope, soluzione minima, motivazione, riuso, alternative scartate, dipendenze, test, DoD, rollback e invalidation triggers. Riconcilia soltanto i punti mutati alla successiva esecuzione.
+- Pass 6 — verifica l'audit stesso: prove coerenti, niente false certificazioni, issue duplicate o lavori inutili. Dichiara il perimetro ispezionato e i controlli che restano non verificati.
+
+**OUTPUT A TRE LIVELLI:** Decision Brief (decisioni e next action); dossier tecnico A–R (dettaglio, copertura e fonti); Execution Pack (action card e fino a cinque maxi-step). Le sei lenti del prompt utente — Product, UI, UX, Funzionalità, Tech, Crescita — sono viste riassuntive del dossier, non una seconda checklist da ripetere. Le app personali possono avere Business N/A. I voti richiedono rubriche, confidenza e N/D quando non misurabili.
+
+**PRIORITÀ E PARALLELISMO:** P0/P1/P2/P3 rimangono indipendenti dai quadranti Quick Win / Strategico / Minore / Da rinviare. Non ignorare P0 per una stima commerciale favorevole. Con 2–4 stream davvero indipendenti la parallelizzazione può convenire; se le attività condividono file/schema/contratti, esplicita l'ordine seriale. Non ordinare automaticamente implementazioni costose solo perché sono tecnicamente interessanti.
+
+**ECONOMIA DELLE VERIFICHE:** metadata/doc -> codice a rischio -> test minimi fail-fast -> source gate -> runtime/AppLab solo se necessario -> device/provider/store soltanto ai gate pertinenti. Un PASS su un livello non promuove gli altri. Nessuna nuova API/cloud/AI onerosa senza necessità dimostrata e consenso. Ci si può fermare quando ulteriori verifiche difficilmente cambiano la decisione, ma si devono registrare gap, limiti e rischi residui; mai omettere un controllo obbligatorio.
+
+**QUALITY GATE METODOLOGICO:** precisione, recall su difetti noti, tracciabilità, copertura effettiva, freschezza SHA, stabilità, actionability, duplicazione, false PASS, nessuna scrittura read-only e costo per outcome. Non proclamare audit CERTIFICATO in assenza di benchmark con truth set. Protocollo di eval in `audit/AUDIT_OPERATOR_EFFICIENCY_ACTION_PACK_v1.txt`; il documento esteso è riferito quando si studia/certifica il metodo, non si ricarica ad ogni audit ordinario.
+
+**COMPATIBILITÀ:** il presente addendum integra e NON indebolisce sezioni 0–22, Master corrente, Product Bible, Golden, AppLab e gate. Il comando 'Audit' rimane AUDIT_ONLY. Solo comando di implementazione separato, con scope approvato e gates, può scrivere.
 
 ### COMANDO FINALE
 «Esegui ora questo MASTER AUDIT 360° sull'app di questa chat. Voglio un giudizio indipendente, non rassicurazioni né un elenco generico. Confronta tutto ciò che era stato detto, approvato, pianificato, integrato, testato e distribuito. Trova anche i problemi che non avevamo notato e le opportunità più concrete. Rimani in SOLA LETTURA. Consegna il report completo, la matrice delle evidenze, le priorità e i 5 maxi-step.»
 
 ---
 
-FINE PROMPT — v1.1
+FINE PROMPT — v1.2 CANDIDATE
