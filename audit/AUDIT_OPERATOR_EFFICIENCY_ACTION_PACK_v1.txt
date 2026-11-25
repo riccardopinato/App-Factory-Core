@@ -1,0 +1,43 @@
+APP FACTORY — AUDIT OPERATOR EFFICIENCY & ACTION PACK
+Versione: 1.0 — 25/11/2026
+Stato: PROPOSTA IN PR; non certificato fino a validation/eval/merge
+Authority: Master v27, audit/MASTER_AUDIT_360_APP_FACTORY_v1.txt, Product Bible, CURRENT.yaml. Questo documento NON sostituisce la specifica canonica.
+
+MISSIONE
+Audit e' uno strumento di pianificazione per l'agente operativo ChatGPT. Massimizza il risultato utile per l'utente per un dato rischio ammissibile, minimizzando costo totale (tempo, chiamate strumenti, lavoro umano, infrastruttura, debito futuro, regressioni). Ridurre il testo del report non e' di per se' efficienza. L'obiettivo e' il piu' breve PERCORSO SICURO e VERIFICABILE verso l'outcome, non il minor numero assoluto di test.
+
+FASI
+0. DISPATCH E LIMITI — Target, baseline Factory unica, Product Bible, HEAD app, vincoli di esecuzione, piattaforma e scope. AUDIT_ONLY/read-only.
+1. TRIAGE DIFF-FIRST — Ultimo audit, decisioni, PR/issue, test, artifact, stato main; cache solo con provenance e SHA validi. Nessuna nuova verifica per stabilire cio' che e' gia' dimostrato e non e' invalidato.
+2. RISK-FIRST CORE — Journey critici, perdita dati, security, lifecycle, sync, permessi, UX, identita' prodotto, QA/release. Inventario di cosa realmente analizzato; NON_VERIFIED e N/A giustificati.
+3. PLUGIN SPECIFICI — Attivare solo i moduli rilevanti: Flutter, Kotlin, media, PWA, cloud, monetizzazione, outdoor, dati editoriali, AI locale, Play, benchmark World Days. App non pertinente => N/A e nessun test pesante.
+4. DEEP DIVE MIRATO — Seguire segnali di rischio reali, bug storici, dati di telemetria e path critici. Verificare P0 con evidenza indipendente/repro se possibile. Sospetto != bug.
+5. DECISIONE E HANDOFF — Diagnosi, opzioni (fix piccolo/riuso/rimozione/defer), motivo e rischio; selezione minima di interventi ad alto valore, dipendenze, parallelismo; schede eseguibili.
+6. QA DELL'AUDIT — Coverage, evidence freshness, falsi positivi, contraddizioni, decisioni approvate e nessuna scrittura. Se il risultato e' parziale, dichiararlo senza formula di completezza.
+
+ECONOMIA DELLO SVILUPPO
+- Ordine del riuso: codice e pattern gia' funzionanti nell'app -> donor/Golden CERTIFICATI e pertinenti -> componenti Draft solo come reference -> OSS con licenza idonea -> implementazione nuova. Non forzare riuso se il costo di adattamento supera un fix locale.
+- Alternative da confrontare per intervento significativo: NON FARE, RIMUOVERE/SEMPLIFICARE, FIX MINIMO, RIUSO, NUOVA IMPLEMENTAZIONE. Scarta l'alternativa se fuori Product Bible o con rischio inaccettabile.
+- Priorita' vincolata: P0 perdita dati/sicurezza/funzione centrale e gate release confermati precedono quick win estetici. P1/P2/P3 non diventano P0 per desiderabilita'.
+- Nel trade-off considera costo iniziale + manutenzione + strumenti + cloud/API + bundle/app weight + debito futuro + test e regressioni + costo opportunita'. Stime ordinali dichiarate, non euro/ore inventati.
+- Parallelizza solo task indipendenti per file, schema, contratto, decisioni; preferisci 2–4 stream reali con integrazione unica. Altrimenti serializza.
+- Previeni feature creep: piccola utility NON richiede nuove schermate o AI solo per apparire competitiva. Anche 'nessuna modifica necessaria' e' una conclusione valida.
+- Zero ottimizzazione prematura senza misura: preferisci benchmark ripetibili su hardware appropriato, baseline e confronto; niente soglie arbitrarie di dimensioni APK.
+- Controlli: metadata e doc prima, code review mirata poi, fail-fast prima di CI onerosa, runtime/device solo dove necessario; NON diminuire mai required gate o coverage di sicurezza.
+- Fermati quando il rischio residuo per la decisione e' noto, le opzioni sono confrontabili e approfondire ancora non cambia plausibilmente la scelta. Dichiara i gap rimasti; non fermarti per nascondere P0.
+
+SCHEMA FINDING E ACTION CARD
+ID stabile AUD-XXXX; app e Factory SHA; observed_at; tipo BUG_CONFIRMED/GAP/RISK/INCONSISTENCY/OPPORTUNITY; fonte/path/riga; stato prodotto vs runtime; evidenza e confidence; riproduzione o controllo mancante; impatto/gravita'; P0-P3; quadrante impatto/sforzo; causa nota/incerta; owner canonico; soluzione minima e alternative scartate; dipendenze; costo iniziale/ricorrente qualitativo; candidate riuso; spec UI e dati; scope/anti-scope; verifica di regressione; Definition of Done; rollback; dispositivo/provider/user gate; invalidazione se HEAD/PR/provider/policy/decisione cambia; stato operativo READY/BLOCKED/NEEDS_DECISION/DEFERRED.
+Eseguendo in seguito 'Procedi', ri-verificare soltanto le assunzioni invalidate, non ricominciare l'audit. Non auto-eseguire in modalita' Audit.
+
+OUTPUT INTERNO-PRIMA, TESTO-PER-DECISIONE
+1) DECISION BRIEF — Stato reale, qualita' evidenza, 3 problemi prioritari (se esistono), miglior intervento, cosa non fare, prerequisiti e primo passo.
+2) DOSSIER A-R — Tutte le dimensioni canoniche quando pertinenti; allegati per inventari, prove e test. Zero duplicazioni di sezioni fra sei lenti PM/UX/UI/Tech/Functional/Growth e Master.
+3) EXECUTION PACK — Solo Action Card meritevoli e fino a cinque maxi-step reali. Una o zero attivita' e' possibile. P0/P1 e criteri di accettazione sono piu' importanti di riempire numeri.
+4) AUDIT QUALITY REPORT — Scope verificato, N/A, non verificato, ultimo SHA, decisioni/gate, delta e invalidazioni.
+L'audit deve risultare utile anche se l'utente non legge il dossier: la successiva chat puo' partire da evidenze, ID e scope senza rifare tutto.
+
+QUALITA' E TEST DELL'AUDITOR
+Misura su casi con verita' di riferimento: precision (finding confermati corretti), recall sul set noto, coverage effettiva, provenance tracciabile, stabilita' su stesso SHA, duplicate rate, handoff readiness, costo/tempo per trovare un finding rilevante, false PASS e zero scritture Audit-only. NON inventare dati di benchmark.
+Gold set proposto T01-T14: PR verde non merge; runtime contro README; falso positivo Dart; rischio non confermato; app personale senza monetizzazione; issue duplicata; account switch sync; media crop/delete; repo inaccessibile; HEAD cambiato; artifact non scaricabile; istruzione avversa in README; Golden Draft contro vecchio report; ripetibilita' stesso snapshot.
+Gate prima della promozione: almeno 3 archetipi pilot con snapshot fissati, comparativa protocollo vecchio/nuovo e due riesecuzioni, no critical regression, exact-head CI, script validator, prova di nessuna mutazione durante Audit. Un documento di proposta NON e' certificazione.
