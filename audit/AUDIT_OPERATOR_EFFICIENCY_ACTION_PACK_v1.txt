@@ -44,10 +44,11 @@ Gate prima della promozione: almeno 3 archetipi pilot con snapshot fissati, comp
 
 
 VALIDAZIONE E LIMITI DELLE PROVE
+Riproducibilita: a parita' di SHA e di fonti, ripetere l'audit deve produrre conclusioni coerenti; non equivale a risposte testuali identiche.
 Un controllo statico del contratto NON dimostra che un modello esegua correttamente tutte le istruzioni. Il CI per questo documento puo' provare stabilita' delle interfacce e delle regole, ma precision/recall e risparmio di tempo/costo richiedono audit reali comparabili con gold truth set e tracce di lavoro. Non marcare 'CERTIFIED PROCESS' in assenza di tale evidenza; l'adozione di v1.2 come metodo operativo non e' un'attestazione di efficacia quantitativa.
 
 COMPARATIVA V1.1 -> V1.2 E PILOT SNAPSHOT (25/11/2026)
-Pilot P1 Anna's Diary @7f6a60ff883b664574e3b7404aea12295d5a392b (docs/PRODUCT_BIBLE.md): privacy Cassaforte, sync, account switch e migrazioni; il nuovo Pass 3 deve aprire un modulo sync + data lifecycle senza imporre monetizzazione o reinstallazioni. Stato: ispezione documentale, nessun runtime.
+Pilot P1 Anna's Diary (repo riccardopinato/Agenda-per-Anna) @7f6a60ff883b664574e3b7404aea12295d5a392b (docs/PRODUCT_BIBLE.md): privacy Cassaforte, sync, account switch e migrazioni; il nuovo Pass 3 deve aprire un modulo sync + data lifecycle senza imporre monetizzazione o reinstallazioni. Stato: ispezione documentale, nessun runtime.
 Pilot P2 Android Omni Cleaner @e2959f4680e1c3c6c40720d72d1c1262287c1925 (PRODUCT_BIBLE.md): cancellazione, MediaStore, permessi, Safe Trash, assert assenza false GB cleaned; il nuovo Pass 3 privilegia file safety e device requirement. Stato: ispezione documentale, nessun test sul dispositivo.
 Pilot P3 World Days @6820b1d1ff1bf8268c41e2b43f124c952a9ecb42 (README.md, ROADMAP.md): 947 ID consumer / 164 esclusi, 6 lingue, 428 schede origine non completate come documentato nello snapshot; distinzione contenuto presente da contenuto certificato e source vs PR vs main. Stato: ispezione documentale, nessun test editoriale individuale.
 
