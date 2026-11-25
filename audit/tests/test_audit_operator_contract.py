@@ -59,11 +59,11 @@ class AuditOperatorContractTest(unittest.TestCase):
     def test_legacy_sections_and_reporting_not_lost(self):
         for n in range(24):
             with self.subTest(section=n):
-                self.assertRegex(self.spec, rf"(?m)^## {n}\\. ")
+                self.assertRegex(self.spec, rf"(?m)^## {n}\. ")
         self.assertIn("## 19-bis.", self.spec)
         for letter in "ABCDEFGHIJKLMNOPQR":
             with self.subTest(report=letter):
-                self.assertRegex(self.spec, rf"(?m)^{letter}\\. \\*\\*")
+                self.assertRegex(self.spec, rf"(?m)^{letter}\. \*\*")
 
     def test_efficiency_handoff_and_boundary(self):
         for marker in (
