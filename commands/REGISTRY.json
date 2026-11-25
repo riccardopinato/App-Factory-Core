@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-24",
+  "updated_at": "2026-11-25",
   "authority": "App Factory Core command index; CURRENT.yaml, Master and Product Bible remain authoritative for behavior.",
   "commands": [
     {
@@ -59,7 +59,7 @@
       ],
       "notes": "Non autorizza modifiche a codice, roadmap, issue o release.",
       "legacy_contract_version": 1,
-      "spec_blob_sha": "10e379d4df3322a07483701c8a5f8324f2f09dad"
+      "spec_blob_sha": "cea60ef084ebff4ed9431883de42df5eee98cc62"
     },
     {
       "id": "capability",

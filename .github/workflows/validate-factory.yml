@@ -60,6 +60,9 @@ jobs:
           python3 scripts/test_command_legend.py
           python3 scripts/test_portfolio_commands.py
 
+      - name: Audit operator — read-only seal, coverage, 14 offline contract scenarios and strategic horizons
+        run: python3 -m unittest discover -s audit/tests -p 'test_audit_operator_contract.py' -v
+
       - name: Audit hardening — active alias, Golden admission and routing
         run: |
           python3 scripts/test_factory_hardening.py
