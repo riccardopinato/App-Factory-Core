@@ -59,7 +59,7 @@
       ],
       "notes": "Non autorizza modifiche a codice, roadmap, issue o release.",
       "legacy_contract_version": 1,
-      "spec_blob_sha": "4cb1c32c00cad6995d27ec86e7d420425d5f3a8a"
+      "spec_blob_sha": "360efb11973c253be68e897df1d8a14f93d0a6fa"
     },
     {
       "id": "capability",
