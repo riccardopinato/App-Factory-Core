@@ -90,7 +90,7 @@ class AuditOperatorContractTest(unittest.TestCase):
 
     def test_pilot_provenance_and_limitations(self):
         for marker in (
-            "Agenda-per-Anna", "Android Omni Cleaner", "World Days",
+            "Anna\'s Diary", "Android Omni Cleaner", "World Days",
             "7f6a60ff883b664574e3b7404aea12295d5a392b",
             "e2959f4680e1c3c6c40720d72d1c1262287c1925",
             "6820b1d1ff1bf8268c41e2b43f124c952a9ecb42",
