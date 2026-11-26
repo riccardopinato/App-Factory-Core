@@ -5,7 +5,7 @@
 | Repository | Uso | Branch | Commit | Ultimo commit (UTC) |
 |---|---|---|---|---|
 | [riccardopinato/AppLab](https://github.com/riccardopinato/AppLab) | QA e affidabilità | `main` | [`817a65dfdeb5`](https://github.com/riccardopinato/AppLab/commit/817a65dfdeb53750ce2ec4fb224a691dc29b8953) | 2026-11-24T14:09:09Z |
-| [riccardopinato/Idee-app-Archivi-riferimenti](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti) | Idee e capability | `main` | [`5cc0cedc0423`](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/commit/5cc0cedc042379f19cde7b39dfd463d8354875dd) | 2026-11-21T10:29:36Z |
+| [riccardopinato/Idee-app-Archivi-riferimenti](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti) | Idee e capability | `main` | [`87a37a5114a4`](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/commit/87a37a5114a40548a23763a133bbf8b14f7c6513) | 2026-11-26T14:48:56Z |
 
 ## Limiti
 
