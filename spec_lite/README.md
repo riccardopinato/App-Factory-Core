@@ -42,6 +42,10 @@ The example manifests are validated by tests but must **never** be treated as ev
 
 Reference: github/spec-kit v1.4.5 MIT (release 6ba8beefff8d6408cadd62038e92d459093e33a8; reviewed main f2010547121b3351e4923fe467205079e4593a32). Conceptual adaptation only; templates/validator are Factory-specific, not copied from upstream code. Existing Golden Lean Engineering and AppLab verification remain controlling.
 
+## Comparative OpenSpec delta evidence — 2026-11-27
+
+The [paired FAST/STANDARD pilot comparison](pilots/2026-11-27-openspec-delta-comparison.md) and its [structured JSON](pilots/2026-11-27-openspec-delta-comparison.json) record exact consumer PR/merge/CI evidence, requirements-to-test improvements and caveats. Source/CI only: no proven token/time saving, trusted Windows runtime, physical acceptance, new Golden or global rollout.
+
 ## OpenSpec-inspired incremental delta process (2026-11-27)
 
 Optional `requirements[].delta` has `operation = ADDED | MODIFIED | REMOVED | RENAMED`, `previous` (prior spec/requirement/source SHA), and `reason`. Legacy manifests continue to validate unchanged. FAST must not remove requirements; no additional FAST documents are required. The existing `scope.excludes` remains authoritative for exclusions.
