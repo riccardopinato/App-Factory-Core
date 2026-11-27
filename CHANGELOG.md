@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-27 — OpenSpec delta/drift/closeout candidate (source only)
+
+- Optional incremental requirement deltas in Spec Lite, preserving existing FAST manifests and lean contracts.
+- Read-only PR and canonical requirement drift check; no snapshot authenticity or runtime claims.
+- Postmerge reconciliation preview with exact merge-SHA CI receipt and trusted review boundary; does not automatically edit product truth.
+- Negative tests cover invalid deltas, stale heads, duplicate requirements, incomplete PR inventory, missing CI and controlled human gate.
+- Status: candidate pending branch exact-head CI and two comparative pilots. No new Golden or policy authority.
+
+
 ## 2026-11-27 — Factory Spec Lite: adozione limitata fonte/CI, decisione Step 5
 
 - Completata la roadmap rigorosamente sequenziale: OSS [PR catalog #190](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/pull/190), Core #133, piloti Gallery #19/Omni #80/Agent #36, evidence Core #134, adapter Agent Core #37 (`117b56b20dff1e63012c314ef32a2aa80fc558ab`) e AppLab #246 (`0b498ef04458d56a17318823efa9e77f31cd8e4a`). Tutte le CI post-merge pertinenti sono verdi, incluso Android e canary AppLab.
