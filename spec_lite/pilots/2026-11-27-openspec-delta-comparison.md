@@ -10,7 +10,7 @@ Factory baseline before work: `a185c16000608b90c5db639f37903b49b059b10b`, Master
 
 - PR [#20](https://github.com/riccardopinato/GalleryDrift/pull/20), base `c7f0f51c764b48228e803e3a64e2d4f9e971beae`, merged main `30c26f2b23bccbf9237163467ef0fe664e915967`.
 - Real bounded bug: album with 9 photos, page size 4, final prefetch used to request range `8:12`; now requests `8:9` and foreground `at(8)` reuses same cached future. No file write or Art Drift shared-core edit.
-- One added regression, existing tests; branch Android [CI PASS](https://github.com/riccardopinato/GalleryDrift/actions/runs/45983739023). **Postmerge: IN_PROGRESS** at [run](https://github.com/riccardopinato/GalleryDrift/actions/runs/45984531353).
+- One added regression, existing tests; branch Android [CI PASS](https://github.com/riccardopinato/GalleryDrift/actions/runs/45983739023). **[Postmerge Android CI SUCCESS](https://github.com/riccardopinato/GalleryDrift/actions/runs/45984531353)** on exact merge SHA (342 s). Canonical album viewer reconciliation [PR #22](https://github.com/riccardopinato/GalleryDrift/pull/22) open, with its own exact-head CI pending.
 - Changed files 3; additions: 17 doc, 11 source, 15 test, deletions 1 source. Single compact contract, no five documents. Device/Play and real user-photo behavior NOT_VERIFIED.
 
 ## Pilot B — STANDARD, App Factory Agent Core
