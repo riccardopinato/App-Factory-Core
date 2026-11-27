@@ -36,6 +36,17 @@ The example manifests are validated by tests but must **never** be treated as ev
 5. High-risk flags force CONTROLLED with manual gate, explicit rollback plan, integration-level checking. Every AC has a mapped required test kind.
 6. No cross-repo code write, new CAP, Golden promotion, external service, install, deployment or CI bypass follows from the schema itself.
 
+
+## 2026-11-27 — Selective adoption decision (stage 5)
+
+[Decision and measurements](adoption/2026-11-27.md) · [machine-readable governance record](adoption/2026-11-27.json). **Status: optional source/CI-traced process**, not a new Golden or permission authority. All three source/CI pilots and both adapter PRs have merged on main with green post-merge checks; there is still no measured token/time improvement, Windows worker E2E or independently authenticated real AppLab durable-operation handoff.
+
+**FAST:** prefer a single short note or manifest *when justified*; do not require `spec.md` + `plan.md` + `tasks.md` + manifest + report for an isolated change. **STANDARD:** optional FR/AC mapping for approved, nontrivial changes with integration/regression risk. **CONTROLLED:** optional evidence trace only, never replacing approvals, rollback, migrations, privacy, payments, physical/Play or exact-head gates. The three original templates remain reusable examples, not mandatory bundles.
+
+Use the existing Agent Core and AppLab bridge adapters only with trusted source, job, manifest, WorkItem, operation and AppLab identities, plus the existing verified permission and evidence pathways. No automatic fleet rollout; at the next approved substantial feature/bug request consider the contract only if proportional to risk. For editorial batches such as World Days/Cooking Anime, document the pipeline/batch boundary at most, not each record.
+
+The Master v27 and Golden Registry/Index remain unchanged. The decision is covered by `tests/test_factory_spec_lite_adoption.py` and the existing Factory CI, without creating a second Master or verifier.
+
 ## Provenance
 
 Reference: github/spec-kit v1.4.5 MIT (release 6ba8beefff8d6408cadd62038e92d459093e33a8; reviewed main f2010547121b3351e4923fe467205079e4593a32). Conceptual adaptation only; templates/validator are Factory-specific, not copied from upstream code. Existing Golden Lean Engineering and AppLab verification remain controlling.
