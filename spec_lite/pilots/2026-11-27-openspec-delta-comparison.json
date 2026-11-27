@@ -1,0 +1,99 @@
+{
+  "record_id": "FSL-OPENSPEC-COMPARISON-20261127",
+  "status": "PILOTS_MERGED_POSTMERGE_EVIDENCE_IN_PROGRESS",
+  "factory_source_sha": "52a7e1c3a84edf942ad80a022ba6f67e80186921",
+  "factory_original_baseline_sha": "a185c16000608b90c5db639f37903b49b059b10b",
+  "master": "v27",
+  "golden_index": 31,
+  "method": "Non-randomized two-feature comparison; CI durations observational not comparable timing experiments",
+  "core": {
+    "pr": "https://github.com/riccardopinato/App-Factory-Core/pull/137",
+    "main_sha": "52a7e1c3a84edf942ad80a022ba6f67e80186921",
+    "postmerge_ci": "https://github.com/riccardopinato/App-Factory-Core/actions/runs/45984256654",
+    "ci": "SUCCESS",
+    "adversarial_tests_passed": 32,
+    "authority": "SOURCE_CI_ONLY"
+  },
+  "pilots": [
+    {
+      "id": "OPENSPEC-FAST-GALLERY",
+      "mode": "FAST",
+      "repo": "riccardopinato/GalleryDrift",
+      "source_before": "c7f0f51c764b48228e803e3a64e2d4f9e971beae",
+      "pr": "https://github.com/riccardopinato/GalleryDrift/pull/20",
+      "head_sha": "c28e259ecb913e4110a346f136e61ef6f8db2038",
+      "main_sha": "30c26f2b23bccbf9237163467ef0fe664e915967",
+      "scope": "Clamp terminal album prefetch range to totalCount and reuse same cached Future",
+      "tests_added": 1,
+      "changed_files": 3,
+      "documentation_lines_added": 17,
+      "source_and_test_lines_added": 26,
+      "branch_ci": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45983739023",
+      "branch_ci_status": "SUCCESS",
+      "postmerge_ci": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45984531353",
+      "postmerge_ci_status": "IN_PROGRESS",
+      "observed_baseline_ci_seconds": 384,
+      "observed_pilot_ci_seconds": 330,
+      "observed_delta_seconds": -54,
+      "device_test": "NOT_VERIFIED",
+      "canonical_documentation_update": "PENDING_POSTMERGE_CI",
+      "limits": [
+        "CI time delta is not causal speedup evidence",
+        "No private device media access in tests"
+      ]
+    },
+    {
+      "id": "OPENSPEC-STANDARD-AGENT",
+      "mode": "STANDARD",
+      "repo": "riccardopinato/App-Factory-Agent-Core",
+      "source_before": "117b56b20dff1e63012c314ef32a2aa80fc558ab",
+      "pr": "https://github.com/riccardopinato/App-Factory-Agent-Core/pull/38",
+      "head_sha": "f3be3171fee75a5e7483bf0fb30a4e33cb589a73",
+      "main_sha": "8cad58bc7aace24b91647bd1d994228b3259ed64",
+      "scope": "Bidirectional AC-to-required-check coverage, optional pinned delta lineage in read-only WorkItem",
+      "tests_added": 6,
+      "source_and_test_lines_added": 99,
+      "initial_documentation_lines_added": 21,
+      "documentation_reconciliation_pr": "https://github.com/riccardopinato/App-Factory-Agent-Core/pull/39",
+      "reconciliation_main_sha": "7e36dbadf8177aab71e9c5d25e95a4e61fe0cc62",
+      "reconciliation_documentation_lines_added": 14,
+      "branch_ci": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45983932149",
+      "branch_ci_status": "SUCCESS",
+      "postmerge_ci": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45984356385",
+      "postmerge_ci_status": "SUCCESS",
+      "reconciliation_postmerge_ci": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45984562104",
+      "reconciliation_postmerge_ci_status": "SUCCESS",
+      "observed_baseline_ci_seconds": 9,
+      "observed_pilot_ci_seconds": 6,
+      "observed_delta_seconds": -3,
+      "agent_ci_total_tests": 159,
+      "windows_runtime": "NOT_VERIFIED",
+      "durable_work_item_E2E": "NOT_VERIFIED"
+    }
+  ],
+  "positive_evidence": [
+    "Core source contracts and 32 adversarial tests green",
+    "One bounded Gallery last-page regression and existing Flutter tests green",
+    "Agent Core read-only WorkItem adapter catches formerly unmapped required SOURCE_TEST and preserves unverified delta lineage",
+    "Source and PR merge shas and QA receipts are exact and traceable"
+  ],
+  "limits": {
+    "token_savings": "NOT_MEASURED",
+    "human_or_ai_development_time_saved": "NOT_MEASURED",
+    "comparable_repeat_trial": "NOT_RUN",
+    "Windows_agent_runtime": "NOT_VERIFIED",
+    "consumer_physical_test": "NOT_VERIFIED",
+    "store_release": "NOT_VERIFIED",
+    "app_lab_durable_e2e": "NOT_VERIFIED",
+    "independent_production_review": "NOT_VERIFIED",
+    "certification": "NOT_PROMOTED"
+  },
+  "governance": {
+    "new_golden": false,
+    "new_authority": false,
+    "new_scheduler": false,
+    "duplicate_certifier": false,
+    "auto_product_bible_write": false,
+    "global_rollout": false
+  }
+}
