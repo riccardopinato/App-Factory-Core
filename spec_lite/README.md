@@ -56,6 +56,15 @@ Optional `requirements[].delta` has `operation = ADDED | MODIFIED | REMOVED | RE
 
 OpenSpec upstream: `Fission-AI/OpenSpec@f1cd852f4edce22b8df9548a4df889172ca8ff25`, MIT; methodology adapted, no CLI or vendor workflow installed. Comparative pilots and independent Windows/runtime/token benchmarks remain separately scoped.
 
+## OpenSpec Shadow audit hardening — source/CI
+
+The [operating contract](OPENSPEC_SHADOW_MODE.md) now defines sanitized PR
+summary output, read-only evidence artifacts with per-run SHA256 checksums,
+rename-origin and Git-mode semantics, a final deep SHA/PR recheck, and
+bounded request budgets. Manual workflow_dispatch requires a separate
+real execution receipt; no artifact existence/CI result promotes a
+semantic or physical product certificate.
+
 ## Optional SHA-pinned Shadow deep triage
 
 For selected overlapping PR pairs, the

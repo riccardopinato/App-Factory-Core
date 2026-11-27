@@ -112,3 +112,45 @@ The exact-source Core CI runs dedicated adversarial tests from
 `tests/test_openspec_shadow_deep_triage.py`. Apps may opt into the new
 `deep_pairs` input after the version has passed exact-head and postmerge CI,
 without making deep review a new required gate.
+
+## Audit remediation — correctness, provenance and output safety (2026-11-27)
+
+P1 rendering: any GitHub PR filename, manifest spec_id or delta ID is
+untrusted data; before printing into GitHub Actions stdout/step summary it
+is HTML/Markdown escaped and control characters (including newline and ANSI)
+are rendered as literal hexadecimal escape text. JSON artifacts preserve
+original source data for inspection but never execute it.
+
+P1 provenance: each deep pair JSON now records the two exact full PR HEAD SHAs,
+commit ancestry, every overlapping path with each side's Git blob SHA and
+file mode, missing data and the final HEAD/open-PR inventory recheck. The
+workflow uploads immutable execution artifacts (JSON, Markdown and SHA256
+checksums) via a pinned upload-artifact action, with 30-day retention and
+repository-scoped access. A GitHub Actions CI PASS alone does not certify
+semantic equivalence or physical/runtime behavior. No report is a canonical
+source of Product Bible changes.
+
+P2 rename/file mode: changed-path overlap now also considers previous_filename
+for files marked renamed, without counting a path twice for one PR.
+Non-blob, removed or missing paths remain explicitly incomplete for file
+comparison; unchanged blob bytes with changed Git file mode are tracked
+separately. Renamed-path overlap is review-only; it is not proof of conflict.
+
+P2 Spec Lite: validated real Factory v1 manifest example and previous delta
+proposals with offline adversarial tests. An unmapped PR is UNMAPPED.
+DECLARED_UNTRUSTED means proposed metadata, never trusted semantic
+compatibility; canonical refs must be reviewed independently.
+
+P2 cost: normal read-only PR scans still collect all PRs, their exact
+changed files and a later HEAD/PR list recheck; bypassing these would
+risk false all-clear. In-memory indexes avoid quadratic PR lookups,
+deep tree results are reused for identical immutable SHAs within one run,
+and a 500-GET hard budget denies unbounded scans. No cross-run cache,
+extra permanent registry, scheduler or server is added. Request/response/
+elapsed metrics are uploaded for before/after comparison; any inferred
+time/token saving remains NOT_MEASURED without controlled data.
+
+workflow_dispatch is exposed in the two consumer repositories with the
+optional deep_pairs input, default empty. A completed PR-event deep pilot
+does not substitute for a real manual-dispatch execution. The manual
+run must be explicitly tested and logged before marking that gate PASS.

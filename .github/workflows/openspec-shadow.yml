@@ -75,6 +75,30 @@ jobs:
               --json-out "$RUNNER_TEMP/openspec-shadow.json" \
               --md-out "$RUNNER_TEMP/openspec-shadow.md"
           fi
+      - name: Checksum complete JSON/Markdown evidence
+        if: always()
+        shell: bash
+        run: |
+          cd "$RUNNER_TEMP"
+          if [ -f openspec-shadow.json ] && [ -f openspec-shadow.md ]; then
+            sha256sum openspec-shadow.json openspec-shadow.md > openspec-shadow.sha256
+          else
+            echo "## INCOMPLETE: evidence files unavailable" > openspec-shadow.md
+            printf '{"status":"INCOMPLETE_NO_CLEARANCE","error_code":"EVIDENCE_FILES_MISSING"}\n' > openspec-shadow.json
+            sha256sum openspec-shadow.json openspec-shadow.md > openspec-shadow.sha256
+            exit 1
+          fi
+      - name: Upload source-pinned audit JSON/Markdown and digest (30-day retention)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: openspec-shadow-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/openspec-shadow.json
+            ${{ runner.temp }}/openspec-shadow.md
+            ${{ runner.temp }}/openspec-shadow.sha256
+          if-no-files-found: error
+          retention-days: 30
       - name: Publish read-only review summary
         if: always()
         shell: bash
