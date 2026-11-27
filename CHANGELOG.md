@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-27 — Factory Spec Lite: adozione limitata fonte/CI, decisione Step 5
+
+- Completata la roadmap rigorosamente sequenziale: OSS [PR catalog #190](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/pull/190), Core #133, piloti Gallery #19/Omni #80/Agent #36, evidence Core #134, adapter Agent Core #37 (`117b56b20dff1e63012c314ef32a2aa80fc558ab`) e AppLab #246 (`0b498ef04458d56a17318823efa9e77f31cd8e4a`). Tutte le CI post-merge pertinenti sono verdi, incluso Android e canary AppLab.
+- Decisione **LIMITED OPT-IN SOURCE/CI**, non Golden/capability o runtime certificato, in `spec_lite/ADOPTION_DECISION_2026-11-27.{md,json}`; beneficio misurato: 11 AC legate a test, 11 nuove regressioni piloti, 19/22 test adapter e 4 review finding corretti. Nessun speedup/token saving dimostrato; 462 righe documentali dei piloti contro 154 di sorgenti e test.
+- FAST alleggerito: un unico contratto con plan/task inline quando utile. STANDARD opt-in, CONTROLLED sempre soggetto alle approvazioni e alle prove richieste dal Master.
+- Validator Core ora nega `REQUIRED_CHECK_UNMAPPED`: ogni check dichiarato obbligatorio ha almeno un criterio AC, compresi test RUNTIME/DEVICE; corrette fixture STANDARD e CONTROLLED, aggiunti test negativi di validazione e adozione.
+- Nessun nuovo scheduler, verifier, plugin CLI, CAP, Golden, approvazione automatica, merge o release; nessuna adozione bulk su tutte le app.
+
 ## 2026-11-27 — Factory Spec Lite: tre piloti Stage 3 con CI su main verificata
 
 - Tre piloti su GalleryDrift, Android-Omni-Cleaner e App-Factory-Agent-Core integrati a SHAs esatti con **tutte e tre le CI post-merge SUCCESS**; report quantitativo in `spec_lite/pilots/2026-11-27.{md,json}`. Nessuna certificazione runtime/physical/Windows inventata.
