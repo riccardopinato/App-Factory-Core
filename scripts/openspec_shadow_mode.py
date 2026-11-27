@@ -80,7 +80,7 @@ def paged(get: Callable[[str], Any], prefix: str, *, max_records: int) -> list:
     """Page until a short page; fail closed at 100-per-page and bounded hard caps."""
     out: list[Any] = []
     for page in range(1, max_records // 100 + 2):
-        chunk = get(prefix + f"&per_page=100&page={page}")
+        chunk = get(prefix + ("&" if "?" in prefix else "?") + f"per_page=100&page={page}")
         require(isinstance(chunk, list), "PAGINATION_RESPONSE_INVALID")
         require(len(chunk) <= 100, "PAGINATION_PAGE_OVERSIZED")
         require(len(out) + len(chunk) <= max_records, "PAGINATION_TRUNCATED")
@@ -189,7 +189,7 @@ def snapshot(api: Any, repository: str) -> dict[str, Any]:
         expected = detail.get("changed_files")
         require(type(expected) is int and 0 <= expected < MAX_FILES,
                 "PR_FILE_COUNT_UNVERIFIABLE_OR_CAPPED")
-        files = paged(api.get, basepath + f"/pulls/{number}/files?state=open",
+        files = paged(api.get, basepath + f"/pulls/{number}/files",
                       max_records=MAX_FILES)
         require(len(files) == expected, "PR_FILES_INCOMPLETE")
         paths = []
