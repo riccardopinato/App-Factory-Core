@@ -1,0 +1,45 @@
+GOLDEN PRODUCT-OWNED DESIGN SYSTEM — FLUTTER / ANDROID NATIVE
+Version: 0.1 DRAFT — 2026-11-27
+Status: DRAFT / CANDIDATE — NON COPY-READY
+Factory baseline: a68d5ab2a45c30b1f46a91eb79f32685b81df73b (Master v27, Golden Index v31)
+
+1. AUTHORITY
+- Product Bible and the owner's approved visual choices decide the product's identity.
+- Consult existing, user-curated Design-App sources and UID registry before proposing new visual patterns. Trace every adopted reference to exact UID/source, permission to reuse, and user approval.
+- Core Golden and certified donor define *technical* admission, lifecycle and accessibility; neither Material 3 nor a UI library is an aesthetic default.
+- The legacy GOLDEN_THEME_M3_FLUTTER_v1.txt is OPTIONAL for an app that intentionally uses it. Its COPY-READY technical status is not permission to override an app's design direction. Do not remove M3 from existing apps automatically.
+
+2. NON-DUPLICATIVE DESIGN OWNERSHIP
+- Each app owns one coherent design-token layer (color surfaces/semantic roles, typography, spacing, radius, elevation, iconography, motion and responsive breakpoints).
+- Adapt existing app tokens instead of installing parallel theme frameworks; document backwards compatibility and role-specific dark/light surfaces.
+- Design-App provides references/assets with provenance and rights; app repository implements the final code and maintains tests. This Golden does not import images or license third-party work.
+- Reconcile renamed/aliased UID items by the current Design-App UID_REGISTRY.json rather than introducing a duplicate component.
+
+3. ADOPTION CONTRACT
+A consumer records:
+- product/app and immutable source SHA;
+- exact approved reference/UID/design direction and decision date;
+- target screens/components, exclusions, source rights and reuse mode COPY/ADAPT/REFERENCE_ONLY;
+- current tokens and compatibility/migration scope;
+- before/after screenshots on actual renderer at matching fixtures/viewport;
+- tests with large text/locales, small phone, light/dark, reduced motion and keyboard/insets as applicable;
+- AppLab/exact-head CI evidence and physical acceptance when relevant.
+
+4. DESIGN REVIEW GATES
+A. Product fit: preserve feature navigation, data, semantics, local-first/privacy and approved visual direction.
+B. Provenance: original/OSS asset license and exact source; never copy protected brands, logos or photographs without rights.
+C. Visual quality: information hierarchy, content prominence, loading/empty/error states, motion restraint, readability, coherent spacing, iconography and interactive feedback.
+D. Accessibility: contrast, focus order, semantics, min targets, scaled text, reduced motion; no color-only state.
+E. Platform coverage: Web/mobile/desktop or platform subset explicitly declared; orientation, keyboard, insets and advertisement collisions checked where applicable.
+F. Integration: no duplicate routes/stores/themes; bounded regression against original screens. Baseline screenshots use comparable source and toolchain.
+G. Evidence: source PASS != visual acceptance; emulator PASS != physical device; Draft != COPY-READY and user mock-up approval != merged implementation.
+
+5. PROMOTION
+This file is a CONTRACT CANDIDATE only. To promote to COPY-READY require one independently audited consumer implementation with visual diff review, effective tests and saved immutable artifact identities. For CERTIFIED GOLDEN demand successful reuse across independent consumers with verified integration. No automatic promotion.
+
+Relevant references:
+- riccardopinato/Design-App, sources/MATERIAL3_OPTIONAL_REFERENCE_2026-11-19.md;
+- Design-App/AGENTS.md and BIBLIOTECA_COMPONENTI/UID_REGISTRY.json;
+- golden/ui/GOLDEN_APP_SHELL_RESPONSIVE_VISUAL_QA_FLUTTER_v1_DRAFT.txt;
+- golden/ui/GOLDEN_THEME_M3_FLUTTER_v1.txt (OPTIONAL LEGACY);
+- golden/release/GOLDEN_APPLAB_QA_CERTIFICATION_v1.txt.
