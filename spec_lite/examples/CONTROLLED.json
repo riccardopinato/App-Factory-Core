@@ -71,6 +71,16 @@
           "id": "AC-001",
           "criterion": "Disposable-database upgrade plus verified restoration preserves every preexisting private entry.",
           "evidence_type": "INTEGRATION_TEST"
+        },
+        {
+          "id": "AC-002",
+          "criterion": "A disposable runtime upgrade and restore scenario verifies all preexisting calendar records remain intact.",
+          "evidence_type": "RUNTIME_TEST"
+        },
+        {
+          "id": "AC-003",
+          "criterion": "An authorized device acceptance check verifies private calendar entries survive a real installed application update.",
+          "evidence_type": "DEVICE_TEST"
         }
       ]
     }

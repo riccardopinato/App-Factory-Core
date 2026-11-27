@@ -159,6 +159,20 @@ def validate_manifest(
                 if isinstance(checks, dict) and criterion.get("evidence_type") not in checks.get("required_checks", []):
                     errors.append(f"ACCEPTANCE_TEST_GAP:{ac_id}")
 
+    # An unrepresented required test kind cannot be attributed to any AC.
+    # Reject at spec admission rather than let downstream evidence claim full coverage.
+    if isinstance(requirements, list) and isinstance(checks, dict):
+        declared = checks.get("required_checks", [])
+        if isinstance(declared, list):
+            mapped = {
+                ac.get("evidence_type")
+                for req in requirements if isinstance(req, dict)
+                for ac in req.get("acceptance", []) if isinstance(ac, dict)
+                if isinstance(ac.get("evidence_type"), str)
+            }
+            for kind in sorted({v for v in declared if isinstance(v, str)} - mapped):
+                errors.append(f"REQUIRED_CHECK_UNMAPPED:{kind}")
+
     if isinstance(approval, dict):
         status = approval.get("status")
         if status == "APPROVED":

@@ -2,6 +2,8 @@
 
 **Purpose:** isolated, low-risk, bounded change. The Master router DIRECT still governs actual execution. Use only if all risk flags are false.
 
+**Lean implementation:** a single concise feature contract may contain Specification, Plan and Tasks inline. Separate `spec.md`, `plan.md`, `tasks.md`, comparison report and evidence ledger are **NOT mandatory** in FAST. Use the existing Master DIRECT route when the change does not benefit from additional spec overhead. Approval/source SHA/tests are never optional if required by risk or project.
+
 ## Specification (`spec.md`)
 - Record `spec_id`, app/commit and relevant Product Bible/roadmap or explicit PROPOSAL state.
 - Describe one user-observable behavior, its out-of-scope exclusions, FR-001 and AC-001.
