@@ -1,6 +1,6 @@
 # OpenSpec Shadow Mode — opt-in deep SHA/byte pilot · 27 November 2026
 
-**Status: consumer PR validation ongoing; Core deep adapter merged and postmerge CI PASS.**
+**Status: Core + both opt-in consumer workflows MERGED, exact-head and postmerge CI SUCCESS. Source/CI only, never semantic or physical certification.**
 
 ## Exact source
 
@@ -32,4 +32,4 @@ Only **2 of the 20** Omni overlapping pairs were examined at blob/ancestry depth
 
 ## Deployment and next gate
 
-Core is merged/CI green. Omni #83 and Anna #378 are pending their complete exact-head app CI and merge, followed by postmerge CI. Record actual states before certifying consumer integration. Preserve all existing app-specific release/physical/owner gates. No Golden promotion, new scheduler or global rollout.
+Core main `8a5034483a4b0574907012903894fa39ebeb1f51` is validated. [Omni PR #83](https://github.com/riccardopinato/Android-Omni-Cleaner/pull/83) was merged to `6da024e5522f6982ca01c3fc39d2ff51075626ef` after exact-head Shadow, Android verify and visual capture PASS; [postmerge Android CI SUCCESS](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46001603336). [Anna PR #378](https://github.com/riccardopinato/Agenda-per-Anna/pull/378) was merged to `ba190c6cfecf477612291c89f6868d47c4f1dad5` after exact-head Shadow, Flutter and UI5 PASS; [postmerge Development CI SUCCESS](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46001134988). Both app workflows default to lightweight PR scans and keep the SHA/blob comparison **manual opt-in only**. Preserve all existing app-specific release/physical/owner gates; no Golden promotion, new scheduler or global rollout.

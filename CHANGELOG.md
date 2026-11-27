@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-27 — Selective OpenSpec Shadow SHA/blob review
+
+- Source [Core PR #142](https://github.com/riccardopinato/App-Factory-Core/pull/142) merged after 18 adversarial tests and postmerge CI: optional (default OFF) bounded 1–4 PR pair commit ancestry / Git blob SHA comparison, exact immutable heads, fail-closed incomplete evidence.
+- [Omni Cleaner #83](https://github.com/riccardopinato/Android-Omni-Cleaner/pull/83) and [Anna's Diary #378](https://github.com/riccardopinato/Agenda-per-Anna/pull/378) integrate opt-in manual workflow, both source/CI merged and postmerge PASS. Real initial Omni deep job denied an inventory-changing #77 HEAD; rerun PASS on stable snapshot.
+- Inspect [deep pilot report](spec_lite/pilots/2026-11-27-shadow-deep-pairs-live.md) and [JSON record](spec_lite/pilots/2026-11-27-shadow-deep-pairs-live.json). No auto-merge, Golden, global rollout, semantic QA certificate, physical test or measured time/token saving.
+
+
 ## 2026-11-27 — OpenSpec Shadow live GitHub PR pilot (selective)
 
 - Live read-only GitHub REST PR and changed-file scanner with fail-closed pagination, immutable identities, no false global-zero on focused reports, and mergeability/path-containment review hints (Core PR #139/#140).
