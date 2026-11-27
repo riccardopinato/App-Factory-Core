@@ -3,6 +3,7 @@
 import json
 import sys
 import unittest
+import warnings
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,6 +38,14 @@ class ShadowAuditFixTests(unittest.TestCase):
     def assertBlocked(self, fn, reason):
         with self.assertRaisesRegex(IncompleteSnapshot, reason):
             fn()
+
+    def test_shadow_python_sources_have_no_invalid_escape_warnings(self):
+        for relative in ("scripts/openspec_shadow_mode.py",
+                         "scripts/openspec_shadow_deep_triage.py"):
+            code = (ROOT / relative).read_text(encoding="utf-8")
+            with warnings.catch_warnings():
+                warnings.simplefilter("error", SyntaxWarning)
+                compile(code, str(ROOT / relative), "exec")
 
     def test_rename_origins_are_included_in_review_hints(self):
         api = RenameAPI({75: ["docs/new.md"], 77: ["docs/old.md"]})

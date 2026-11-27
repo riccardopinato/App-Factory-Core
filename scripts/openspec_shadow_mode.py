@@ -426,7 +426,7 @@ def main() -> int:
                  f"{api.payload_bytes} response bytes, {report['wall_seconds']} wall seconds. "
                  "No proven time/token savings.\n")
     else:
-        body = f"## OpenSpec Shadow Mode — INCOMPLETE, not a PASS\n\nEvidence error: \`{report['error_code']}\`.\n"
+        body = f"## OpenSpec Shadow Mode — INCOMPLETE, not a PASS\n\nEvidence error: {safe_markdown(report['error_code'])}.\n"
     if args.md_out:
         args.md_out.write_text(body, encoding="utf-8")
     print(body)
