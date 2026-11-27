@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "id": "OPENSPEC-SHADOW-CORRECTIVE-AUDIT-20261127",
+  "state": "CORE_CORRECTIONS_POSTMERGE_PASS_CONSUMER_CI_PENDING",
+  "baseline_sha": "9bec235b319963bc05f3c3c4d95d0f6b267bb309",
+  "code_sha": "3e3056ffb7444a5d37f1279a2a25783366a0d98c",
+  "core_prs": [
+    144,
+    145
+  ],
+  "postmerge_factory_ci": "https://github.com/riccardopinato/App-Factory-Core/actions/runs/46010932724",
+  "regression_tests": {
+    "fast": 20,
+    "deep": 24,
+    "audit": 13,
+    "total": 57,
+    "ci": "SUCCESS"
+  },
+  "gates": {
+    "markdown_stdout_security": "SOURCE_CI_PASS",
+    "per_path_sha_and_git_mode": "SOURCE_CI_PASS",
+    "after_deep_main_and_pr_inventory_recheck": "SOURCE_AND_LIVE_PASS",
+    "artifact_json_markdown_sha256": "LIVE_PASS",
+    "actual_workflow_dispatch": "NOT_VERIFIED_NO_DISPATCH_ACTION_AVAILABLE",
+    "rename_previous_filename": "SOURCE_CI_PASS",
+    "spec_lite_v1_manifest_fixture": "SOURCE_CI_PASS_UNTRUSTED_ONLY",
+    "request_budget": "500_GET_FAIL_CLOSED",
+    "cost_savings": "NOT_MEASURED"
+  },
+  "omni_live": {
+    "pr": 84,
+    "final_pr_head_sha": "b3eff593e9eb6370e3b4e74e3a0355d9f88bada0",
+    "state": "PR_EXACT_HEAD_CI_PENDING",
+    "github_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46010616643",
+    "failed_attempt": {
+      "error": "DEEP_PR_INVENTORY_CHANGED_AFTER_TREE_READ",
+      "artifact_id": 15203142195,
+      "status": "INCOMPLETE_NO_CLEARANCE"
+    },
+    "successful_rerun": {
+      "artifact_id": 15203877300,
+      "selected_pairs": 2,
+      "other_overlapping_pairs": 18,
+      "rest_gets": 37,
+      "bytes": 5612281,
+      "seconds": 13.545,
+      "tree_reads": 3,
+      "tree_cache_hits": 1,
+      "pair_receipts": [
+        {
+          "prs": [
+            75,
+            77
+          ],
+          "sha_a": "c8e785f89c4dc852799171718d380e97d2040966",
+          "sha_b": "43517778d3093e4ea7af41be17172a2b4d0c7265",
+          "history": "A_ANCESTOR_OF_B",
+          "shared": 63,
+          "equal": 39,
+          "different": 24,
+          "mode_changed": 0
+        },
+        {
+          "prs": [
+            39,
+            77
+          ],
+          "sha_a": "f0755e6c6bcda3c25616c2b8a081de98522f5941",
+          "sha_b": "43517778d3093e4ea7af41be17172a2b4d0c7265",
+          "history": "DIVERGED_HISTORY",
+          "shared": 9,
+          "equal": 8,
+          "different": 1,
+          "mode_changed": 0,
+          "differing_path": "app/src/main/java/com/riccardopinato/omnicleaner/cleaner/StorageInventoryRepository.kt"
+        }
+      ]
+    },
+    "final_lightweight_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46011075524",
+    "final_lightweight_status": "IN_PROGRESS"
+  },
+  "anna_live": {
+    "pr": 379,
+    "final_pr_head_sha": "7ade1a45cf2c6d6871a81c9b6bb3a7d6c42e0b03",
+    "state": "PR_EXACT_HEAD_CI_PENDING",
+    "final_lightweight_run": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46011029169",
+    "final_lightweight_status": "SUCCESS"
+  },
+  "limitations": {
+    "artifacts_retention_days": 30,
+    "semantic_compatibility_certified": false,
+    "physical_device_certified": false,
+    "manual_dispatch_live_test": false,
+    "no_auto_merge": true,
+    "no_golden": true,
+    "no_new_scheduler": true,
+    "time_token_savings": "NOT_MEASURED",
+    "artifact_action_node20_warning": "NONBLOCKING"
+  }
+}
