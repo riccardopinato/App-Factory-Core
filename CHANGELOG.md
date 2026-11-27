@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-27 — Factory Spec Lite v1, Maxi-step 2 (process candidate)
+
+- Aggiunti schema strict `schemas/factory_spec_lite_v1.schema.json`, template FAST/STANDARD/CONTROLLED, tre manifest **PROPOSED / NOT_VERIFIED**, validatore offline e test avversariali (requisiti/acceptance mancanti, conflitti, scope, SHA drift, approval, risk escalation, evidenze mancanti).
+- Aggiunto alla CI `validate-factory.yml` il gate fail-closed su schema/fixture/test; nessuna installazione Spec Kit CLI, migrazione, Golden certification, modifica alle app o nuova authority. Policy Master/Core vigente invariata fino ai piloti e al gate di adozione.
+- Provenienza: `github/spec-kit` v1.4.5 MIT E1 research, dossier nel catalogo a `Idee-app-Archivi-riferimenti@559a13508558948ce57e91fe14df492328bdeb0d`.
+
 ## 2026-11-24 — Lean Engineering / minimum sufficient implementation (advisory pilots)
 
 - Esteso Master Core v27 e aggiunto modulo di policy Lean `90-lean-engineering.txt`, preservando intatte tutte le 55 sezioni legacy; mirror e fallback generato sincronizzati; niente cambi a CURRENT/versione Master.
