@@ -65,6 +65,8 @@ blobs from changed file content. Default PR scans remain lightweight.
 This is **not** automated semantic reconciliation, merge clearance or a new
 mandatory process.
 
+The [new two-app pinned-SHA deep pilot report](pilots/2026-11-27-shadow-deep-pairs-live.md) and its [structured evidence](pilots/2026-11-27-shadow-deep-pairs-live.json) record one fail-closed concurrent-PR read, a successful selected-pair replay, both consumer merge SHAs and exact postmerge CI. Neither the deep findings nor CI prove time/token savings, semantic conflict resolution or device release.
+
 ## OpenSpec Shadow Mode — read-only PR evidence (2026-11-27)
 
 [Operational contract](OPENSPEC_SHADOW_MODE.md) · [two-app live pilot report](pilots/2026-11-27-openspec-shadow-live.md) · [structured measurements](pilots/2026-11-27-openspec-shadow-live.json).
