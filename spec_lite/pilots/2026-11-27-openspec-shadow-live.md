@@ -36,14 +36,30 @@ The live source report is supplemented by GitHub commit comparison (not semantic
 - Omni PR #75 source `c8e785f` is an ancestor of the observed PR #77 source `ccd23bc` (0 behind, 87 ahead).
 - Omni PR #39 and #77 have **diverged** histories (26 behind, 232 ahead). A path overlap cannot prove identical SQLite behavior or verify a safe merge.
 - Anna's Shadow review-only PR #377 was merged after its own exact-head source checks to main `b00c79d15dbd9e49373b948245f49ca18880da09`; [postmerge checks](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45992089708) remain **in progress** at this record's update.
+- Omni's Shadow review-only PR #82 was merged after Shadow, Android verify and visual capture checks to main `5172506dde623b08af9fb3b29d2261168d1056b3`; [postmerge checks](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45992302954) remain **in progress** at this record's update.
 
 The ancestry relationships explain intentional stacked work but do not replace PR diff review, Product Bible, branch protection, physical/device or owner-gated acceptance.
+
+## Exact file blob fingerprint comparison (second-stage triage)
+
+Compared exact Git blob SHA identities at each pair of pinned PR heads. These values reflect **file bytes**, not independently verified behavior:
+
+| PR pair | Shared paths | Byte-identical files | Changed file blobs |
+|---|---:|---:|---:|
+| Omni #73/#75 | 46 | 38 | 8 |
+| Omni #75/#77 | 63 | 40 | 23 |
+| Omni #39/#77 | 9 | 8 | 1 |
+| Anna #199/#215 | 3 | 0 | 3 |
+| Anna #199/#376 | 2 | 0 | 2 |
+| Anna #215/#376 | 2 | 0 | 2 |
+
+The one differing shared file for Omni #39/#77 is `app/src/main/java/com/riccardopinato/omnicleaner/cleaner/StorageInventoryRepository.kt`; it merits focused developer review before any consolidation. Do **not** call 8/9 'semantic duplication', classify conflicts as repaired, or compute a false-positive rate from these file-level identities. Git trees returned `truncated=false` for all compared heads.
 
 ## Interpreting signals
 
 A shared file is evidence of potential integration work, not a bug. Base SHA differences are not automatic staleness. A source-described planned consolidation is not a verified supersession of product requirements. Without structured canonical requirement IDs, it is impossible to certify a semantic conflict or its absence: every currently scanned PR remains UNMAPPED.
 
-GitHub Actions step summaries and run URLs constitute inspectable live-source evidence. The two app PRs each add only one workflow (Anna #377 has since merged, Omni #82 remains open at this checkpoint); **no app logic, data, Vault, deletion, storage, billing, provider, signing or Android runtime was changed by this experiment.** User-required physical and provider acceptance remains independent.
+GitHub Actions step summaries and run URLs constitute inspectable live-source evidence. Both app PRs (#377 Anna and #82 Omni) have merged on exact checked heads; each adds only one workflow. **no app logic, data, Vault, deletion, storage, billing, provider, signing or Android runtime was changed by this experiment.** User-required physical and provider acceptance remains independent.
 
 ## Cost-benefit boundary
 
@@ -51,4 +67,4 @@ The scanner used **47 GitHub REST GETs**, **3,385,039 response bytes** and **26.
 
 ## Integration condition
 
-The reusable PR checks must have exact-source green CI before merging the two app-only workflow PRs. Product security/staging drafts remain untouched. App PR merges are recorded separately after CI; only then should this evidence record be promoted from *PR pending* to *source-integrated pilot*. No automatic comments, approvals, merges, rebase or release.
+Both app-only workflow PRs passed all their PR-head checks and were merged. Product security/staging drafts remain untouched. The postmerge CI checks for the two consumer main SHAs remain pending at this report update; do not certify them before separate SUCCESS. The deployment remains an opt-in source/CI pilot and does not permit automatic comments, approvals, merge, rebase or release.

@@ -1,7 +1,7 @@
 {
   "record_id": "FSL-OPENSPEC-SHADOW-20261127",
   "schema_version": 1,
-  "status": "ANNA_MERGED_SOURCE_CI_GREEN_OMNI_PR_PENDING",
+  "status": "BOTH_CONSUMER_SHADOW_WORKFLOWS_MERGED_HEAD_CI_PASS_POSTMERGE_PENDING",
   "factory_master": "v27",
   "golden_index": 31,
   "initial_factory_baseline_sha": "ce7503456fce3af757f7160706c02d0cc1694b42",
@@ -16,7 +16,7 @@
       "source_main_sha": "358176eac8470ff302549702e21aeb164eb49a15",
       "pr_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/pull/82",
       "pr_head_sha": "9ee2979e29fb6240966596f2b9c6f97be680c8b8",
-      "pr_status": "OPEN_NOT_MERGED",
+      "pr_status": "MERGED_SOURCE_CI_GREEN_POSTMERGE_PENDING",
       "github_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215364",
       "github_run_outcome": "SUCCESS",
       "snapshot_status": "REVIEW_NEEDED_NOT_CERTIFIED",
@@ -31,8 +31,15 @@
       "github_rest_gets": 30,
       "github_response_bytes": 2086846,
       "scanner_wall_seconds": 16.074,
-      "existing_required_checks": "PENDING",
-      "high_priority_review": "PR #77 consolidates declared #75; 63 common files are not proof of equivalent behavior; #73 and #39 have substantial overlap; no merge without separate owner/device gates"
+      "existing_required_checks": "SUCCESS",
+      "high_priority_review": "PR #77 consolidates declared #75; 63 common files are not proof of equivalent behavior; #73 and #39 have substantial overlap; no merge without separate owner/device gates",
+      "merge_sha": "5172506dde623b08af9fb3b29d2261168d1056b3",
+      "existing_checks": [
+        "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215068",
+        "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215050"
+      ],
+      "postmerge_ci": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45992302954",
+      "postmerge_ci_status": "IN_PROGRESS"
     },
     {
       "repository": "riccardopinato/Agenda-per-Anna",
@@ -126,6 +133,76 @@
       "behind_by": 26,
       "ahead_by": 232,
       "meaning": "INDEPENDENT_HISTORY_REQUIRES_HUMAN_RECONCILIATION"
+    }
+  ],
+  "blob_comparison_note": "Identical git blob SHA on the exact two PR head commits proves byte-identical file content, not functional equivalence or source completeness.",
+  "blob_comparisons": [
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "prs": [
+        73,
+        75
+      ],
+      "common_file_paths": 46,
+      "identical_blobs": 38,
+      "different_blobs": 8,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "prs": [
+        75,
+        77
+      ],
+      "common_file_paths": 63,
+      "identical_blobs": 40,
+      "different_blobs": 23,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "prs": [
+        39,
+        77
+      ],
+      "common_file_paths": 9,
+      "identical_blobs": 8,
+      "different_blobs": 1,
+      "unresolved_or_missing": 0,
+      "remaining_difference": "app/src/main/java/com/riccardopinato/omnicleaner/cleaner/StorageInventoryRepository.kt"
+    },
+    {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "prs": [
+        199,
+        215
+      ],
+      "common_file_paths": 3,
+      "identical_blobs": 0,
+      "different_blobs": 3,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "prs": [
+        199,
+        376
+      ],
+      "common_file_paths": 2,
+      "identical_blobs": 0,
+      "different_blobs": 2,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "prs": [
+        215,
+        376
+      ],
+      "common_file_paths": 2,
+      "identical_blobs": 0,
+      "different_blobs": 2,
+      "unresolved_or_missing": 0
     }
   ]
 }
