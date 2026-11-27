@@ -103,6 +103,23 @@ class DriftTests(unittest.TestCase):
         self.assertEqual(r["status"], "BLOCKED")
         self.assertIn("OPEN_PR_SNAPSHOT_REQUIRED", r["errors"])
 
+
+    def test_open_pr_with_incomplete_requirement_id_is_blocked(self):
+        v = self.check(prs=[{"repository": self.repo, "number": 12,
+            "requirements": [{}], "changed_paths": []}])
+        self.assertIn(f"PR_REQUIREMENT_IDENTITY_MISSING:{self.repo}:12", v["errors"])
+
+    def test_intersecting_globs_are_reviewed(self):
+        first = copy.deepcopy(self.d)
+        second = copy.deepcopy(self.d)
+        second["spec_id"] += "-ALT"
+        second["requirements"][0]["id"] = "FR-002"
+        second["requirements"][0]["acceptance"][0]["id"] = "AC-002"
+        first["scope"]["allowed_paths"] = ["lib/*/foo.dart"]
+        second["scope"]["allowed_paths"] = ["lib/widgets/*.dart"]
+        v = self.check(docs=[first, second])
+        self.assertTrue(any("PATH_OVERLAP_REVIEW" in x for x in v["warnings"]))
+
     def test_stale_source_blocks(self):
         self.assertTrue(any("STALE_TARGET_HEAD" in x
                             for x in self.check(heads={self.repo: "a" * 40})["errors"]))
@@ -158,10 +175,17 @@ class CloseoutTests(unittest.TestCase):
         self.doc["approval"]["decision_ref"] = "https://github.com/example/repo/issues/1"
         self.doc["requirements"][0]["status"] = "APPROVED"
         self.repo = self.doc["target"]["repository"]
+        ref = {"repository": self.repo, "sha": self.doc["target"]["source_sha"]}
+        # Synthetic approved product refs for preview tests only; no real Gallery
+        # Product Bible is fabricated or written in any consumer repository.
+        self.doc["canonical_refs"]["product_bible"] = {**ref, "path": "PRODUCT_BIBLE.md"}
+        self.doc["canonical_refs"]["roadmap"] = {**ref, "path": "ROADMAP.md"}
         self.receipts = {
             "merged": True, "merge_sha": "9"*40, "ci_conclusion": "success",
             "ci_head_sha": "9"*40, "pr_url": "https://github.com/example/repo/pull/2",
-            "checks": {"SOURCE_TEST": "https://github.com/example/repo/actions/runs/3"}
+            "checks": {"SOURCE_TEST": "https://github.com/example/repo/actions/runs/3"},
+            "factory_sha": self.doc["factory"]["sha"],
+            "source_sha": self.doc["target"]["source_sha"],
         }
 
     def test_valid_added_change_is_preview_only(self):
@@ -170,6 +194,40 @@ class CloseoutTests(unittest.TestCase):
         self.assertFalse(r["writes_performed"])
         self.assertFalse(r["product_bible_written"])
         self.assertIn(f"{self.repo}:{self.doc['spec_id']}:FR-001", r["proposed_canonical"])
+
+
+    def test_rename_cannot_overwrite_current_destination(self):
+        prev = prior(self.doc)
+        self.doc["requirements"][0]["id"] = "FR-002"
+        self.doc["requirements"][0]["acceptance"][0]["id"] = "AC-002"
+        delta(self.doc, "RENAMED", prev)
+        oldkey = f"{self.repo}:{prev['spec_id']}:FR-001"
+        newkey = f"{self.repo}:{self.doc['spec_id']}:FR-002"
+        canonical = {
+            oldkey: {"status": "CURRENT", "source_sha": prev["source_sha"], "text": "old"},
+            newkey: {"status": "CURRENT", "source_sha": "8"*40, "text": "unrelated"},
+        }
+        result = reconcile(self.doc, canonical, self.receipts)
+        self.assertIn("RENAMED_DESTINATION_ALREADY_EXISTS:FR-002", result["errors"])
+        self.assertIsNone(result["proposed_canonical"])
+
+    def test_approved_manifest_with_proposed_requirement_denied(self):
+        self.doc["requirements"][0]["status"] = "PROPOSED"
+        result = reconcile(self.doc, {}, self.receipts)
+        self.assertTrue(any("PROPOSED_REQUIREMENT_CANNOT_SHIP" in x
+                            for x in result["errors"]))
+
+    def test_standard_security_risk_without_controlled_denied(self):
+        self.doc["mode"] = "STANDARD"
+        self.doc["risk"]["security"] = True
+        result = reconcile(self.doc, {}, self.receipts)
+        self.assertTrue(any("HIGH_RISK_REQUIRES_CONTROLLED" in x
+                            for x in result["errors"]))
+
+    def test_sha_supplied_independently_must_match(self):
+        receipts = dict(self.receipts, source_sha="a"*40)
+        result = reconcile(self.doc, {}, receipts)
+        self.assertTrue(any("SOURCE_SHA_MISMATCH" in x for x in result["errors"]))
 
     def test_missing_merge_rejected(self):
         r = dict(self.receipts, merged=False)

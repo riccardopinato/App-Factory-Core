@@ -8,6 +8,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from validate_spec_lite import validate_manifest
+
 _SHA = re.compile(r"^[0-9a-f]{40}$")
 
 
@@ -19,6 +21,13 @@ def reconcile(manifest: dict[str, Any], canonical: dict[str, dict[str, Any]],
     target = manifest.get("target", {})
     repo = target.get("repository", "")
     checks = manifest.get("validation", {}).get("required_checks", [])
+    # Validate complete schema/semantic contract before considering receipts.
+    # Trusted expected SHA values must be supplied separately from the manifest.
+    admission_errors = validate_manifest(
+        manifest, expected_factory_sha=receipts.get("factory_sha", ""),
+        expected_source_sha=receipts.get("source_sha", ""),
+    )
+    errors.update(f"INVALID_MANIFEST:{error}" for error in admission_errors)
     if receipts.get("merged") is not True:
         errors.add("MERGED_PR_REQUIRED")
     if not _SHA.fullmatch(str(receipts.get("merge_sha", ""))):
@@ -72,6 +81,10 @@ def reconcile(manifest: dict[str, Any], canonical: dict[str, dict[str, Any]],
                 })
             if action == "RENAMED" and key == previous_key:
                 errors.add(f"RENAMED_REQUIRES_NEW_ID:{rid}")
+                continue
+            if (action == "RENAMED" and key in result
+                and result[key].get("status") == "CURRENT"):
+                errors.add(f"RENAMED_DESTINATION_ALREADY_EXISTS:{rid}")
                 continue
             result[previous_key] = {**found, "status": "SUPERSEDED",
                                     "superseded_by": key if action != "REMOVED" else None}

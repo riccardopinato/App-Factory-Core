@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -19,6 +20,20 @@ def _overlap(a: str, b: str) -> bool:
         if x.endswith("/**") and (y == x[:-3] or y.startswith(x[:-3] + "/")):
             return True
         if fnmatch.fnmatchcase(y, x):
+            return True
+    # Two glob expressions can intersect without either matching the other's
+    # literal pattern (lib/*/foo.dart and lib/widgets/*.dart, for example).
+    # Fail conservative as REVIEW, not automatic conflict or auto-merge.
+    if "*" in a and "*" in b:
+        def fixed_root(pattern: str) -> str:
+            parts = []
+            for part in pattern.split("/"):
+                if any(c in part for c in "*?["):
+                    break
+                parts.append(part)
+            return "/".join(parts)
+        ra, rb = fixed_root(a), fixed_root(b)
+        if not ra or not rb or ra == rb or ra.startswith(rb + "/") or rb.startswith(ra + "/"):
             return True
     return False
 
@@ -92,10 +107,14 @@ def review(docs: list[dict[str, Any]], *, heads: dict[str, str] | None,
             errors.add(f"PR_REQUIREMENT_COVERAGE_UNKNOWN:{repo}:{number}")
             continue
         for reqkey in affected:
-            if not isinstance(reqkey, dict):
-                errors.add(f"INVALID_PR_REQUIREMENT:{repo}:{number}")
+            if (not isinstance(reqkey, dict)
+                or not isinstance(reqkey.get("spec_id"), str)
+                or not re.fullmatch(r"FSL-[A-Z0-9][A-Z0-9-]{5,63}", reqkey["spec_id"])
+                or not isinstance(reqkey.get("requirement_id"), str)
+                or not re.fullmatch(r"FR-[0-9]{3}", reqkey["requirement_id"])):
+                errors.add(f"PR_REQUIREMENT_IDENTITY_MISSING:{repo}:{number}")
                 continue
-            key = (repo, reqkey.get("spec_id"), reqkey.get("requirement_id"))
+            key = (repo, reqkey["spec_id"], reqkey["requirement_id"])
             if key in keys:
                 errors.add(f"OPEN_PR_REQUIREMENT_CONFLICT:{repo}:{number}:{keys[key]}:{key[2]}")
         changed = pr.get("changed_paths")
