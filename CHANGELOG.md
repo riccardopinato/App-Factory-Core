@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-27 — Spec Lite Stage 5: decisione selettiva source/CI, non Golden
+
+- Step 4 riconciliato: Agent Core adapter [#37](https://github.com/riccardopinato/App-Factory-Agent-Core/pull/37) su `117b56b20dff1e63012c314ef32a2aa80fc558ab`; AppLab adapter [#246](https://github.com/riccardopinato/AppLab/pull/246) su `0b498ef04458d56a17318823efa9e77f31cd8e4a`. CI post-merge entrambe SUCCESS; 19 test mirati Agent e 22 AppLab; review AppLab chiusa, nessun job Windows reale certificato.
+- Decisione in `spec_lite/adoption/2026-11-27.{md,json}`: **adozione opzionale** dei manifest/FR-AC/source gate e degli adapter trace-only con identità attendibili; profilo FAST ridotto alla singola nota/manifest quando utile, standard e controlled solo come supporto proporzionale; no CLI upstream, no scheduler/verifier duplicati e no rollout automatico. Misure dei piloti: 11 AC↔test, 462 righe di documenti contro 154 codice/test, nessun beneficio tempo/token dimostrato.
+- `test_factory_spec_lite_adoption.py` protegge dai falsi PASS, claim di speedup inventati, esenzione test/rollback, promozione Golden non supportata e cambi di scope. Master v27, CURRENT e Golden Registry/Index non modificati: priorità all'esistente source-of-truth e nessun nuovo gate generale.
+
 ## 2026-11-27 — Factory Spec Lite: tre piloti Stage 3 con CI su main verificata
 
 - Tre piloti su GalleryDrift, Android-Omni-Cleaner e App-Factory-Agent-Core integrati a SHAs esatti con **tutte e tre le CI post-merge SUCCESS**; report quantitativo in `spec_lite/pilots/2026-11-27.{md,json}`. Nessuna certificazione runtime/physical/Windows inventata.
