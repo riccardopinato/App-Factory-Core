@@ -66,7 +66,7 @@ checksum manifest: **all four integrity checks PASS**. Deep JSON contains
 
 ## Consumer deployment gates
 
-Omni Cleaner PR #84 and Anna's Diary PR #379 update only the pinned read-only Shadow workflow. Both keep pull_request scanning lightweight and deep_pairs strictly manual. Consumer source and postmerge checks must be verified before closing this record.
+Omni Cleaner PR #84 and Anna's Diary PR #379 update only the pinned read-only Shadow workflow. Both keep pull_request scanning lightweight and deep_pairs strictly manual. Both consumer exact-head source checks and postmerge main-commit CI are verified SUCCESS. The separate manual workflow_dispatch event remains NOT_VERIFIED.
 
 No new Golden, Master changes, product certification, physical device, app release, provider access, PR comments or measured human time/token savings.
 
