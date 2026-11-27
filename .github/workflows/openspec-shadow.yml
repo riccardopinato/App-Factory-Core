@@ -1,0 +1,67 @@
+name: OpenSpec Shadow PR Evidence (read-only)
+
+on:
+  workflow_call:
+    inputs:
+      target_repository:
+        description: "Owner/repo. Use the caller repository for private app PRs."
+        required: true
+        type: string
+      target_pr:
+        description: "Open PR number to focus (0 = all PR pairs)."
+        required: false
+        default: 0
+        type: number
+  workflow_dispatch:
+    inputs:
+      target_repository:
+        description: "Public owner/repo or this repository; private repos use repo-local workflow_call."
+        required: true
+        default: "riccardopinato/App-Factory-Core"
+        type: string
+      target_pr:
+        required: false
+        default: 0
+        type: number
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: openspec-shadow-${{ inputs.target_repository }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  read-only-evidence:
+    name: OpenSpec Shadow (review hints; not a merge gate)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout the exact source of the called Factory workflow
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: riccardopinato/App-Factory-Core
+          ref: ${{ job.workflow_sha || github.sha }}
+          path: .factory-shadow
+          persist-credentials: false
+      - name: Read current GitHub PR snapshot (no PR write)
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_REPO: ${{ inputs.target_repository }}
+          TARGET_PR: ${{ inputs.target_pr }}
+        run: |
+          python3 .factory-shadow/scripts/openspec_shadow_mode.py \
+            --repo "$TARGET_REPO" --target-pr "${TARGET_PR:-0}" \
+            --json-out "$RUNNER_TEMP/openspec-shadow.json" \
+            --md-out "$RUNNER_TEMP/openspec-shadow.md"
+      - name: Publish read-only review summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/openspec-shadow.md" ]; then
+            cat "$RUNNER_TEMP/openspec-shadow.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "## OpenSpec Shadow Mode — INCOMPLETE (no validated snapshot)" >> "$GITHUB_STEP_SUMMARY"
+          fi
