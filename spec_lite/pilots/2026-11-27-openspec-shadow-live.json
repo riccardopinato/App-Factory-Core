@@ -1,7 +1,7 @@
 {
   "record_id": "FSL-OPENSPEC-SHADOW-20261127",
   "schema_version": 1,
-  "status": "BOTH_CONSUMER_SHADOW_WORKFLOWS_MERGED_HEAD_CI_PASS_POSTMERGE_PENDING",
+  "status": "ALL_SHADOW_MODE_TWO_CONSUMER_SOURCE_CI_PASS",
   "factory_master": "v27",
   "golden_index": 31,
   "initial_factory_baseline_sha": "ce7503456fce3af757f7160706c02d0cc1694b42",
@@ -16,7 +16,7 @@
       "source_main_sha": "358176eac8470ff302549702e21aeb164eb49a15",
       "pr_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/pull/82",
       "pr_head_sha": "9ee2979e29fb6240966596f2b9c6f97be680c8b8",
-      "pr_status": "MERGED_SOURCE_CI_GREEN_POSTMERGE_PENDING",
+      "pr_status": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
       "github_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215364",
       "github_run_outcome": "SUCCESS",
       "snapshot_status": "REVIEW_NEEDED_NOT_CERTIFIED",
@@ -39,14 +39,14 @@
         "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215050"
       ],
       "postmerge_ci": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45992302954",
-      "postmerge_ci_status": "IN_PROGRESS"
+      "postmerge_ci_status": "SUCCESS"
     },
     {
       "repository": "riccardopinato/Agenda-per-Anna",
       "source_main_sha": "7f6a60ff883b664574e3b7404aea12295d5a392b",
       "pr_url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/377",
       "pr_head_sha": "63199d275edbf607f47a4752dd1da94218d6e391",
-      "pr_status": "MERGED_SOURCE_CI_GREEN_POSTMERGE_PENDING",
+      "pr_status": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
       "github_run": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991224224",
       "github_run_outcome": "SUCCESS",
       "snapshot_status": "REVIEW_NEEDED_NOT_CERTIFIED",
@@ -69,7 +69,7 @@
         "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991223657"
       ],
       "postmerge_ci": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45992089708",
-      "postmerge_ci_status": "IN_PROGRESS"
+      "postmerge_ci_status": "SUCCESS"
     }
   ],
   "boundaries": {
@@ -204,5 +204,19 @@
       "different_blobs": 2,
       "unresolved_or_missing": 0
     }
-  ]
+  ],
+  "acceptance": {
+    "5.1_live_paginated_sha_stable_github_snapshot": "SOURCE_AND_LIVE_PASS",
+    "5.2_file_overlap_mergability_and_unmapped_requirements": "SOURCE_AND_LIVE_PASS_NOT_SEMANTIC_CERTIFICATION",
+    "5.3_pr_review_workflow_nonblocking": "MERGED_TWO_CONSUMERS",
+    "5.4_omni_and_anna_live_pilot": "MERGED_POSTMERGE_CI_SUCCESS",
+    "5.5_observational_metrics": "RECORDED_NO_CAUSAL_PERFORMANCE_CLAIM"
+  },
+  "initial_live_defect": {
+    "code": "FOCUSED_REPORT_HID_GLOBAL_OVERLAPS",
+    "was_detected_during_pilots": true,
+    "fixed_in_factory_pr": "https://github.com/riccardopinato/App-Factory-Core/pull/140",
+    "regression_tested": true,
+    "meaning": "Zero focused overlaps must not be interpreted as zero repository-wide overlaps"
+  }
 }

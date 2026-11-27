@@ -60,5 +60,5 @@ OpenSpec upstream: `Fission-AI/OpenSpec@f1cd852f4edce22b8df9548a4df889172ca8ff25
 
 [Operational contract](OPENSPEC_SHADOW_MODE.md) · [two-app live pilot report](pilots/2026-11-27-openspec-shadow-live.md) · [structured measurements](pilots/2026-11-27-openspec-shadow-live.json).
 
-This is an opt-in GitHub Actions PR-review hint. It scans open PRs and changed paths with stable GitHub API source snapshots, retains global and per-PR overlap counts, and explicitly treats missing semantic requirement IDs as UNMAPPED. No comments, autonomous merge/approval, Product Bible writes, Golden promotion, physical test or verified time/token saving. Only Android Omni Cleaner and Anna's Diary were admitted as initial pilots.
+Both admitted consumer pilot workflows are merged and have green exact postmerge CI (Anna #377, Omni #82). This remains source/CI evidence only. This is an opt-in GitHub Actions PR-review hint. It scans open PRs and changed paths with stable GitHub API source snapshots, retains global and per-PR overlap counts, and explicitly treats missing semantic requirement IDs as UNMAPPED. No comments, autonomous merge/approval, Product Bible writes, Golden promotion, physical test or verified time/token saving. Only Android Omni Cleaner and Anna's Diary were admitted as initial pilots.
 
