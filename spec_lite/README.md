@@ -1,12 +1,14 @@
-# Factory Spec Lite v1 — candidate process, not a new authority
+# Factory Spec Lite v1 — limited opt-in source process, not a new authority
 
-**Status:** PROCESS CANDIDATE. This is a bounded implementation of the accepted external-OSS audit [Spec Kit E1 admission](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/blob/559a13508558948ce57e91fe14df492328bdeb0d/12-CAPABILITY-E-IMPLEMENTAZIONI/OSS_GITHUB_SPEC_KIT_ADMISSION_2026-11-27.md). It is not a certified Golden and does not install Spec Kit CLI or run agents.
+**Status:** LIMITED OPT-IN SOURCE/CI PROCESS (not a Golden, not a certified runtime). Decision and evidence: [27 November 2026](ADOPTION_DECISION_2026-11-27.md) · [machine-readable gate](ADOPTION_DECISION_2026-11-27.json). Use only per approved feature and preserve all current Master/Product Bible/Golden gates. This is a bounded implementation of the accepted external-OSS audit [Spec Kit E1 admission](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/blob/559a13508558948ce57e91fe14df492328bdeb0d/12-CAPABILITY-E-IMPLEMENTAZIONI/OSS_GITHUB_SPEC_KIT_ADMISSION_2026-11-27.md). It is not a certified Golden and does not install Spec Kit CLI or run agents.
 
 ## Ownership and precedence
 
 Product Bible and approved roadmap define product behavior; Factory CURRENT/Master/Golden govern process; AGENTS refines repository behavior; code, CI and AppLab provide evidence. This manifest cannot create product approval, authorize shell/PR/merge, or bypass a human/provider/physical gate.
 
 Modes: **FAST** isolated low-risk; **STANDARD** bounded behavior/regression; **CONTROLLED** migration/security/payment/data/native/release risk. The existing Master DIRECT/PARALLEL/CONTROLLED router takes precedence. Risk flags force CONTROLLED regardless of declared mode. The upstream Spec Kit workflow does not supply a security sandbox.
+
+**FAST lean decision:** one concise contract (manifest/spec with plan and tasks inline) is sufficient for a low-risk feature when needed; do not force separate `spec.md`, `plan.md`, `tasks.md`, comparison and evidence documents for simple utility edits. STANDARD/CONTROLLED can use separate artifacts when complexity requires them. The Master router DIRECT remains the first path for tiny work.
 
 ## Layout and use
 
