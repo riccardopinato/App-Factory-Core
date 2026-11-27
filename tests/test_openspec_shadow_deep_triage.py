@@ -144,6 +144,20 @@ class DeepTriageTests(unittest.TestCase):
         self.assertBlocked(lambda: _compare(api, REPO, A, B),
                            "DEEP_COMPARE_BASE_IDENTITY_MISMATCH")
 
+    def test_compare_missing_base_object_is_cleanly_denied(self):
+        api = FakeDeepAPI()
+        key = f"/repos/{REPO}/compare/{A}...{B}"
+        api.payload[key]["base_commit"] = None
+        self.assertBlocked(lambda: _compare(api, REPO, A, B),
+                           "DEEP_COMPARE_BASE_IDENTITY_MISMATCH")
+
+    def test_unexpected_identical_status_for_distinct_heads_denied(self):
+        api = FakeDeepAPI()
+        key = f"/repos/{REPO}/compare/{A}...{B}"
+        api.payload[key]["status"] = "identical"
+        self.assertBlocked(lambda: _compare(api, REPO, A, B),
+                           "DEEP_COMPARE_RESPONSE_INVALID")
+
     def test_compare_spoofed_head_rejected(self):
         api = FakeDeepAPI()
         key = f"/repos/{REPO}/compare/{A}...{B}"

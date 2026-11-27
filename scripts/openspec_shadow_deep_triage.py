@@ -174,7 +174,7 @@ def deep_markdown(report: dict[str, Any]) -> str:
                    f"missing/nonblob {p['missing_or_nonblob_count']}")
         if p["different_file_sample"]:
             out.append("  - Different-file examples: " + ", ".join(
-                f"\`{s}\`" for s in p["different_file_sample"][:5]))
+                f"`{s}`" for s in p["different_file_sample"][:5]))
     out += ["- The relationship and blob hashes do not authorize any merge, "
             "certify functional equivalence or replace manual reconciliation.", ""]
     return "\n".join(out) + "\n"
@@ -223,7 +223,7 @@ def main() -> int:
                  "No proven time/token savings.\n")
     else:
         body = ("## OpenSpec Shadow Deep Mode — INCOMPLETE, not a PASS\n\n"
-                f"Evidence error: \`{report['error_code']}\`.\n")
+                f"Evidence error: `{report['error_code']}`.\n")
     if args.md_out:
         args.md_out.write_text(body, encoding="utf-8")
     print(body)
