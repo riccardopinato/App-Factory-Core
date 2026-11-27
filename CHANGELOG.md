@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-27 — OpenSpec incremental source/CI comparison, FAST + STANDARD
+
+- Core PR #137 and exact postmerge validate CI PASS; 32 new regression/adversarial tests for delta contracts, PR drift and closeout preview.
+- Gallery Drift FAST PR #20 plus canonical documentation PR #22 merged, both with Android postmerge CI PASS; Agent Core STANDARD PR #38 plus canonical documentation PR #39 merged, both with postmerge CI PASS.
+- Inspectable results: `spec_lite/pilots/2026-11-27-openspec-delta-comparison.{md,json}`; time/token and Windows/physical/runtime benefits still unmeasured; no new Golden, authority, scheduler or broad rollout.
+
+
 ## 2026-11-27 — OpenSpec delta/drift/closeout candidate (source only)
 
 - Optional incremental requirement deltas in Spec Lite, preserving existing FAST manifests and lean contracts.
