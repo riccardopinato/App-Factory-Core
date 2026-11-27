@@ -3,6 +3,8 @@ Versione: 31.0 — 19/11/2026
 
 SCOPO
 Indice centrale dei componenti infrastrutturali riutilizzabili tra le app del Project.
+PRODUCT VISUAL PRIORITY (27/11/2026): aesthetics follow each app's Product Bible and approved Design-App references. Material 3 is an optional legacy technical implementation, not the default visual direction. The Product-Owned Design System entry below is CANDIDATE, NOT COPY-READY; do not infer consumer certification from its registration.
+
 
 SOURCE OF TRUTH
 Repository: https://github.com/riccardopinato/App-Factory-Core
@@ -1654,3 +1656,31 @@ Adaptive Landscape independent Flutter/AOT/JADX: https://github.com/riccardopina
 Scope: CERTIFIED PROCESS for bounded read-only CLI static research and
 independent cross-project execution. NOT CERTIFIED GOLDEN, inspected code,
 runtime functionality, arbitrary REA providers, Play or device verification.
+
+======================================================================
+PRODUCT-OWNED DESIGN SYSTEM — VISUAL IDENTITY FIRST
+======================================================================
+
+File:
+GOLDEN_PRODUCT_OWNED_DESIGN_SYSTEM_v1_DRAFT.txt
+
+Stato:
+DRAFT / CANDIDATE — NON COPY-READY
+
+Source of visual selection:
+- target app Product Bible, prior user-approved mock-ups;
+- curated preferences and licensed assets in riccardopinato/Design-App;
+- relevant technical Golden and certified donor for accessibility/behavior;
+- platform frameworks only as internal implementation, never automatic visual identity.
+
+Scope:
+- trace visual decisions to source IDs / URLs / licenses and explicit user approval;
+- tokens owned by the app: color, typography, spacing, radius, iconography, motion;
+- responsive, light/dark, contrast, locale, accessibility, reduced-motion gates;
+- avoid duplicating a pre-existing toolkit or forking all UI for cosmetic reasons;
+- Material 3 legacy Golden remains optional for already compatible consumers,
+  not a default template or instruction to restyle apps.
+
+Promotion blocker:
+- verified consumer implementation and visual QA with evidence for at least one app,
+  then independent reuse before CERTIFIED GOLDEN.
