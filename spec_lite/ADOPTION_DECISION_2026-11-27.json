@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "record_id": "FSL-ADOPTION-20261127",
+  "decision_date": "2026-11-27",
+  "status": "LIMITED_OPT_IN_SOURCE_ONLY",
+  "source_of_truth": {
+    "factory_repository": "riccardopinato/App-Factory-Core",
+    "factory_baseline_sha": "8b3d9263ad1a72f3b8a43273550fe43646780d78",
+    "master_version": "27",
+    "golden_index": 31,
+    "external_reference": "github/spec-kit",
+    "external_release": "v1.4.5",
+    "external_license": "MIT",
+    "external_research_status": "E1_RESEARCH_ONLY"
+  },
+  "stage_gates": {
+    "step1": {
+      "status": "PASS_SOURCE_CI",
+      "catalog_sha": "559a13508558948ce57e91fe14df492328bdeb0d",
+      "pr": "https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/pull/190"
+    },
+    "step2": {
+      "status": "PASS_SOURCE_CI",
+      "core_sha": "f8b9f550c544735237f19cdd723bd2df667ceee6",
+      "pr": "https://github.com/riccardopinato/App-Factory-Core/pull/133"
+    },
+    "step3": {
+      "status": "PASS_SOURCE_CI",
+      "core_sha": "8b3d9263ad1a72f3b8a43273550fe43646780d78",
+      "pr": "https://github.com/riccardopinato/App-Factory-Core/pull/134",
+      "pilot_repositories": [
+        "riccardopinato/GalleryDrift",
+        "riccardopinato/Android-Omni-Cleaner",
+        "riccardopinato/App-Factory-Agent-Core"
+      ]
+    },
+    "step4": {
+      "status": "PASS_SOURCE_CI",
+      "agent_core_sha": "117b56b20dff1e63012c314ef32a2aa80fc558ab",
+      "applab_sha": "0b498ef04458d56a17318823efa9e77f31cd8e4a",
+      "agent_pr": "https://github.com/riccardopinato/App-Factory-Agent-Core/pull/37",
+      "applab_pr": "https://github.com/riccardopinato/AppLab/pull/246",
+      "app_lab_main_ci": "https://github.com/riccardopinato/AppLab/actions/runs/45976087721",
+      "app_lab_main_android": "https://github.com/riccardopinato/AppLab/actions/runs/45976087592",
+      "agent_main_ci": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45970929150"
+    }
+  },
+  "metrics": {
+    "pilot_acceptance_criteria_linked": 11,
+    "pilot_regression_tests_added": 11,
+    "pilot_documentation_lines_added": 462,
+    "pilot_source_and_test_lines_added": 154,
+    "agent_adapter_offline_tests": 19,
+    "applab_adapter_offline_tests": 22,
+    "review_findings_repaired_in_applab": 4,
+    "gallery_ci_seconds_baseline": 369,
+    "gallery_ci_seconds_pilot_success": 362,
+    "gallery_first_failed_ci_seconds": 75,
+    "omni_ci_seconds_baseline": 315,
+    "omni_ci_seconds_pilot_success": 317,
+    "development_time_saved": "NOT_MEASURED",
+    "token_savings": "NOT_MEASURED",
+    "device_performance_improvement": "NOT_MEASURED",
+    "operational_benefit": "11/11 explicit source requirement-to-test trace links and 4 caught/fixed false-coverage/identity review cases; no throughput claim"
+  },
+  "admitted": {
+    "feature_scoped_requirements": true,
+    "stable_acceptance_ids": true,
+    "source_sha_pin": true,
+    "all_required_checks_mapped": true,
+    "read_only_work_item_evidence_adapter": true,
+    "fast_optional_compact": true,
+    "standard_opt_in": true,
+    "controlled_requires_trusted_approval": true
+  },
+  "restrictions": {
+    "new_cap_id": false,
+    "new_golden": false,
+    "new_scheduler": false,
+    "new_verifier": false,
+    "install_spec_kit_cli": false,
+    "auto_execute_jobs": false,
+    "auto_approve_requirements": false,
+    "auto_merge": false,
+    "auto_release": false,
+    "new_product_policy_authority": false,
+    "bulk_story_or_recipe_spec_per_record": false
+  },
+  "status_boundaries": {
+    "actual_agent_windows_runtime": "NOT_VERIFIED",
+    "actual_production_applab_workflow": "NOT_VERIFIED",
+    "real_user_approval": "NOT_ATTESTED_BY_SPEC_LITE",
+    "physical_device": "NOT_VERIFIED_BY_SPEC_LITE",
+    "store_release": "NOT_VERIFIED"
+  },
+  "mode_rules": {
+    "FAST": {
+      "adoption": "OPTIONAL_SINGLE_COMPACT_CONTRACT",
+      "requires_risk_flags_all_false": true,
+      "mandatory_documents": 1,
+      "allow_inline_plan_tasks": true
+    },
+    "STANDARD": {
+      "adoption": "OPT_IN_FOR_BOUNDED_FEATURES_BUGS",
+      "required_quality": "REGRESSION_AND_EXACT_HEAD_CI"
+    },
+    "CONTROLLED": {
+      "adoption": "ONLY_WITH_PRODUCT_SCOPE_AND_INDEPENDENT_APPROVAL",
+      "human_gate_required": true,
+      "device_and_provider_evidence_when_applicable": true
+    }
+  },
+  "rollout": {
+    "already_piloted": [
+      "riccardopinato/GalleryDrift",
+      "riccardopinato/Android-Omni-Cleaner",
+      "riccardopinato/App-Factory-Agent-Core"
+    ],
+    "other_repositories": "NOT_BULK_ADOPTED",
+    "progression": "PER_FEATURE_AFTER_PRODUCT_BIBLE_SCOPE_AND_PR_RECONCILIATION",
+    "stop_conditions": [
+      "UNMAPPED_REQUIRED_CHECK",
+      "SHA_MISMATCH",
+      "UNAPPROVED_SCOPE",
+      "EVIDENCE_MISSING",
+      "GATE_REGRESSION",
+      "NEW_SCHEDULER_OR_VERIFIER"
+    ]
+  },
+  "governance": {
+    "master_and_golden_unchanged": true,
+    "product_bible_remains_owner": true,
+    "risk_router_remains_authoritative": true,
+    "app_lab_and_agent_core_remain_verification_permission_owners": true,
+    "no_source_only_to_runtime_promotion": true,
+    "decision_review_later": "Re-evaluate cost and benefit after comparable before/after feature-run measurements and independent durable-operation E2E proof"
+  }
+}
