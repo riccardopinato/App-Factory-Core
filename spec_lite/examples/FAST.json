@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "spec_id": "FSL-20261127-GALLERYDRIFT-SAMPLE",
+  "mode": "FAST",
+  "factory": {
+    "repository": "riccardopinato/App-Factory-Core",
+    "sha": "842dfa073451ec247308ccb4afb8ead5349bcbd4",
+    "resolver": "CURRENT.yaml"
+  },
+  "target": {
+    "repository": "riccardopinato/GalleryDrift",
+    "source_sha": "dde42c11d96ee6258670b01ce9e7b3c273cc56ab"
+  },
+  "canonical_refs": {
+    "factory_current": {
+      "repository": "riccardopinato/App-Factory-Core",
+      "sha": "842dfa073451ec247308ccb4afb8ead5349bcbd4",
+      "path": "CURRENT.yaml"
+    },
+    "product_bible": null,
+    "roadmap": null,
+    "agents": {
+      "repository": "riccardopinato/GalleryDrift",
+      "sha": "dde42c11d96ee6258670b01ce9e7b3c273cc56ab",
+      "path": "AGENTS.md"
+    },
+    "goldens": []
+  },
+  "scope": {
+    "includes": [
+      "Read-only gallery tile display proposal"
+    ],
+    "excludes": [
+      "Unrelated product changes",
+      "Cloud or billing changes"
+    ],
+    "allowed_paths": [
+      "lib/**"
+    ],
+    "forbidden_paths": [
+      ".github/secrets/**",
+      "credentials/**"
+    ]
+  },
+  "risk": {
+    "data_loss": false,
+    "security": false,
+    "billing": false,
+    "native_lifecycle": false,
+    "migration": false,
+    "sensitive_data": false,
+    "release": false
+  },
+  "requirements": [
+    {
+      "id": "FR-001",
+      "text": "Gallery card content displays at the original image aspect ratio without changing media files.",
+      "status": "PROPOSED",
+      "conflicts_with": [],
+      "acceptance": [
+        {
+          "id": "AC-001",
+          "criterion": "Source or UI regression checks confirm original image aspect ratio is preserved.",
+          "evidence_type": "SOURCE_TEST"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "required_checks": [
+      "SOURCE_TEST"
+    ],
+    "manual_gate": false,
+    "rollback_plan": null
+  },
+  "approval": {
+    "status": "PROPOSED",
+    "decision_ref": null
+  },
+  "verification": {
+    "status": "NOT_VERIFIED",
+    "evidence_links": []
+  }
+}
