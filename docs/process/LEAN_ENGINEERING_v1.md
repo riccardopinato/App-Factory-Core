@@ -65,3 +65,9 @@ Per ogni PR pilota raccogliere, **senza nuovi gate di merge**:
 Le metriche su righe o test presenti nel diff NON sono prove di qualità,
 copertura, efficacia o risparmio. Rapporto suggerito: baseline, commit,
 cosa e' stato riusato, diff, controlli PASS/FAIL/NOT VERIFIED, rischi.
+
+## Factory Spec Lite — opzione mirata, non nuovo gate generale (27/11/2026)
+
+La decisione centrale [Spec Lite Stage 5](../../spec_lite/adoption/2026-11-27.md) ha verificato **11 criteri FR/AC associati a 11 nuovi test** nei tre piloti, a fronte di **462 righe documentali per 154 righe aggiunte di codice+test**. Un risparmio di tempo o token non è stato misurato e NON è dimostrato. Spec Lite resta un'alternativa facoltativa per tracciabilità e anti-drift quando la complessità del cambiamento lo giustifica, mai un obbligo di generare documentazione.
+
+In FAST basta la minima nota/manifest utile; in STANDARD si possono utilizzare riferimenti stabili e criteri collegati a regressioni; in CONTROLLED è **solo evidenza supplementare** e non elimina approvazioni umane, gate fisici/provider/Store o rollback. Un cambiamento delle singole app richiede comunque Product Bible/roadmap e verifiche exact-head. La CLI di upstream Spec Kit non è installata, il Master v27 e Golden Registry/Index non vengono modificati, gli adapter non sono un secondo orchestratore o verificatore. Niente specifica per ogni singola ricetta/storia nei batch editoriali Fast Track IA.
