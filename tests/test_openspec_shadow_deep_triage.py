@@ -21,10 +21,15 @@ H1, H2, H3, H4 = "1" * 40, "2" * 40, "3" * 40, "4" * 40
 def snap_and_report():
     snap = {
         "repository": REPO,
+        "default_branch": "main",
+        "head_sha": "f" * 40,
         "prs": [
-            {"number": 39, "head_sha": C, "changed_paths": ["lib/main.kt"]},
-            {"number": 75, "head_sha": A, "changed_paths": ["lib/main.kt", "lib/same.kt"]},
-            {"number": 77, "head_sha": B, "changed_paths": [
+            {"number": 39, "head_sha": C, "base_sha": "f" * 40, "base_ref": "main",
+             "changed_paths": ["lib/main.kt"]},
+            {"number": 75, "head_sha": A, "base_sha": "f" * 40, "base_ref": "main",
+             "changed_paths": ["lib/main.kt", "lib/same.kt"]},
+            {"number": 77, "head_sha": B, "base_sha": "f" * 40, "base_ref": "main",
+             "changed_paths": [
                 "lib/main.kt", "lib/same.kt", "lib/new.kt",
             ]},
         ],
@@ -39,7 +44,7 @@ def snap_and_report():
 
 def tree(paths):
     return {"truncated": False, "tree": [
-        {"type": "blob", "path": name, "sha": sha} for name, sha in paths.items()
+        {"type": "blob", "path": name, "sha": sha, "mode": "100644"} for name, sha in paths.items()
     ]}
 
 
@@ -65,11 +70,22 @@ class FakeDeepAPI:
                 "base_commit": {"sha": A}, "commits": [],
             },
             f"/repos/{REPO}/commits/{C}": {"sha": C},
+            f"/repos/{REPO}/commits/main": {"sha": "f" * 40},
         }
         self.calls = []
+        self.modified_final_inventory = False
 
     def get(self, path):
         self.calls.append(path)
+        if path == f"/repos/{REPO}/pulls?state=open&per_page=100&page=1":
+            records = [
+                {"number": 39, "head": {"sha": C}, "base": {"sha": "f" * 40, "ref": "main"}},
+                {"number": 75, "head": {"sha": A}, "base": {"sha": "f" * 40, "ref": "main"}},
+                {"number": 77, "head": {"sha": B}, "base": {"sha": "f" * 40, "ref": "main"}},
+            ]
+            if self.modified_final_inventory:
+                records[-1]["head"]["sha"] = "9" * 40
+            return records
         if path not in self.payload:
             raise AssertionError("Unexpected GitHub GET " + path)
         return copy.deepcopy(self.payload[path])
@@ -109,11 +125,68 @@ class DeepTriageTests(unittest.TestCase):
         self.assertEqual(second["history"]["relation"], "DIVERGED_HISTORY")
         self.assertEqual(second["byte_identical_blob_count"], 0)
         self.assertEqual(second["different_blob_count"], 1)
-        self.assertEqual(len(api.calls), 5, "Three immutable trees reused across two comparisons")
+        self.assertEqual(len(api.calls), 7, "Three immutable trees reused and final snapshot rechecked")
         self.assertFalse(result["product_conflict_certified"])
         self.assertFalse(result["complete_repository_semantic_coverage"])
         self.assertFalse(result["writes_performed"])
         self.assertIn("byte-identical 1", deep_markdown({"deep_triage": result}))
+
+    def test_per_file_sha_and_git_mode_are_in_complete_receipt(self):
+        api = FakeDeepAPI()
+        snap, report = snap_and_report()
+        pair = deep_review(api, snap, report, [(75, 77)])["pairs"][0]
+        self.assertEqual(pair["sha_a"], A)
+        self.assertEqual(pair["sha_b"], B)
+        self.assertEqual(len(pair["blob_fingerprints"]), 2)
+        self.assertEqual(pair["blob_fingerprints"][0]["a_blob_sha"], H1)
+        self.assertEqual(pair["blob_fingerprints"][0]["b_blob_sha"], H2)
+        self.assertEqual(pair["blob_fingerprints"][0]["a_git_mode"], "100644")
+        self.assertEqual(pair["mode_different_count"], 0)
+
+    def test_equal_blob_with_changed_executable_mode_requires_review(self):
+        api = FakeDeepAPI()
+        api.payload[f"/repos/{REPO}/git/trees/{B}?recursive=1"]["tree"][1]["mode"] = "100755"
+        snap, report = snap_and_report()
+        result = deep_review(api, snap, report, [(75, 77)])
+        pair = result["pairs"][0]
+        self.assertEqual(pair["byte_identical_blob_count"], 1)
+        self.assertEqual(pair["mode_different_count"], 1)
+        self.assertEqual(pair["mode_different_file_sample"], ["lib/same.kt"])
+        self.assertIn("Git mode changes 1", deep_markdown({"deep_triage": result}))
+
+    def test_moving_pr_after_tree_reads_cannot_return_success(self):
+        api = FakeDeepAPI()
+        api.modified_final_inventory = True
+        snap, report = snap_and_report()
+        self.assertBlocked(lambda: deep_review(api, snap, report, [(75, 77)]),
+                           "DEEP_PR_INVENTORY_CHANGED_AFTER_TREE_READ")
+
+    def test_moving_main_after_tree_reads_cannot_return_success(self):
+        api = FakeDeepAPI()
+        api.payload[f"/repos/{REPO}/commits/main"] = {"sha": "9" * 40}
+        snap, report = snap_and_report()
+        self.assertBlocked(lambda: deep_review(api, snap, report, [(75, 77)]),
+                           "DEEP_DEFAULT_HEAD_CHANGED_AFTER_TREE_READ")
+
+    def test_missing_git_mode_is_incomplete_not_same_file(self):
+        api = FakeDeepAPI()
+        del api.payload[f"/repos/{REPO}/git/trees/{A}?recursive=1"]["tree"][0]["mode"]
+        self.assertBlocked(lambda: _tree_blobs(api, REPO, A), "DEEP_GIT_BLOB_MODE_INVALID")
+
+    def test_untrusted_path_cannot_inject_markdown_or_workflow_command(self):
+        api = FakeDeepAPI()
+        malicious = "lib/x.md\\n::error::danger<svg>[link](https://evil.invalid)"
+        snap, report = snap_and_report()
+        snap["prs"][1]["changed_paths"] = [malicious]
+        snap["prs"][2]["changed_paths"] = [malicious]
+        report["overlap_pairs"] = [{"prs": [75, 77], "count": 1}]
+        for sha in (A, B):
+            api.payload[f"/repos/{REPO}/git/trees/{sha}?recursive=1"] = tree({malicious: H1})
+        result = deep_review(api, snap, report, [(75, 77)])
+        output = deep_markdown({"deep_triage": result})
+        self.assertNotIn("<svg>", output)
+        self.assertNotIn("\n::error::", output)
+        self.assertEqual(result["pairs"][0]["shared_changed_paths"], 1)
 
     def test_pair_that_is_not_open_is_rejected(self):
         api = FakeDeepAPI()

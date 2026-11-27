@@ -13,11 +13,13 @@ import os
 import re
 import sys
 import time
+import urllib.parse
 from pathlib import Path
 from typing import Any
 
 from openspec_shadow_mode import (
-    GitHubAPI, IncompleteSnapshot, _sha, assess, markdown, require, snapshot,
+    GitHubAPI, IncompleteSnapshot, _sha, _list_prs, assess, markdown, require,
+    safe_markdown, snapshot,
 )
 
 MAX_DEEP_PAIRS = 4
@@ -41,7 +43,7 @@ def parse_pairs(raw: str) -> list[tuple[int, int]]:
     return found
 
 
-def _tree_blobs(api: Any, repo: str, commit_sha: str) -> dict[str, str]:
+def _tree_blobs(api: Any, repo: str, commit_sha: str) -> dict[str, dict[str, str]]:
     require(_sha(commit_sha), "DEEP_PINNED_COMMIT_REQUIRED")
     obj = api.get(f"/repos/{repo}/git/trees/{commit_sha}?recursive=1")
     require(isinstance(obj, dict)
@@ -50,7 +52,7 @@ def _tree_blobs(api: Any, repo: str, commit_sha: str) -> dict[str, str]:
             "DEEP_GIT_TREE_INCOMPLETE")
     entries = obj["tree"]
     require(len(entries) <= MAX_TREE_RECORDS, "DEEP_TREE_RECORD_BUDGET_EXCEEDED")
-    found: dict[str, str] = {}
+    found: dict[str, dict[str, str]] = {}
     seen: set[str] = set()
     for entry in entries:
         require(isinstance(entry, dict)
@@ -63,7 +65,10 @@ def _tree_blobs(api: Any, repo: str, commit_sha: str) -> dict[str, str]:
         seen.add(entry["path"])
         if entry.get("type") == "blob":
             require(_sha(entry.get("sha")), "DEEP_GIT_BLOB_SHA_INVALID")
-            found[entry["path"]] = entry["sha"]
+            mode = entry.get("mode")
+            require(mode in ("100644", "100755", "120000", "100664"),
+                    "DEEP_GIT_BLOB_MODE_INVALID")
+            found[entry["path"]] = {"sha": entry["sha"], "mode": mode}
     return found
 
 
@@ -115,7 +120,7 @@ def deep_review(api: Any, snap: dict[str, Any], report: dict[str, Any],
     repo = snap["repository"]
     prs = {p["number"]: p for p in snap["prs"]}
     collisions = {tuple(p["prs"]): p for p in report["overlap_pairs"]}
-    cache: dict[str, dict[str, str]] = {}
+    cache: dict[str, dict[str, dict[str, str]]] = {}
     details = []
     for pair in pairs:
         require(pair[0] in prs and pair[1] in prs, "DEEP_PAIR_PR_NOT_OPEN")
@@ -127,31 +132,59 @@ def deep_review(api: Any, snap: dict[str, Any], report: dict[str, Any],
             if sha not in cache:
                 cache[sha] = _tree_blobs(api, repo, sha)
         blobs_a, blobs_b = cache[exact_a], cache[exact_b]
-        common = sorted(set(a["changed_paths"]) & set(b["changed_paths"]))
+        common = sorted(set(a.get("collision_paths", a["changed_paths"]))
+                        & set(b.get("collision_paths", b["changed_paths"])))
         require(bool(common) and len(common) == collisions[pair]["count"],
                 "DEEP_CHANGED_PATH_INVENTORY_MISMATCH")
-        identical = [p for p in common if blobs_a.get(p) and blobs_a[p] == blobs_b.get(p)]
-        different = [p for p in common if blobs_a.get(p) and blobs_b.get(p)
-                     and blobs_a[p] != blobs_b[p]]
+        identical = [p for p in common if p in blobs_a and p in blobs_b
+                     and blobs_a[p]["sha"] == blobs_b[p]["sha"]]
+        different = [p for p in common if p in blobs_a and p in blobs_b
+                     and blobs_a[p]["sha"] != blobs_b[p]["sha"]]
+        mode_diff = [p for p in common if p in blobs_a and p in blobs_b
+                     and blobs_a[p]["mode"] != blobs_b[p]["mode"]]
         missing = [p for p in common if p not in blobs_a or p not in blobs_b]
         require(len(identical) + len(different) + len(missing) == len(common),
                 "DEEP_BLOB_ACCOUNTING_MISMATCH")
+        fingerprints = [{
+            "path": p, "a_blob_sha": blobs_a.get(p, {}).get("sha"),
+            "b_blob_sha": blobs_b.get(p, {}).get("sha"),
+            "a_git_mode": blobs_a.get(p, {}).get("mode"),
+            "b_git_mode": blobs_b.get(p, {}).get("mode"),
+        } for p in common]
         details.append({
             "prs": list(pair), "sha_a": exact_a, "sha_b": exact_b,
             "history": relation,
             "shared_changed_paths": len(common),
             "byte_identical_blob_count": len(identical),
             "different_blob_count": len(different),
+            "mode_different_count": len(mode_diff),
+            "mode_different_file_sample": mode_diff[:15],
             "missing_or_nonblob_count": len(missing),
+            "blob_fingerprints": fingerprints,
             "different_file_sample": different[:15],
             "missing_file_sample": missing[:15],
             "interpretation": "BYTE_IDENTITY_AND_COMMIT_ANCESTRY_ONLY_NOT_FUNCTIONAL_EQUIVALENCE",
             "source": "GITHUB_PINNED_COMPARE_AND_UNTRUNCATED_GIT_TREES",
         })
+    # Revalidate the snapshot after immutable Git compare/tree reads. A pair
+    # can advance during this interval; stale evidence must fail closed.
+    branch = urllib.parse.quote(snap["default_branch"], safe="")
+    head = api.get(f"/repos/{repo}/commits/{branch}")
+    require(isinstance(head, dict) and head.get("sha") == snap["head_sha"],
+            "DEEP_DEFAULT_HEAD_CHANGED_AFTER_TREE_READ")
+    latest = _list_prs(api, repo)
+    actual = sorted((p["number"], p["head"]["sha"], p["base"]["sha"], p["base"]["ref"])
+                    for p in latest)
+    expected = sorted((p["number"], p["head_sha"], p["base_sha"], p["base_ref"])
+                      for p in snap["prs"])
+    require(actual == expected, "DEEP_PR_INVENTORY_CHANGED_AFTER_TREE_READ")
     return {
         "mode": "SELECTED_PAIR_DEEP_TRIAGE",
         "status": "REVIEW_ONLY_NOT_CERTIFIED",
         "selected_pairs": len(details),
+        "unique_git_tree_reads": len(cache),
+        "git_tree_reuses": len(pairs) * 2 - len(cache),
+        "final_pr_and_head_recheck": True,
         "unreviewed_overlapping_pairs": len(report["overlap_pairs"]) - len(details),
         "pairs": details,
         "complete_repository_semantic_coverage": False,
@@ -165,17 +198,27 @@ def deep_markdown(report: dict[str, Any]) -> str:
     deep = report["deep_triage"]
     out = ["", "### Optional pinned commit + blob triage",
            f"- Selected pairs: {deep['selected_pairs']}; "
-           f"other overlapping pairs not deeply examined: {deep['unreviewed_overlapping_pairs']}"]
+           f"other overlapping pairs not deeply examined: {deep['unreviewed_overlapping_pairs']}",
+           f"- Rechecked current main and every open PR after Git tree reads: "
+           f"**{deep['final_pr_and_head_recheck']}**",
+           f"- Immutable tree GETs: {deep['unique_git_tree_reads']}; "
+           f"within-run reused trees: {deep['git_tree_reuses']}"]
     for p in deep["pairs"]:
-        out.append(f"- PR #{p['prs'][0]} / #{p['prs'][1]}: "
-                   f"{p['history']['relation']}; shared paths {p['shared_changed_paths']}, "
+        out.append(f"- PR #{p['prs'][0]} / #{p['prs'][1]} "
+                   f"at {safe_markdown(p['sha_a'])} / {safe_markdown(p['sha_b'])}: "
+                   f"{safe_markdown(p['history']['relation'])}; "
+                   f"shared paths {p['shared_changed_paths']}, "
                    f"byte-identical {p['byte_identical_blob_count']}, "
                    f"different {p['different_blob_count']}, "
-                   f"missing/nonblob {p['missing_or_nonblob_count']}")
+                   f"missing/nonblob {p['missing_or_nonblob_count']}, "
+                   f"Git mode changes {p['mode_different_count']}")
         if p["different_file_sample"]:
             out.append("  - Different-file examples: " + ", ".join(
-                f"`{s}`" for s in p["different_file_sample"][:5]))
-    out += ["- The relationship and blob hashes do not authorize any merge, "
+                safe_markdown(s) for s in p["different_file_sample"][:5]))
+        if p["mode_different_file_sample"]:
+            out.append("  - Changed Git mode: " + ", ".join(
+                safe_markdown(s) for s in p["mode_different_file_sample"][:5]))
+    out += ["- The ancestry, blob and mode comparisons do not authorize any merge, "
             "certify functional equivalence or replace manual reconciliation.", ""]
     return "\n".join(out) + "\n"
 
