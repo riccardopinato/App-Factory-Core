@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "record_id": "FSL-STEP3-20261127",
+  "factory_source_sha": "f8b9f550c544735237f19cdd723bd2df667ceee6",
+  "status": "IN_PROGRESS_POSTMERGE_CI",
+  "pilot_count": 3,
+  "acceptance_criteria_mapped": 11,
+  "tests_added": 11,
+  "source_of_truth": "GitHub exact PR/main commits and published CI jobs",
+  "no_golden_promotion": true,
+  "no_runtime_certification_claim": true,
+  "baseline_comparison_warning": "CI job wall-time varies with infrastructure and cache; no causal speedup inferred. Baseline windows differ and Gallery first failed attempt counts as observed overhead. Token/development time and physical performance are NOT_MEASURED.",
+  "pilots": [
+    {
+      "id": "FSL-20261127-GALLERY-PREFETCH",
+      "repository": "riccardopinato/GalleryDrift",
+      "source_sha": "dde42c11d96ee6258670b01ce9e7b3c273cc56ab",
+      "pr_number": 19,
+      "pr_url": "https://github.com/riccardopinato/GalleryDrift/pull/19",
+      "pr_head_sha": "7d92e9b8174872a744ff2606ac012cb2145f8a17",
+      "merged_main_sha": "c7f0f51c764b48228e803e3a64e2d4f9e971beae",
+      "pr_ci": {
+        "run_url": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45967151776",
+        "status": "SUCCESS",
+        "wall_seconds": 362
+      },
+      "main_ci": {
+        "run_url": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45968496950",
+        "status": "PENDING"
+      },
+      "baseline_ci": {
+        "run_url": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45087359176",
+        "wall_seconds": 369
+      },
+      "tests_added": 3,
+      "acceptance_criteria": [
+        "AC-001",
+        "AC-002",
+        "AC-003"
+      ],
+      "requirement_coverage": "3/3 source-level mapped",
+      "diff_stats": {
+        "source_lines_added": 22,
+        "source_lines_removed": 0,
+        "test_lines_added": 44,
+        "doc_lines_added": 153
+      },
+      "evidence_grade": "SOURCE_AND_CI_ONLY",
+      "physical_qa": "NOT_VERIFIED",
+      "effectiveness_gain": "NOT_MEASURED",
+      "flaky_first_attempt": {
+        "status": "FAILED",
+        "reason": "Flutter Gradle plugin org.gradle.kotlin.kotlin-dsl v6.5.7 resolution, absent from sources in runner",
+        "job_wall_seconds": 75,
+        "rerun_status": "SUCCESS"
+      },
+      "pilot_total_job_seconds": 437,
+      "artifact": "Flutter ARM64 internal release APK 31.6 MB, not a signed/Store-certified app"
+    },
+    {
+      "id": "FSL-20261127-OMNI-DURATION",
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "source_sha": "e2959f4680e1c3c6c40720d72d1c1262287c1925",
+      "pr_number": 80,
+      "pr_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/pull/80",
+      "pr_head_sha": "7857d5a393b7995d87e876f23c252538f495c90c",
+      "merged_main_sha": "358176eac8470ff302549702e21aeb164eb49a15",
+      "pr_ci": {
+        "run_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45967293597",
+        "status": "SUCCESS",
+        "wall_seconds": 317
+      },
+      "main_ci": {
+        "run_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45968505609",
+        "status": "PENDING"
+      },
+      "baseline_ci": {
+        "run_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45435046902",
+        "wall_seconds": 315
+      },
+      "tests_added": 4,
+      "acceptance_criteria": [
+        "AC-001",
+        "AC-002",
+        "AC-003",
+        "AC-004"
+      ],
+      "requirement_coverage": "4/4 source-level mapped",
+      "diff_stats": {
+        "source_lines_added": 18,
+        "source_lines_removed": 18,
+        "test_lines_added": 34,
+        "doc_lines_added": 160
+      },
+      "evidence_grade": "SOURCE_AND_CI_ONLY",
+      "physical_qa": "NOT_VERIFIED",
+      "effectiveness_gain": "NOT_MEASURED",
+      "separate_visual_capture": {
+        "run_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45967293713",
+        "status": "SUCCESS",
+        "wall_seconds": 515
+      },
+      "bug_original": "3723000ms labelled 62:03; consolidated formatter labels 01:02:03",
+      "product_v11_development_only": true
+    },
+    {
+      "id": "FSL-20261127-AGENT-ORCH",
+      "repository": "riccardopinato/App-Factory-Agent-Core",
+      "source_sha": "f2b4c28cc3a9afa4ef39c6d32fe0a8ef14dac512",
+      "pr_number": 36,
+      "pr_url": "https://github.com/riccardopinato/App-Factory-Agent-Core/pull/36",
+      "pr_head_sha": "3a36c57defc8856c5f7bf7150612ef9de0b0359c",
+      "merged_main_sha": "e7903b33f9bd03a969f039d8c20292532a92951c",
+      "pr_ci": {
+        "run_url": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45967555546",
+        "status": "SUCCESS",
+        "wall_seconds": 7
+      },
+      "main_ci": {
+        "run_url": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45967665782",
+        "status": "SUCCESS"
+      },
+      "baseline_ci": {
+        "run_url": null,
+        "wall_seconds": null
+      },
+      "tests_added": 4,
+      "acceptance_criteria": [
+        "AC-001",
+        "AC-002",
+        "AC-003",
+        "AC-004"
+      ],
+      "requirement_coverage": "4/4 source-level mapped",
+      "diff_stats": {
+        "source_lines_added": 0,
+        "source_lines_removed": 0,
+        "test_lines_added": 36,
+        "doc_lines_added": 149
+      },
+      "evidence_grade": "SOURCE_AND_CI_ONLY",
+      "physical_qa": "NOT_VERIFIED",
+      "effectiveness_gain": "NOT_MEASURED",
+      "source_suite_total_tests": 134,
+      "live_windows_worker": "NOT_VERIFIED",
+      "real_applab_queue_execution": "NOT_VERIFIED",
+      "post_merge_status": "SUCCESS"
+    }
+  ],
+  "gate_to_maxi_step4": {
+    "status": "BLOCKED",
+    "all_pilot_main_ci_green": false,
+    "quantitative_evaluation_complete": false
+  },
+  "method": "All acceptance rows correspond to tests added in PR; completed CI proves source tests and build checks only. Physical/device/provider and real agent Windows work are not inferred. No duplicate scheduler, WorkGraph or CLI installed."
+}
