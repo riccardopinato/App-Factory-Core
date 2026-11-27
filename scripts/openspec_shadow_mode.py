@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -53,6 +54,8 @@ class GitHubAPI:
     def __init__(self, token: str | None = None):
         self.token = token or ""
         self.opener = urllib.request.build_opener(_NoRedirect)
+        self.request_count = 0
+        self.payload_bytes = 0
 
     def get(self, path: str) -> Any:
         require(path.startswith("/repos/") and not path.startswith("//")
@@ -64,11 +67,13 @@ class GitHubAPI:
             headers["Authorization"] = "Bearer " + self.token
         req = urllib.request.Request("https://api.github.com" + path, headers=headers,
                                      method="GET")
+        self.request_count += 1
         try:
             with self.opener.open(req, timeout=20) as response:
                 raw = response.read(MAX_BYTES + 1)
         except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError):
             raise IncompleteSnapshot("GITHUB_API_REQUEST_FAILED") from None
+        self.payload_bytes += len(raw)
         require(len(raw) <= MAX_BYTES, "GITHUB_RESPONSE_TOO_LARGE")
         try:
             return json.loads(raw.decode("utf-8"))
@@ -357,9 +362,11 @@ def main() -> int:
     p.add_argument("--json-out", type=Path)
     p.add_argument("--md-out", type=Path)
     args = p.parse_args()
+    api = GitHubAPI(os.environ.get("GITHUB_TOKEN"))
+    started = time.monotonic()
     try:
         require(args.target_pr >= 0, "INVALID_TARGET_PR")
-        snap = snapshot(GitHubAPI(os.environ.get("GITHUB_TOKEN")), args.repo)
+        snap = snapshot(api, args.repo)
         report = assess(snap, args.target_pr)
         status = 0
     except IncompleteSnapshot as exc:
@@ -370,10 +377,17 @@ def main() -> int:
             "side_effects": False,
         }
         status = 2
+    report["github_api_requests"] = api.request_count
+    report["github_api_response_bytes"] = api.payload_bytes
+    report["wall_seconds"] = round(time.monotonic() - started, 3)
+    report["token_savings"] = "NOT_MEASURED"
     if args.json_out:
         args.json_out.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     if status == 0:
         body = markdown(report)
+        body += (f"\nScanner cost observation: {api.request_count} GitHub REST GET(s), "
+                 f"{api.payload_bytes} response bytes, {report['wall_seconds']} wall seconds. "
+                 "No proven time/token savings.\n")
     else:
         body = f"## OpenSpec Shadow Mode — INCOMPLETE, not a PASS\n\nEvidence error: \`{report['error_code']}\`.\n"
     if args.md_out:
