@@ -1,8 +1,8 @@
 # Changelog
 
-## 2026-11-27 — Factory Spec Lite: evidenze piloti Stage 3 (in verifica)
+## 2026-11-27 — Factory Spec Lite: tre piloti Stage 3 con CI su main verificata
 
-- Tre piloti su GalleryDrift, Android-Omni-Cleaner e App-Factory-Agent-Core integrati a SHAs esatti; report quantitativo in `spec_lite/pilots/2026-11-27.{md,json}`. Nessuna certificazione runtime/physical/Windows inventata.
+- Tre piloti su GalleryDrift, Android-Omni-Cleaner e App-Factory-Agent-Core integrati a SHAs esatti con **tutte e tre le CI post-merge SUCCESS**; report quantitativo in `spec_lite/pilots/2026-11-27.{md,json}`. Nessuna certificazione runtime/physical/Windows inventata.
 - `test_factory_spec_lite_pilot_evidence.py` introduce controlli anti-false-PASS: tutti e tre i post-merge check reali devono essere SUCCESS prima del gate Step4; `validate-factory.yml` verifica il ledger nella CI centrale.
 - I risultati preliminari includono 11 criteri con 11 regressioni e un costo documentale di 462 linee; nessuna promozione Golden o automatismo applicativo.
 
