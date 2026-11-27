@@ -1,6 +1,6 @@
 # OpenSpec Shadow Mode — audit corrective evidence, 27 November 2026
 
-Status: Core corrective code and both app-only PRs merged. Anna postmerge CI SUCCESS; Omni postmerge Android CI still in progress at this checkpoint.
+Status: Core corrective code and both consumer app workflows MERGED; all exact-head and postmerge CI SUCCESS. Actual manual workflow_dispatch event remains NOT_VERIFIED.
 
 ## Source and controls
 
@@ -62,7 +62,7 @@ checksum manifest: **all four integrity checks PASS**. Deep JSON contains
 - [Omni PR #84](https://github.com/riccardopinato/Android-Omni-Cleaner/pull/84)
   merged to `c37994a80f77e45c8ffe9add09ea595a1c82b666` after exact-head
   verify/visual-capture/Shadow SUCCESS. [Postmerge Android CI](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46012403519)
-  is still in progress at this checkpoint, so it is NOT YET CERTIFIED.
+  has completed with SUCCESS on the exact merge commit; this is source/CI only, never on-device certification.
 
 ## Consumer deployment gates
 
@@ -71,3 +71,22 @@ Omni Cleaner PR #84 and Anna's Diary PR #379 update only the pinned read-only Sh
 No new Golden, Master changes, product certification, physical device, app release, provider access, PR comments or measured human time/token savings.
 
 The last verified actions/upload-artifact tag was v4.6.2. GitHub emitted a nonblocking Node.js 20 compatibility warning on runners using forced Node 24; do not invent an unverified replacement action.
+
+## Final scope and open manual gate
+
+Core, Omni Cleaner and Anna's Diary were integrated through PR and exact-head
+checks; their main-commit postmerge CI runs have completed SUCCESS. The user's
+approved corrective source/CI work is complete within this verified scope.
+However, no available connected GitHub action can issue a real
+workflow_dispatch event, so the precise manual-event acceptance check remains
+NOT_VERIFIED, not PASS. A PR-event deep comparison and its source JSON artifact
+prove the underlying compare code ran; they do not prove manual UI dispatch.
+
+For a real manual event on Omni, open the repository's Actions page for
+OpenSpec Shadow PR Review, choose Run workflow on main, and supply deep_pairs
+75:77,39:77. The PR numbers must still exist/open at run time, and the scan
+may correctly return INCOMPLETE if any PR advances. Inspect the uploaded
+JSON/Markdown/sha256 artifact to record a genuine manual execution receipt.
+
+No new Golden, Master changes, release, provider access, device certification,
+semantic no-conflicts verdict, global deployment or measured efficiency gain.

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "OPENSPEC-SHADOW-CORRECTIVE-AUDIT-20261127",
-  "state": "CORE_CI_PASS_BOTH_APP_PRS_MERGED_ANNA_POSTMERGE_PASS_OMNI_POSTMERGE_PENDING",
+  "state": "ALL_CORE_TWO_APP_SOURCE_POSTMERGE_CI_PASS_MANUAL_DISPATCH_NOT_VERIFIED",
   "baseline_sha": "9bec235b319963bc05f3c3c4d95d0f6b267bb309",
   "code_sha": "3e3056ffb7444a5d37f1279a2a25783366a0d98c",
   "core_prs": [
@@ -30,7 +30,7 @@
   "omni_live": {
     "pr": 84,
     "final_pr_head_sha": "b3eff593e9eb6370e3b4e74e3a0355d9f88bada0",
-    "state": "MERGED_SOURCE_CI_PASS_POSTMERGE_IN_PROGRESS",
+    "state": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
     "github_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46010616643",
     "failed_attempt": {
       "error": "DEEP_PR_INVENTORY_CHANGED_AFTER_TREE_READ",
@@ -100,7 +100,7 @@
     },
     "postmerge_ci": {
       "url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46012403519",
-      "state": "IN_PROGRESS"
+      "state": "SUCCESS"
     }
   },
   "anna_live": {
@@ -232,5 +232,25 @@
       }
     ],
     "source": "Downloaded GitHub Actions ZIP artifacts and recomputed SHA256 of JSON and Markdown content"
+  },
+  "manual_dispatch": {
+    "status": "NOT_VERIFIED",
+    "blocking_reason": "Connected GitHub toolset has no workflow_dispatch action",
+    "consumer_workflow_dispatch_declared": true,
+    "alternative_live_github_actions_pr_event_deep_pilot": "PASS_NOT_EQUIVALENT_TO_MANUAL_EVENT"
+  },
+  "final_acceptance": {
+    "source_code_security": "PASS",
+    "github_permissions": "READ_ONLY",
+    "exact_sha_and_blob_receipts": "PASS",
+    "final_concurrency_recheck": "PASS",
+    "artifact_json_markdown_sha256": "PASS",
+    "renames_and_modes": "SOURCE_TEST_PASS",
+    "real_spec_lite_fixture": "SOURCE_TEST_PASS_NOT_SEMANTIC_APPROVAL",
+    "both_consumer_exact_head_ci": "PASS",
+    "both_consumer_postmerge_ci": "PASS",
+    "manual_workflow_dispatch": "NOT_VERIFIED",
+    "time_token_savings": "NOT_MEASURED",
+    "physical_device_runtime_store": "NOT_VERIFIED"
   }
 }
