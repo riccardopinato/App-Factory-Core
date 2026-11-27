@@ -2,7 +2,7 @@
   "schema_version": 1,
   "record_id": "FSL-STEP3-20261127",
   "factory_source_sha": "f8b9f550c544735237f19cdd723bd2df667ceee6",
-  "status": "IN_PROGRESS_POSTMERGE_CI",
+  "status": "STEP3_SOURCE_PILOTS_COMPLETE",
   "pilot_count": 3,
   "acceptance_criteria_mapped": 11,
   "tests_added": 11,
@@ -26,7 +26,8 @@
       },
       "main_ci": {
         "run_url": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45968496950",
-        "status": "PENDING"
+        "status": "SUCCESS",
+        "wall_seconds": 384
       },
       "baseline_ci": {
         "run_url": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45087359176",
@@ -72,7 +73,8 @@
       },
       "main_ci": {
         "run_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45968505609",
-        "status": "PENDING"
+        "status": "SUCCESS",
+        "wall_seconds": 381
       },
       "baseline_ci": {
         "run_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45435046902",
@@ -118,7 +120,8 @@
       },
       "main_ci": {
         "run_url": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45967665782",
-        "status": "SUCCESS"
+        "status": "SUCCESS",
+        "wall_seconds": 7
       },
       "baseline_ci": {
         "run_url": null,
@@ -148,9 +151,33 @@
     }
   ],
   "gate_to_maxi_step4": {
-    "status": "BLOCKED",
-    "all_pilot_main_ci_green": false,
-    "quantitative_evaluation_complete": false
+    "status": "ACCEPTED",
+    "all_pilot_main_ci_green": true,
+    "quantitative_evaluation_complete": true,
+    "acceptance_boundary": "SOURCE_AND_CI_ONLY; no physical, production, Play or live agent Windows assertions"
   },
-  "method": "All acceptance rows correspond to tests added in PR; completed CI proves source tests and build checks only. Physical/device/provider and real agent Windows work are not inferred. No duplicate scheduler, WorkGraph or CLI installed."
+  "method": "All acceptance rows correspond to tests added in PR; completed CI proves source tests and build checks only. Physical/device/provider and real agent Windows work are not inferred. No duplicate scheduler, WorkGraph or CLI installed.",
+  "metrics": {
+    "requirements": 3,
+    "acceptance_criteria_linked": 11,
+    "tests_added": 11,
+    "production_source_lines_added": 40,
+    "production_source_lines_removed": 18,
+    "test_lines_added": 114,
+    "documentation_lines_added": 462,
+    "measured_ci_job_seconds": {
+      "gallery_baseline": 369,
+      "gallery_pilot_success": 362,
+      "gallery_first_failed_attempt": 75,
+      "gallery_postmerge": 384,
+      "omni_baseline": 315,
+      "omni_pilot_success": 317,
+      "omni_visual_capture": 515,
+      "omni_postmerge": 381,
+      "agent_postmerge": 7
+    },
+    "measured_development_time_saved": "NOT_MEASURED",
+    "measured_token_savings": "NOT_MEASURED",
+    "device_performance_improvement": "NOT_MEASURED"
+  }
 }
