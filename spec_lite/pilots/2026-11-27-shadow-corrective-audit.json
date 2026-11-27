@@ -77,14 +77,42 @@
       ]
     },
     "final_lightweight_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46011075524",
-    "final_lightweight_status": "IN_PROGRESS"
+    "final_lightweight_status": "SUCCESS",
+    "final_lightweight_artifact": {
+      "id": 15203417383,
+      "digest": "sha256:088a93fbbaba6cf142b8156d49b3202796fa4e0fb159f04d70f5a24daca9e436"
+    },
+    "final_lightweight_metrics": {
+      "open_prs": 12,
+      "file_records": 253,
+      "overlap_pairs": 20,
+      "unmapped_prs": 12,
+      "rest_gets": 30,
+      "bytes": 2201414,
+      "seconds": 9.276,
+      "renamed_file_records": 0
+    }
   },
   "anna_live": {
     "pr": 379,
     "final_pr_head_sha": "7ade1a45cf2c6d6871a81c9b6bb3a7d6c42e0b03",
     "state": "PR_EXACT_HEAD_CI_PENDING",
     "final_lightweight_run": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46011029169",
-    "final_lightweight_status": "SUCCESS"
+    "final_lightweight_status": "SUCCESS",
+    "final_lightweight_artifact": {
+      "id": 15204471529,
+      "digest": "sha256:181be2cee5d56342bd722e3ca10dcc30fa58a6b4aa51386b4075f4f1ac5dc21e"
+    },
+    "final_lightweight_metrics": {
+      "open_prs": 6,
+      "file_records": 130,
+      "overlap_pairs": 3,
+      "unmapped_prs": 6,
+      "rest_gets": 17,
+      "bytes": 1264874,
+      "seconds": 7.094,
+      "renamed_file_records": 0
+    }
   },
   "limitations": {
     "artifacts_retention_days": 30,
@@ -96,5 +124,43 @@
     "no_new_scheduler": true,
     "time_token_savings": "NOT_MEASURED",
     "artifact_action_node20_warning": "NONBLOCKING"
+  },
+  "cost_comparison": {
+    "label": "NON_CAUSAL_OBSERVATION",
+    "initial_pilot_omni": {
+      "open_prs": 12,
+      "file_records": 242,
+      "rest_gets": 30,
+      "bytes": 2086846,
+      "seconds": 16.074
+    },
+    "corrective_default_omni": {
+      "open_prs": 12,
+      "file_records": 253,
+      "overlap_pairs": 20,
+      "unmapped_prs": 12,
+      "rest_gets": 30,
+      "bytes": 2201414,
+      "seconds": 9.276,
+      "renamed_file_records": 0
+    },
+    "initial_pilot_anna": {
+      "open_prs": 6,
+      "file_records": 130,
+      "rest_gets": 17,
+      "bytes": 1298193,
+      "seconds": 10.646
+    },
+    "corrective_default_anna": {
+      "open_prs": 6,
+      "file_records": 130,
+      "overlap_pairs": 3,
+      "unmapped_prs": 6,
+      "rest_gets": 17,
+      "bytes": 1264874,
+      "seconds": 7.094,
+      "renamed_file_records": 0
+    },
+    "caveat": "Different GitHub network conditions, time windows and Omni file inventory; not a controlled benchmark; no causal speed/token/human-time saving claim."
   }
 }

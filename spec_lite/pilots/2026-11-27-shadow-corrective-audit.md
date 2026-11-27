@@ -29,6 +29,25 @@ The successful rerun read 37 REST GETs / 5,612,281 bytes / 13.545 seconds, with 
 
 Only 2 of 20 overlapping pairs were inspected deeply; SHA equality never proves functional equivalence. Future #77 heads require a fresh scan.
 
+## Lightweight scanner cost comparison (not causal)
+
+| Pilot | Open PRs | Changed-file records | REST GETs | Response bytes | Scanner elapsed |
+|---|---:|---:|---:|---:|---:|
+| Initial Omni pilot | 12 | 242 | 30 | 2,086,846 | 16.074 s |
+| Corrected Omni PR #84 | 12 | 253 | 30 | 2,201,414 | 9.276 s |
+| Initial Anna pilot | 6 | 130 | 17 | 1,298,193 | 10.646 s |
+| Corrected Anna PR #379 | 6 | 130 | 17 | 1,264,874 | 7.094 s |
+
+The two final lightweight scans both have **SUCCESS** and downloadable per-run
+JSON/Markdown/SHA256 evidence: Omni artifact `15203417383` from
+[run 46011075524](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46011075524),
+Anna artifact `15204471529` from
+[run 46011029169](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46011029169).
+No rename was observed in these live PR sets; rename logic is tested offline.
+The initial and later datasets differ, and network load and PR contents vary.
+These figures are **observed costs, not measured savings**. No improvement
+in total GitHub REST GET count has been demonstrated.
+
 ## Consumer deployment gates
 
 Omni Cleaner PR #84 and Anna's Diary PR #379 update only the pinned read-only Shadow workflow. Both keep pull_request scanning lightweight and deep_pairs strictly manual. Consumer source and postmerge checks must be verified before closing this record.
