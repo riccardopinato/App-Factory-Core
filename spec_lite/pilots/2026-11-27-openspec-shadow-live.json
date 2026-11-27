@@ -1,7 +1,7 @@
 {
   "record_id": "FSL-OPENSPEC-SHADOW-20261127",
   "schema_version": 1,
-  "status": "LIVE_PILOTS_SOURCE_CI_PASS_APP_PR_MERGE_PENDING",
+  "status": "ANNA_MERGED_SOURCE_CI_GREEN_OMNI_PR_PENDING",
   "factory_master": "v27",
   "golden_index": 31,
   "initial_factory_baseline_sha": "ce7503456fce3af757f7160706c02d0cc1694b42",
@@ -39,7 +39,7 @@
       "source_main_sha": "7f6a60ff883b664574e3b7404aea12295d5a392b",
       "pr_url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/377",
       "pr_head_sha": "63199d275edbf607f47a4752dd1da94218d6e391",
-      "pr_status": "OPEN_NOT_MERGED",
+      "pr_status": "MERGED_SOURCE_CI_GREEN_POSTMERGE_PENDING",
       "github_run": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991224224",
       "github_run_outcome": "SUCCESS",
       "snapshot_status": "REVIEW_NEEDED_NOT_CERTIFIED",
@@ -54,8 +54,15 @@
       "github_rest_gets": 17,
       "github_response_bytes": 1298193,
       "scanner_wall_seconds": 10.646,
-      "existing_required_checks": "PENDING",
-      "high_priority_review": "PR #215 Privacy V2 and PR #199 OAuth staging are draft/dirty and explicitly no-merge; overlaps with #376 remain human review"
+      "existing_required_checks": "SUCCESS",
+      "high_priority_review": "PR #215 Privacy V2 and PR #199 OAuth staging are draft/dirty and explicitly no-merge; overlaps with #376 remain human review",
+      "merge_sha": "b00c79d15dbd9e49373b948245f49ca18880da09",
+      "existing_checks": [
+        "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991223740",
+        "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991223657"
+      ],
+      "postmerge_ci": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45992089708",
+      "postmerge_ci_status": "IN_PROGRESS"
     }
   ],
   "boundaries": {
@@ -85,5 +92,40 @@
     "Unmapped requirements are explicitly not a semantic all-clear",
     "Intentional source consolidation and old draft security/provider PRs require human reconciliation before any app merge",
     "No causal speed/time/token benefit has been demonstrated"
+  ],
+  "ancestry_evidence": [
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "earlier_pr": 73,
+      "later_pr": 75,
+      "earlier_sha": "c226c4ebfc4287909e3e1133738a47b409d2c5b2",
+      "later_sha": "c8e785f89c4dc852799171718d380e97d2040966",
+      "compare_status": "ahead",
+      "behind_by": 0,
+      "ahead_by": 39,
+      "meaning": "EARLIER_COMMIT_ANCESTOR_OF_LATER"
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "earlier_pr": 75,
+      "later_pr": 77,
+      "earlier_sha": "c8e785f89c4dc852799171718d380e97d2040966",
+      "later_sha": "ccd23bc96bbc0de38ab876dfc4fc72cc3e164eee",
+      "compare_status": "ahead",
+      "behind_by": 0,
+      "ahead_by": 87,
+      "meaning": "EARLIER_COMMIT_ANCESTOR_OF_LATER"
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "earlier_pr": 39,
+      "later_pr": 77,
+      "earlier_sha": "f0755e6c6bcda3c25616c2b8a081de98522f5941",
+      "later_sha": "ccd23bc96bbc0de38ab876dfc4fc72cc3e164eee",
+      "compare_status": "diverged",
+      "behind_by": 26,
+      "ahead_by": 232,
+      "meaning": "INDEPENDENT_HISTORY_REQUIRES_HUMAN_RECONCILIATION"
+    }
   ]
 }

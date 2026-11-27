@@ -28,11 +28,22 @@ All live scans used the pinned, repo-scoped caller workflow GITHUB_TOKEN with Gi
 - [Omni pilot PR #82](https://github.com/riccardopinato/Android-Omni-Cleaner/pull/82), source main `358176eac8470ff302549702e21aeb164eb49a15`, [live Shadow run PASS](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215364): all 63 paths of PR #75 occur in PR #77, but this is **only file-scope containment**. #77's own PR body explicitly describes consolidation of #75, #73/#76 and #39; do not treat as accidental code equivalence, a proven semantic contradiction, or permission to merge.
 - [Anna pilot PR #377](https://github.com/riccardopinato/Agenda-per-Anna/pull/377), source main `7f6a60ff883b664574e3b7404aea12295d5a392b`, [live Shadow run PASS](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991224224): three actual changed-file overlap pairs among #199, #215 and #376. GitHub reports two conflicting merge states; #199 OAuth staging and #215 privacy explicitly remain draft/no-merge, and were not altered.
 
+## Verified commit ancestry — overlap triage
+
+The live source report is supplemented by GitHub commit comparison (not semantic adjudication):
+
+- Omni PR #73 source `c226c4e` is an ancestor of PR #75 source `c8e785f` (0 behind, 39 ahead).
+- Omni PR #75 source `c8e785f` is an ancestor of the observed PR #77 source `ccd23bc` (0 behind, 87 ahead).
+- Omni PR #39 and #77 have **diverged** histories (26 behind, 232 ahead). A path overlap cannot prove identical SQLite behavior or verify a safe merge.
+- Anna's Shadow review-only PR #377 was merged after its own exact-head source checks to main `b00c79d15dbd9e49373b948245f49ca18880da09`; [postmerge checks](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45992089708) remain **in progress** at this record's update.
+
+The ancestry relationships explain intentional stacked work but do not replace PR diff review, Product Bible, branch protection, physical/device or owner-gated acceptance.
+
 ## Interpreting signals
 
 A shared file is evidence of potential integration work, not a bug. Base SHA differences are not automatic staleness. A source-described planned consolidation is not a verified supersession of product requirements. Without structured canonical requirement IDs, it is impossible to certify a semantic conflict or its absence: every currently scanned PR remains UNMAPPED.
 
-GitHub Actions step summaries and run URLs constitute inspectable live-source evidence. The two app PRs add only one workflow each; **no app logic, data, Vault, deletion, storage, billing, provider, signing or Android runtime was changed by this experiment.** User-required physical and provider acceptance remains independent.
+GitHub Actions step summaries and run URLs constitute inspectable live-source evidence. The two app PRs each add only one workflow (Anna #377 has since merged, Omni #82 remains open at this checkpoint); **no app logic, data, Vault, deletion, storage, billing, provider, signing or Android runtime was changed by this experiment.** User-required physical and provider acceptance remains independent.
 
 ## Cost-benefit boundary
 
