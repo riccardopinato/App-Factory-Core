@@ -69,7 +69,7 @@
     "new_verifier": false,
     "auto_merge": false,
     "global_rollout": false,
-    "proven_semantic_conflicts": 0,
+    "proven_semantic_conflicts": "NOT_ADJUDICATED",
     "proven_no_conflicts": false,
     "false_positive_rate": "NOT_MEASURED_NO_MANUAL_ADJUDICATION",
     "token_savings": "NOT_MEASURED",
