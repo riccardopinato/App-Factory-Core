@@ -172,6 +172,20 @@ class ShadowModeTests(unittest.TestCase):
         self.assertEqual(result["competing_requirement_deltas"][0]["prs"], [75, 77])
         self.assertFalse(result["competing_requirement_deltas"][0]["verified_product_conflict"])
 
+    def test_github_merge_conflict_state_is_factual_not_product_verdict(self):
+        api = FakeAPI()
+        api.prs[0]["mergeable"] = False
+        api.prs[0]["mergeable_state"] = "dirty"
+        result = assess(snapshot(api, REPO))
+        self.assertEqual(result["github_merge_conflict_prs"], [74])
+        self.assertFalse(result["semantic_absence_certified"])
+
+    def test_complete_file_scope_containment_is_not_claimed_code_equivalence(self):
+        api = FakeAPI({75: ["lib/gallery.dart"], 77: ["lib/gallery.dart", "lib/other.dart"]})
+        result = assess(snapshot(api, REPO))
+        self.assertEqual(result["overlap_pairs"][0]["full_file_scope_containment"], [75])
+        self.assertIn("not code equivalence", markdown(result))
+
     def test_bad_declared_prior_never_clears(self):
         manifest = {"spec_id": "FSL-20261127-X", "target": {"repository": REPO},
                     "requirements": [{"id": "FR-001", "delta": {

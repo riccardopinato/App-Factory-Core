@@ -211,6 +211,8 @@ def snapshot(api: Any, repository: str) -> dict[str, Any]:
             "number": number, "head_sha": p["head"]["sha"],
             "base_sha": p["base"]["sha"], "base_ref": p["base"]["ref"],
             "draft": bool(detail.get("draft", False)),
+            "mergeable": detail.get("mergeable") if type(detail.get("mergeable")) is bool else None,
+            "mergeable_state": detail.get("mergeable_state", "unknown"),
             "changed_files": expected, "changed_paths": sorted(paths),
             "requirement_keys": requirements,
             "requirement_coverage": "DECLARED_UNTRUSTED" if manifest_paths else "UNMAPPED",
@@ -258,6 +260,10 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
             "sample_paths": sorted(paths)[:12],
             "different_base_branch": pa["base_ref"] != pb["base_ref"],
             "meaning": "COMMON_CHANGED_PATHS_NOT_PROVEN_SEMANTIC_CONFLICT",
+            "full_file_scope_containment": sorted([
+                x["number"] for x, y in ((pa, pb), (pb, pa))
+                if set(x["changed_paths"]).issubset(set(y["changed_paths"]))
+            ]),
         })
     competing = []
     for (spec, req, oldsha), edits in by_req.items():
@@ -274,6 +280,12 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
     base_drift = sorted(p["number"] for p in prs if
                         p["base_ref"] == snap["default_branch"]
                         and p["base_sha"] != snap["head_sha"])
+    github_merge_conflicts = sorted(p["number"] for p in prs
+                                    if p["mergeable"] is False
+                                    or p["mergeable_state"] == "dirty")
+    mergeability_unverified = sorted(p["number"] for p in prs
+                                    if p["mergeable"] is None
+                                    and p["mergeable_state"] != "dirty")
     return {
         "schema_version": 1, "record_type": "OPENSPEC_SHADOW_GITHUB_REVIEW",
         "status": "REVIEW_NEEDED_NOT_CERTIFIED" if prs else "EMPTY_PR_INVENTORY_NOT_CERTIFIED",
@@ -288,6 +300,8 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
             item for item in competing if target_pr and target_pr in item["prs"]],
         "unmapped_requirement_prs": unmapped,
         "base_sha_differs_from_current_default": base_drift,
+        "github_merge_conflict_prs": github_merge_conflicts,
+        "github_mergeability_unknown_prs": mergeability_unverified,
         "snapshot_checks": {
             "paginated": snap["api_pagination_complete"],
             "head_stable": snap["head_rechecked"],
@@ -312,14 +326,21 @@ def markdown(report: dict[str, Any]) -> str:
            "(their absence of conflicts cannot be certified)",
            f"- Default-base SHA differs from observed HEAD in "
            f"**{len(report['base_sha_differs_from_current_default'])}** PR(s) "
-           "(informational; not proof of stale implementation)"]
+           "(informational; not proof of stale implementation)",
+           f"- GitHub currently reports **{len(report['github_merge_conflict_prs'])}** "
+           "PR(s) with merge conflict state; no product semantic verdict",
+           f"- Mergeability unavailable/unknown for "
+           f"**{len(report['github_mergeability_unknown_prs'])}** PR(s)"]
     ordered_pairs = sorted(report["overlap_pairs"],
                            key=lambda x: (0 if report["target_pr"] in x["prs"] else 1,
                                           -x["count"], x["prs"]))
     for item in ordered_pairs[:20]:
         out.append(f"- PR #{item['prs'][0]} / #{item['prs'][1]}: "
                    f"{item['count']} shared file(s); e.g. "
-                   + ", ".join(f"\`{x}\`" for x in item["sample_paths"][:3]))
+                   + ", ".join(item["sample_paths"][:3])
+                   + (f"; complete file-path containment for PR(s): "
+                      f"{item['full_file_scope_containment']} (not code equivalence)"
+                      if item["full_file_scope_containment"] else ""))
     for item in report["competing_requirement_deltas"][:10]:
         out.append("- Requirement change proposals " + "/".join("#" + str(x) for x in item["prs"]) +
                    f": \`{item['spec_id']}:{item['requirement_id']}\` — untrusted proposal, human review")
