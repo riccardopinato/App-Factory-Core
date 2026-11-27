@@ -49,6 +49,14 @@ def verify_ledger(data: dict) -> list[str]:
     if all_complete:
         if gate.get("status") != "ACCEPTED" or gate.get("all_pilot_main_ci_green") is not True:
             errors.append("STEP3_GATES_NOT_RECORDED")
+        if gate.get("quantitative_evaluation_complete") is not True:
+            errors.append("QUANTITATIVE_EVALUATION_REQUIRED")
+        metrics = data.get("metrics", {})
+        if (not isinstance(metrics, dict) or metrics.get("acceptance_criteria_linked") != total_ac
+            or metrics.get("tests_added") != total_tests
+            or not isinstance(metrics.get("measured_ci_job_seconds"), dict)
+            or not metrics["measured_ci_job_seconds"]):
+            errors.append("QUANTITATIVE_METRICS_MISSING_OR_INCONSISTENT")
         if data.get("status") != "STEP3_SOURCE_PILOTS_COMPLETE":
             errors.append("COMPLETE_STATUS_MISMATCH")
     else:
@@ -87,3 +95,16 @@ class PilotEvidenceTests(unittest.TestCase):
         trial["pilots"][2]["tests_added"] = 2
         found = verify_ledger(trial)
         self.assertTrue(any("TEST_COUNT_MISMATCH" in x for x in found))
+
+    def test_completed_main_ci_does_not_bypass_quantitative_gate(self):
+        trial = copy.deepcopy(self.data)
+        self.assertTrue(all(x["main_ci"]["status"] == "SUCCESS" for x in trial["pilots"]))
+        trial["gate_to_maxi_step4"]["quantitative_evaluation_complete"] = False
+        found = verify_ledger(trial)
+        self.assertIn("QUANTITATIVE_EVALUATION_REQUIRED", found)
+
+    def test_missing_quantitative_observation_blocks_step4(self):
+        trial = copy.deepcopy(self.data)
+        del trial["metrics"]["measured_ci_job_seconds"]
+        found = verify_ledger(trial)
+        self.assertIn("QUANTITATIVE_METRICS_MISSING_OR_INCONSISTENT", found)
