@@ -68,7 +68,18 @@ def main() -> None:
         if index_version == 29:
             require(len(registered) == 61, "v29 scoped index must have 61 Goldens")
         elif index_version in (30, 31):
-            require(len(registered) == 62, "v30/v31 scoped index must have 62 Goldens")
+            # v31 accepts one explicitly registered product-owned design CANDIDATE.
+            # Preserve the 62 legacy entries rather than weakening the count gate.
+            expected = 62 if index_version == 30 else 63
+            require(len(registered) == expected,
+                    f"v{index_version} scoped index must have {expected} Goldens")
+            if index_version == 31:
+                design = registered.get("product_owned_design_system")
+                require(isinstance(design, dict)
+                        and design["path"] == "golden/ui/GOLDEN_PRODUCT_OWNED_DESIGN_SYSTEM_v1_DRAFT.txt"
+                        and design["status"] == "DRAFT / CANDIDATE — NON COPY-READY"
+                        and design["admission_level"] == "CANDIDATE",
+                        "product-owned design Golden must remain non-copy-ready")
             rea = registered.get("rea_cli_reverse_intelligence")
             require(isinstance(rea, dict), "missing REA CLI Golden in v30/v31")
             expected = ("COPY-READY PROCESS", "COPY_READY") if index_version == 30 else (
