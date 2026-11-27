@@ -390,6 +390,72 @@
               }
             }
           }
+        },
+        "delta": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/delta"
+            }
+          ]
+        }
+      }
+    },
+    "delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "previous",
+        "reason"
+      ],
+      "properties": {
+        "operation": {
+          "enum": [
+            "ADDED",
+            "MODIFIED",
+            "REMOVED",
+            "RENAMED"
+          ]
+        },
+        "previous": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/previousRequirement"
+            }
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 12
+        }
+      }
+    },
+    "previousRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spec_id",
+        "requirement_id",
+        "source_sha"
+      ],
+      "properties": {
+        "spec_id": {
+          "type": "string",
+          "pattern": "^FSL-[A-Z0-9][A-Z0-9-]{5,63}$"
+        },
+        "requirement_id": {
+          "type": "string",
+          "pattern": "^FR-[0-9]{3}$"
+        },
+        "source_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
         }
       }
     }

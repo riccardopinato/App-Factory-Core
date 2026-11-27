@@ -21,3 +21,5 @@
 - [ ] T004 Record PR head, CI evidence and unresolved cases; never self-certify.
 
 **Manifest:** use `spec_lite/examples/FAST.json` against the schema and validator. PROPOSED never implies authorization.
+
+Optional OpenSpec-style delta: `requirements[].delta = {operation, previous, reason}`. For FAST only `ADDED`, `MODIFIED`, `RENAMED` where low risk; `REMOVED` needs at least STANDARD and may require CONTROLLED. Delta never grants a product decision, and does not add mandatory files.
