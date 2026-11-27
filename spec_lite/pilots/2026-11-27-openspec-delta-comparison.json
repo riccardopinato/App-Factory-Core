@@ -1,6 +1,6 @@
 {
   "record_id": "FSL-OPENSPEC-COMPARISON-20261127",
-  "status": "PILOTS_MERGED_POSTMERGE_SOURCE_CI_SUCCESS_DOC_RECONCILIATION_POSTMERGE_PENDING",
+  "status": "ALL_CORE_AND_TWO_PILOT_SOURCE_CI_PASS",
   "factory_source_sha": "52a7e1c3a84edf942ad80a022ba6f67e80186921",
   "factory_original_baseline_sha": "a185c16000608b90c5db639f37903b49b059b10b",
   "master": "v27",
@@ -36,7 +36,7 @@
       "observed_pilot_ci_seconds": 330,
       "observed_delta_seconds": -54,
       "device_test": "NOT_VERIFIED",
-      "canonical_documentation_update": "MERGED_POSTMERGE_CI_PENDING",
+      "canonical_documentation_update": "MERGED_POSTMERGE_CI_SUCCESS",
       "limits": [
         "CI time delta is not causal speedup evidence",
         "No private device media access in tests"
@@ -47,7 +47,8 @@
       "canonical_documentation_branch_ci": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45985395678",
       "canonical_documentation_branch_ci_status": "SUCCESS",
       "canonical_documentation_postmerge_ci": "https://github.com/riccardopinato/GalleryDrift/actions/runs/45986147848",
-      "canonical_documentation_postmerge_ci_status": "PENDING"
+      "canonical_documentation_postmerge_ci_status": "SUCCESS",
+      "canonical_documentation_postmerge_ci_seconds": 379
     },
     {
       "id": "OPENSPEC-STANDARD-AGENT",
