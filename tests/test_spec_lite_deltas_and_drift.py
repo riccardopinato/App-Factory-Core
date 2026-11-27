@@ -191,6 +191,8 @@ class CloseoutTests(unittest.TestCase):
         r = reconcile(self.doc, existing, self.receipts)
         self.assertEqual(r["status"], "PREVIEW_REQUIRES_TRUSTED_REVIEW")
         self.assertEqual(r["proposed_canonical"][key]["source_sha"], "9"*40)
+        self.assertEqual(r["proposed_canonical"][key]["history"][0]["source_sha"], prev["source_sha"])
+        self.assertEqual(r["proposed_canonical"][key]["history"][0]["text"], "old")
 
     def test_missing_prior_snapshot_blocks(self):
         delta(self.doc, "MODIFIED", prior(self.doc))

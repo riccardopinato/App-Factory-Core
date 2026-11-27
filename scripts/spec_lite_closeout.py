@@ -46,6 +46,7 @@ def reconcile(manifest: dict[str, Any], canonical: dict[str, dict[str, Any]],
         action = delta.get("operation")
         previous = delta.get("previous")
         key = f"{repo}:{spec}:{rid}"
+        prior_history = []
         if action in ("MODIFIED", "REMOVED", "RENAMED"):
             if not isinstance(previous, dict):
                 errors.add(f"PREVIOUS_REFERENCE_REQUIRED:{rid}")
@@ -61,6 +62,14 @@ def reconcile(manifest: dict[str, Any], canonical: dict[str, dict[str, Any]],
             if action == "MODIFIED" and key != previous_key:
                 errors.add(f"MODIFIED_MUST_KEEP_REQUIREMENT_ID:{rid}")
                 continue
+            if action == "MODIFIED":
+                prior_history = list(found.get("history", []))
+                prior_history.append({
+                    "source_sha": found.get("source_sha"),
+                    "text": found.get("text"),
+                    "acceptance": found.get("acceptance", []),
+                    "superseded_by_sha": receipts.get("merge_sha"),
+                })
             if action == "RENAMED" and key == previous_key:
                 errors.add(f"RENAMED_REQUIRES_NEW_ID:{rid}")
                 continue
@@ -71,7 +80,8 @@ def reconcile(manifest: dict[str, Any], canonical: dict[str, dict[str, Any]],
                 errors.add(f"ADDED_REQUIREMENT_ALREADY_EXISTS:{rid}")
             else:
                 result[key] = {"status": "CURRENT", "source_sha": receipts.get("merge_sha"),
-                               "text": req.get("text"), "acceptance": req.get("acceptance", [])}
+                               "text": req.get("text"), "acceptance": req.get("acceptance", []),
+                               **({"history": prior_history} if prior_history else {})}
         if action == "REMOVED" and key == previous_key:
             # previous requirement is marked superseded, never silently deleted.
             pass
