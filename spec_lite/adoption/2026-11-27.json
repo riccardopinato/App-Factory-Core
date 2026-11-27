@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "decision_id": "FSL-ADOPTION-20261127",
+  "decision_date": "2026-11-27",
+  "authority": "App-Factory-Core PROCESS ADOPTION RECORD, not Product Bible, Golden, or runtime certification",
+  "baseline": {
+    "factory_repo": "riccardopinato/App-Factory-Core",
+    "factory_main_before_pr": "8b3d9263ad1a72f3b8a43273550fe43646780d78",
+    "master_version": "27",
+    "golden_index_version": 31,
+    "step3_ledger": "spec_lite/pilots/2026-11-27.json"
+  },
+  "status": "SELECTIVE_SOURCE_CI_ADOPTION",
+  "review_scope": "process guidance and source-level helper contracts only",
+  "evidence": {
+    "step1_catalog": {
+      "repository": "riccardopinato/Idee-app-Archivi-riferimenti",
+      "main_sha": "559a13508558948ce57e91fe14df492328bdeb0d",
+      "pr": "https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/pull/190",
+      "upstream": {
+        "repository": "github/spec-kit",
+        "release": "v1.4.5",
+        "license": "MIT",
+        "release_commit": "6ba8beefff8d6408cadd62038e92d459093e33a8",
+        "reviewed_main": "f2010547121b3351e4923fe467205079e4593a32"
+      }
+    },
+    "step2_core": {
+      "pr": "https://github.com/riccardopinato/App-Factory-Core/pull/133",
+      "main_sha": "f8b9f550c544735237f19cdd723bd2df667ceee6",
+      "tests": 23,
+      "claim": "schema and offline contract, not app behavior"
+    },
+    "step3_pilots": {
+      "pr": "https://github.com/riccardopinato/App-Factory-Core/pull/134",
+      "main_sha": "8b3d9263ad1a72f3b8a43273550fe43646780d78",
+      "ledger": "spec_lite/pilots/2026-11-27.json",
+      "approved_ac_mappings": 11,
+      "regression_tests_added": 11,
+      "physical_proof": "NOT_VERIFIED"
+    },
+    "step4_bridges": [
+      {
+        "owner": "riccardopinato/App-Factory-Agent-Core",
+        "pr": "https://github.com/riccardopinato/App-Factory-Agent-Core/pull/37",
+        "main_sha": "117b56b20dff1e63012c314ef32a2aa80fc558ab",
+        "postmerge_ci": "https://github.com/riccardopinato/App-Factory-Agent-Core/actions/runs/45970929150",
+        "test_methods": 19,
+        "scope": "WorkItem trace-only, uses existing permission gateway"
+      },
+      {
+        "owner": "riccardopinato/AppLab",
+        "pr": "https://github.com/riccardopinato/AppLab/pull/246",
+        "main_sha": "0b498ef04458d56a17318823efa9e77f31cd8e4a",
+        "postmerge_ci": "https://github.com/riccardopinato/AppLab/actions/runs/45976087721",
+        "android_postmerge_ci": "https://github.com/riccardopinato/AppLab/actions/runs/45976087592",
+        "canary_postmerge_ci": "https://github.com/riccardopinato/AppLab/actions/runs/45976087739",
+        "test_methods": 22,
+        "scope": "source/CI evidence projection only, no fresh verifier authority"
+      }
+    ]
+  },
+  "measurements": {
+    "requirements_scoped": 3,
+    "acceptance_criteria_linked": 11,
+    "tests_added_ac": 11,
+    "pilot_doc_lines_added": 462,
+    "pilot_source_test_lines_added": 154,
+    "doc_to_source_test_ratio": 3,
+    "gallery": {
+      "historical_ci_seconds": 369,
+      "success_pilot_ci_seconds": 362,
+      "failed_attempt_seconds": 75,
+      "total_pilot_ci_seconds": 437,
+      "postmerge_seconds": 384
+    },
+    "omni": {
+      "historical_ci_seconds": 315,
+      "success_pilot_ci_seconds": 317,
+      "postmerge_seconds": 381,
+      "visual_ci_seconds": 515
+    },
+    "agent": {
+      "historical_ci_seconds": null,
+      "postmerge_seconds": 7
+    },
+    "development_time_saved": "NOT_MEASURED",
+    "tokens_saved": "NOT_MEASURED",
+    "device_performance_gain": "NOT_MEASURED",
+    "speedup_proven": false,
+    "traceability_gain_observed": "11/11 source AC rows linked to 11 new regression tests over three independent PRs",
+    "non_regression_scope": "All three pilot postmerge CI checks and both Step4 bridge postmerge CI checks passed; no physical/store/Windows E2E proof"
+  },
+  "decision": {
+    "reuse": [
+      {
+        "id": "SCOPED_SPEC_LITE_MANIFEST",
+        "status": "ADOPT_OPTIONAL",
+        "grade": "SOURCE_CI_VERIFIED_PROCESS",
+        "source": "schemas/factory_spec_lite_v1.schema.json",
+        "applicability": "bounded approved app feature, bug or source-level contract with meaningful conflict/traceability risk"
+      },
+      {
+        "id": "REQUIREMENT_TO_ACCEPTANCE_LINKS",
+        "status": "ADOPT_OPTIONAL",
+        "grade": "SOURCE_CI_VERIFIED_PROCESS",
+        "source": "scripts/validate_spec_lite.py",
+        "applicability": "FR/AC unique identifiers, exact source SHA, negative case and test mapping"
+      },
+      {
+        "id": "AGENT_CORE_WORKITEM_BINDING",
+        "status": "ADOPT_AS_OPTIONAL_ADAPTER",
+        "grade": "SOURCE_CI_ONLY",
+        "source": "riccardopinato/App-Factory-Agent-Core@117b56b20dff1e63012c314ef32a2aa80fc558ab",
+        "applicability": "only in trusted caller with existing gateway and independently authenticated job approval"
+      },
+      {
+        "id": "APPLAB_EVIDENCE_PROJECTION",
+        "status": "ADOPT_AS_OPTIONAL_ADAPTER",
+        "grade": "SOURCE_CI_ONLY",
+        "source": "riccardopinato/AppLab@0b498ef04458d56a17318823efa9e77f31cd8e4a",
+        "applicability": "only with independently resolved source/job/spec/work item/operation/AppLab identity and existing trusted evidence verifier"
+      }
+    ],
+    "not_adopted": [
+      {
+        "id": "SPEC_KIT_UPSTREAM_CLI",
+        "reason": "No demonstrated benefit or native Chat workflow; redundant execution and unrestricted shell risk"
+      },
+      {
+        "id": "SECOND_SCHEDULER_OR_EVIDENCE_VERIFIER",
+        "reason": "Existing Agent Core/AppLab are authorities"
+      },
+      {
+        "id": "UNIVERSAL_MANDATORY_SPEC_DOCUMENT_SET",
+        "reason": "462 lines docs vs 154 source+tests in three pilots; excessive FAST burden"
+      },
+      {
+        "id": "AUTOMATIC_GOLDEN_PROMOTION",
+        "reason": "No independently verified real consumer of adapter, no physical or production Agent Core E2E"
+      },
+      {
+        "id": "PER_RECORD_CONTENT_SPEC",
+        "reason": "Would undermine Fast Track IA 100-ID independent-lane throughput"
+      }
+    ]
+  },
+  "mode_routing": {
+    "FAST": {
+      "adoption": "OPTIONAL_SINGLE_COMPACT_MANIFEST_OR_FEATURE_NOTE",
+      "extra_document_requirement": "NONE",
+      "existing_test_gates": "UNCHANGED",
+      "risk_flags_must_all_be_false": true
+    },
+    "STANDARD": {
+      "adoption": "OPTIONAL_SOURCE_CONTRACT_WITH_APPROVAL_AND_FR_AC",
+      "extra_document_requirement": "PROPORTIONAL_TO_CHANGE",
+      "existing_test_gates": "UNCHANGED",
+      "requires_regression_mapping": true
+    },
+    "CONTROLLED": {
+      "adoption": "OPTIONAL_ADDITIONAL_TRACEABILITY_NOT_AUTHORIZATION",
+      "extra_document_requirement": "RISK_BOUND_PROPORTIONAL",
+      "existing_test_gates": "UNCHANGED_PLUS_EXISTING_HUMAN_PHYSICAL_PROVIDER_WHERE_REQUIRED",
+      "requires_manual_gate_and_rollback": true
+    }
+  },
+  "rollout": {
+    "policy": "OPT_IN_ONLY_ON_NEXT_APPROVED_SCOPED_CHANGE; NO BATCH REPO EDIT",
+    "already_piloted": [
+      "riccardopinato/GalleryDrift",
+      "riccardopinato/Android-Omni-Cleaner",
+      "riccardopinato/App-Factory-Agent-Core"
+    ],
+    "next_candidates": [
+      "riccardopinato/Agenda-per-Anna",
+      "riccardopinato/CashMateAI",
+      "riccardopinato/Notes-Ecosistema",
+      "riccardopinato/TrailPath"
+    ],
+    "not_per_record": [
+      "riccardopinato/World-Days",
+      "riccardopinato/CookingAnime"
+    ],
+    "first_followup_evidence": "Track actual new-device/Windows E2E, durable operation admission + immutable receipts, saved time/tokens and false PASS regression before expanding."
+  },
+  "guardrails": {
+    "master_router_precedence": true,
+    "product_bible_roadmap_approval_required": true,
+    "golden_and_agents_precedence_preserved": true,
+    "no_missing_test_silently_green": true,
+    "source_sha_exact": true,
+    "no_duplicate_scheduler": true,
+    "no_duplicate_verifier": true,
+    "no_self_issued_approval": true,
+    "no_unverified_runtime_pass": true,
+    "no_unreviewed_production_merge": true,
+    "no_automatic_store_release": true,
+    "no_unapproved_cloud_or_billing": true,
+    "no_factory_golden_registry_update": true,
+    "no_upstream_cli_install": true,
+    "no_mass_app_rollout": true
+  },
+  "not_proven": [
+    "Speed/time/token improvements",
+    "Native compatibility of upstream Spec Kit CLI inside Chat",
+    "Live Agent Core Windows executor E2E",
+    "Independently authenticated real AppLab durable-operation binding across repos",
+    "Physical Android performance, app-store certification"
+  ],
+  "promotion": {
+    "core_process": "OPTIONAL_SOURCE_CI_TRACED",
+    "golden_registry": "UNCHANGED",
+    "master": "UNCHANGED",
+    "application_migration": "NONE"
+  },
+  "conclusion": "Selective, evidence-bounded process adoption satisfies traceability value without adding new executable authorities. Full automatic adoption and Golden certification are explicitly rejected until additional independent evidence."
+}
