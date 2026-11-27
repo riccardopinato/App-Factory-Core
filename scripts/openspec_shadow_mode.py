@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -53,6 +54,8 @@ class GitHubAPI:
     def __init__(self, token: str | None = None):
         self.token = token or ""
         self.opener = urllib.request.build_opener(_NoRedirect)
+        self.request_count = 0
+        self.payload_bytes = 0
 
     def get(self, path: str) -> Any:
         require(path.startswith("/repos/") and not path.startswith("//")
@@ -64,11 +67,13 @@ class GitHubAPI:
             headers["Authorization"] = "Bearer " + self.token
         req = urllib.request.Request("https://api.github.com" + path, headers=headers,
                                      method="GET")
+        self.request_count += 1
         try:
             with self.opener.open(req, timeout=20) as response:
                 raw = response.read(MAX_BYTES + 1)
         except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError):
             raise IncompleteSnapshot("GITHUB_API_REQUEST_FAILED") from None
+        self.payload_bytes += len(raw)
         require(len(raw) <= MAX_BYTES, "GITHUB_RESPONSE_TOO_LARGE")
         try:
             return json.loads(raw.decode("utf-8"))
@@ -211,6 +216,8 @@ def snapshot(api: Any, repository: str) -> dict[str, Any]:
             "number": number, "head_sha": p["head"]["sha"],
             "base_sha": p["base"]["sha"], "base_ref": p["base"]["ref"],
             "draft": bool(detail.get("draft", False)),
+            "mergeable": detail.get("mergeable") if type(detail.get("mergeable")) is bool else None,
+            "mergeable_state": detail.get("mergeable_state", "unknown"),
             "changed_files": expected, "changed_paths": sorted(paths),
             "requirement_keys": requirements,
             "requirement_coverage": "DECLARED_UNTRUSTED" if manifest_paths else "UNMAPPED",
@@ -251,8 +258,6 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
             for b in numbers[i+1:]:
                 file_pair_paths[tuple(sorted((a, b)))].append(path)
     for (a, b), paths in sorted(file_pair_paths.items()):
-        if target_pr and target_pr not in (a, b):
-            continue
         pa = next(p for p in prs if p["number"] == a)
         pb = next(p for p in prs if p["number"] == b)
         pairs.append({
@@ -260,11 +265,15 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
             "sample_paths": sorted(paths)[:12],
             "different_base_branch": pa["base_ref"] != pb["base_ref"],
             "meaning": "COMMON_CHANGED_PATHS_NOT_PROVEN_SEMANTIC_CONFLICT",
+            "full_file_scope_containment": sorted([
+                x["number"] for x, y in ((pa, pb), (pb, pa))
+                if set(x["changed_paths"]).issubset(set(y["changed_paths"]))
+            ]),
         })
     competing = []
     for (spec, req, oldsha), edits in by_req.items():
         diff_prs = sorted({x[0] for x in edits})
-        if len(diff_prs) > 1 and (not target_pr or target_pr in diff_prs):
+        if len(diff_prs) > 1:
             competing.append({
                 "prs": diff_prs, "spec_id": spec, "requirement_id": req,
                 "prior_source_sha": oldsha,
@@ -276,6 +285,12 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
     base_drift = sorted(p["number"] for p in prs if
                         p["base_ref"] == snap["default_branch"]
                         and p["base_sha"] != snap["head_sha"])
+    github_merge_conflicts = sorted(p["number"] for p in prs
+                                    if p["mergeable"] is False
+                                    or p["mergeable_state"] == "dirty")
+    mergeability_unverified = sorted(p["number"] for p in prs
+                                    if p["mergeable"] is None
+                                    and p["mergeable_state"] != "dirty")
     return {
         "schema_version": 1, "record_type": "OPENSPEC_SHADOW_GITHUB_REVIEW",
         "status": "REVIEW_NEEDED_NOT_CERTIFIED" if prs else "EMPTY_PR_INVENTORY_NOT_CERTIFIED",
@@ -283,9 +298,15 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
         "default_branch": snap["default_branch"], "target_pr": target_pr,
         "pr_count": len(prs), "file_records_read": snap["file_records_read"],
         "overlap_pairs": pairs, "overlap_pair_count": len(pairs),
+        "focused_overlap_pairs": [p for p in pairs if target_pr and target_pr in p["prs"]],
+        "focused_overlap_pair_count": sum(1 for p in pairs if target_pr and target_pr in p["prs"]),
         "competing_requirement_deltas": competing,
+        "focused_competing_requirement_deltas": [
+            item for item in competing if target_pr and target_pr in item["prs"]],
         "unmapped_requirement_prs": unmapped,
         "base_sha_differs_from_current_default": base_drift,
+        "github_merge_conflict_prs": github_merge_conflicts,
+        "github_mergeability_unknown_prs": mergeability_unverified,
         "snapshot_checks": {
             "paginated": snap["api_pagination_complete"],
             "head_stable": snap["head_rechecked"],
@@ -304,15 +325,27 @@ def markdown(report: dict[str, Any]) -> str:
            f"- Status: **{report['status']}** — never a merge/QA/physical PASS",
            f"- Open PRs: **{report['pr_count']}**; complete changed-path records: "
            f"**{report['file_records_read']}**; overlapping pairs: **{report['overlap_pair_count']}**",
+           *( [f"- Focused PR #{report['target_pr']}: **{report['focused_overlap_pair_count']}** "
+                "overlap pair(s); repository-wide findings remain visible"] if report["target_pr"] else [] ),
            f"- Requirements without structured mapping: **{len(report['unmapped_requirement_prs'])}** "
            "(their absence of conflicts cannot be certified)",
            f"- Default-base SHA differs from observed HEAD in "
            f"**{len(report['base_sha_differs_from_current_default'])}** PR(s) "
-           "(informational; not proof of stale implementation)"]
-    for item in report["overlap_pairs"][:20]:
+           "(informational; not proof of stale implementation)",
+           f"- GitHub currently reports **{len(report['github_merge_conflict_prs'])}** "
+           "PR(s) with merge conflict state; no product semantic verdict",
+           f"- Mergeability unavailable/unknown for "
+           f"**{len(report['github_mergeability_unknown_prs'])}** PR(s)"]
+    ordered_pairs = sorted(report["overlap_pairs"],
+                           key=lambda x: (0 if report["target_pr"] in x["prs"] else 1,
+                                          -x["count"], x["prs"]))
+    for item in ordered_pairs[:20]:
         out.append(f"- PR #{item['prs'][0]} / #{item['prs'][1]}: "
                    f"{item['count']} shared file(s); e.g. "
-                   + ", ".join(f"\`{x}\`" for x in item["sample_paths"][:3]))
+                   + ", ".join(item["sample_paths"][:3])
+                   + (f"; complete file-path containment for PR(s): "
+                      f"{item['full_file_scope_containment']} (not code equivalence)"
+                      if item["full_file_scope_containment"] else ""))
     for item in report["competing_requirement_deltas"][:10]:
         out.append("- Requirement change proposals " + "/".join("#" + str(x) for x in item["prs"]) +
                    f": \`{item['spec_id']}:{item['requirement_id']}\` — untrusted proposal, human review")
@@ -329,9 +362,11 @@ def main() -> int:
     p.add_argument("--json-out", type=Path)
     p.add_argument("--md-out", type=Path)
     args = p.parse_args()
+    api = GitHubAPI(os.environ.get("GITHUB_TOKEN"))
+    started = time.monotonic()
     try:
         require(args.target_pr >= 0, "INVALID_TARGET_PR")
-        snap = snapshot(GitHubAPI(os.environ.get("GITHUB_TOKEN")), args.repo)
+        snap = snapshot(api, args.repo)
         report = assess(snap, args.target_pr)
         status = 0
     except IncompleteSnapshot as exc:
@@ -342,10 +377,17 @@ def main() -> int:
             "side_effects": False,
         }
         status = 2
+    report["github_api_requests"] = api.request_count
+    report["github_api_response_bytes"] = api.payload_bytes
+    report["wall_seconds"] = round(time.monotonic() - started, 3)
+    report["token_savings"] = "NOT_MEASURED"
     if args.json_out:
         args.json_out.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     if status == 0:
         body = markdown(report)
+        body += (f"\nScanner cost observation: {api.request_count} GitHub REST GET(s), "
+                 f"{api.payload_bytes} response bytes, {report['wall_seconds']} wall seconds. "
+                 "No proven time/token savings.\n")
     else:
         body = f"## OpenSpec Shadow Mode — INCOMPLETE, not a PASS\n\nEvidence error: \`{report['error_code']}\`.\n"
     if args.md_out:

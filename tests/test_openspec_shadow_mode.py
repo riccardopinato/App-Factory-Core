@@ -130,11 +130,23 @@ class ShadowModeTests(unittest.TestCase):
         with self.assertRaisesRegex(IncompleteSnapshot, "PAGINATION_TRUNCATED"):
             snapshot(FakeAPI({i: [f"lib/{i}.dart"] for i in range(1, 302)}), REPO)
 
-    def test_target_filter_does_not_skip_other_prs(self):
+    def test_target_focus_retains_global_overlaps_without_false_zero(self):
         result = assess(snapshot(FakeAPI(), REPO), 74)
         self.assertEqual(result["pr_count"], 3)
-        self.assertEqual(result["overlap_pairs"], [])
+        self.assertEqual(result["overlap_pair_count"], 1)
+        self.assertEqual(result["overlap_pairs"][0]["prs"], [75, 77])
+        self.assertEqual(result["focused_overlap_pair_count"], 0)
+        self.assertEqual(result["focused_overlap_pairs"], [])
+        self.assertIn("repository-wide findings remain visible", markdown(result))
+        self.assertIn("PR #75 / #77", markdown(result))
         self.assertEqual(result["unmapped_requirement_prs"], [74, 75, 77])
+
+    def test_target_focus_shows_global_and_targeted_pair_counts(self):
+        result = assess(snapshot(FakeAPI(), REPO), 75)
+        self.assertEqual(result["overlap_pair_count"], 1)
+        self.assertEqual(result["focused_overlap_pair_count"], 1)
+        self.assertEqual(result["focused_overlap_pairs"][0]["prs"], [75, 77])
+        self.assertIn("Focused PR #75: **1**", markdown(result))
 
     def test_target_pr_unknown_fails_closed(self):
         with self.assertRaisesRegex(IncompleteSnapshot, "TARGET_PR_NOT_IN_OPEN_INVENTORY"):
@@ -159,6 +171,20 @@ class ShadowModeTests(unittest.TestCase):
         result = assess(snapshot(api, REPO))
         self.assertEqual(result["competing_requirement_deltas"][0]["prs"], [75, 77])
         self.assertFalse(result["competing_requirement_deltas"][0]["verified_product_conflict"])
+
+    def test_github_merge_conflict_state_is_factual_not_product_verdict(self):
+        api = FakeAPI()
+        api.prs[0]["mergeable"] = False
+        api.prs[0]["mergeable_state"] = "dirty"
+        result = assess(snapshot(api, REPO))
+        self.assertEqual(result["github_merge_conflict_prs"], [74])
+        self.assertFalse(result["semantic_absence_certified"])
+
+    def test_complete_file_scope_containment_is_not_claimed_code_equivalence(self):
+        api = FakeAPI({75: ["lib/gallery.dart"], 77: ["lib/gallery.dart", "lib/other.dart"]})
+        result = assess(snapshot(api, REPO))
+        self.assertEqual(result["overlap_pairs"][0]["full_file_scope_containment"], [75])
+        self.assertIn("not code equivalence", markdown(result))
 
     def test_bad_declared_prior_never_clears(self):
         manifest = {"spec_id": "FSL-20261127-X", "target": {"repository": REPO},
