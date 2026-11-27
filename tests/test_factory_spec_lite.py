@@ -138,6 +138,28 @@ class FactorySpecLiteTest(unittest.TestCase):
         d["validation"]["required_checks"] = ["INTEGRATION_TEST"]
         self.assertError(d, "ACCEPTANCE_TEST_GAP:AC-001")
 
+    def test_unmapped_required_kind_is_rejected(self):
+        d = example("STANDARD")
+        d["validation"]["required_checks"].append("DEVICE_TEST")
+        self.assertError(d, "REQUIRED_CHECK_UNMAPPED:DEVICE_TEST")
+
+    def test_controlled_required_device_kind_cannot_be_unmapped(self):
+        d = example("CONTROLLED")
+        d["requirements"][0]["acceptance"] = [
+            ac for ac in d["requirements"][0]["acceptance"]
+            if ac["evidence_type"] != "DEVICE_TEST"
+        ]
+        self.assertError(d, "REQUIRED_CHECK_UNMAPPED:DEVICE_TEST")
+
+    def test_all_proposed_modes_map_each_mandatory_check(self):
+        for mode in ("FAST", "STANDARD", "CONTROLLED"):
+            d = example(mode)
+            mapped = {
+                ac["evidence_type"]
+                for req in d["requirements"] for ac in req["acceptance"]
+            }
+            self.assertEqual(set(d["validation"]["required_checks"]), mapped)
+
     def test_claim_without_evidence_rejected(self):
         d = example()
         d["verification"]["status"] = "RUNTIME_VERIFIED"
