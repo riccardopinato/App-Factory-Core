@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "spec_id": "FSL-20261127-OMNI-SAMPLE",
+  "mode": "STANDARD",
+  "factory": {
+    "repository": "riccardopinato/App-Factory-Core",
+    "sha": "842dfa073451ec247308ccb4afb8ead5349bcbd4",
+    "resolver": "CURRENT.yaml"
+  },
+  "target": {
+    "repository": "riccardopinato/Android-Omni-Cleaner",
+    "source_sha": "e2959f4680e1c3c6c40720d72d1c1262287c1925"
+  },
+  "canonical_refs": {
+    "factory_current": {
+      "repository": "riccardopinato/App-Factory-Core",
+      "sha": "842dfa073451ec247308ccb4afb8ead5349bcbd4",
+      "path": "CURRENT.yaml"
+    },
+    "product_bible": {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "sha": "e2959f4680e1c3c6c40720d72d1c1262287c1925",
+      "path": "PRODUCT_BIBLE.md"
+    },
+    "roadmap": {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "sha": "e2959f4680e1c3c6c40720d72d1c1262287c1925",
+      "path": "ROADMAP.md"
+    },
+    "agents": {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "sha": "e2959f4680e1c3c6c40720d72d1c1262287c1925",
+      "path": "AGENTS.md"
+    },
+    "goldens": []
+  },
+  "scope": {
+    "includes": [
+      "Gallery preview media fit behavior"
+    ],
+    "excludes": [
+      "Unrelated product changes",
+      "Cloud or billing changes"
+    ],
+    "allowed_paths": [
+      "app/src/main/**"
+    ],
+    "forbidden_paths": [
+      ".github/secrets/**",
+      "credentials/**"
+    ]
+  },
+  "risk": {
+    "data_loss": false,
+    "security": false,
+    "billing": false,
+    "native_lifecycle": false,
+    "migration": false,
+    "sensitive_data": false,
+    "release": false
+  },
+  "requirements": [
+    {
+      "id": "FR-001",
+      "text": "The gallery preview uses original media aspect ratio and does not crop visual content.",
+      "status": "PROPOSED",
+      "conflicts_with": [],
+      "acceptance": [
+        {
+          "id": "AC-001",
+          "criterion": "Automated regression verifies non-cropped preview plus existing navigation behavior.",
+          "evidence_type": "UNIT_TEST"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "required_checks": [
+      "UNIT_TEST",
+      "INTEGRATION_TEST"
+    ],
+    "manual_gate": false,
+    "rollback_plan": null
+  },
+  "approval": {
+    "status": "PROPOSED",
+    "decision_ref": null
+  },
+  "verification": {
+    "status": "NOT_VERIFIED",
+    "evidence_links": []
+  }
+}
