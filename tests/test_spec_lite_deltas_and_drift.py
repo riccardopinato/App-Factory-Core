@@ -107,11 +107,17 @@ class DriftTests(unittest.TestCase):
         self.assertTrue(any("STALE_TARGET_HEAD" in x
                             for x in self.check(heads={self.repo: "a" * 40})["errors"]))
 
-    def test_same_requirement_changed_twice_blocks(self):
-        other = copy.deepcopy(self.d)
+    def test_same_previous_requirement_changed_twice_blocks(self):
+        first = delta(sample("STANDARD"), "MODIFIED", prior(sample("STANDARD")))
+        other = copy.deepcopy(first)
         other["spec_id"] += "-ALT"
+        repo = first["target"]["repository"]
+        ref = first["requirements"][0]["delta"]["previous"]
+        key = f"{repo}@{ref['source_sha']}:{ref['spec_id']}:{ref['requirement_id']}"
+        result = review([first, other], heads={repo: first["target"]["source_sha"]},
+                        open_prs=[], canonical={key: {"status": "CURRENT"}})
         self.assertTrue(any("OVERLAPPING_REQUIREMENT_CHANGE" in x
-                            for x in self.check(docs=[self.d, other])["errors"]))
+                            for x in result["errors"]))
 
     def test_previous_requirement_must_exist_in_pinned_snapshot(self):
         d = delta(sample("STANDARD"), "MODIFIED", prior(sample("STANDARD")))
