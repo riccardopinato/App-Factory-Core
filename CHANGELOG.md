@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-27 — OpenSpec Shadow audit P1/P2 hardening (source only)
+
+- Core #144 and #145: escape untrusted GitHub Markdown/runner stdout; include full SHA/blob Git-mode receipts; final post-tree PR inventory recheck; handle rename-origin aliases; request budget and Spec Lite fixtures.
+- Pinned upload-artifact emits 30-day JSON/Markdown/SHA256 evidence, including on INCOMPLETE reads. 57 focused tests and Core main CI SUCCESS.
+- Source-only Omni #84 and Anna #379 pilot artifacts and GET/time observations recorded in spec_lite/pilots/2026-11-27-shadow-corrective-audit.{md,json}; app merge/postmerge status separate.
+- Manual workflow_dispatch still NOT_VERIFIED in this connected toolset; no Golden, automation, release, semantic or device certification.
+
+
 ## 2026-11-27 — Selective OpenSpec Shadow SHA/blob review
 
 - Source [Core PR #142](https://github.com/riccardopinato/App-Factory-Core/pull/142) merged after 18 adversarial tests and postmerge CI: optional (default OFF) bounded 1–4 PR pair commit ancestry / Git blob SHA comparison, exact immutable heads, fail-closed incomplete evidence.

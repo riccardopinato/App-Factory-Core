@@ -58,6 +58,9 @@ OpenSpec upstream: `Fission-AI/OpenSpec@f1cd852f4edce22b8df9548a4df889172ca8ff25
 
 ## OpenSpec Shadow audit hardening — source/CI
 
+[Corrective audit measured pilot evidence](pilots/2026-11-27-shadow-corrective-audit.md) · [machine-readable JSON](pilots/2026-11-27-shadow-corrective-audit.json). Live final default scans and persisted artifact IDs are recorded, not falsely equated with release or semantic certification.
+
+
 The [operating contract](OPENSPEC_SHADOW_MODE.md) now defines sanitized PR
 summary output, read-only evidence artifacts with per-run SHA256 checksums,
 rename-origin and Git-mode semantics, a final deep SHA/PR recheck, and
