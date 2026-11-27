@@ -1,0 +1,222 @@
+{
+  "record_id": "FSL-OPENSPEC-SHADOW-20261127",
+  "schema_version": 1,
+  "status": "ALL_SHADOW_MODE_TWO_CONSUMER_SOURCE_CI_PASS",
+  "factory_master": "v27",
+  "golden_index": 31,
+  "initial_factory_baseline_sha": "ce7503456fce3af757f7160706c02d0cc1694b42",
+  "implemented_factory_sha": "e45600bb4a12db63b3107581587e33e590d2f21b",
+  "core_source_pr": "https://github.com/riccardopinato/App-Factory-Core/pull/139",
+  "core_fix_pr": "https://github.com/riccardopinato/App-Factory-Core/pull/140",
+  "core_main_ci": "https://github.com/riccardopinato/App-Factory-Core/actions/runs/45991082917",
+  "adversarial_tests_passed": 20,
+  "pilots": [
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "source_main_sha": "358176eac8470ff302549702e21aeb164eb49a15",
+      "pr_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/pull/82",
+      "pr_head_sha": "9ee2979e29fb6240966596f2b9c6f97be680c8b8",
+      "pr_status": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
+      "github_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215364",
+      "github_run_outcome": "SUCCESS",
+      "snapshot_status": "REVIEW_NEEDED_NOT_CERTIFIED",
+      "auth_mode": "WORKFLOW_TOKEN",
+      "observed_open_prs": 12,
+      "changed_file_records": 242,
+      "overlap_pairs": 20,
+      "focused_pilot_overlap_pairs": 0,
+      "unmapped_requirement_prs": 12,
+      "different_base_sha_prs": 9,
+      "github_merge_conflict_prs": 1,
+      "github_rest_gets": 30,
+      "github_response_bytes": 2086846,
+      "scanner_wall_seconds": 16.074,
+      "existing_required_checks": "SUCCESS",
+      "high_priority_review": "PR #77 consolidates declared #75; 63 common files are not proof of equivalent behavior; #73 and #39 have substantial overlap; no merge without separate owner/device gates",
+      "merge_sha": "5172506dde623b08af9fb3b29d2261168d1056b3",
+      "existing_checks": [
+        "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215068",
+        "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45991215050"
+      ],
+      "postmerge_ci": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/45992302954",
+      "postmerge_ci_status": "SUCCESS"
+    },
+    {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "source_main_sha": "7f6a60ff883b664574e3b7404aea12295d5a392b",
+      "pr_url": "https://github.com/riccardopinato/Agenda-per-Anna/pull/377",
+      "pr_head_sha": "63199d275edbf607f47a4752dd1da94218d6e391",
+      "pr_status": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
+      "github_run": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991224224",
+      "github_run_outcome": "SUCCESS",
+      "snapshot_status": "REVIEW_NEEDED_NOT_CERTIFIED",
+      "auth_mode": "WORKFLOW_TOKEN",
+      "observed_open_prs": 6,
+      "changed_file_records": 130,
+      "overlap_pairs": 3,
+      "focused_pilot_overlap_pairs": 0,
+      "unmapped_requirement_prs": 6,
+      "different_base_sha_prs": 4,
+      "github_merge_conflict_prs": 2,
+      "github_rest_gets": 17,
+      "github_response_bytes": 1298193,
+      "scanner_wall_seconds": 10.646,
+      "existing_required_checks": "SUCCESS",
+      "high_priority_review": "PR #215 Privacy V2 and PR #199 OAuth staging are draft/dirty and explicitly no-merge; overlaps with #376 remain human review",
+      "merge_sha": "b00c79d15dbd9e49373b948245f49ca18880da09",
+      "existing_checks": [
+        "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991223740",
+        "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45991223657"
+      ],
+      "postmerge_ci": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/45992089708",
+      "postmerge_ci_status": "SUCCESS"
+    }
+  ],
+  "boundaries": {
+    "read_only": true,
+    "comments_written": false,
+    "app_logic_changed": false,
+    "provider_data_access": false,
+    "new_golden": false,
+    "new_cap": false,
+    "new_scheduler": false,
+    "new_verifier": false,
+    "auto_merge": false,
+    "global_rollout": false,
+    "proven_semantic_conflicts": "NOT_ADJUDICATED",
+    "proven_no_conflicts": false,
+    "false_positive_rate": "NOT_MEASURED_NO_MANUAL_ADJUDICATION",
+    "token_savings": "NOT_MEASURED",
+    "human_time_saved": "NOT_MEASURED",
+    "github_actions_billing_cost": "NOT_MEASURED",
+    "physical_device": "NOT_VERIFIED",
+    "app_lab_durable_e2e": "NOT_VERIFIED",
+    "release": "NOT_AUTHORIZED"
+  },
+  "conclusions": [
+    "Live read-only source scan and exact GitHub path overlap works on both consumers",
+    "Global overlaps remain visible when focusing on the new pilot PR",
+    "Unmapped requirements are explicitly not a semantic all-clear",
+    "Intentional source consolidation and old draft security/provider PRs require human reconciliation before any app merge",
+    "No causal speed/time/token benefit has been demonstrated"
+  ],
+  "ancestry_evidence": [
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "earlier_pr": 73,
+      "later_pr": 75,
+      "earlier_sha": "c226c4ebfc4287909e3e1133738a47b409d2c5b2",
+      "later_sha": "c8e785f89c4dc852799171718d380e97d2040966",
+      "compare_status": "ahead",
+      "behind_by": 0,
+      "ahead_by": 39,
+      "meaning": "EARLIER_COMMIT_ANCESTOR_OF_LATER"
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "earlier_pr": 75,
+      "later_pr": 77,
+      "earlier_sha": "c8e785f89c4dc852799171718d380e97d2040966",
+      "later_sha": "ccd23bc96bbc0de38ab876dfc4fc72cc3e164eee",
+      "compare_status": "ahead",
+      "behind_by": 0,
+      "ahead_by": 87,
+      "meaning": "EARLIER_COMMIT_ANCESTOR_OF_LATER"
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "earlier_pr": 39,
+      "later_pr": 77,
+      "earlier_sha": "f0755e6c6bcda3c25616c2b8a081de98522f5941",
+      "later_sha": "ccd23bc96bbc0de38ab876dfc4fc72cc3e164eee",
+      "compare_status": "diverged",
+      "behind_by": 26,
+      "ahead_by": 232,
+      "meaning": "INDEPENDENT_HISTORY_REQUIRES_HUMAN_RECONCILIATION"
+    }
+  ],
+  "blob_comparison_note": "Identical git blob SHA on the exact two PR head commits proves byte-identical file content, not functional equivalence or source completeness.",
+  "blob_comparisons": [
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "prs": [
+        73,
+        75
+      ],
+      "common_file_paths": 46,
+      "identical_blobs": 38,
+      "different_blobs": 8,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "prs": [
+        75,
+        77
+      ],
+      "common_file_paths": 63,
+      "identical_blobs": 40,
+      "different_blobs": 23,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Android-Omni-Cleaner",
+      "prs": [
+        39,
+        77
+      ],
+      "common_file_paths": 9,
+      "identical_blobs": 8,
+      "different_blobs": 1,
+      "unresolved_or_missing": 0,
+      "remaining_difference": "app/src/main/java/com/riccardopinato/omnicleaner/cleaner/StorageInventoryRepository.kt"
+    },
+    {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "prs": [
+        199,
+        215
+      ],
+      "common_file_paths": 3,
+      "identical_blobs": 0,
+      "different_blobs": 3,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "prs": [
+        199,
+        376
+      ],
+      "common_file_paths": 2,
+      "identical_blobs": 0,
+      "different_blobs": 2,
+      "unresolved_or_missing": 0
+    },
+    {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "prs": [
+        215,
+        376
+      ],
+      "common_file_paths": 2,
+      "identical_blobs": 0,
+      "different_blobs": 2,
+      "unresolved_or_missing": 0
+    }
+  ],
+  "acceptance": {
+    "5.1_live_paginated_sha_stable_github_snapshot": "SOURCE_AND_LIVE_PASS",
+    "5.2_file_overlap_mergability_and_unmapped_requirements": "SOURCE_AND_LIVE_PASS_NOT_SEMANTIC_CERTIFICATION",
+    "5.3_pr_review_workflow_nonblocking": "MERGED_TWO_CONSUMERS",
+    "5.4_omni_and_anna_live_pilot": "MERGED_POSTMERGE_CI_SUCCESS",
+    "5.5_observational_metrics": "RECORDED_NO_CAUSAL_PERFORMANCE_CLAIM"
+  },
+  "initial_live_defect": {
+    "code": "FOCUSED_REPORT_HID_GLOBAL_OVERLAPS",
+    "was_detected_during_pilots": true,
+    "fixed_in_factory_pr": "https://github.com/riccardopinato/App-Factory-Core/pull/140",
+    "regression_tested": true,
+    "meaning": "Zero focused overlaps must not be interpreted as zero repository-wide overlaps"
+  }
+}

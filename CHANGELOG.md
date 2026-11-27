@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-27 — OpenSpec Shadow live GitHub PR pilot (selective)
+
+- Live read-only GitHub REST PR and changed-file scanner with fail-closed pagination, immutable identities, no false global-zero on focused reports, and mergeability/path-containment review hints (Core PR #139/#140).
+- Tested through 20 adversarial source tests and two real workflow_call pilot PRs (Omni #82, Anna #377). Observed 20 and 3 repository-wide changed-file overlap pairs; requirement coverage UNMAPPED, no proven semantic or physical certification.
+- Evidence: `spec_lite/pilots/2026-11-27-openspec-shadow-live.{md,json}`. No new Golden/scheduler/authority or global rollout. Time/token savings remain unmeasured.
+
+
 ## 2026-11-27 — OpenSpec incremental source/CI comparison, FAST + STANDARD
 
 - Core PR #137 and exact postmerge validate CI PASS; 32 new regression/adversarial tests for delta contracts, PR drift and closeout preview.

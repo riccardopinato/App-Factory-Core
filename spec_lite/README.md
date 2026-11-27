@@ -55,3 +55,10 @@ Optional `requirements[].delta` has `operation = ADDED | MODIFIED | REMOVED | RE
 `scripts/spec_lite_closeout.py` generates a **postmerge reconciliation preview** and checks supplied PR, exact merge SHA, postmerge CI, check receipts and prior requirement SHA. It never writes Product Bible, roadmap or active requirements; output cannot mint PASS. A trusted reviewer reconciles the preview after independently verifying all receipts, then opens a normal PR to update the app-owned canonical requirement record; preserve superseded requirements for audit. No second scheduler, verifier, CI authority or Golden is created.
 
 OpenSpec upstream: `Fission-AI/OpenSpec@f1cd852f4edce22b8df9548a4df889172ca8ff25`, MIT; methodology adapted, no CLI or vendor workflow installed. Comparative pilots and independent Windows/runtime/token benchmarks remain separately scoped.
+
+## OpenSpec Shadow Mode — read-only PR evidence (2026-11-27)
+
+[Operational contract](OPENSPEC_SHADOW_MODE.md) · [two-app live pilot report](pilots/2026-11-27-openspec-shadow-live.md) · [structured measurements](pilots/2026-11-27-openspec-shadow-live.json).
+
+Both admitted consumer pilot workflows are merged and have green exact postmerge CI (Anna #377, Omni #82). This remains source/CI evidence only. This is an opt-in GitHub Actions PR-review hint. It scans open PRs and changed paths with stable GitHub API source snapshots, retains global and per-PR overlap counts, and explicitly treats missing semantic requirement IDs as UNMAPPED. No comments, autonomous merge/approval, Product Bible writes, Golden promotion, physical test or verified time/token saving. Only Android Omni Cleaner and Anna's Diary were admitted as initial pilots.
+
