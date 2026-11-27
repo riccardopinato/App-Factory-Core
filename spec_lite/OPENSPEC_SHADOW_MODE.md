@@ -83,3 +83,32 @@ A report for a selected PR must never present zero repository-wide overlaps just
 because that one PR has no shared paths. The structured report always includes
 all pairs; a separate `focused_overlap_pair_count` reports only pairs touching
 the target PR. A selected PR's no-overlap status is not a clearance of other PRs.
+
+## Opt-in deep triage of pinned PR pairs — new limited capability
+
+The default pull-request workflow continues to execute **only** the lightweight
+complete-repo changed-file scan. The optional `deep_pairs` parameter (blank
+by default) accepts 1–4 exact open PR pairs in a compact form such as
+`75:77,39:77`. It must be explicitly supplied on `workflow_dispatch` or
+`workflow_call`; it is not enabled fleet-wide.
+
+The deep reader reuses the same complete, stable snapshot and performs only
+read-only, SHA-pinned GitHub compare and recursive Git tree GET requests for
+the requested pairs. It caches the file trees per immutable head SHA, rejects
+truncated/malformed tree responses and mismatched compare commit identities,
+and reports:
+- verified ancestor/diverged relationship between **specific PR HEAD commits**;
+- identical vs changed Git blob SHA among overlapping changed file paths;
+- missing/removed/nonblob paths as **unverified**, never silently equal;
+- the number of unexamined overlap pairs and the actual GitHub GET/byte/time cost.
+
+The distinctions are **file-content and commit-ancestry only**. Even 100%
+identical selected paths do not certify behavioral equivalence, other
+unexamined paths, tests, privacy, user data or merge safety. Any incomplete
+deep evidence yields `INCOMPLETE_NO_CLEARANCE`; no false global PASS. The
+existing Product Bible, roadmap, AppLab and owner/device checks still govern.
+
+The exact-source Core CI runs dedicated adversarial tests from
+`tests/test_openspec_shadow_deep_triage.py`. Apps may opt into the new
+`deep_pairs` input after the version has passed exact-head and postmerge CI,
+without making deep review a new required gate.

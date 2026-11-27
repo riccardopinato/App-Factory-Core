@@ -74,7 +74,8 @@ def _compare(api: Any, repo: str, sha_a: str, sha_b: str) -> dict[str, Any]:
                 "ahead_by": 0, "behind_by": 0, "head_checked": True}
     obj = api.get(f"/repos/{repo}/compare/{sha_a}...{sha_b}")
     require(isinstance(obj, dict)
-            and obj.get("base_commit", {}).get("sha") == sha_a,
+            and isinstance(obj.get("base_commit"), dict)
+            and obj["base_commit"].get("sha") == sha_a,
             "DEEP_COMPARE_BASE_IDENTITY_MISMATCH")
     status = obj.get("status")
     ahead, behind = obj.get("ahead_by"), obj.get("behind_by")

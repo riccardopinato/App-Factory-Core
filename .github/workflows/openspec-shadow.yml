@@ -12,6 +12,11 @@ on:
         required: false
         default: 0
         type: number
+      deep_pairs:
+        description: "Optional 1–4 open PR pairs for pinned ancestry/blob review, e.g. 75:77,39:77"
+        required: false
+        default: ""
+        type: string
   workflow_dispatch:
     inputs:
       target_repository:
@@ -23,6 +28,11 @@ on:
         required: false
         default: 0
         type: number
+      deep_pairs:
+        description: "Optional bounded pinned commit/blob review; empty uses FAST PR scan"
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: read
@@ -51,11 +61,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_REPO: ${{ inputs.target_repository }}
           TARGET_PR: ${{ inputs.target_pr }}
+          DEEP_PAIRS: ${{ inputs.deep_pairs }}
         run: |
-          python3 .factory-shadow/scripts/openspec_shadow_mode.py \
-            --repo "$TARGET_REPO" --target-pr "${TARGET_PR:-0}" \
-            --json-out "$RUNNER_TEMP/openspec-shadow.json" \
-            --md-out "$RUNNER_TEMP/openspec-shadow.md"
+          if [ -n "$DEEP_PAIRS" ]; then
+            python3 .factory-shadow/scripts/openspec_shadow_deep_triage.py \
+              --repo "$TARGET_REPO" --target-pr "${TARGET_PR:-0}" \
+              --deep-pairs "$DEEP_PAIRS" \
+              --json-out "$RUNNER_TEMP/openspec-shadow.json" \
+              --md-out "$RUNNER_TEMP/openspec-shadow.md"
+          else
+            python3 .factory-shadow/scripts/openspec_shadow_mode.py \
+              --repo "$TARGET_REPO" --target-pr "${TARGET_PR:-0}" \
+              --json-out "$RUNNER_TEMP/openspec-shadow.json" \
+              --md-out "$RUNNER_TEMP/openspec-shadow.md"
+          fi
       - name: Publish read-only review summary
         if: always()
         shell: bash

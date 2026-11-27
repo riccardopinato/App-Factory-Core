@@ -56,6 +56,15 @@ Optional `requirements[].delta` has `operation = ADDED | MODIFIED | REMOVED | RE
 
 OpenSpec upstream: `Fission-AI/OpenSpec@f1cd852f4edce22b8df9548a4df889172ca8ff25`, MIT; methodology adapted, no CLI or vendor workflow installed. Comparative pilots and independent Windows/runtime/token benchmarks remain separately scoped.
 
+## Optional SHA-pinned Shadow deep triage
+
+For selected overlapping PR pairs, the
+[Shadow operating contract](OPENSPEC_SHADOW_MODE.md) now supports opt-in
+`deep_pairs` to distinguish genuine Git ancestry and byte-identical Git
+blobs from changed file content. Default PR scans remain lightweight.
+This is **not** automated semantic reconciliation, merge clearance or a new
+mandatory process.
+
 ## OpenSpec Shadow Mode — read-only PR evidence (2026-11-27)
 
 [Operational contract](OPENSPEC_SHADOW_MODE.md) · [two-app live pilot report](pilots/2026-11-27-openspec-shadow-live.md) · [structured measurements](pilots/2026-11-27-openspec-shadow-live.json).
