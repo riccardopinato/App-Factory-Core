@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "OPENSPEC-SHADOW-CORRECTIVE-AUDIT-20261127",
-  "state": "ALL_CORE_TWO_APP_SOURCE_POSTMERGE_CI_PASS_MANUAL_DISPATCH_NOT_VERIFIED",
+  "state": "ALL_CORE_TWO_APP_SOURCE_POSTMERGE_CI_AND_MANUAL_DISPATCH_PASS",
   "baseline_sha": "9bec235b319963bc05f3c3c4d95d0f6b267bb309",
   "code_sha": "3e3056ffb7444a5d37f1279a2a25783366a0d98c",
   "core_prs": [
@@ -234,10 +234,71 @@
     "source": "Downloaded GitHub Actions ZIP artifacts and recomputed SHA256 of JSON and Markdown content"
   },
   "manual_dispatch": {
-    "status": "NOT_VERIFIED",
-    "blocking_reason": "Connected GitHub toolset has no workflow_dispatch action",
-    "consumer_workflow_dispatch_declared": true,
-    "alternative_live_github_actions_pr_event_deep_pilot": "PASS_NOT_EQUIVALENT_TO_MANUAL_EVENT"
+    "status": "PASS_REAL_WORKFLOW_DISPATCH_ATTEMPT_2",
+    "event": "workflow_dispatch",
+    "actor": "riccardopinato",
+    "workflow": "OpenSpec Shadow PR Review",
+    "repository": "riccardopinato/Android-Omni-Cleaner",
+    "branch": "main",
+    "run_id": 46014830454,
+    "run_attempt": 2,
+    "run_url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46014830454",
+    "main_sha": "c37994a80f77e45c8ffe9add09ea595a1c82b666",
+    "core_sha": "3e3056ffb7444a5d37f1279a2a25783366a0d98c",
+    "input_deep_pairs": "75:77,39:77",
+    "target_pr": 0,
+    "attempt1": {
+      "status": "FAIL_CLOSED_INCOMPLETE_NO_CLEARANCE",
+      "error": "PR_INVENTORY_CHANGED_DURING_SCAN",
+      "artifact_id": 15204757606
+    },
+    "attempt2": {
+      "github_job_id": 140560009128,
+      "status": "SUCCESS_REVIEW_ONLY_NOT_CERTIFIED",
+      "artifact_id": 15205662146,
+      "archive_digest": "sha256:7c7b0cb7f1fcd80681b0ef8a05fd76ce59e0d3319a01ef6ceaaa3e116ba6252f",
+      "json_sha256": "0809c32437c1b28c38b9f8ab75cfc7c93b874be5b357ec402706e20f5f1889a0",
+      "markdown_sha256": "2afea2229eb1981bf2b686f3894e585a043c98f123758740edbbfa6ef05ccff6",
+      "sha256_manifest_verified": true,
+      "selected_pairs": 2,
+      "other_overlapping_pairs": 18,
+      "rest_gets": 35,
+      "bytes": 6194149,
+      "seconds": 20.398,
+      "unique_git_tree_reads": 3,
+      "reused_trees": 1,
+      "pr_inventory_rechecked": true,
+      "pairs": [
+        {
+          "prs": [
+            75,
+            77
+          ],
+          "sha_a": "c8e785f89c4dc852799171718d380e97d2040966",
+          "sha_b": "9efecbb96f64acc57179f97bd15278b64689f0d3",
+          "history": "A_ANCESTOR_OF_B",
+          "shared": 63,
+          "identical": 38,
+          "different": 25,
+          "modes_different": 0
+        },
+        {
+          "prs": [
+            39,
+            77
+          ],
+          "sha_a": "f0755e6c6bcda3c25616c2b8a081de98522f5941",
+          "sha_b": "9efecbb96f64acc57179f97bd15278b64689f0d3",
+          "history": "DIVERGED_HISTORY",
+          "shared": 9,
+          "identical": 8,
+          "different": 1,
+          "modes_different": 0,
+          "differing_path": "app/src/main/java/com/riccardopinato/omnicleaner/cleaner/StorageInventoryRepository.kt"
+        }
+      ]
+    },
+    "interpretation": "PASS means successful manual trigger and reproducible source-only evidence, never automatic merge clearance or semantic/product/device certification."
   },
   "final_acceptance": {
     "source_code_security": "PASS",
@@ -249,7 +310,7 @@
     "real_spec_lite_fixture": "SOURCE_TEST_PASS_NOT_SEMANTIC_APPROVAL",
     "both_consumer_exact_head_ci": "PASS",
     "both_consumer_postmerge_ci": "PASS",
-    "manual_workflow_dispatch": "NOT_VERIFIED",
+    "manual_workflow_dispatch": "PASS_REAL_EVENT_ATTEMPT_2",
     "time_token_savings": "NOT_MEASURED",
     "physical_device_runtime_store": "NOT_VERIFIED"
   }
