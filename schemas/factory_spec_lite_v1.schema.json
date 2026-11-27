@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/riccardopinato/App-Factory-Core/schemas/factory_spec_lite_v1.schema.json",
+  "title": "App Factory Spec Lite v1 — proposal and admission manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "spec_id",
+    "mode",
+    "factory",
+    "target",
+    "canonical_refs",
+    "scope",
+    "risk",
+    "requirements",
+    "validation",
+    "approval",
+    "verification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "spec_id": {
+      "type": "string",
+      "pattern": "^FSL-[A-Z0-9][A-Z0-9-]{5,63}$"
+    },
+    "mode": {
+      "enum": [
+        "FAST",
+        "STANDARD",
+        "CONTROLLED"
+      ]
+    },
+    "factory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "sha",
+        "resolver"
+      ],
+      "properties": {
+        "repository": {
+          "const": "riccardopinato/App-Factory-Core"
+        },
+        "sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "resolver": {
+          "const": "CURRENT.yaml"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "source_sha"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "source_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "canonical_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factory_current",
+        "product_bible",
+        "roadmap",
+        "agents",
+        "goldens"
+      ],
+      "properties": {
+        "factory_current": {
+          "$ref": "#/$defs/pinnedRef"
+        },
+        "product_bible": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pinnedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "roadmap": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pinnedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "agents": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/pinnedRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "goldens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pinnedRef"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "includes",
+        "excludes",
+        "allowed_paths",
+        "forbidden_paths"
+      ],
+      "properties": {
+        "includes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "excludes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "allowed_paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "forbidden_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_loss",
+        "security",
+        "billing",
+        "native_lifecycle",
+        "migration",
+        "sensitive_data",
+        "release"
+      ],
+      "properties": {
+        "data_loss": {
+          "type": "boolean"
+        },
+        "security": {
+          "type": "boolean"
+        },
+        "billing": {
+          "type": "boolean"
+        },
+        "native_lifecycle": {
+          "type": "boolean"
+        },
+        "migration": {
+          "type": "boolean"
+        },
+        "sensitive_data": {
+          "type": "boolean"
+        },
+        "release": {
+          "type": "boolean"
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/requirement"
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_checks",
+        "manual_gate",
+        "rollback_plan"
+      ],
+      "properties": {
+        "required_checks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "SOURCE_TEST",
+              "UNIT_TEST",
+              "INTEGRATION_TEST",
+              "RUNTIME_TEST",
+              "DEVICE_TEST",
+              "PROVIDER_TEST",
+              "MANUAL_ACCEPTANCE"
+            ]
+          }
+        },
+        "manual_gate": {
+          "type": "boolean"
+        },
+        "rollback_plan": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "decision_ref"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "PROPOSED",
+            "APPROVED"
+          ]
+        },
+        "decision_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "evidence_links"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_VERIFIED",
+            "SOURCE_VERIFIED",
+            "CI_VERIFIED",
+            "RUNTIME_VERIFIED",
+            "DEVICE_VERIFIED"
+          ]
+        },
+        "evidence_links": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  },
+  "$defs": {
+    "pinnedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "sha",
+        "path"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "text",
+        "status",
+        "conflicts_with",
+        "acceptance"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^FR-[0-9]{3}$"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 12
+        },
+        "status": {
+          "enum": [
+            "PROPOSED",
+            "APPROVED"
+          ]
+        },
+        "conflicts_with": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^FR-[0-9]{3}$"
+          },
+          "uniqueItems": true
+        },
+        "acceptance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "criterion",
+              "evidence_type"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^AC-[0-9]{3}$"
+              },
+              "criterion": {
+                "type": "string",
+                "minLength": 12
+              },
+              "evidence_type": {
+                "enum": [
+                  "SOURCE_TEST",
+                  "UNIT_TEST",
+                  "INTEGRATION_TEST",
+                  "RUNTIME_TEST",
+                  "DEVICE_TEST",
+                  "PROVIDER_TEST",
+                  "MANUAL_ACCEPTANCE"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
