@@ -251,8 +251,6 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
             for b in numbers[i+1:]:
                 file_pair_paths[tuple(sorted((a, b)))].append(path)
     for (a, b), paths in sorted(file_pair_paths.items()):
-        if target_pr and target_pr not in (a, b):
-            continue
         pa = next(p for p in prs if p["number"] == a)
         pb = next(p for p in prs if p["number"] == b)
         pairs.append({
@@ -264,7 +262,7 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
     competing = []
     for (spec, req, oldsha), edits in by_req.items():
         diff_prs = sorted({x[0] for x in edits})
-        if len(diff_prs) > 1 and (not target_pr or target_pr in diff_prs):
+        if len(diff_prs) > 1:
             competing.append({
                 "prs": diff_prs, "spec_id": spec, "requirement_id": req,
                 "prior_source_sha": oldsha,
@@ -283,7 +281,11 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
         "default_branch": snap["default_branch"], "target_pr": target_pr,
         "pr_count": len(prs), "file_records_read": snap["file_records_read"],
         "overlap_pairs": pairs, "overlap_pair_count": len(pairs),
+        "focused_overlap_pairs": [p for p in pairs if target_pr and target_pr in p["prs"]],
+        "focused_overlap_pair_count": sum(1 for p in pairs if target_pr and target_pr in p["prs"]),
         "competing_requirement_deltas": competing,
+        "focused_competing_requirement_deltas": [
+            item for item in competing if target_pr and target_pr in item["prs"]],
         "unmapped_requirement_prs": unmapped,
         "base_sha_differs_from_current_default": base_drift,
         "snapshot_checks": {
@@ -304,12 +306,17 @@ def markdown(report: dict[str, Any]) -> str:
            f"- Status: **{report['status']}** — never a merge/QA/physical PASS",
            f"- Open PRs: **{report['pr_count']}**; complete changed-path records: "
            f"**{report['file_records_read']}**; overlapping pairs: **{report['overlap_pair_count']}**",
+           *( [f"- Focused PR #{report['target_pr']}: **{report['focused_overlap_pair_count']}** "
+                "overlap pair(s); repository-wide findings remain visible"] if report["target_pr"] else [] ),
            f"- Requirements without structured mapping: **{len(report['unmapped_requirement_prs'])}** "
            "(their absence of conflicts cannot be certified)",
            f"- Default-base SHA differs from observed HEAD in "
            f"**{len(report['base_sha_differs_from_current_default'])}** PR(s) "
            "(informational; not proof of stale implementation)"]
-    for item in report["overlap_pairs"][:20]:
+    ordered_pairs = sorted(report["overlap_pairs"],
+                           key=lambda x: (0 if report["target_pr"] in x["prs"] else 1,
+                                          -x["count"], x["prs"]))
+    for item in ordered_pairs[:20]:
         out.append(f"- PR #{item['prs'][0]} / #{item['prs'][1]}: "
                    f"{item['count']} shared file(s); e.g. "
                    + ", ".join(f"\`{x}\`" for x in item["sample_paths"][:3]))

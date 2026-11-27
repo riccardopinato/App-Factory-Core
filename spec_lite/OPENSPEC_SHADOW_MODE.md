@@ -76,3 +76,10 @@ time savings remain NOT_MEASURED unless independently instrumented.
 
 This extends the previous Core Spec Lite delta/drift/closeout process and does
 not add a new Golden, CAP, scheduler, agent or mandatory document.
+
+## Pilot finding: global vs focused overlaps
+
+A report for a selected PR must never present zero repository-wide overlaps just
+because that one PR has no shared paths. The structured report always includes
+all pairs; a separate `focused_overlap_pair_count` reports only pairs touching
+the target PR. A selected PR's no-overlap status is not a clearance of other PRs.
