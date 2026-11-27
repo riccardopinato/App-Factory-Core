@@ -45,7 +45,7 @@ jobs:
       - name: Factory Spec Lite v1 — three modes and fail-closed regression vectors
         run: |
           python3 scripts/validate_spec_lite.py --examples
-          python3 -m unittest discover -s tests -p 'test_factory_spec_lite.py' -v
+          python3 -m unittest discover -s tests -p 'test_factory_spec_lite*.py' -v
 
       - name: Semantic QA Engine v1 fail-closed and incremental-cache tests (offline)
         run: python3 -m unittest discover -s tests -p 'test_semantic_qa_engine.py' -v
