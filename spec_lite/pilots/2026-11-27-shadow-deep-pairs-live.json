@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "id": "OPENSPEC-SHADOW-DEEP-20261127",
+  "state": "ALL_CORE_AND_TWO_APP_SHADOW_DEEP_SOURCE_POSTMERGE_CI_PASS",
+  "factory_working_baseline": "3e663a1a2a77142ab755e0fa645f14c74991e367",
+  "factory_deep_implementation_sha": "8a5034483a4b0574907012903894fa39ebeb1f51",
+  "factory_pr": "https://github.com/riccardopinato/App-Factory-Core/pull/142",
+  "factory_main_ci": "https://github.com/riccardopinato/App-Factory-Core/actions/runs/46000089488",
+  "factory_adversarial_deep_tests": 18,
+  "limits": {
+    "max_pairs_per_run": 4,
+    "default_deep_mode": false,
+    "global_rollout": false,
+    "new_golden": false,
+    "new_scheduler": false,
+    "new_verifier": false,
+    "auto_merge": false,
+    "product_conflict_certified": false,
+    "physical_device_certified": false,
+    "savings_measured": false,
+    "concurrent_snapshot_change_must_fail": true
+  },
+  "pilots": [
+    {
+      "repo": "riccardopinato/Android-Omni-Cleaner",
+      "pr": 83,
+      "initial_deep_pr_commit": "d4e4f35ffcfbb0a3e17fa764713fe80b9b74f131",
+      "final_lightweight_pr_commit": "548254028b2c9262ada2c5eea66a4e6bf59c4784",
+      "status": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
+      "deep_test_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46000245997",
+      "deep_run_attempt_1": "INCOMPLETE_NO_CLEARANCE_PR_INVENTORY_CHANGED_DURING_SCAN",
+      "deep_run_attempt_2": "SUCCESS",
+      "deep_run_attempt_2_job": "140510248008",
+      "deep_selected_pairs": [
+        "75:77",
+        "39:77"
+      ],
+      "repo_overlap_pairs_total": 20,
+      "deep_unexamined_pairs": 18,
+      "deep_rest_gets": 35,
+      "deep_response_bytes": 4945756,
+      "deep_seconds": 15.558,
+      "results": [
+        {
+          "prs": [
+            75,
+            77
+          ],
+          "commit_history": "A_ANCESTOR_OF_B",
+          "shared_files": 63,
+          "identical_blobs": 40,
+          "different_blobs": 23,
+          "missing": 0
+        },
+        {
+          "prs": [
+            39,
+            77
+          ],
+          "commit_history": "DIVERGED_HISTORY",
+          "shared_files": 9,
+          "identical_blobs": 8,
+          "different_blobs": 1,
+          "missing": 0,
+          "remaining_path": "app/src/main/java/com/riccardopinato/omnicleaner/cleaner/StorageInventoryRepository.kt"
+        }
+      ],
+      "final_default_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46000499991",
+      "final_default_status": "SUCCESS",
+      "final_default_rest_gets": 30,
+      "final_default_response_bytes": 2093866,
+      "final_default_seconds": 15.984,
+      "manual_deep_opt_in_only": true,
+      "merge_sha": "6da024e5522f6982ca01c3fc39d2ff51075626ef",
+      "pr_head_ci": {
+        "shadow": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46000499991",
+        "android": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46000499597",
+        "visual": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46000499562"
+      },
+      "postmerge_ci": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46001603336",
+      "postmerge_ci_status": "SUCCESS"
+    },
+    {
+      "repo": "riccardopinato/Agenda-per-Anna",
+      "pr": 378,
+      "pr_commit": "c27d1054ca1ce78a7872838fe73716d15890a27f",
+      "status": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
+      "default_run": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46000253698",
+      "default_run_status": "SUCCESS",
+      "default_rest_gets": 17,
+      "default_response_bytes": 1264836,
+      "default_seconds": 9.65,
+      "repo_overlap_pairs_total": 3,
+      "deep_comparisons_performed": 0,
+      "manual_deep_opt_in_only": true,
+      "merge_sha": "ba190c6cfecf477612291c89f6868d47c4f1dad5",
+      "pr_head_ci": {
+        "shadow": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46000253698",
+        "development": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46000253203",
+        "ui5": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46000253317"
+      },
+      "postmerge_ci": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46001134988",
+      "postmerge_ci_status": "SUCCESS"
+    }
+  ],
+  "decision": "Keep default PR scan, offer opt-in manual SHA/blob review only; require physical/source-owner gates separately.",
+  "observation": "SHA/blob equality is not product behavior equivalence. First Omni deep run failed closed during concurrent PR #77 advance; second run succeeded on stable pinned heads.",
+  "acceptance": {
+    "core_source_ci": "PASS_18_OFFLINE_ADVERSARIAL_TESTS_AND_MAIN_CI",
+    "omni_live_deep_sha_blob_review": "PASS_SELECTED_PAIR_SNAPSHOT_ONLY",
+    "omni_default_lightweight_mode": "PASS",
+    "anna_default_lightweight_mode": "PASS",
+    "consumer_pr_exact_head_ci": "PASS_BOTH",
+    "consumer_postmerge_ci": "PASS_BOTH",
+    "semantic_conflict_certification": "NOT_VERIFIED",
+    "device_provider_store_release": "NOT_VERIFIED",
+    "measured_human_time_token_savings": "NOT_MEASURED"
+  }
+}

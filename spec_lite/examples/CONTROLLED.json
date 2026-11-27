@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "spec_id": "FSL-20261127-ANNA-MIGRATION-SAMPLE",
+  "mode": "CONTROLLED",
+  "factory": {
+    "repository": "riccardopinato/App-Factory-Core",
+    "sha": "842dfa073451ec247308ccb4afb8ead5349bcbd4",
+    "resolver": "CURRENT.yaml"
+  },
+  "target": {
+    "repository": "riccardopinato/Agenda-per-Anna",
+    "source_sha": "7f6a60ff883b664574e3b7404aea12295d5a392b"
+  },
+  "canonical_refs": {
+    "factory_current": {
+      "repository": "riccardopinato/App-Factory-Core",
+      "sha": "842dfa073451ec247308ccb4afb8ead5349bcbd4",
+      "path": "CURRENT.yaml"
+    },
+    "product_bible": {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "sha": "7f6a60ff883b664574e3b7404aea12295d5a392b",
+      "path": "docs/PRODUCT_BIBLE.md"
+    },
+    "roadmap": {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "sha": "7f6a60ff883b664574e3b7404aea12295d5a392b",
+      "path": "docs/ROADMAP.md"
+    },
+    "agents": {
+      "repository": "riccardopinato/Agenda-per-Anna",
+      "sha": "7f6a60ff883b664574e3b7404aea12295d5a392b",
+      "path": "AGENTS.md"
+    },
+    "goldens": []
+  },
+  "scope": {
+    "includes": [
+      "Local-state migration safety proposal"
+    ],
+    "excludes": [
+      "Unrelated product changes",
+      "Cloud or billing changes"
+    ],
+    "allowed_paths": [
+      "lib/local_state_store.dart",
+      "test/**"
+    ],
+    "forbidden_paths": [
+      ".github/secrets/**",
+      "credentials/**"
+    ]
+  },
+  "risk": {
+    "data_loss": true,
+    "security": false,
+    "billing": false,
+    "native_lifecycle": false,
+    "migration": true,
+    "sensitive_data": true,
+    "release": false
+  },
+  "requirements": [
+    {
+      "id": "FR-001",
+      "text": "Updating the local data schema preserves previously stored calendar entries, attachments and restoration capability.",
+      "status": "PROPOSED",
+      "conflicts_with": [],
+      "acceptance": [
+        {
+          "id": "AC-001",
+          "criterion": "Disposable-database upgrade plus verified restoration preserves every preexisting private entry.",
+          "evidence_type": "INTEGRATION_TEST"
+        },
+        {
+          "id": "AC-002",
+          "criterion": "A disposable runtime upgrade and restore scenario verifies all preexisting calendar records remain intact.",
+          "evidence_type": "RUNTIME_TEST"
+        },
+        {
+          "id": "AC-003",
+          "criterion": "An authorized device acceptance check verifies private calendar entries survive a real installed application update.",
+          "evidence_type": "DEVICE_TEST"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "required_checks": [
+      "INTEGRATION_TEST",
+      "RUNTIME_TEST",
+      "DEVICE_TEST"
+    ],
+    "manual_gate": true,
+    "rollback_plan": "Preserve pre-migration data; rehearse restore from verified backup on disposable fixture, and block destructive activation without human approval."
+  },
+  "approval": {
+    "status": "PROPOSED",
+    "decision_ref": null
+  },
+  "verification": {
+    "status": "NOT_VERIFIED",
+    "evidence_links": []
+  }
+}

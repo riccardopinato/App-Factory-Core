@@ -1,5 +1,63 @@
 # Changelog
 
+## 2026-11-27 — OpenSpec Shadow audit P1/P2 hardening (source only)
+
+- Core #144 and #145: escape untrusted GitHub Markdown/runner stdout; include full SHA/blob Git-mode receipts; final post-tree PR inventory recheck; handle rename-origin aliases; request budget and Spec Lite fixtures.
+- Pinned upload-artifact emits 30-day JSON/Markdown/SHA256 evidence, including on INCOMPLETE reads. 57 focused tests and Core main CI SUCCESS.
+- Source-only Omni #84 and Anna #379 pilot artifacts and GET/time observations recorded in spec_lite/pilots/2026-11-27-shadow-corrective-audit.{md,json}; app merge/postmerge status separate.
+- Manual workflow_dispatch still NOT_VERIFIED in this connected toolset; no Golden, automation, release, semantic or device certification.
+
+
+## 2026-11-27 — Selective OpenSpec Shadow SHA/blob review
+
+- Source [Core PR #142](https://github.com/riccardopinato/App-Factory-Core/pull/142) merged after 18 adversarial tests and postmerge CI: optional (default OFF) bounded 1–4 PR pair commit ancestry / Git blob SHA comparison, exact immutable heads, fail-closed incomplete evidence.
+- [Omni Cleaner #83](https://github.com/riccardopinato/Android-Omni-Cleaner/pull/83) and [Anna's Diary #378](https://github.com/riccardopinato/Agenda-per-Anna/pull/378) integrate opt-in manual workflow, both source/CI merged and postmerge PASS. Real initial Omni deep job denied an inventory-changing #77 HEAD; rerun PASS on stable snapshot.
+- Inspect [deep pilot report](spec_lite/pilots/2026-11-27-shadow-deep-pairs-live.md) and [JSON record](spec_lite/pilots/2026-11-27-shadow-deep-pairs-live.json). No auto-merge, Golden, global rollout, semantic QA certificate, physical test or measured time/token saving.
+
+
+## 2026-11-27 — OpenSpec Shadow live GitHub PR pilot (selective)
+
+- Live read-only GitHub REST PR and changed-file scanner with fail-closed pagination, immutable identities, no false global-zero on focused reports, and mergeability/path-containment review hints (Core PR #139/#140).
+- Tested through 20 adversarial source tests and two real workflow_call pilot PRs (Omni #82, Anna #377). Observed 20 and 3 repository-wide changed-file overlap pairs; requirement coverage UNMAPPED, no proven semantic or physical certification.
+- Evidence: `spec_lite/pilots/2026-11-27-openspec-shadow-live.{md,json}`. No new Golden/scheduler/authority or global rollout. Time/token savings remain unmeasured.
+
+
+## 2026-11-27 — OpenSpec incremental source/CI comparison, FAST + STANDARD
+
+- Core PR #137 and exact postmerge validate CI PASS; 32 new regression/adversarial tests for delta contracts, PR drift and closeout preview.
+- Gallery Drift FAST PR #20 plus canonical documentation PR #22 merged, both with Android postmerge CI PASS; Agent Core STANDARD PR #38 plus canonical documentation PR #39 merged, both with postmerge CI PASS.
+- Inspectable results: `spec_lite/pilots/2026-11-27-openspec-delta-comparison.{md,json}`; time/token and Windows/physical/runtime benefits still unmeasured; no new Golden, authority, scheduler or broad rollout.
+
+
+## 2026-11-27 — OpenSpec delta/drift/closeout candidate (source only)
+
+- Optional incremental requirement deltas in Spec Lite, preserving existing FAST manifests and lean contracts.
+- Read-only PR and canonical requirement drift check; no snapshot authenticity or runtime claims.
+- Postmerge reconciliation preview with exact merge-SHA CI receipt and trusted review boundary; does not automatically edit product truth.
+- Negative tests cover invalid deltas, stale heads, duplicate requirements, incomplete PR inventory, missing CI and controlled human gate.
+- Status: candidate pending branch exact-head CI and two comparative pilots. No new Golden or policy authority.
+
+
+## 2026-11-27 — Factory Spec Lite: adozione limitata fonte/CI, decisione Step 5
+
+- Completata la roadmap rigorosamente sequenziale: OSS [PR catalog #190](https://github.com/riccardopinato/Idee-app-Archivi-riferimenti/pull/190), Core #133, piloti Gallery #19/Omni #80/Agent #36, evidence Core #134, adapter Agent Core #37 (`117b56b20dff1e63012c314ef32a2aa80fc558ab`) e AppLab #246 (`0b498ef04458d56a17318823efa9e77f31cd8e4a`). Tutte le CI post-merge pertinenti sono verdi, incluso Android e canary AppLab.
+- Decisione **LIMITED OPT-IN SOURCE/CI**, non Golden/capability o runtime certificato, in `spec_lite/ADOPTION_DECISION_2026-11-27.{md,json}`; beneficio misurato: 11 AC legate a test, 11 nuove regressioni piloti, 19/22 test adapter e 4 review finding corretti. Nessun speedup/token saving dimostrato; 462 righe documentali dei piloti contro 154 di sorgenti e test.
+- FAST alleggerito: un unico contratto con plan/task inline quando utile. STANDARD opt-in, CONTROLLED sempre soggetto alle approvazioni e alle prove richieste dal Master.
+- Validator Core ora nega `REQUIRED_CHECK_UNMAPPED`: ogni check dichiarato obbligatorio ha almeno un criterio AC, compresi test RUNTIME/DEVICE; corrette fixture STANDARD e CONTROLLED, aggiunti test negativi di validazione e adozione.
+- Nessun nuovo scheduler, verifier, plugin CLI, CAP, Golden, approvazione automatica, merge o release; nessuna adozione bulk su tutte le app.
+
+## 2026-11-27 — Factory Spec Lite: tre piloti Stage 3 con CI su main verificata
+
+- Tre piloti su GalleryDrift, Android-Omni-Cleaner e App-Factory-Agent-Core integrati a SHAs esatti con **tutte e tre le CI post-merge SUCCESS**; report quantitativo in `spec_lite/pilots/2026-11-27.{md,json}`. Nessuna certificazione runtime/physical/Windows inventata.
+- `test_factory_spec_lite_pilot_evidence.py` introduce controlli anti-false-PASS: tutti e tre i post-merge check reali devono essere SUCCESS prima del gate Step4; `validate-factory.yml` verifica il ledger nella CI centrale.
+- I risultati preliminari includono 11 criteri con 11 regressioni e un costo documentale di 462 linee; nessuna promozione Golden o automatismo applicativo.
+
+## 2026-11-27 — Factory Spec Lite v1, Maxi-step 2 (process candidate)
+
+- Aggiunti schema strict `schemas/factory_spec_lite_v1.schema.json`, template FAST/STANDARD/CONTROLLED, tre manifest **PROPOSED / NOT_VERIFIED**, validatore offline e test avversariali (requisiti/acceptance mancanti, conflitti, scope, SHA drift, approval, risk escalation, evidenze mancanti).
+- Aggiunto alla CI `validate-factory.yml` il gate fail-closed su schema/fixture/test; nessuna installazione Spec Kit CLI, migrazione, Golden certification, modifica alle app o nuova authority. Policy Master/Core vigente invariata fino ai piloti e al gate di adozione.
+- Provenienza: `github/spec-kit` v1.4.5 MIT E1 research, dossier nel catalogo a `Idee-app-Archivi-riferimenti@559a13508558948ce57e91fe14df492328bdeb0d`.
+
 ## 2026-11-24 — Lean Engineering / minimum sufficient implementation (advisory pilots)
 
 - Esteso Master Core v27 e aggiunto modulo di policy Lean `90-lean-engineering.txt`, preservando intatte tutte le 55 sezioni legacy; mirror e fallback generato sincronizzati; niente cambi a CURRENT/versione Master.

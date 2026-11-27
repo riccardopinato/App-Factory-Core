@@ -1,0 +1,110 @@
+name: OpenSpec Shadow PR Evidence (read-only)
+
+on:
+  workflow_call:
+    inputs:
+      target_repository:
+        description: "Owner/repo. Use the caller repository for private app PRs."
+        required: true
+        type: string
+      target_pr:
+        description: "Open PR number to focus (0 = all PR pairs)."
+        required: false
+        default: 0
+        type: number
+      deep_pairs:
+        description: "Optional 1–4 open PR pairs for pinned ancestry/blob review, e.g. 75:77,39:77"
+        required: false
+        default: ""
+        type: string
+  workflow_dispatch:
+    inputs:
+      target_repository:
+        description: "Public owner/repo or this repository; private repos use repo-local workflow_call."
+        required: true
+        default: "riccardopinato/App-Factory-Core"
+        type: string
+      target_pr:
+        required: false
+        default: 0
+        type: number
+      deep_pairs:
+        description: "Optional bounded pinned commit/blob review; empty uses FAST PR scan"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: openspec-shadow-${{ inputs.target_repository }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  read-only-evidence:
+    name: OpenSpec Shadow (review hints; not a merge gate)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout the exact source of the called Factory workflow
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: riccardopinato/App-Factory-Core
+          ref: ${{ job.workflow_sha || github.sha }}
+          path: .factory-shadow
+          persist-credentials: false
+      - name: Read current GitHub PR snapshot (no PR write)
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_REPO: ${{ inputs.target_repository }}
+          TARGET_PR: ${{ inputs.target_pr }}
+          DEEP_PAIRS: ${{ inputs.deep_pairs }}
+        run: |
+          if [ -n "$DEEP_PAIRS" ]; then
+            python3 .factory-shadow/scripts/openspec_shadow_deep_triage.py \
+              --repo "$TARGET_REPO" --target-pr "${TARGET_PR:-0}" \
+              --deep-pairs "$DEEP_PAIRS" \
+              --json-out "$RUNNER_TEMP/openspec-shadow.json" \
+              --md-out "$RUNNER_TEMP/openspec-shadow.md"
+          else
+            python3 .factory-shadow/scripts/openspec_shadow_mode.py \
+              --repo "$TARGET_REPO" --target-pr "${TARGET_PR:-0}" \
+              --json-out "$RUNNER_TEMP/openspec-shadow.json" \
+              --md-out "$RUNNER_TEMP/openspec-shadow.md"
+          fi
+      - name: Checksum complete JSON/Markdown evidence
+        if: always()
+        shell: bash
+        run: |
+          cd "$RUNNER_TEMP"
+          if [ -f openspec-shadow.json ] && [ -f openspec-shadow.md ]; then
+            sha256sum openspec-shadow.json openspec-shadow.md > openspec-shadow.sha256
+          else
+            echo "## INCOMPLETE: evidence files unavailable" > openspec-shadow.md
+            printf '{"status":"INCOMPLETE_NO_CLEARANCE","error_code":"EVIDENCE_FILES_MISSING"}\n' > openspec-shadow.json
+            sha256sum openspec-shadow.json openspec-shadow.md > openspec-shadow.sha256
+            exit 1
+          fi
+      - name: Upload source-pinned audit JSON/Markdown and digest (30-day retention)
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: openspec-shadow-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/openspec-shadow.json
+            ${{ runner.temp }}/openspec-shadow.md
+            ${{ runner.temp }}/openspec-shadow.sha256
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish read-only review summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/openspec-shadow.md" ]; then
+            cat "$RUNNER_TEMP/openspec-shadow.md" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "## OpenSpec Shadow Mode — INCOMPLETE (no validated snapshot)" >> "$GITHUB_STEP_SUMMARY"
+          fi
