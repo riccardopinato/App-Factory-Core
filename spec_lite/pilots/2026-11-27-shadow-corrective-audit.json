@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "OPENSPEC-SHADOW-CORRECTIVE-AUDIT-20261127",
-  "state": "CORE_CORRECTIONS_POSTMERGE_PASS_CONSUMER_CI_PENDING",
+  "state": "CORE_CI_PASS_BOTH_APP_PRS_MERGED_ANNA_POSTMERGE_PASS_OMNI_POSTMERGE_PENDING",
   "baseline_sha": "9bec235b319963bc05f3c3c4d95d0f6b267bb309",
   "code_sha": "3e3056ffb7444a5d37f1279a2a25783366a0d98c",
   "core_prs": [
@@ -30,7 +30,7 @@
   "omni_live": {
     "pr": 84,
     "final_pr_head_sha": "b3eff593e9eb6370e3b4e74e3a0355d9f88bada0",
-    "state": "PR_EXACT_HEAD_CI_PENDING",
+    "state": "MERGED_SOURCE_CI_PASS_POSTMERGE_IN_PROGRESS",
     "github_run": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46010616643",
     "failed_attempt": {
       "error": "DEEP_PR_INVENTORY_CHANGED_AFTER_TREE_READ",
@@ -91,12 +91,22 @@
       "bytes": 2201414,
       "seconds": 9.276,
       "renamed_file_records": 0
+    },
+    "merged_main_sha": "c37994a80f77e45c8ffe9add09ea595a1c82b666",
+    "app_checks": {
+      "verify": "SUCCESS",
+      "capture": "SUCCESS",
+      "shadow": "SUCCESS"
+    },
+    "postmerge_ci": {
+      "url": "https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46012403519",
+      "state": "IN_PROGRESS"
     }
   },
   "anna_live": {
     "pr": 379,
     "final_pr_head_sha": "7ade1a45cf2c6d6871a81c9b6bb3a7d6c42e0b03",
-    "state": "PR_EXACT_HEAD_CI_PENDING",
+    "state": "MERGED_SOURCE_AND_POSTMERGE_CI_SUCCESS",
     "final_lightweight_run": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46011029169",
     "final_lightweight_status": "SUCCESS",
     "final_lightweight_artifact": {
@@ -112,6 +122,16 @@
       "bytes": 1264874,
       "seconds": 7.094,
       "renamed_file_records": 0
+    },
+    "merged_main_sha": "8838391fca9e8592a8c7e51c884a8be389936502",
+    "app_checks": {
+      "check": "SUCCESS",
+      "ui5": "SUCCESS",
+      "shadow": "SUCCESS"
+    },
+    "postmerge_ci": {
+      "url": "https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46011922947",
+      "state": "SUCCESS"
     }
   },
   "limitations": {
@@ -162,5 +182,55 @@
       "renamed_file_records": 0
     },
     "caveat": "Different GitHub network conditions, time windows and Omni file inventory; not a controlled benchmark; no causal speed/token/human-time saving claim."
+  },
+  "artifact_checksums_independently_verified": {
+    "status": "PASS",
+    "archives": [
+      {
+        "repo": "Omni",
+        "run_id": 46010616643,
+        "attempt": 1,
+        "state": "INCOMPLETE_NO_CLEARANCE",
+        "sha256_matches": true
+      },
+      {
+        "repo": "Omni",
+        "run_id": 46010616643,
+        "attempt": 2,
+        "state": "REVIEW_NEEDED_NOT_CERTIFIED",
+        "sha256_matches": true,
+        "fingerprints": [
+          {
+            "prs": [
+              75,
+              77
+            ],
+            "count": 63
+          },
+          {
+            "prs": [
+              39,
+              77
+            ],
+            "count": 9
+          }
+        ]
+      },
+      {
+        "repo": "Omni",
+        "run_id": 46011075524,
+        "attempt": 1,
+        "state": "REVIEW_NEEDED_NOT_CERTIFIED",
+        "sha256_matches": true
+      },
+      {
+        "repo": "Anna",
+        "run_id": 46011029169,
+        "attempt": 1,
+        "state": "REVIEW_NEEDED_NOT_CERTIFIED",
+        "sha256_matches": true
+      }
+    ],
+    "source": "Downloaded GitHub Actions ZIP artifacts and recomputed SHA256 of JSON and Markdown content"
   }
 }

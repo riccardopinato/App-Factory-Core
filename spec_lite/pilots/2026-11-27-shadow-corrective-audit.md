@@ -1,6 +1,6 @@
 # OpenSpec Shadow Mode — audit corrective evidence, 27 November 2026
 
-Status: Core corrective code merged, exact postmerge CI SUCCESS. Consumer exact-head checks and merges still pending at this checkpoint.
+Status: Core corrective code and both app-only PRs merged. Anna postmerge CI SUCCESS; Omni postmerge Android CI still in progress at this checkpoint.
 
 ## Source and controls
 
@@ -47,6 +47,22 @@ No rename was observed in these live PR sets; rename logic is tested offline.
 The initial and later datasets differ, and network load and PR contents vary.
 These figures are **observed costs, not measured savings**. No improvement
 in total GitHub REST GET count has been demonstrated.
+
+## Full receipt integrity and consumer CI
+
+Downloaded the four relevant GitHub Actions artifact ZIPs (Omni failed attempt,
+Omni successful deep rerun, Omni final lightweight, Anna final lightweight).
+Verified their JSON and Markdown SHA-256 values against each accompanying
+checksum manifest: **all four integrity checks PASS**. Deep JSON contains
+63 complete per-path blob fingerprints for #75/#77 and 9 for #39/#77.
+
+- [Anna PR #379](https://github.com/riccardopinato/Agenda-per-Anna/pull/379)
+  merged to `8838391fca9e8592a8c7e51c884a8be389936502` after exact-head
+  check/UI5/Shadow SUCCESS. [Postmerge CI SUCCESS](https://github.com/riccardopinato/Agenda-per-Anna/actions/runs/46011922947).
+- [Omni PR #84](https://github.com/riccardopinato/Android-Omni-Cleaner/pull/84)
+  merged to `c37994a80f77e45c8ffe9add09ea595a1c82b666` after exact-head
+  verify/visual-capture/Shadow SUCCESS. [Postmerge Android CI](https://github.com/riccardopinato/Android-Omni-Cleaner/actions/runs/46012403519)
+  is still in progress at this checkpoint, so it is NOT YET CERTIFIED.
 
 ## Consumer deployment gates
 
