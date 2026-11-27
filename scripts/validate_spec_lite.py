@@ -173,6 +173,29 @@ def validate_manifest(
             for kind in sorted({v for v in declared if isinstance(v, str)} - mapped):
                 errors.append(f"REQUIRED_CHECK_UNMAPPED:{kind}")
 
+    # Optional OpenSpec-inspired deltas. Backward-compatible with v1 manifests.
+    # This proves structural consistency only, never existence of prior requirements.
+    if isinstance(requirements, list):
+        for req in requirements:
+            if not isinstance(req, dict) or req.get("delta") is None:
+                continue
+            delta = req["delta"]
+            if not isinstance(delta, dict):
+                continue
+            operation, previous = delta.get("operation"), delta.get("previous")
+            rid = req.get("id")
+            if operation == "ADDED" and previous is not None:
+                errors.append(f"DELTA_ADDED_MUST_NOT_HAVE_PREVIOUS:{rid}")
+            if operation in ("MODIFIED", "REMOVED", "RENAMED"):
+                if not isinstance(previous, dict):
+                    errors.append(f"DELTA_PREVIOUS_REQUIRED:{rid}")
+                elif (previous.get("spec_id") == doc.get("spec_id")
+                      and previous.get("requirement_id") == rid
+                      and previous.get("source_sha") == target.get("source_sha")):
+                    errors.append(f"DELTA_PREVIOUS_NOT_PINNED_TO_PRIOR_STATE:{rid}")
+            if operation == "REMOVED" and mode == "FAST":
+                errors.append(f"DELTA_REMOVAL_NOT_FAST:{rid}")
+
     if isinstance(approval, dict):
         status = approval.get("status")
         if status == "APPROVED":

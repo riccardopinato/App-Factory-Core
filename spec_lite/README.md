@@ -41,3 +41,13 @@ The example manifests are validated by tests but must **never** be treated as ev
 ## Provenance
 
 Reference: github/spec-kit v1.4.5 MIT (release 6ba8beefff8d6408cadd62038e92d459093e33a8; reviewed main f2010547121b3351e4923fe467205079e4593a32). Conceptual adaptation only; templates/validator are Factory-specific, not copied from upstream code. Existing Golden Lean Engineering and AppLab verification remain controlling.
+
+## OpenSpec-inspired incremental delta process (2026-11-27)
+
+Optional `requirements[].delta` has `operation = ADDED | MODIFIED | REMOVED | RENAMED`, `previous` (prior spec/requirement/source SHA), and `reason`. Legacy manifests continue to validate unchanged. FAST must not remove requirements; no additional FAST documents are required. The existing `scope.excludes` remains authoritative for exclusions.
+
+`scripts/check_spec_lite_drift.py` is **read-only**, compares independently supplied HEAD/PR/canonical snapshots and emits `BLOCKED` or `REVIEW_ONLY_NOT_CERTIFIED`. Missing snapshot or unknown PR requirement coverage **blocks**; path-only collisions require human review. Snapshots are untrusted: caller must validate identity and completeness through GitHub/AppLab.
+
+`scripts/spec_lite_closeout.py` generates a **postmerge reconciliation preview** and checks supplied PR, exact merge SHA, postmerge CI, check receipts and prior requirement SHA. It never writes Product Bible, roadmap or active requirements; output cannot mint PASS. A trusted reviewer reconciles the preview after independently verifying all receipts, then opens a normal PR to update the app-owned canonical requirement record; preserve superseded requirements for audit. No second scheduler, verifier, CI authority or Golden is created.
+
+OpenSpec upstream: `Fission-AI/OpenSpec@f1cd852f4edce22b8df9548a4df889172ca8ff25`, MIT; methodology adapted, no CLI or vendor workflow installed. Comparative pilots and independent Windows/runtime/token benchmarks remain separately scoped.
