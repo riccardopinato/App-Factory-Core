@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import argparse
 import base64
+import binascii
+import html
 import json
 import os
 import re
@@ -26,6 +28,20 @@ SPEC_MANIFEST = re.compile(r"(?:^|/)spec_lite/[^/]+/manifest\.json$")
 MAX_PRS = 300
 MAX_FILES = 3000
 MAX_BYTES = 10 * 1024 * 1024
+MAX_API_REQUESTS = 500
+
+
+def safe_markdown(value: Any) -> str:
+    """One-line untrusted source data safe for Markdown and GitHub runner stdout."""
+    raw = str(value)
+    raw = re.sub(r"[\x00-\x1f\x7f-\x9f]", lambda m: "\\u%04x" % ord(m.group()), raw)
+    raw = html.escape(raw, quote=True)
+    return re.sub(r"([\\`*_{}\[\]()#+.!|~>])", r"\\\1", raw)
+
+
+def _valid_path(value: Any) -> bool:
+    return (isinstance(value, str) and bool(value) and not value.startswith("/")
+            and ".." not in value.split("/") and "\x00" not in value)
 
 
 class IncompleteSnapshot(RuntimeError):
@@ -67,6 +83,7 @@ class GitHubAPI:
             headers["Authorization"] = "Bearer " + self.token
         req = urllib.request.Request("https://api.github.com" + path, headers=headers,
                                      method="GET")
+        require(self.request_count < MAX_API_REQUESTS, "GITHUB_API_READ_BUDGET_EXCEEDED")
         self.request_count += 1
         try:
             with self.opener.open(req, timeout=20) as response:
@@ -123,15 +140,21 @@ def _read_manifest(api: Any, repo: str, pr_sha: str, filename: str) -> dict:
     require(isinstance(response, dict) and response.get("encoding") == "base64"
             and isinstance(response.get("content"), str), "MANIFEST_NOT_PINNED_READABLE")
     try:
-        raw = base64.b64decode(response["content"], validate=False)
+        raw = base64.b64decode("".join(response["content"].split()), validate=True)
         require(len(raw) <= 512_000, "MANIFEST_TOO_LARGE")
         data = json.loads(raw.decode("utf-8"))
-    except (ValueError, UnicodeError, TypeError):
+    except (ValueError, UnicodeError, TypeError, binascii.Error):
         raise IncompleteSnapshot("MANIFEST_JSON_INVALID") from None
-    require(isinstance(data, dict) and isinstance(data.get("spec_id"), str)
+    require(isinstance(data, dict)
+            and isinstance(data.get("spec_id"), str)
+            and re.fullmatch(r"FSL-[A-Z0-9][A-Z0-9-]{5,63}", data["spec_id"])
             and isinstance(data.get("requirements"), list)
             and isinstance(data.get("target"), dict)
-            and data["target"].get("repository") == repo, "MANIFEST_IDENTITY_INVALID")
+            and data["target"].get("repository") == repo
+            and (data.get("schema_version") in (None, 1))
+            and (data["target"].get("source_sha") is None
+                 or _sha(data["target"].get("source_sha"))),
+            "MANIFEST_IDENTITY_INVALID")
     require(0 < len(data["requirements"]) <= 200, "MANIFEST_REQUIREMENTS_INVALID")
     return data
 
@@ -198,13 +221,20 @@ def snapshot(api: Any, repository: str) -> dict[str, Any]:
                       max_records=MAX_FILES)
         require(len(files) == expected, "PR_FILES_INCOMPLETE")
         paths = []
+        collision_paths = set()
+        renames = []
         manifest_paths = []
         for f in files:
-            require(isinstance(f, dict) and isinstance(f.get("filename"), str)
-                    and f["filename"] and not f["filename"].startswith("/")
-                    and ".." not in f["filename"].split("/"), "PR_FILE_PATH_INVALID")
+            require(isinstance(f, dict) and _valid_path(f.get("filename")),
+                    "PR_FILE_PATH_INVALID")
             name = f["filename"]
             paths.append(name)
+            collision_paths.add(name)
+            if f.get("status") == "renamed":
+                prev = f.get("previous_filename")
+                require(_valid_path(prev) and prev != name, "PR_RENAME_PRIOR_PATH_INVALID")
+                collision_paths.add(prev)
+                renames.append({"from": prev, "to": name})
             if SPEC_MANIFEST.search(name) and f.get("status") != "removed":
                 manifest_paths.append(name)
         require(len(set(paths)) == len(paths), "PR_FILE_DUPLICATE")
@@ -219,6 +249,8 @@ def snapshot(api: Any, repository: str) -> dict[str, Any]:
             "mergeable": detail.get("mergeable") if type(detail.get("mergeable")) is bool else None,
             "mergeable_state": detail.get("mergeable_state", "unknown"),
             "changed_files": expected, "changed_paths": sorted(paths),
+            "collision_paths": sorted(collision_paths),
+            "renamed_paths": renames,
             "requirement_keys": requirements,
             "requirement_coverage": "DECLARED_UNTRUSTED" if manifest_paths else "UNMAPPED",
             "manifest_paths": manifest_paths,
@@ -245,10 +277,11 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
     ids = {x["number"] for x in prs}
     require(target_pr == 0 or target_pr in ids, "TARGET_PR_NOT_IN_OPEN_INVENTORY")
     pairs = []
+    by_number = {p["number"]: p for p in prs}
     by_file = defaultdict(list)
     by_req = defaultdict(list)
     for p in prs:
-        for path in p["changed_paths"]:
+        for path in p.get("collision_paths", p["changed_paths"]):
             by_file[path].append(p["number"])
         for spec, rid, oldsha, operation in p["requirement_keys"]:
             by_req[(spec, rid, oldsha)].append((p["number"], operation))
@@ -258,8 +291,8 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
             for b in numbers[i+1:]:
                 file_pair_paths[tuple(sorted((a, b)))].append(path)
     for (a, b), paths in sorted(file_pair_paths.items()):
-        pa = next(p for p in prs if p["number"] == a)
-        pb = next(p for p in prs if p["number"] == b)
+        pa = by_number[a]
+        pb = by_number[b]
         pairs.append({
             "prs": [a, b], "kind": "FILE_OVERLAP_REVIEW", "count": len(paths),
             "sample_paths": sorted(paths)[:12],
@@ -304,6 +337,8 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
         "focused_competing_requirement_deltas": [
             item for item in competing if target_pr and target_pr in item["prs"]],
         "unmapped_requirement_prs": unmapped,
+        "renamed_file_records": sum(len(p.get("renamed_paths", [])) for p in prs),
+        "collision_semantics": "CHANGED_PATH_PLUS_RENAME_ORIGIN_REVIEW_ONLY",
         "base_sha_differs_from_current_default": base_drift,
         "github_merge_conflict_prs": github_merge_conflicts,
         "github_mergeability_unknown_prs": mergeability_unverified,
@@ -321,8 +356,8 @@ def assess(snap: dict[str, Any], target_pr: int = 0) -> dict[str, Any]:
 
 def markdown(report: dict[str, Any]) -> str:
     out = ["## OpenSpec Shadow Mode — read-only PR review",
-           f"- Repository: \`{report['repository']}\` at \`{report['head_sha']}\`",
-           f"- Status: **{report['status']}** — never a merge/QA/physical PASS",
+           f"- Repository: {safe_markdown(report['repository'])} at {safe_markdown(report['head_sha'])}",
+           f"- Status: **{safe_markdown(report['status'])}** — never a merge/QA/physical PASS",
            f"- Open PRs: **{report['pr_count']}**; complete changed-path records: "
            f"**{report['file_records_read']}**; overlapping pairs: **{report['overlap_pair_count']}**",
            *( [f"- Focused PR #{report['target_pr']}: **{report['focused_overlap_pair_count']}** "
@@ -335,20 +370,22 @@ def markdown(report: dict[str, Any]) -> str:
            f"- GitHub currently reports **{len(report['github_merge_conflict_prs'])}** "
            "PR(s) with merge conflict state; no product semantic verdict",
            f"- Mergeability unavailable/unknown for "
-           f"**{len(report['github_mergeability_unknown_prs'])}** PR(s)"]
+           f"**{len(report['github_mergeability_unknown_prs'])}** PR(s)",
+           f"- Renamed file records: **{report.get('renamed_file_records', 0)}** "
+           "(both old and new paths checked; never proof of semantic conflict)"]
     ordered_pairs = sorted(report["overlap_pairs"],
                            key=lambda x: (0 if report["target_pr"] in x["prs"] else 1,
                                           -x["count"], x["prs"]))
     for item in ordered_pairs[:20]:
         out.append(f"- PR #{item['prs'][0]} / #{item['prs'][1]}: "
                    f"{item['count']} shared file(s); e.g. "
-                   + ", ".join(item["sample_paths"][:3])
+                   + ", ".join(safe_markdown(path) for path in item["sample_paths"][:3])
                    + (f"; complete file-path containment for PR(s): "
                       f"{item['full_file_scope_containment']} (not code equivalence)"
                       if item["full_file_scope_containment"] else ""))
     for item in report["competing_requirement_deltas"][:10]:
         out.append("- Requirement change proposals " + "/".join("#" + str(x) for x in item["prs"]) +
-                   f": \`{item['spec_id']}:{item['requirement_id']}\` — untrusted proposal, human review")
+                   f": {safe_markdown(item['spec_id'])}:{safe_markdown(item['requirement_id'])} — untrusted proposal, human review")
     if len(report["overlap_pairs"]) > 20:
         out.append(f"- Additional overlap pairs omitted from summary: {len(report['overlap_pairs'])-20}; inspect JSON")
     out += ["", "No automatic merge, PR comment, product decision, AppLab verification or device claim."]
